@@ -2,12 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import './globals.css';
+import './global/globals.css';
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Poppins } from 'next/font/google';
 import { ReactNode } from 'react';
+import { Providers } from './global/providers';
 
-const inter = Inter({ subsets: ['latin'] });
+const poppinsFont = Poppins({ subsets: ['latin'], weight: ['400', '500'] });
 
 export const metadata: Metadata = {
 	title: 'Create Next App',
@@ -17,7 +18,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
 	return (
 		<html lang='en'>
-			<body className={inter.className}>{children}</body>
+			<body className={`${poppinsFont.className}`}>
+				<Providers>{children}</Providers>
+			</body>
 		</html>
 	);
 }

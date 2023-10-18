@@ -1,20 +1,17 @@
-import type { Config } from 'tailwindcss'
+// Copyright 2019-2025 @polkassembly/fellowship authors & contributors
+// This software may be modified and distributed under the terms
+// of the Apache-2.0 license. See the LICENSE file for details.
+import { nextui } from '@nextui-org/theme/plugin';
+import type { Config } from 'tailwindcss';
 
 const config: Config = {
-  content: [
-    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-  ],
-  theme: {
-    extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-      },
-    },
-  },
-  plugins: [],
-}
-export default config
+	content: [
+		'./src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+		'./src/components/**/*.{js,ts,jsx,tsx,mdx}',
+		'./src/app/**/*.{js,ts,jsx,tsx,mdx}',
+		'./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}'
+	],
+	darkMode: 'class',
+	plugins: [nextui()]
+};
+export default config;
