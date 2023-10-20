@@ -7,5 +7,9 @@
 }
 
 body {
-	@apply flex h-screen w-screen gap-8;
+	@apply mx-auto mt-4 flex h-[96vh] max-w-screen-2xl gap-8;
+}
+
+#main-section {
+	@apply w-full;
 }

@@ -14,7 +14,6 @@
   "dependencies": {
     "@nextui-org/button": "^2.0.21",
     "@nextui-org/card": "^2.0.21",
-    "@nextui-org/navbar": "^2.0.22",
     "@nextui-org/system": "^2.0.10",
     "@nextui-org/theme": "^2.1.9",
     "framer-motion": "^10.16.4",
@@ -48,6 +47,7 @@
     "prettier-plugin-tailwindcss": "^0.5.6",
     "sass": "^1.69.4",
     "tailwindcss": "^3",
+    "tw-colors": "^3.0.3",
     "typescript": "^5"
   },
   "lint-staged": {

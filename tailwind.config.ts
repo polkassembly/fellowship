@@ -3,6 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 import { nextui } from '@nextui-org/theme/plugin';
 import type { Config } from 'tailwindcss';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { createThemes } from 'tw-colors';
 
 const config: Config = {
 	content: [
@@ -12,6 +14,42 @@ const config: Config = {
 		'./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}'
 	],
 	darkMode: 'class',
-	plugins: [nextui()]
+	plugins: [
+		nextui({
+			prefix: 'nui',
+			defaultTheme: 'light',
+			defaultExtendTheme: 'light',
+			themes: {
+				light: {
+					colors: {
+						background: '#F8FAFC', // the page background color
+						foreground: '#243A57', // the page text color
+						primary: {
+							foreground: '#FFFFFF',
+							DEFAULT: '#E5007A'
+						},
+						secondary: {
+							foreground: '#FFFFFF',
+							DEFAULT: '#151532'
+						}
+					}
+				},
+				dark: {
+					colors: {
+						background: '#151532', // the page background color
+						foreground: '#fff' // the page text color
+					}
+				}
+			}
+		}),
+		createThemes({
+			light: {
+				primary_border: '#D2D8E0'
+			},
+			dark: {
+				primary_border: '#3C3C8F'
+			}
+		})
+	]
 };
 export default config;

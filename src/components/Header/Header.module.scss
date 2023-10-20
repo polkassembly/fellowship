@@ -1,0 +1,7 @@
+.appSidebar {
+	@apply max-h-full min-h-full w-[264px] rounded-[30px] bg-secondary text-secondary-foreground;
+}
+
+.appNavbar {
+	@apply flex h-[52px] w-full items-center border border-primary_border;
+}

@@ -3,10 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import React from 'react';
+import styles from './Header.module.scss';
 
 function AppNavbar() {
 	return (
-		<nav>
+		<nav className={styles.appNavbar}>
 			<ul>
 				<li>Nav 2</li>
 			</ul>

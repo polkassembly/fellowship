@@ -24,7 +24,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 				<section>
 					<AppSidebar />
 				</section>
-				<section>
+				<section id='main-section'>
 					<AppNavbar />
 					<main>
 						<Providers>{children}</Providers>

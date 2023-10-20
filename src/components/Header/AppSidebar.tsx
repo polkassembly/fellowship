@@ -4,9 +4,11 @@
 
 import React from 'react';
 
+import styles from './Header.module.scss';
+
 function AppSidebar() {
 	return (
-		<aside>
+		<aside className={styles.appSidebar}>
 			<nav>
 				<ul>
 					<li>App Sidebar</li>
