@@ -12,15 +12,13 @@ export default function Home() {
 	const { theme, setTheme } = useTheme();
 
 	return (
-		<main className='flex min-h-screen items-center justify-center'>
-			<Card>
-				<Button
-					color='primary'
-					onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-				>
-					Click me
-				</Button>
-			</Card>
-		</main>
+		<Card>
+			<Button
+				color='primary'
+				onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+			>
+				Click me
+			</Button>
+		</Card>
 	);
 }

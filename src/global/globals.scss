@@ -5,3 +5,7 @@
 :root {
 	--font_default: 'Poppins';
 }
+
+body {
+	@apply flex h-screen w-screen gap-8;
+}
