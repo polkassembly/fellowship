@@ -59,7 +59,7 @@ function NetworkDropdown() {
 			<DropdownTrigger>
 				<Button
 					variant='bordered'
-					className='flex h-unit-9 justify-between border-1 px-5 text-sm font-medium'
+					className='flex h-unit-8 justify-between border-1 border-primary_border px-5 text-sm font-medium'
 				>
 					<Image
 						alt='down chevron'

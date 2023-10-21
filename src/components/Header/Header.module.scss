@@ -3,5 +3,5 @@
 }
 
 .appNavbar {
-	@apply mb-6 flex h-[52px] w-full items-center justify-evenly gap-x-4 rounded-[14px] border border-primary_border px-4 py-2.5;
+	@apply mb-6 flex h-[52px] w-full items-center justify-between gap-x-4 rounded-[14px] border border-primary_border px-4 py-2.5;
 }
