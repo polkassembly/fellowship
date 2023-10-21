@@ -37,7 +37,11 @@ const config: Config = {
 				dark: {
 					colors: {
 						background: '#151532', // the page background color
-						foreground: '#fff' // the page text color
+						foreground: '#FFFFFF', // the page text color
+						primary: {
+							foreground: '#FFFFFF',
+							DEFAULT: '#C30068'
+						}
 					}
 				}
 			}

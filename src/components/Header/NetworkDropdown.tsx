@@ -51,15 +51,23 @@ const generateDropdownItems = (groupName: keyof typeof networkOptions) => {
 	));
 };
 
+// TODO: get current network from redux and populate trigger button content
+
 function NetworkDropdown() {
 	return (
 		<Dropdown>
 			<DropdownTrigger>
 				<Button
 					variant='bordered'
-					size='sm'
-					className='flex justify-between px-5 text-sm font-medium'
+					className='flex h-unit-9 justify-between border-1 px-5 text-sm font-medium'
 				>
+					<Image
+						alt='down chevron'
+						src='/parachain-logos/kusama-logo.svg'
+						width={16}
+						height={16}
+						className='rounded-full'
+					/>
 					<span>Kusama</span>
 					<Image
 						alt='down chevron'

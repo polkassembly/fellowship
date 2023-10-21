@@ -12,7 +12,7 @@ function ConnectWalletButton() {
 			variant='bordered'
 			color='primary'
 			size='sm'
-			className='px-5 text-sm font-medium'
+			className='h-unit-9 px-5 text-sm font-medium'
 		>
 			Connect Wallet
 		</Button>
