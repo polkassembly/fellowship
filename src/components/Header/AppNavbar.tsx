@@ -4,13 +4,19 @@
 
 import React from 'react';
 import styles from './Header.module.scss';
+import NetworkDropdown from './NetworkDropdown';
+import SearchBar from './SearchBar';
+import ConnectWalletButton from './ConnectWalletButton';
 
 function AppNavbar() {
 	return (
-		<nav className={styles.appNavbar}>
-			<ul>
-				<li>Nav 2</li>
-			</ul>
+		<nav
+			id='appNavbar'
+			className={styles.appNavbar}
+		>
+			<SearchBar className='w-[70%]' />
+			<NetworkDropdown />
+			<ConnectWalletButton />
 		</nav>
 	);
 }
