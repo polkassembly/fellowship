@@ -12,7 +12,7 @@ interface Props {
 	src?: string;
 }
 
-function UserAvatar({ className, size, src }: Props) {
+function UserAvatar({ className = '', size = 54, src }: Props) {
 	return src ? (
 		<Avatar
 			size='lg'
@@ -30,11 +30,5 @@ function UserAvatar({ className, size, src }: Props) {
 		/>
 	);
 }
-
-UserAvatar.defaultProps = {
-	className: '',
-	size: 54,
-	src: '/icons/user-avatar.svg'
-};
 
 export default UserAvatar;

@@ -6,7 +6,7 @@ import React from 'react';
 import { Button } from '@nextui-org/button';
 import UserAvatar from '../Profile/UserAvatar';
 
-function JoinFellowshipButton({ className }: { className?: string }) {
+function JoinFellowshipButton({ className = '' }: { className?: string }) {
 	return (
 		<div className={`flex items-center ${className}`}>
 			<div className='min-w-max'>
@@ -26,9 +26,5 @@ function JoinFellowshipButton({ className }: { className?: string }) {
 		</div>
 	);
 }
-
-JoinFellowshipButton.defaultProps = {
-	className: ''
-};
 
 export default JoinFellowshipButton;

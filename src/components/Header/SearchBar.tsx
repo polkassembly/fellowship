@@ -6,7 +6,7 @@ import { Input } from '@nextui-org/input';
 import React from 'react';
 import Image from 'next/image';
 
-function SearchBar({ className }: { className?: string }) {
+function SearchBar({ className = '' }: { className?: string }) {
 	return (
 		<Input
 			size='sm'
@@ -28,9 +28,5 @@ function SearchBar({ className }: { className?: string }) {
 		/>
 	);
 }
-
-SearchBar.defaultProps = {
-	className: ''
-};
 
 export default SearchBar;

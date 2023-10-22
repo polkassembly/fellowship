@@ -120,6 +120,7 @@
 				"after": true,
 				"before": false
 			}
-		]
+		],
+		"react/require-default-props": "off"
 	}
 }
