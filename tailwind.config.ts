@@ -41,6 +41,10 @@ const config: Config = {
 						primary: {
 							foreground: '#FFFFFF',
 							DEFAULT: '#C30068'
+						},
+						secondary: {
+							foreground: '#FFFFFF',
+							DEFAULT: '#2D2D6C'
 						}
 					}
 				}

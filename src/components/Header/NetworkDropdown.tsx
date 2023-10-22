@@ -12,6 +12,7 @@ import networkConstants from '@/utils/networkConstants';
 import { NetworkProperties } from '@/global/types';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const networkOptions: { [index: string]: NetworkProperties[] } = {
 	polkadot: [],
@@ -46,7 +47,7 @@ const generateDropdownItems = (groupName: keyof typeof networkOptions) => {
 				/>
 			}
 		>
-			<Link href={`https://fellowship.polkassembly.io/?network=${chainProperties.name.toLowerCase()}`}>{chainProperties.name}</Link>
+			<Link href={`/?network=${chainProperties.name.toLowerCase()}`}>{chainProperties.name}</Link>
 		</DropdownItem>
 	));
 };
@@ -54,6 +55,8 @@ const generateDropdownItems = (groupName: keyof typeof networkOptions) => {
 // TODO: get current network from redux and populate trigger button content
 
 function NetworkDropdown() {
+	const router = useRouter();
+
 	return (
 		<Dropdown>
 			<DropdownTrigger>
@@ -83,7 +86,7 @@ function NetworkDropdown() {
 				variant='bordered'
 				aria-label='Network selection dropdown'
 				onAction={(key) => {
-					window.location.href = `https://fellowship.polkassembly.io/?network=${key.toString().toLowerCase()}`;
+					router.push(`/?network=${key.toString().toLowerCase()}`);
 				}}
 			>
 				<DropdownSection

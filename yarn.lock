@@ -257,6 +257,20 @@
     "@react-types/overlays" "^3.8.2"
     "@react-types/shared" "^3.20.0"
 
+"@nextui-org/avatar@^2.0.21":
+  version "2.0.21"
+  resolved "https://registry.yarnpkg.com/@nextui-org/avatar/-/avatar-2.0.21.tgz#25a4aaa6b45563c64452bd0cc8063289aabccdd9"
+  integrity sha512-CK6C49/BmSyDYsq+jOUkJTxQtqy3qGAI+m7p+wd7si8u5h6RmEQnqRG//wKUMkb1W3tA9DUexCLP+q+ybjqrcA==
+  dependencies:
+    "@nextui-org/react-utils" "2.0.9"
+    "@nextui-org/shared-utils" "2.0.3"
+    "@nextui-org/system" "2.0.10"
+    "@nextui-org/theme" "2.1.9"
+    "@nextui-org/use-image" "2.0.3"
+    "@react-aria/focus" "^3.14.1"
+    "@react-aria/interactions" "^3.18.0"
+    "@react-aria/utils" "^3.20.0"
+
 "@nextui-org/button@2.0.21", "@nextui-org/button@^2.0.21":
   version "2.0.21"
   resolved "https://registry.yarnpkg.com/@nextui-org/button/-/button-2.0.21.tgz#bdaa2c31b4dd6962e6c0daef3adff4d33a56dfe6"
@@ -330,6 +344,26 @@
     "@react-types/shared" "^3.20.0"
     "@react-types/textfield" "^3.8.0"
     react-textarea-autosize "^8.5.2"
+
+"@nextui-org/listbox@^2.1.10":
+  version "2.1.10"
+  resolved "https://registry.yarnpkg.com/@nextui-org/listbox/-/listbox-2.1.10.tgz#0350236308ee0d6f9424a180d17deffbac6772f1"
+  integrity sha512-lhcCdr/Q9tVFi26ehvy/G6UEhcx2CvuYikiKX/9zomMcCCYARq3duB7G+/muJs3mQ3/IYyQ2VHIh7f5XLAmZgg==
+  dependencies:
+    "@nextui-org/aria-utils" "2.0.10"
+    "@nextui-org/divider" "2.0.20"
+    "@nextui-org/react-utils" "2.0.9"
+    "@nextui-org/shared-utils" "2.0.3"
+    "@nextui-org/system" "2.0.10"
+    "@nextui-org/theme" "2.1.9"
+    "@nextui-org/use-is-mobile" "2.0.5"
+    "@react-aria/focus" "^3.14.1"
+    "@react-aria/interactions" "^3.18.0"
+    "@react-aria/listbox" "^3.10.2"
+    "@react-aria/utils" "^3.20.0"
+    "@react-stately/list" "^3.9.2"
+    "@react-types/menu" "^3.9.4"
+    "@react-types/shared" "^3.20.0"
 
 "@nextui-org/menu@2.0.11":
   version "2.0.11"
@@ -408,7 +442,7 @@
   resolved "https://registry.yarnpkg.com/@nextui-org/shared-utils/-/shared-utils-2.0.3.tgz#a14fa7d7863e87eca0eae6b2abb261379122dcb8"
   integrity sha512-4Q4RfYU+fRUPbisjq6RYw3+oq4kn9nEp3eP5+0oD+nS9at8uSlovn7Kj3N2iz6clN6vVxxbyXi35DPTs63heRQ==
 
-"@nextui-org/spinner@2.0.19":
+"@nextui-org/spinner@2.0.19", "@nextui-org/spinner@^2.0.19":
   version "2.0.19"
   resolved "https://registry.yarnpkg.com/@nextui-org/spinner/-/spinner-2.0.19.tgz#4a71a934a58d335a42f8d973b169febc65e99f21"
   integrity sha512-zXMq2lk1UNj5H/GbepXDBdwwzL8tTSbyJl8L0WsTSIPAFo8WhvLp44griLNgd8Zqxh7dbTax2GENGzE/zq1UUQ==
@@ -470,12 +504,24 @@
     "@react-types/button" "^3.8.0"
     "@react-types/shared" "^3.20.0"
 
+"@nextui-org/use-image@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@nextui-org/use-image/-/use-image-2.0.3.tgz#c7d8743353a24390eaba59b52987d7ffd838c5f1"
+  integrity sha512-IukzfYn7Q1z872bg7lX/Wl2y6hGGPpiSu6tdU4bzQ6Q1WoNoVzc66K4WYVWsxLtWHcGf1iuwa2QrBXFkbe82ZA==
+  dependencies:
+    "@nextui-org/use-safe-layout-effect" "2.0.3"
+
 "@nextui-org/use-is-mobile@2.0.5":
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/@nextui-org/use-is-mobile/-/use-is-mobile-2.0.5.tgz#d0260b91bcf6db4e27228514410785ddaec5c8cc"
   integrity sha512-/VlIHfWpY929t4A4p4aOQPv5px7Qy8N1OgO6mmXUokTWnFq9VyOwhBtOAuzaShT+PzuNzqqK+IvRPWyPc/9tAA==
   dependencies:
     "@react-aria/ssr" "^3.8.0"
+
+"@nextui-org/use-safe-layout-effect@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@nextui-org/use-safe-layout-effect/-/use-safe-layout-effect-2.0.3.tgz#9be2cc16203805724fd3628d95fae942aefe5b2e"
+  integrity sha512-h11gOuOmJ8q3mpax72Aw31/qp3xZVB+81qhe6gZIA02Cf61HdHkqBVY2QFl3JWEJ+n+aBAPtxsLA65T7Ab/bXg==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -613,6 +659,22 @@
   dependencies:
     "@react-aria/utils" "^3.21.1"
     "@react-types/label" "^3.8.1"
+    "@react-types/shared" "^3.21.0"
+    "@swc/helpers" "^0.5.0"
+
+"@react-aria/listbox@^3.10.2":
+  version "3.11.1"
+  resolved "https://registry.yarnpkg.com/@react-aria/listbox/-/listbox-3.11.1.tgz#2a2c88daf6a67e07ab17440f72a859913161e6e8"
+  integrity sha512-AkguQaIkqpP5oe++EZqYHowD7FfeQs+yY0QZVSsVPpNExcBug8/GcXvhSclcOxdh6ekZg4Wwcq7K0zhuTSOPzg==
+  dependencies:
+    "@react-aria/focus" "^3.14.3"
+    "@react-aria/interactions" "^3.19.1"
+    "@react-aria/label" "^3.7.2"
+    "@react-aria/selection" "^3.17.1"
+    "@react-aria/utils" "^3.21.1"
+    "@react-stately/collections" "^3.10.2"
+    "@react-stately/list" "^3.10.0"
+    "@react-types/listbox" "^3.4.5"
     "@react-types/shared" "^3.21.0"
     "@swc/helpers" "^0.5.0"
 
@@ -754,6 +816,17 @@
     "@react-types/shared" "^3.21.0"
     "@swc/helpers" "^0.5.0"
 
+"@react-stately/list@^3.10.0", "@react-stately/list@^3.9.2":
+  version "3.10.0"
+  resolved "https://registry.yarnpkg.com/@react-stately/list/-/list-3.10.0.tgz#6b2c66778b687d8c197809059f102029a9bb5079"
+  integrity sha512-Yspumiln2fvzoO8AND8jNAIfBu1XPaYioeeDmsB5Vrya2EvOkzEGsauQSNBJ6Vhee1fQqpnmzH1HB0jfIKUfzg==
+  dependencies:
+    "@react-stately/collections" "^3.10.2"
+    "@react-stately/selection" "^3.14.0"
+    "@react-stately/utils" "^3.8.0"
+    "@react-types/shared" "^3.21.0"
+    "@swc/helpers" "^0.5.0"
+
 "@react-stately/menu@^3.5.5", "@react-stately/menu@^3.5.6":
   version "3.5.6"
   resolved "https://registry.yarnpkg.com/@react-stately/menu/-/menu-3.5.6.tgz#21861b7cfba579d69272509aef8197d3fad7463a"
@@ -838,6 +911,13 @@
   version "3.8.1"
   resolved "https://registry.yarnpkg.com/@react-types/label/-/label-3.8.1.tgz#b076a0fb955051307bfa3fed7e18ce0dc76d8c7b"
   integrity sha512-fA6zMTF2TmfU7H8JBJi0pNd8t5Ak4gO+ZA3cZBysf8r3EmdAsgr3LLqFaGTnZzPH1Fux6c7ARI3qjVpyNiejZQ==
+  dependencies:
+    "@react-types/shared" "^3.21.0"
+
+"@react-types/listbox@^3.4.5":
+  version "3.4.5"
+  resolved "https://registry.yarnpkg.com/@react-types/listbox/-/listbox-3.4.5.tgz#c18fbfe38412f7ce42b381fd4aa7bf443dcb6a59"
+  integrity sha512-nuRY3l8h/rBYQWTXWdZz5YJdl6QDDmXpHrnPuX7PxTwbXcwjhoMK+ZkJ0arA8Uv3MPs1OUcT6K6CInsPnG2ARQ==
   dependencies:
     "@react-types/shared" "^3.21.0"
 
