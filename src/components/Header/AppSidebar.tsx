@@ -13,10 +13,10 @@ import { usePathname, useRouter } from 'next/navigation';
 import styles from './Header.module.scss';
 import JoinFellowshipButton from './JoinFellowshipButton';
 
-function ListboxItemStartContent({ isCurrentRoute, icon }: { isCurrentRoute: boolean; icon: string }) {
+function ListboxItemStartContent({ isParentItem = false, isCurrentRoute, icon }: { isParentItem: boolean; isCurrentRoute: boolean; icon?: string }) {
 	return (
 		<span className='flex'>
-			{isCurrentRoute && (
+			{isCurrentRoute && !isParentItem && (
 				<Image
 					alt='border-image'
 					src='/misc/border-right-pink.svg'
@@ -25,27 +25,32 @@ function ListboxItemStartContent({ isCurrentRoute, icon }: { isCurrentRoute: boo
 					className='ml-[-8px] mr-2'
 				/>
 			)}
-			<Image
-				className={isCurrentRoute ? 'ml-7' : 'ml-8'}
-				alt='icon'
-				src={`/icons/sidebar/${icon}${isCurrentRoute ? '-filled' : '-outlined'}.svg`}
-				width={20}
-				height={20}
-			/>
+			{icon && (
+				<Image
+					className={isCurrentRoute ? 'ml-7' : 'ml-8'}
+					alt='icon'
+					src={`/icons/sidebar/${icon}${isCurrentRoute ? '-filled' : '-outlined'}.svg`}
+					width={20}
+					height={20}
+				/>
+			)}
 		</span>
 	);
 }
 
 type NavItem = {
 	label: string;
-	icon: string;
+	icon?: string;
 	url: string;
-	subItems?: {
-		label: string;
-		url: string;
-	}[];
+	subItem?: boolean;
+	childUrls?: string[];
 };
 
+/*
+Note: The order of the items in this array is the order they will appear in the sidebar
+subItems are will have to be a separate object in the array with a subItem property
+due to the way the Listbox component works.
+*/
 const navItems: NavItem[] = [
 	{
 		label: 'Activity',
@@ -55,17 +60,18 @@ const navItems: NavItem[] = [
 	{
 		label: 'Voting',
 		icon: 'vote',
-		url: '#',
-		subItems: [
-			{
-				label: 'General Proposals',
-				url: '/general-proposals'
-			},
-			{
-				label: 'Rank Requests',
-				url: '/rank-requests'
-			}
-		]
+		url: '#voting',
+		childUrls: ['/general-proposals', '/rank-requests']
+	},
+	{
+		label: 'General Proposals',
+		url: '/general-proposals',
+		subItem: true
+	},
+	{
+		label: 'Rank Requests',
+		url: '/rank-requests',
+		subItem: true
 	},
 	{
 		label: 'Members',
@@ -104,25 +110,48 @@ function AppSidebar() {
 					aria-label='Sidebar navigation'
 					selectedKeys={[pathname]}
 					onAction={(key) => {
-						if (key === '#') return;
+						if (key.toString().startsWith('#')) return;
 						router.push(key.toString().toLowerCase());
 					}}
 				>
-					{navItems.map((navItem) => (
-						<ListboxItem
-							id='nav-listbox-item'
-							className={`mb-3 h-[40px] rounded-none ${pathname.toLowerCase() === navItem.url ? styles.navListboxItemHover : ''}`}
-							key={navItem.url}
-							startContent={
-								<ListboxItemStartContent
-									isCurrentRoute={pathname.toLowerCase() === navItem.url}
-									icon={navItem.icon}
-								/>
-							}
-						>
-							<Link href={navItem.url}>{navItem.label}</Link>
-						</ListboxItem>
-					))}
+					{navItems.map((navItem) => {
+						const isParentItem = Boolean(navItem.childUrls?.length);
+
+						const pathnameLower = pathname.toLowerCase();
+						let isCurrentRoute = pathnameLower === navItem.url;
+						if (navItem.childUrls?.includes(pathnameLower)) {
+							isCurrentRoute = true;
+						}
+
+						return (
+							<ListboxItem
+								id='nav-listbox-item'
+								className={`mb-3 h-[40px] rounded-none hover:bg-transparent ${navItem.subItem && '-mt-3'} ${isParentItem && isCurrentRoute && 'text-primary'} ${
+									isCurrentRoute && !isParentItem && styles.navListboxItemHover
+								}`}
+								key={navItem.url}
+								textValue={navItem.label}
+								startContent={
+									<ListboxItemStartContent
+										isParentItem={isParentItem}
+										isCurrentRoute={isCurrentRoute}
+										icon={navItem.icon}
+									/>
+								}
+							>
+								{navItem.url.startsWith('#') ? (
+									<span>{navItem.label}</span>
+								) : (
+									<Link
+										className={`${navItem.subItem && !isCurrentRoute && 'ml-16'} ${isCurrentRoute && navItem.subItem && 'ml-14'}`}
+										href={navItem.url}
+									>
+										{navItem.label}
+									</Link>
+								)}
+							</ListboxItem>
+						);
+					})}
 				</Listbox>
 			</div>
 
