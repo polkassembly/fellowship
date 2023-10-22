@@ -36,7 +36,17 @@ function ListboxItemStartContent({ isCurrentRoute, icon }: { isCurrentRoute: boo
 	);
 }
 
-const navItems = [
+type NavItem = {
+	label: string;
+	icon: string;
+	url: string;
+	subItems?: {
+		label: string;
+		url: string;
+	}[];
+};
+
+const navItems: NavItem[] = [
 	{
 		label: 'Activity',
 		icon: 'home',
@@ -77,7 +87,7 @@ const navItems = [
 		icon: 'git-branch',
 		url: '/polkadot-github'
 	}
-] as const;
+];
 
 function AppSidebar() {
 	const pathname = usePathname();
