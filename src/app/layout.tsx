@@ -20,17 +20,19 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
 	return (
 		<html lang='en'>
-			<Providers>
-				<body className={`${poppinsFont.className}`}>
-					<section>
-						<AppSidebar />
+			<body className={`${poppinsFont.className}`}>
+				<Providers>
+					<section id='root-section'>
+						<section>
+							<AppSidebar />
+						</section>
+						<section id='main-section'>
+							<AppNavbar />
+							<main>{children}</main>
+						</section>
 					</section>
-					<section id='main-section'>
-						<AppNavbar />
-						<main>{children}</main>
-					</section>
-				</body>
-			</Providers>
+				</Providers>
+			</body>
 		</html>
 	);
 }

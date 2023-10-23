@@ -6,7 +6,7 @@
 	--font_default: 'Poppins';
 }
 
-body {
+#root-section {
 	@apply mx-auto mt-4 flex h-[96vh] max-w-screen-2xl gap-8;
 }
 
