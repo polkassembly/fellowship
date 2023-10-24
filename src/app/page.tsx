@@ -6,6 +6,7 @@ import ActivitySelectorCard from '@/components/Home/ActivitySelectorCard';
 import Carousel from '@/components/Home/Carousel';
 import JoinFellowshipCard from '@/components/Home/JoinFellowshipCard';
 import Stats from '@/components/Home/Stats';
+import TrendingProposals from '@/components/Home/TrendingProposals';
 import { InvalidSearchParamsError } from '@/global/exceptions';
 import { EActivityFeed, ServerComponentProps } from '@/global/types';
 
@@ -38,6 +39,7 @@ export default async function Home({ searchParams }: ServerComponentProps<unknow
 				<div className='flex w-6/12 flex-col gap-y-4 xl:w-4/12'>
 					<Stats />
 					<JoinFellowshipCard />
+					<TrendingProposals />
 				</div>
 			</div>
 		</div>

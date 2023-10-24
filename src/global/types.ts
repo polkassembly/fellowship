@@ -36,3 +36,7 @@ export type ServerComponentProps<T, U> = {
 	params?: T;
 	searchParams?: U;
 };
+
+export enum ProposalStatus {
+	PASSING = 'passing'
+}
