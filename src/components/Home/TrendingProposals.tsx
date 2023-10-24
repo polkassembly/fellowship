@@ -36,7 +36,7 @@ function ProposalListingItem({ index, title, status, votePercentage }: { index: 
 function TrendingProposals() {
 	return (
 		<Card className='py-6'>
-			<h2 className='flex items-center gap-2 p-4'>
+			<h2 className='flex items-center gap-2 px-4 pb-4'>
 				<Image
 					alt='Trending Proposals Icon'
 					height={24}
