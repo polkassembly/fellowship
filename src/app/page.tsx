@@ -17,6 +17,8 @@ type SearchParamProps = {
 export default async function Home({ searchParams }: ServerComponentProps<unknown, SearchParamProps>) {
 	const { feed = EActivityFeed.ALL } = searchParams ?? {};
 
+	// TODO: default should be pending if user is logged in and is a fellow
+
 	// validate feed search param
 	if (feed && !Object.values(EActivityFeed).includes(feed as EActivityFeed)) {
 		throw new InvalidSearchParamsError();

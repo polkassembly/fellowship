@@ -10,21 +10,6 @@ import { RadioGroup, Radio } from '@nextui-org/radio';
 import { EActivityFeed } from '@/global/types';
 import { useRouter } from 'next/navigation';
 
-const radioOptions = [
-	{
-		label: 'All',
-		value: EActivityFeed.ALL
-	},
-	{
-		label: 'General Proposals',
-		value: EActivityFeed.GENERAL_PROPOSALS
-	},
-	{
-		label: 'Rank Requests',
-		value: EActivityFeed.RANK_REQUESTS
-	}
-] as const;
-
 function ActivitySelectorCard({ value = EActivityFeed.ALL }: { value?: EActivityFeed }) {
 	const router = useRouter();
 
@@ -46,13 +31,13 @@ function ActivitySelectorCard({ value = EActivityFeed.ALL }: { value?: EActivity
 				defaultValue={value.toString()}
 				onValueChange={handleOnValueChange}
 			>
-				{radioOptions.map(({ label, value: optionValue }) => (
+				{Object.values(EActivityFeed).map((feedType) => (
 					<Radio
-						key={optionValue}
-						value={optionValue}
+						key={feedType}
+						value={feedType}
 						size='md'
 					>
-						<span className='text-xs'>{label}</span>
+						<span className='text-xs capitalize'>{feedType.replaceAll('-', ' ')}</span>
 					</Radio>
 				))}
 			</RadioGroup>

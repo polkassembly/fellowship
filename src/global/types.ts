@@ -25,6 +25,7 @@ export type Networks = {
 };
 
 export enum EActivityFeed {
+	PENDING = 'pending',
 	ALL = 'all',
 	GENERAL_PROPOSALS = 'general-proposals',
 	RANK_REQUESTS = 'rank-requests'
