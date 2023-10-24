@@ -50,8 +50,9 @@ function ActivitySelectorCard({ value = EActivityFeed.ALL }: { value?: EActivity
 					<Radio
 						key={optionValue}
 						value={optionValue}
+						size='md'
 					>
-						{label}
+						<span className='text-xs'>{label}</span>
 					</Radio>
 				))}
 			</RadioGroup>
