@@ -23,3 +23,16 @@ export type NetworkProperties = {
 export type Networks = {
 	[index: string]: NetworkProperties;
 };
+
+export enum EActivityFeed {
+	ALL = 'all',
+	GENERAL_PROPOSALS = 'general-proposals',
+	RANK_REQUESTS = 'rank-requests'
+}
+
+export type ErrorBoundaryPageProps = { error: Error; reset: () => void };
+
+export type ServerComponentProps<T, U> = {
+	params?: T;
+	searchParams?: U;
+};

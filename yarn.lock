@@ -290,6 +290,23 @@
     "@react-types/button" "^3.8.0"
     "@react-types/shared" "^3.20.0"
 
+"@nextui-org/card@^2.0.21":
+  version "2.0.21"
+  resolved "https://registry.yarnpkg.com/@nextui-org/card/-/card-2.0.21.tgz#5042b2184f860c3b41fc38ea4375dca4049155d7"
+  integrity sha512-yu0hpPkHg/3mwQ0rgxMnMgRSh+ZNw8mRB8BngpfXYPrANahi0jOvEEC8PDaAxIxiOrDKdlxiAt+kkwADo0R6nw==
+  dependencies:
+    "@nextui-org/react-utils" "2.0.9"
+    "@nextui-org/ripple" "2.0.21"
+    "@nextui-org/shared-utils" "2.0.3"
+    "@nextui-org/system" "2.0.10"
+    "@nextui-org/theme" "2.1.9"
+    "@nextui-org/use-aria-button" "2.0.5"
+    "@react-aria/button" "^3.8.2"
+    "@react-aria/focus" "^3.14.1"
+    "@react-aria/interactions" "^3.18.0"
+    "@react-aria/utils" "^3.20.0"
+    "@react-types/shared" "^3.20.0"
+
 "@nextui-org/divider@2.0.20":
   version "2.0.20"
   resolved "https://registry.yarnpkg.com/@nextui-org/divider/-/divider-2.0.20.tgz#90f74f8c9eb4fe8f694d10df8b269d74858173a2"
@@ -408,6 +425,24 @@
     "@react-types/button" "^3.8.0"
     "@react-types/overlays" "^3.8.2"
     react-remove-scroll "^2.5.6"
+
+"@nextui-org/radio@^2.0.22":
+  version "2.0.22"
+  resolved "https://registry.yarnpkg.com/@nextui-org/radio/-/radio-2.0.22.tgz#991adbfd87594081a25c63cbf36a3de414c0dea6"
+  integrity sha512-MXjxIwwZJdgpZ6/E7DBzfSErzxHKlF1jbvW9DlYM8i6BRGd0lOze5zH1R2UY0oGVGB7vx39pFJrDdPHVOqE5OA==
+  dependencies:
+    "@nextui-org/react-utils" "2.0.9"
+    "@nextui-org/shared-utils" "2.0.3"
+    "@nextui-org/system" "2.0.10"
+    "@nextui-org/theme" "2.1.9"
+    "@react-aria/focus" "^3.14.1"
+    "@react-aria/interactions" "^3.18.0"
+    "@react-aria/radio" "^3.8.0"
+    "@react-aria/utils" "^3.20.0"
+    "@react-aria/visually-hidden" "^3.8.4"
+    "@react-stately/radio" "^3.9.0"
+    "@react-types/radio" "^3.5.1"
+    "@react-types/shared" "^3.20.0"
 
 "@nextui-org/react-rsc-utils@2.0.9":
   version "2.0.9"
@@ -731,6 +766,21 @@
     "@react-types/shared" "^3.21.0"
     "@swc/helpers" "^0.5.0"
 
+"@react-aria/radio@^3.8.0":
+  version "3.8.2"
+  resolved "https://registry.yarnpkg.com/@react-aria/radio/-/radio-3.8.2.tgz#318fb1bbdc67131181c03002a5d8458405239b85"
+  integrity sha512-j8yyGjboTgoBEQWlnJbQVvegKiUeQEUvU/kZ7ZAdj+eAL3BqfO6FO7yt6WzK7ZIBzjGS9YbesaUa3hwIjDi3LA==
+  dependencies:
+    "@react-aria/focus" "^3.14.3"
+    "@react-aria/i18n" "^3.8.4"
+    "@react-aria/interactions" "^3.19.1"
+    "@react-aria/label" "^3.7.2"
+    "@react-aria/utils" "^3.21.1"
+    "@react-stately/radio" "^3.9.1"
+    "@react-types/radio" "^3.5.2"
+    "@react-types/shared" "^3.21.0"
+    "@swc/helpers" "^0.5.0"
+
 "@react-aria/selection@^3.17.1":
   version "3.17.1"
   resolved "https://registry.yarnpkg.com/@react-aria/selection/-/selection-3.17.1.tgz#12df277b8806fd26093e16f6a2734bd1e6fbb3e2"
@@ -786,6 +836,17 @@
     "@swc/helpers" "^0.5.0"
     clsx "^1.1.1"
 
+"@react-aria/visually-hidden@^3.8.4", "@react-aria/visually-hidden@^3.8.6":
+  version "3.8.6"
+  resolved "https://registry.yarnpkg.com/@react-aria/visually-hidden/-/visually-hidden-3.8.6.tgz#9b149851ac41e9c72c7819f8d4ad47ddfb45b863"
+  integrity sha512-6DmS/JLbK9KgU/ClK1WjwOyvpn8HtwYn+uisMLdP7HlCm692peYOkXDR1jqYbHL4GlyLCD0JLI+/xGdVh5aR/w==
+  dependencies:
+    "@react-aria/interactions" "^3.19.1"
+    "@react-aria/utils" "^3.21.1"
+    "@react-types/shared" "^3.21.0"
+    "@swc/helpers" "^0.5.0"
+    clsx "^1.1.1"
+
 "@react-aria/visually-hidden@^3.8.5":
   version "3.8.5"
   resolved "https://registry.yarnpkg.com/@react-aria/visually-hidden/-/visually-hidden-3.8.5.tgz#9c718f125fb6ab563e733bd1942eecffb5aa1d78"
@@ -793,17 +854,6 @@
   dependencies:
     "@react-aria/interactions" "^3.19.0"
     "@react-aria/utils" "^3.21.0"
-    "@react-types/shared" "^3.21.0"
-    "@swc/helpers" "^0.5.0"
-    clsx "^1.1.1"
-
-"@react-aria/visually-hidden@^3.8.6":
-  version "3.8.6"
-  resolved "https://registry.yarnpkg.com/@react-aria/visually-hidden/-/visually-hidden-3.8.6.tgz#9b149851ac41e9c72c7819f8d4ad47ddfb45b863"
-  integrity sha512-6DmS/JLbK9KgU/ClK1WjwOyvpn8HtwYn+uisMLdP7HlCm692peYOkXDR1jqYbHL4GlyLCD0JLI+/xGdVh5aR/w==
-  dependencies:
-    "@react-aria/interactions" "^3.19.1"
-    "@react-aria/utils" "^3.21.1"
     "@react-types/shared" "^3.21.0"
     "@swc/helpers" "^0.5.0"
     clsx "^1.1.1"
@@ -845,6 +895,16 @@
   dependencies:
     "@react-stately/utils" "^3.8.0"
     "@react-types/overlays" "^3.8.3"
+    "@swc/helpers" "^0.5.0"
+
+"@react-stately/radio@^3.9.0", "@react-stately/radio@^3.9.1":
+  version "3.9.1"
+  resolved "https://registry.yarnpkg.com/@react-stately/radio/-/radio-3.9.1.tgz#c43c88e2bff23d3059b0ea22191337a1d644fe0c"
+  integrity sha512-DrQPHiP9pz1uQbBP/NDFdO8uOZigPbvuAWPUNK7Gq6kye5lW+RsS97IUnYJePNTSMvhiAVz/aleBt05Gr/PZmg==
+  dependencies:
+    "@react-stately/utils" "^3.8.0"
+    "@react-types/radio" "^3.5.2"
+    "@react-types/shared" "^3.21.0"
     "@swc/helpers" "^0.5.0"
 
 "@react-stately/selection@^3.14.0":
@@ -933,6 +993,13 @@
   version "3.8.3"
   resolved "https://registry.yarnpkg.com/@react-types/overlays/-/overlays-3.8.3.tgz#47132f08ae3a115273036d98b9441a51d4a4ab09"
   integrity sha512-TrCG2I2+V+TD0PGi3CqfnyU5jEzcelSGgYJQvVxsl5Vv3ri7naBLIsOjF9x66tPxhINLCPUtOze/WYRAexp8aw==
+  dependencies:
+    "@react-types/shared" "^3.21.0"
+
+"@react-types/radio@^3.5.1", "@react-types/radio@^3.5.2":
+  version "3.5.2"
+  resolved "https://registry.yarnpkg.com/@react-types/radio/-/radio-3.5.2.tgz#399e220e2529b2e7c93aa117d39adcca6dc24d1f"
+  integrity sha512-crYQ+97abd5v0Iw9X+Tt+E7KWdm5ckr4g0+Iy8byV1g6MyiBOsNtq9QT99TOzyWJPqqD8T9qZfAOk49wK7KEDg==
   dependencies:
     "@react-types/shared" "^3.21.0"
 

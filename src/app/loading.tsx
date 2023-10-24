@@ -7,7 +7,7 @@ import React from 'react';
 
 function Loading() {
 	return (
-		<section>
+		<section className='flex min-h-[25vh] flex-col items-center justify-center'>
 			<Spinner />
 		</section>
 	);

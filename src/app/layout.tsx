@@ -10,7 +10,7 @@ import AppSidebar from '@/components/Header/AppSidebar';
 import AppNavbar from '@/components/Header/AppNavbar';
 import { Providers } from '../global/providers';
 
-const poppinsFont = Poppins({ subsets: ['latin'], weight: ['400', '500'] });
+const poppinsFont = Poppins({ subsets: ['latin'], weight: ['400', '500', '600'] });
 
 export const metadata: Metadata = {
 	title: 'Polkassembly | Fellowship',
