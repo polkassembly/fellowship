@@ -23,7 +23,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 			<body className={`${poppinsFont.className}`}>
 				<Providers>
 					<section id='root-section'>
-						<section>
+						<section className='fixed h-[96vh]'>
 							<AppSidebar />
 						</section>
 						<section id='main-section'>
