@@ -121,6 +121,8 @@
 				"before": false
 			}
 		],
-		"react/require-default-props": "off"
+		"react/require-default-props": "off",
+		"no-shadow": "off",
+		"@typescript-eslint/no-shadow": "warn"
 	}
 }
