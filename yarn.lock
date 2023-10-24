@@ -307,7 +307,7 @@
     "@react-aria/utils" "^3.20.0"
     "@react-types/shared" "^3.20.0"
 
-"@nextui-org/divider@2.0.20":
+"@nextui-org/divider@2.0.20", "@nextui-org/divider@^2.0.20":
   version "2.0.20"
   resolved "https://registry.yarnpkg.com/@nextui-org/divider/-/divider-2.0.20.tgz#90f74f8c9eb4fe8f694d10df8b269d74858173a2"
   integrity sha512-q4pg+T0krjZiETBk2ZnV5icg7X88GHIaIyi7uT7ZdpJalMiN4+V9pxWDpvqV383B7W3tp8splIY1Hjb2e4bdLA==

@@ -4,6 +4,8 @@
 
 import ActivitySelectorCard from '@/components/Home/ActivitySelectorCard';
 import Carousel from '@/components/Home/Carousel';
+import JoinFellowshipCard from '@/components/Home/JoinFellowshipCard';
+import Stats from '@/components/Home/Stats';
 import { InvalidSearchParamsError } from '@/global/exceptions';
 import { EActivityFeed, ServerComponentProps } from '@/global/types';
 
@@ -14,7 +16,7 @@ type SearchParamProps = {
 export default async function Home({ searchParams }: ServerComponentProps<unknown, SearchParamProps>) {
 	const { feed = EActivityFeed.ALL } = searchParams ?? {};
 
-	// validate feed
+	// validate feed search param
 	if (feed && !Object.values(EActivityFeed).includes(feed as EActivityFeed)) {
 		throw new InvalidSearchParamsError();
 	}
@@ -23,11 +25,20 @@ export default async function Home({ searchParams }: ServerComponentProps<unknow
 		<div className='flex w-full flex-col gap-y-8'>
 			<Carousel />
 
-			<div className='flex gap-x-8'>
+			<div className='flex flex-col items-center gap-8 xl:flex-row xl:items-start'>
 				<div className='flex w-full flex-col gap-y-4'>
 					<ActivitySelectorCard value={feed as EActivityFeed} />
+
+					<div className='flex w-full flex-col gap-y-4'>
+						<div id='feed-item-1'>Item 1</div>
+						<div id='feed-item-2'>Item 2</div>
+						<div id='feed-item-3'>Item 3</div>
+					</div>
 				</div>
-				<div className='flex w-4/12 flex-col bg-teal-600'>World</div>
+				<div className='flex w-6/12 flex-col gap-y-4 xl:w-4/12'>
+					<Stats />
+					<JoinFellowshipCard />
+				</div>
 			</div>
 		</div>
 	);
