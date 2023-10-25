@@ -13,9 +13,14 @@ import ListingVoteProgress from './ListingVoteProgress';
 import StatusChip from './StatusTag';
 import ActivityActionTypeChip from './ActivityActionTypeChip';
 
-function PostListingHeader() {
+interface Props {
+	className?: string;
+	activityType: ActivityType;
+}
+
+function PostListingHeader({ className = '', activityType }: Props) {
 	return (
-		<div className='flex h-[26px] items-center gap-2.5 text-sm'>
+		<div className={`flex h-[26px] items-center gap-2.5 text-sm ${className}`}>
 			<UserIdentity />
 			<Divider orientation='vertical' />
 			<DateHeader date={new Date()} />
@@ -24,11 +29,11 @@ function PostListingHeader() {
 			<Divider orientation='vertical' />
 			<ListingVoteProgress />
 			<Divider orientation='vertical' />
-			<ActivityTypeChip type={ActivityType.FELLOWSHIP_RULE} />
+			<ActivityTypeChip type={activityType} />
 			<Divider orientation='vertical' />
 			<StatusChip status={ProposalStatus.ACTIVE} />
 			<span className='ml-auto'>
-				<ActivityActionTypeChip type={ActivityType.FELLOWSHIP_RULE} />
+				<ActivityActionTypeChip type={activityType} />
 			</span>
 		</div>
 	);

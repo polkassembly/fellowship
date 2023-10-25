@@ -6,23 +6,32 @@ import Link from 'next/link';
 import React from 'react';
 import PostTags from './PostTags';
 
-function PostListingBody() {
+interface Props {
+	index: number;
+	title: string;
+	content?: string;
+	tags?: string[];
+	className?: string;
+}
+
+function PostListingBody({ className = '', index = 0, title = '', content = '', tags = [] }: Props) {
 	return (
-		<section className='flex gap-2'>
-			<p className='mt-0.5 text-xs font-normal text-secondary-700'>#{2}</p>
+		<section className={`flex gap-2 ${className}`}>
+			<p className='mt-0.5 text-xs font-normal text-secondary-700'>#{index}</p>
 			<article className='flex flex-col gap-1'>
-				<h2 className='text-sm font-medium'>Standard Guidelines to judge Liquidity Treasury Proposals on the main governance side - Kusama and Polkadot your Vote!</h2>
-				<p className='line-clamp-2 text-sm'>
-					Based on the income to the treasuries, the amounts getting burned and the amounts going to proposals, the treasury can be utilised: this includes spending funds,
-					extending the comments period, and burning funds. The treasury is a key part of the governance system, and it is important that it is used effectively.
-				</p>
-				<Link
-					className='mb-0.5 text-xs text-link'
-					href={`/post/${2}`}
-				>
-					Read more
-				</Link>
-				<PostTags tags={['tag1', 'tag2', 'big tag text']} />
+				<h2 className='text-sm font-medium'>{title}</h2>
+				{content && (
+					<>
+						<p className='line-clamp-2 text-sm'>{content}</p>
+						<Link
+							className='mb-0.5 text-xs text-link'
+							href={`/post/${2}`}
+						>
+							Read more
+						</Link>
+					</>
+				)}
+				{tags.length > 0 && <PostTags tags={tags} />}
 			</article>
 		</section>
 	);

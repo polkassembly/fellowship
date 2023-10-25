@@ -5,6 +5,7 @@
 import { Card } from '@nextui-org/card';
 import React from 'react';
 import { Divider } from '@nextui-org/divider';
+import { ActivityType } from '@/global/types';
 import PostActionBar from '../Post/PostActionBar';
 import PostReactionInfoBar from '../Post/PostReactionInfoBar';
 import PostListingHeader from '../Post/PostListingHeader';
@@ -20,8 +21,13 @@ function PostListingCard() {
 				shadow='none'
 				className={`flex flex-col gap-3 border border-primary_border px-6 py-4 ${SHOW_NOT_VOTED && 'pb-[35px]'}`}
 			>
-				<PostListingHeader />
-				<PostListingBody />
+				<PostListingHeader activityType={ActivityType.GENERAL_PROPOSAL} />
+				<PostListingBody
+					index={1}
+					title='Standard Guidelines to judge Liquidity Treasury Proposals on the main governance side - Kusama and Polkadot your Vote!'
+					content='Based on the income to the treasuries, the amounts getting burned and the amounts going to proposals, the treasury can be utilised: this includes spending funds, extending the comments ael...'
+					tags={['kusama', 'polkadot', 'treasury']}
+				/>
 				<PostReactionInfoBar />
 				<Divider />
 				<PostActionBar />

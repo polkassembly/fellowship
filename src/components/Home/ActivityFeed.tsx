@@ -4,6 +4,7 @@
 
 import React from 'react';
 import PostListingCard from './PostListingCard';
+import InductionListingCard from './InductionListingCard';
 
 // This will be an async component that gets a list of activities from the server
 // It'll display different activity cards depending on the type of activity
@@ -12,6 +13,7 @@ function ActivityFeed() {
 	return (
 		<section className='flex max-h-screen w-full flex-col gap-y-4 overflow-auto'>
 			<PostListingCard />
+			<InductionListingCard />
 		</section>
 	);
 }
