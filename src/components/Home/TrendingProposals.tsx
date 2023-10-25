@@ -22,7 +22,7 @@ function ProposalListingItem({ index, title, status, votePercentage }: { index: 
 				<article className='flex flex-col gap-1'>
 					<h2 className='line-clamp-3 font-medium'>{title}</h2>
 					<div className='flex items-center justify-between'>
-						<StatusChip value={status} />
+						<StatusChip status={status} />
 						<span>
 							<b className='text-primary'>{votePercentage}%</b> fellows voted
 						</span>

@@ -7,16 +7,17 @@ import { Chip } from '@nextui-org/chip';
 import React from 'react';
 
 const tagColoursClasses: { [index: string]: string } = {
-	[ProposalStatus.PASSING]: 'bg-success text-white'
+	[ProposalStatus.PASSING]: 'bg-success text-white',
+	[ProposalStatus.ACTIVE]: 'bg-[#3C74E1] text-white'
 };
 
-function StatusChip({ value }: { value: ProposalStatus }) {
+function StatusChip({ status }: { status: ProposalStatus }) {
 	return (
 		<Chip
 			size='sm'
-			className={`capitalize ${tagColoursClasses[value as string]}`}
+			className={`max-h-[18px] capitalize ${tagColoursClasses[status as string]}`}
 		>
-			<span className='text-xs'>{value}</span>
+			<span className='text-xs font-medium'>{status}</span>
 		</Chip>
 	);
 }

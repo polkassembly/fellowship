@@ -52,10 +52,16 @@ const config: Config = {
 		}),
 		createThemes({
 			light: {
-				primary_border: '#D2D8E0'
+				primary_border: '#D2D8E0',
+				tooltip_background: '#363636',
+				tooltip_foreground: '#FFFFFF',
+				link: '#1B61FF'
 			},
 			dark: {
-				primary_border: '#3C3C8F'
+				primary_border: '#3C3C8F',
+				tooltip_background: '#363636',
+				tooltip_foreground: '#FFFFFF',
+				link: '#1B61FF'
 			}
 		})
 	]

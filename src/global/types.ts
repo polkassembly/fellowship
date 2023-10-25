@@ -39,5 +39,26 @@ export type ServerComponentProps<T, U> = {
 };
 
 export enum ProposalStatus {
-	PASSING = 'passing'
+	PASSING = 'passing',
+	ACTIVE = 'active'
 }
+
+export enum ActivityType {
+	GENERAL_PROPOSAL = 'general-proposal',
+	RANK_REQUEST = 'rank-request',
+	FELLOWSHIP_RULE = 'fellowship-rule',
+	INDUCTION = 'induction'
+}
+
+export enum Reaction {
+	LIKE = '👍',
+	DISLIKE = '👎',
+	INTERESTING = '💡',
+	SUPPORT = '🎉'
+}
+
+export type PublicReactionEntry = {
+	reaction: Reaction;
+	username: string;
+	created_at: Date;
+};

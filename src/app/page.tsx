@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import ActivityFeed from '@/components/Home/ActivityFeed';
 import ActivitySelectorCard from '@/components/Home/ActivitySelectorCard';
 import Carousel from '@/components/Home/Carousel';
 import JoinFellowshipCard from '@/components/Home/JoinFellowshipCard';
@@ -31,12 +32,7 @@ export default async function Home({ searchParams }: ServerComponentProps<unknow
 			<div className='flex flex-col items-center gap-8 xl:flex-row xl:items-start'>
 				<div className='flex w-full flex-col gap-y-4'>
 					<ActivitySelectorCard value={feed as EActivityFeed} />
-
-					<div className='flex w-full flex-col gap-y-4'>
-						<div id='feed-item-1'>Item 1</div>
-						<div id='feed-item-2'>Item 2</div>
-						<div id='feed-item-3'>Item 3</div>
-					</div>
+					<ActivityFeed />
 				</div>
 				<div className='flex w-6/12 flex-col gap-y-4 xl:w-4/12'>
 					<Stats />
