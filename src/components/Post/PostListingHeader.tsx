@@ -11,6 +11,7 @@ import DateHeader from './DateHeader';
 import DecidingEndsHeader from './DecidingEndsHeader';
 import ListingVoteProgress from './ListingVoteProgress';
 import StatusChip from './StatusTag';
+import ActivityActionTypeChip from './ActivityActionTypeChip';
 
 function PostListingHeader() {
 	return (
@@ -26,6 +27,9 @@ function PostListingHeader() {
 			<ActivityTypeChip type={ActivityType.FELLOWSHIP_RULE} />
 			<Divider orientation='vertical' />
 			<StatusChip status={ProposalStatus.ACTIVE} />
+			<span className='ml-auto'>
+				<ActivityActionTypeChip type={ActivityType.FELLOWSHIP_RULE} />
+			</span>
 		</div>
 	);
 }

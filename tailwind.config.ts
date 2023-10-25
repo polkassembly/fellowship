@@ -19,6 +19,13 @@ const config: Config = {
 			prefix: 'nui',
 			defaultTheme: 'light',
 			defaultExtendTheme: 'light',
+			layout: {
+				radius: {
+					small: '8px', // rounded-small
+					medium: '14px', // rounded-medium
+					large: '20px' // rounded-large
+				}
+			},
 			themes: {
 				light: {
 					colors: {
@@ -31,7 +38,8 @@ const config: Config = {
 						secondary: {
 							foreground: '#FFFFFF',
 							DEFAULT: '#151532'
-						}
+						},
+						warning: '#F89118'
 					}
 				},
 				dark: {

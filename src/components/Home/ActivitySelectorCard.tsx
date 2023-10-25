@@ -21,6 +21,7 @@ function ActivitySelectorCard({ value = EActivityFeed.ALL }: { value?: EActivity
 		<Card
 			className='flex flex-col gap-y-3 border border-primary_border p-6'
 			shadow='none'
+			radius='lg'
 		>
 			<h2 className='text-xl font-semibold'>Activity</h2>
 			<RadioGroup

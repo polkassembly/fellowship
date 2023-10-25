@@ -9,19 +9,25 @@ import PostActionBar from '../Post/PostActionBar';
 import PostReactionInfoBar from '../Post/PostReactionInfoBar';
 import PostListingHeader from '../Post/PostListingHeader';
 import PostListingBody from '../Post/PostListingBody';
+import NotVotedYetCard from '../Post/NotVotedYetCard';
+
+const SHOW_NOT_VOTED = true;
 
 function PostListingCard() {
 	return (
-		<Card
-			shadow='none'
-			className='flex flex-col gap-3 border border-primary_border px-6 py-4'
-		>
-			<PostListingHeader />
-			<PostListingBody />
-			<PostReactionInfoBar />
-			<Divider />
-			<PostActionBar />
-		</Card>
+		<article>
+			<Card
+				shadow='none'
+				className={`flex flex-col gap-3 border border-primary_border px-6 py-4 ${SHOW_NOT_VOTED && 'pb-[35px]'}`}
+			>
+				<PostListingHeader />
+				<PostListingBody />
+				<PostReactionInfoBar />
+				<Divider />
+				<PostActionBar />
+			</Card>
+			{SHOW_NOT_VOTED && <NotVotedYetCard />}
+		</article>
 	);
 }
 

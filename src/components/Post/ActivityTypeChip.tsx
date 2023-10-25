@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ActivityType } from '@/global/types';
-import activityTypeDesc from '@/utils/activityTypeDesc';
+import { activityTypeDesc } from '@/utils/activityTypeConstants';
 import { Chip } from '@nextui-org/chip';
 import { Tooltip } from '@nextui-org/tooltip';
 import React from 'react';
