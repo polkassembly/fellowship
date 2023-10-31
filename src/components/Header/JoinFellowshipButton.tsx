@@ -4,6 +4,7 @@
 
 import React from 'react';
 import { Button } from '@nextui-org/button';
+import Link from 'next/link';
 import UserAvatar from '../Profile/UserAvatar';
 
 function JoinFellowshipButton({ className = '' }: { className?: string }) {
@@ -14,14 +15,16 @@ function JoinFellowshipButton({ className = '' }: { className?: string }) {
 			</div>
 			<div className='ml-3 flex flex-col gap-y-1.5'>
 				<small className='text-xs'>Not a member yet ?</small>
-				<Button
-					color='primary'
-					size='sm'
-					variant='bordered'
-					className='h-unit-7 text-xs'
-				>
-					Join Fellowship
-				</Button>
+				<Link href='/join-fellowship'>
+					<Button
+						color='primary'
+						size='sm'
+						variant='bordered'
+						className='h-unit-7 text-xs'
+					>
+						Join Fellowship
+					</Button>
+				</Link>
 			</div>
 		</div>
 	);

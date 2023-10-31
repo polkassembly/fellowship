@@ -4,6 +4,7 @@
 
 import { Button } from '@nextui-org/button';
 import { Card } from '@nextui-org/card';
+import Link from 'next/link';
 import React from 'react';
 
 // TODO: change copy
@@ -15,13 +16,18 @@ function JoinFellowshipCard() {
 			shadow='none'
 		>
 			<span className='px-4 text-center text-sm text-white'>Join the community to get access to..!</span>
-			<Button
-				className='mt-5 text-sm font-semibold shadow-md light:bg-white'
-				radius='full'
-				size='lg'
+			<Link
+				href='/join-fellowship'
+				className='flex items-center justify-center'
 			>
-				Join Fellowship
-			</Button>
+				<Button
+					className='mt-5 text-sm font-semibold shadow-md light:bg-white'
+					radius='full'
+					size='lg'
+				>
+					Join Fellowship
+				</Button>
+			</Link>
 		</Card>
 	);
 }

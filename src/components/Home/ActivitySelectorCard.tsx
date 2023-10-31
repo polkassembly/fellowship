@@ -37,6 +37,9 @@ function ActivitySelectorCard({ value = EActivityFeed.ALL }: { value?: EActivity
 						key={feedType}
 						value={feedType}
 						size='md'
+						classNames={{
+							label: 'flex items-center'
+						}}
 					>
 						<span className='text-xs capitalize'>{feedType.replaceAll('-', ' ')}</span>
 					</Radio>
