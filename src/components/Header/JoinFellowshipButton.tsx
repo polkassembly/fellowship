@@ -15,16 +15,16 @@ function JoinFellowshipButton({ className = '' }: { className?: string }) {
 			</div>
 			<div className='ml-3 flex flex-col gap-y-1.5'>
 				<small className='text-xs'>Not a member yet ?</small>
-				<Link href='/join-fellowship'>
-					<Button
-						color='primary'
-						size='sm'
-						variant='bordered'
-						className='h-unit-7 text-xs'
-					>
-						Join Fellowship
-					</Button>
-				</Link>
+				<Button
+					href='/join-fellowship'
+					as={Link}
+					color='primary'
+					size='sm'
+					variant='bordered'
+					className='h-unit-7 text-xs'
+				>
+					Join Fellowship
+				</Button>
 			</div>
 		</div>
 	);

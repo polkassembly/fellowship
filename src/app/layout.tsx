@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 	description: 'Fellowship never felt so good.'
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function RootLayout({ children, modal }: { children: ReactNode; modal: ReactNode }) {
 	return (
 		<html lang='en'>
 			<body className={`${poppinsFont.className}`}>
@@ -31,6 +31,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 							<main>{children}</main>
 						</section>
 					</section>
+					{modal}
 				</Providers>
 			</body>
 		</html>

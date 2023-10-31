@@ -16,18 +16,15 @@ function JoinFellowshipCard() {
 			shadow='none'
 		>
 			<span className='px-4 text-center text-sm text-white'>Join the community to get access to..!</span>
-			<Link
+			<Button
 				href='/join-fellowship'
-				className='flex items-center justify-center'
+				as={Link}
+				className='mt-5 text-sm font-semibold shadow-md light:bg-white'
+				radius='full'
+				size='lg'
 			>
-				<Button
-					className='mt-5 text-sm font-semibold shadow-md light:bg-white'
-					radius='full'
-					size='lg'
-				>
-					Join Fellowship
-				</Button>
-			</Link>
+				Join Fellowship
+			</Button>
 		</Card>
 	);
 }
