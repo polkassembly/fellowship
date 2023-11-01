@@ -2,10 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import JoinFellowshipForm from '@/components/Misc/JoinFellowshipForm';
+
 export default async function JoinFellowship() {
 	return (
-		<div>
-			<h1 className='text-2xl'>JOIN FELLOWSHIP 2</h1>
+		<div className='rounded-2xl border border-primary_border p-6'>
+			<JoinFellowshipForm />
 		</div>
 	);
 }
