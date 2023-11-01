@@ -5,14 +5,12 @@
 import '../global/globals.scss';
 import 'react-toastify/dist/ReactToastify.css';
 import type { Metadata } from 'next';
-import { Poppins } from 'next/font/google';
 import { ReactNode } from 'react';
 import AppSidebar from '@/components/Header/AppSidebar';
 import AppNavbar from '@/components/Header/AppNavbar';
 import NotificationsContainer from '@/components/Misc/NotificationsContainer';
+import { poppinsFont } from '@/utils/fonts';
 import { Providers } from '../global/providers';
-
-const poppinsFont = Poppins({ subsets: ['latin'], weight: ['400', '500', '600'] });
 
 export const metadata: Metadata = {
 	title: 'Polkassembly | Fellowship',
