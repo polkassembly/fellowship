@@ -3,11 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import '../global/globals.scss';
+import 'react-toastify/dist/ReactToastify.css';
 import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
 import { ReactNode } from 'react';
 import AppSidebar from '@/components/Header/AppSidebar';
 import AppNavbar from '@/components/Header/AppNavbar';
+import NotificationsContainer from '@/components/Misc/NotificationsContainer';
 import { Providers } from '../global/providers';
 
 const poppinsFont = Poppins({ subsets: ['latin'], weight: ['400', '500', '600'] });
@@ -31,6 +33,7 @@ export default function RootLayout({ children, modal }: { children: ReactNode; m
 							<main>{children}</main>
 						</section>
 					</section>
+					<NotificationsContainer />
 					{modal}
 				</Providers>
 			</body>
