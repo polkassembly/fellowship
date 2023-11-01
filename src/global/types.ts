@@ -7,6 +7,12 @@ export type TRPCEndpoint = {
 	label: string;
 };
 
+export enum Network {
+	KUSAMA = 'kusama',
+	POLKADOT = 'polkadot',
+	COLLECTIVES = 'collectives'
+}
+
 export type NetworkProperties = {
 	blockTime: number;
 	logoUrl: string;
@@ -17,10 +23,11 @@ export type NetworkProperties = {
 	subsquidUrl: string;
 	subscanBaseUrl: string;
 	rpcEndpoints: TRPCEndpoint[];
+	relayRpcEndpoints?: TRPCEndpoint[];
 	name: string; // to store alphabetical case
 };
 
-export type Networks = {
+export type NetworkConstants = {
 	[index: string]: NetworkProperties;
 };
 
