@@ -2,13 +2,25 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+'use client';
+
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Divider } from '@nextui-org/divider';
+import { Input } from '@nextui-org/input';
+import { useForm } from 'react-hook-form';
 import AlertCard from './AlertCard';
 
 function JoinFellowshipForm() {
+	const {
+		register,
+		formState: { errors },
+		handleSubmit
+	} = useForm();
+
+	const onSubmit = (data: unknown) => console.log(data);
+
 	return (
 		<div className='flex flex-col items-center justify-center gap-4'>
 			<Image
@@ -40,6 +52,27 @@ function JoinFellowshipForm() {
 						type='info'
 						message='Note: A fellow with at least rank x must apply for fellowship on behalf of another user.'
 					/>
+
+					<form onSubmit={handleSubmit(onSubmit)}>
+						<Input
+							label={
+								<span>
+									Title<span className='text-base text-rose-500'>*</span>
+								</span>
+							}
+							placeholder='Enter your proposal title'
+							labelPlacement='outside'
+							variant='bordered'
+							radius='sm'
+							classNames={{
+								label: 'text-sm font-normal -mb-1',
+								inputWrapper: 'border-primary_border border-1'
+							}}
+							{...register('title', { required: 'The title is required' })}
+							aria-invalid={errors.title ? 'true' : 'false'}
+						/>
+						{errors.title?.message && <p role='alert'>{errors.title.message.toString()}</p>}
+					</form>
 				</div>
 			</section>
 		</div>
