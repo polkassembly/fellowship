@@ -7,7 +7,14 @@ import MESSAGES from '@/global/messages';
 import POLKASSEMBLY_API_URL from '@/global/polkassemblyApiUrl';
 import getNetwork from './getNetwork';
 
-async function nextApiClientFetch<T>(url: string, data?: { [key: string]: unknown }, method?: 'GET' | 'POST', isPolkassemblyAPI?: boolean): Promise<{ data?: T; error?: string }> {
+interface Args {
+	url: string;
+	data?: { [key: string]: unknown };
+	method?: 'GET' | 'POST';
+	isPolkassemblyAPI?: boolean;
+}
+
+async function nextApiClientFetch<T>({ url, data, method = 'GET', isPolkassemblyAPI = true }: Args): Promise<{ data?: T; error?: string }> {
 	const network = getNetwork();
 
 	const currentURL = new URL(window.location.href);

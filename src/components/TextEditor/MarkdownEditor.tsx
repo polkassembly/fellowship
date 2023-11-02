@@ -9,7 +9,7 @@ import { IMG_BB_API_KEY } from '@/global/apiKeys';
 import nextApiClientFetch from '@/utils/nextApiClientFetch';
 import debounce from 'lodash.debounce';
 import { useUserDetailsContext } from '@/contexts';
-import styles from './styles.module.scss';
+import './MarkdownEditor.scss';
 import Markdown from './Markdown';
 
 interface Props {
@@ -74,7 +74,10 @@ function MarkdownEditor({ className, height, onChange, value }: Props): React.Re
 
 	async function getUserData(usernameQuery: string, content: string) {
 		let inputData = content;
-		const res = await nextApiClientFetch(`api/v1/auth/data/userProfileWithUsername?username=${usernameQuery}`);
+		const res = await nextApiClientFetch({
+			url: `api/v1/auth/data/userProfileWithUsername?username=${usernameQuery}`,
+			isPolkassemblyAPI: true
+		});
 		if (res.data) {
 			if (!replacedUsernames.includes(usernameQuery)) {
 				// TODO: fix potential security issue
@@ -119,7 +122,7 @@ function MarkdownEditor({ className, height, onChange, value }: Props): React.Re
 	};
 
 	return (
-		<div className={`${styles.markdownEditor} ${className}`}>
+		<div className={`${className}`}>
 			<ReactMde
 				generateMarkdownPreview={(markdown) =>
 					Promise.resolve(

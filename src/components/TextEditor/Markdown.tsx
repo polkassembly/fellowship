@@ -6,7 +6,7 @@ import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
-import styles from './styles.module.scss';
+import './Markdown.scss';
 
 interface Props {
 	className?: string;
@@ -33,7 +33,7 @@ function Markdown({ className, isPreview = false, isAutoComplete = false, md, im
 
 	return (
 		<ReactMarkdown
-			className={`${styles.markdownDisplay} ${className} ${isPreview && 'mde-preview-content'} ${imgHidden && 'hide-image'} ${isAutoComplete && 'mde-autocomplete-content'}`}
+			className={`${className} ${isPreview && 'mde-preview-content'} ${imgHidden && 'hide-image'} ${isAutoComplete && 'mde-autocomplete-content'}`}
 			rehypePlugins={[rehypeRaw, remarkGfm]}
 			components={{ a: LinkRenderer }}
 		>
