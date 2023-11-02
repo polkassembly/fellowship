@@ -4,14 +4,14 @@
 
 import { ActivityType } from '@/global/types';
 
-export const activityTypeDesc = {
+export const ACTIVITY_TYPE_DESC = {
 	[ActivityType.GENERAL_PROPOSAL]: 'lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua 1',
 	[ActivityType.RANK_REQUEST]: 'lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua 2',
 	[ActivityType.FELLOWSHIP_RULE]: 'lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua 3',
 	[ActivityType.INDUCTION]: 'lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua 4'
 };
 
-export const activityActionText = {
+export const ACTIVITY_ACTION_TEXT = {
 	[ActivityType.GENERAL_PROPOSAL]: 'cast vote',
 	[ActivityType.RANK_REQUEST]: 'cast vote',
 	[ActivityType.INDUCTION]: 'induct to fellowship'

@@ -5,9 +5,14 @@
 import { useContext } from 'react';
 
 import { ApiContext } from './ApiContext';
+import { UserDetailsContext } from './UserDetailsContext';
 
 const useApiContext = () => {
 	return useContext(ApiContext);
 };
 
-export { useApiContext };
+const useUserDetailsContext = () => {
+	return useContext(UserDetailsContext);
+};
+
+export { useApiContext, useUserDetailsContext };

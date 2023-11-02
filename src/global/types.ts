@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Dispatch, SetStateAction } from 'react';
+
 export type TRPCEndpoint = {
 	key: string;
 	label: string;
@@ -69,3 +71,90 @@ export type PublicReactionEntry = {
 	username: string;
 	created_at: Date;
 };
+
+export enum Role {
+	ANONYMOUS = 'anonymous',
+	ADMIN = 'admin',
+	PROPOSAL_BOT = 'proposal_bot',
+	USER = 'user',
+	EVENT_BOT = 'event_bot',
+	MODERATOR = 'moderator'
+}
+
+export interface Roles {
+	allowedRoles: Role[];
+	currentRole: Role.PROPOSAL_BOT | Role.USER | Role.EVENT_BOT | Role.MODERATOR;
+}
+
+export enum Wallet {
+	TALISMAN = 'talisman',
+	POLKADOT = 'polkadot-js',
+	POLKAGATE = 'polkagate',
+	SUBWALLET = 'subwallet-js',
+	METAMASK = 'metamask',
+	WALLETCONNECT = 'walletconnect',
+	// NOVAWALLET = 'polkadot-js',
+	POLYWALLET = 'polywallet',
+	POLKASAFE = 'polkasafe',
+	OTHER = ''
+}
+
+export interface JWTPayloadType {
+	default_address: string;
+	addresses: string[];
+	sub: string;
+	username: string;
+	email: string;
+	email_verified: boolean;
+	iat: number;
+	id: number;
+	roles: Roles;
+	web3signup: boolean;
+	is2FAEnabled?: boolean;
+	login_wallet?: Wallet;
+	login_address?: string;
+}
+
+export interface INetworkPreferences {
+	channelPreferences: {
+		[index: string]: {
+			verification_token?: string;
+			verification_token_expires?: Date;
+			enabled?: boolean;
+			handle?: string;
+		};
+	};
+	triggerPreferences: {
+		[index: string]: {
+			[index: string]: {
+				enabled: boolean;
+				name: string;
+				post_types?: Array<string>;
+				tracks?: Array<number>;
+				mention_types?: Array<string>;
+				sub_triggers?: Array<string>;
+			};
+		};
+	};
+}
+
+export interface UserDetailsContextType {
+	id?: number | null;
+	picture?: string | null;
+	username?: string | null;
+	email?: string | null;
+	email_verified?: boolean | null;
+	addresses?: string[] | null;
+	allowed_roles?: string[] | null;
+	defaultAddress?: string | null;
+	setUserDetailsContextState: Dispatch<SetStateAction<UserDetailsContextType>>;
+	web3signup?: boolean | null;
+	isLoggedOut: () => boolean;
+	loginWallet: Wallet | null;
+	delegationDashboardAddress: string;
+	loginAddress: string;
+	multisigAssociatedAddress?: string;
+	networkPreferences: INetworkPreferences;
+	primaryNetwork: string;
+	is2FAEnabled?: boolean;
+}

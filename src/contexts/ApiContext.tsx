@@ -7,7 +7,7 @@ import '@polkadot/api-augment';
 import { ApiPromise, ScProvider, WsProvider } from '@polkadot/api';
 import React, { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import { Network } from '@/global/types';
-import networkConstants from '@/utils/networkConstants';
+import networkConstants from '@/global/networkConstants';
 import queueNotification from '@/utils/queueNotification';
 
 export interface ApiContextType {

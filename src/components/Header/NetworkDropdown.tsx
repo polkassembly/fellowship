@@ -8,7 +8,7 @@ import React from 'react';
 
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, DropdownSection } from '@nextui-org/dropdown';
 import { Button } from '@nextui-org/button';
-import networkConstants from '@/utils/networkConstants';
+import networkConstants from '@/global/networkConstants';
 import { NetworkProperties } from '@/global/types';
 import Image from 'next/image';
 import Link from 'next/link';

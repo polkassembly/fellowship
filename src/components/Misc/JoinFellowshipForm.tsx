@@ -11,6 +11,7 @@ import { Divider } from '@nextui-org/divider';
 import { Input } from '@nextui-org/input';
 import { useForm } from 'react-hook-form';
 import AlertCard from './AlertCard';
+import MarkdownEditor from '../TextEditor/MarkdownEditor';
 
 function JoinFellowshipForm() {
 	const {
@@ -53,7 +54,10 @@ function JoinFellowshipForm() {
 						message='Note: A fellow with at least rank x must apply for fellowship on behalf of another user.'
 					/>
 
-					<form onSubmit={handleSubmit(onSubmit)}>
+					<form
+						onSubmit={handleSubmit(onSubmit)}
+						className='flex flex-col gap-3'
+					>
 						<Input
 							label={
 								<span>
@@ -72,6 +76,11 @@ function JoinFellowshipForm() {
 							aria-invalid={errors.title ? 'true' : 'false'}
 						/>
 						{errors.title?.message && <p role='alert'>{errors.title.message.toString()}</p>}
+
+						<MarkdownEditor
+							onChange={() => {}}
+							value=''
+						/>
 					</form>
 				</div>
 			</section>
