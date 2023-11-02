@@ -63,13 +63,19 @@ const config: Config = {
 				primary_border: '#D2D8E0',
 				tooltip_background: '#363636',
 				tooltip_foreground: '#FFFFFF',
-				link: '#1B61FF'
+				link: '#1B61FF',
+				mdeHeader: '#EAEEF0',
+				mdeHeaderFocus: '#FFFFFF',
+				mdeHeaderForeground: '#363636'
 			},
 			dark: {
 				primary_border: '#3C3C8F',
 				tooltip_background: '#363636',
 				tooltip_foreground: '#FFFFFF',
-				link: '#1B61FF'
+				link: '#1B61FF',
+				mdeHeader: '#363636',
+				mdeHeaderFocus: '#363636',
+				mdeHeaderForeground: '#FFFFFF'
 			}
 		})
 	]

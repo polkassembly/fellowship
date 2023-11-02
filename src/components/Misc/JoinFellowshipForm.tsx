@@ -9,7 +9,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Divider } from '@nextui-org/divider';
 import { Input } from '@nextui-org/input';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import AlertCard from './AlertCard';
 import MarkdownEditor from '../TextEditor/MarkdownEditor';
 
@@ -17,8 +17,14 @@ function JoinFellowshipForm() {
 	const {
 		register,
 		formState: { errors },
+		control,
 		handleSubmit
-	} = useForm();
+	} = useForm({
+		defaultValues: {
+			title: '',
+			description: ''
+		}
+	});
 
 	const onSubmit = (data: unknown) => console.log(data);
 
@@ -58,29 +64,38 @@ function JoinFellowshipForm() {
 						onSubmit={handleSubmit(onSubmit)}
 						className='flex flex-col gap-3'
 					>
-						<Input
-							label={
-								<span>
-									Title<span className='text-base text-rose-500'>*</span>
-								</span>
-							}
-							placeholder='Enter your proposal title'
-							labelPlacement='outside'
-							variant='bordered'
-							radius='sm'
-							classNames={{
-								label: 'text-sm font-normal -mb-1',
-								inputWrapper: 'border-primary_border border-1'
-							}}
-							{...register('title', { required: 'The title is required' })}
-							aria-invalid={errors.title ? 'true' : 'false'}
-						/>
-						{errors.title?.message && <p role='alert'>{errors.title.message.toString()}</p>}
+						<div>
+							<Input
+								label={
+									<span>
+										Title<span className='text-base text-rose-500'>*</span>
+									</span>
+								}
+								placeholder='Enter your proposal title'
+								labelPlacement='outside'
+								variant='bordered'
+								radius='sm'
+								classNames={{
+									label: 'text-sm font-normal -mb-1',
+									inputWrapper: 'border-primary_border border-1'
+								}}
+								{...register('title', { required: 'The title is required' })}
+								aria-invalid={errors.title ? 'true' : 'false'}
+							/>
+							{errors.title?.message && <p role='alert'>{errors.title.message.toString()}</p>}
+						</div>
 
-						<MarkdownEditor
-							onChange={() => {}}
-							value=''
-						/>
+						<div>
+							<div className='mb-1 text-sm font-normal'>
+								Description<span className='text-base text-rose-500'>*</span>
+							</div>
+
+							<Controller
+								name='description'
+								control={control}
+								render={({ field }) => <MarkdownEditor {...field} />}
+							/>
+						</div>
 					</form>
 				</div>
 			</section>

@@ -1,7 +1,8 @@
 textarea {
+	@apply text-foreground;
+
 	border-radius: 0rem;
 	border: none !important;
-	color: #000000 !important;
 	padding: 1rem 1.2rem !important;
 	line-height: 1.4 !important;
 }
@@ -51,7 +52,7 @@ textarea {
 }
 
 .react-mde {
-	border-color: #ebf0f5;
+	@apply border-primary_border;
 	font-size: 0.85rem;
 
 	.grip {
@@ -64,29 +65,26 @@ textarea {
 	}
 
 	.mde-header {
-		background-color: #eaeef0;
+		@apply border-b-mdeHeader bg-mdeHeader;
 		border-bottom-style: solid;
 		border-bottom-width: 1px;
-		border-bottom-color: #ebf0f5;
 
 		.mde-tabs {
 			margin: 0rem 0.5rem;
 
 			button {
+				@apply bg-mdeHeader;
 				font-family: Arial, Helvetica, sans-serif, 'Poppins';
 				font-size: 13.5px;
 				font-weight: 500;
 				padding: 0.6rem 0.8rem;
-				color: #000000;
-				background: #eaeef0;
 				border-radius: 0.3em;
-				border-bottom-color: #ebf0f5;
 				margin-bottom: -1px;
 
 				&.selected,
 				&:focus {
-					background: white;
-					color: #2e2f30;
+					@apply bg-mdeHeaderFocus text-mdeHeaderForeground;
+
 					padding: 0.2rem 0.8rem;
 					border-style: solid;
 					border-width: 1px;
@@ -96,10 +94,6 @@ textarea {
 					border-bottom-right-radius: 0;
 					border-bottom-left-radius: 0;
 					margin-bottom: -1px;
-				}
-
-				&:hover {
-					color: #2e2f30;
 				}
 			}
 		}
