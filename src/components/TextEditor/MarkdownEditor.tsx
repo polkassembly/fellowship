@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import 'react-mde/lib/styles/css/react-mde-all.css';
-import React, { useCallback, useState } from 'react';
+import React, { LegacyRef, forwardRef, useCallback, useState } from 'react';
 import ReactMde, { Suggestion } from 'react-mde';
 import { IMG_BB_API_KEY } from '@/global/apiKeys';
 import nextApiClientFetch from '@/utils/nextApiClientFetch';
@@ -19,7 +19,7 @@ interface Props {
 	value: string;
 }
 
-function MarkdownEditor({ className, height, onChange, value }: Props): React.ReactElement {
+const MarkdownEditor = forwardRef(function MarkdownEditor({ className, height, onChange, value }: Props, ref) {
 	const { id, username } = useUserDetailsContext();
 
 	const [selectedTab, setSelectedTab] = React.useState<'write' | 'preview'>('write');
@@ -124,6 +124,8 @@ function MarkdownEditor({ className, height, onChange, value }: Props): React.Re
 	return (
 		<div className={`${className}`}>
 			<ReactMde
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
+				ref={ref as LegacyRef<any>}
 				generateMarkdownPreview={(markdown) =>
 					Promise.resolve(
 						<Markdown
@@ -146,6 +148,6 @@ function MarkdownEditor({ className, height, onChange, value }: Props): React.Re
 			/>
 		</div>
 	);
-}
+});
 
 export default MarkdownEditor;

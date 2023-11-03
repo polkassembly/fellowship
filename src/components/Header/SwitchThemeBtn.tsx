@@ -16,7 +16,7 @@ function SwitchThemeBtn() {
 			radius='full'
 			onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
 		>
-			<span>{theme === 'dark' ? 'Light' : 'Dark'}</span>
+			<span suppressHydrationWarning>{theme === 'dark' ? 'Light' : 'Dark'}</span>
 		</Button>
 	);
 }
