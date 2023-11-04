@@ -3,11 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Button } from '@nextui-org/button';
+import Link from 'next/link';
 import React from 'react';
 
 function ConnectWalletButton() {
 	return (
 		<Button
+			href='/login'
+			as={Link}
 			radius='full'
 			variant='bordered'
 			color='primary'

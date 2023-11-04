@@ -4,15 +4,14 @@
 
 'use client';
 
-import JoinFellowshipForm from '@/components/Misc/JoinFellowshipForm';
-import { Button } from '@nextui-org/button';
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from '@nextui-org/modal';
+import { Modal, ModalContent, ModalHeader, ModalBody } from '@nextui-org/modal';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import Image from 'next/image';
 import { Divider } from '@nextui-org/divider';
+import LoginForm from '@/components/Auth/LoginForm';
 
-function JoinFellowshipModal() {
+function LoginModal() {
 	const router = useRouter();
 
 	const handleOnClose = () => {
@@ -23,46 +22,28 @@ function JoinFellowshipModal() {
 		<Modal
 			isOpen
 			onClose={handleOnClose}
-			size='4xl'
+			size='xl'
 			scrollBehavior='inside'
 			shouldBlockScroll
 		>
 			<ModalContent>
-				{(onClose) => (
+				{() => (
 					<>
 						<ModalHeader className='flex gap-2 text-xl font-semibold'>
 							<Image
 								alt='Join Fellowship Icon'
-								src='/icons/add-user-grey-filled.svg'
+								src='/icons/login.svg'
 								width={24}
 								height={24}
 								className='ml-[-8px] mr-2'
 							/>
-							Join Fellowship
+							Login
 						</ModalHeader>
 						<Divider />
 
 						<ModalBody>
-							<JoinFellowshipForm />
+							<LoginForm />
 						</ModalBody>
-
-						<Divider />
-
-						<ModalFooter>
-							<Button
-								color='primary'
-								onPress={onClose}
-								className='flex flex-1 text-sm'
-							>
-								Preview Application Request
-								<Image
-									alt='Join Fellowship Icon'
-									src='/icons/arrow-right-white.svg'
-									width={20}
-									height={20}
-								/>
-							</Button>
-						</ModalFooter>
 					</>
 				)}
 			</ModalContent>
@@ -70,4 +51,4 @@ function JoinFellowshipModal() {
 	);
 }
 
-export default JoinFellowshipModal;
+export default LoginModal;
