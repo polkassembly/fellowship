@@ -4,11 +4,22 @@
 
 import LoginForm from '@/components/Auth/LoginForm';
 import React from 'react';
+import Image from 'next/image';
 
 function LoginPage() {
 	return (
-		<div className='flex flex-col'>
-			LoginPage
+		<div className='mx-auto flex max-w-xl flex-col gap-4 rounded-2xl border border-primary_border p-6'>
+			<h1 className='flex gap-2 text-xl font-semibold'>
+				<Image
+					alt='Join Fellowship Icon'
+					src='/icons/login.svg'
+					width={24}
+					height={24}
+					className='ml-[-8px] mr-2'
+				/>
+				Login
+			</h1>
+
 			<LoginForm />
 		</div>
 	);
