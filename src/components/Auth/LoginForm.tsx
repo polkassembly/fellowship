@@ -49,6 +49,7 @@ function LoginForm() {
 				<div>
 					<Input
 						label='Password'
+						type='password'
 						placeholder='Type here'
 						labelPlacement='outside'
 						variant='bordered'
