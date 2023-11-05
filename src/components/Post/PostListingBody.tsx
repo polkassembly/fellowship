@@ -2,9 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import Link from 'next/link';
 import React from 'react';
+import dynamic from 'next/dynamic';
 import PostTags from './PostTags';
+
+const Link = dynamic(() => import('next/link'), { ssr: false }); // for hydration
 
 interface Props {
 	index: number;
@@ -25,7 +27,7 @@ function PostListingBody({ className = '', index = 0, title = '', content = '', 
 						<p className='line-clamp-2 text-sm'>{content}</p>
 						<Link
 							className='mb-0.5 text-xs text-link'
-							href={`/post/${2}`}
+							href={`/post/${index}`}
 						>
 							Read more
 						</Link>

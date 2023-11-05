@@ -14,6 +14,7 @@ function ReactionsList() {
 		<Tooltip
 			className='bg-tooltip_background capitalize text-tooltip_foreground'
 			content={<span key={reaction}>{Object.keys(Reaction)[i as number].toLowerCase()}</span>}
+			key={reaction}
 		>
 			<Button
 				variant='light'
