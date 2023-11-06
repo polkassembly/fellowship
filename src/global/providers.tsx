@@ -5,6 +5,7 @@
 'use client';
 
 import { ApiContextProvider } from '@/contexts/ApiContext';
+import { UserDetailsProvider } from '@/contexts/UserDetailsContext';
 import { NextUIProvider } from '@nextui-org/system';
 import { ThemeProvider } from 'next-themes';
 import { ReactNode } from 'react';
@@ -17,7 +18,9 @@ export function Providers({ children }: { children: ReactNode }) {
 				defaultTheme='light'
 				themes={['light', 'dark']}
 			>
-				<ApiContextProvider>{children}</ApiContextProvider>
+				<ApiContextProvider>
+					<UserDetailsProvider>{children}</UserDetailsProvider>
+				</ApiContextProvider>
 			</ThemeProvider>
 		</NextUIProvider>
 	);
