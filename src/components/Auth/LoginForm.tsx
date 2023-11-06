@@ -16,6 +16,7 @@ import { handleTokenChange } from '@/services/auth.service';
 import { useUserDetailsContext } from '@/contexts';
 import { useRouter } from 'next/navigation';
 import WalletButtonsRow from './WalletButtonsRow';
+import AlertCard from '../Misc/AlertCard';
 
 function LoginForm() {
 	const {
@@ -75,6 +76,8 @@ function LoginForm() {
 
 	return (
 		<div className='flex flex-col gap-6 p-3 text-sm'>
+			{error && <AlertCard message={error} />}
+
 			{authResponse?.isTFAEnabled ? (
 				<>TFA is enabled for this account. Please enter the code from your authenticator app.</>
 			) : (
