@@ -10,9 +10,10 @@ import Image from 'next/image';
 interface Props {
 	className?: string;
 	onWalletClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, wallet: Wallet) => void;
+	disabled?: boolean;
 }
 
-function WalletButtons({ className, onWalletClick }: Props) {
+function WalletButtons({ className, onWalletClick, disabled = false }: Props) {
 	return (
 		<div className={`${className} flex items-center justify-center gap-3`}>
 			{Object.values(Wallet).map(
@@ -26,6 +27,7 @@ function WalletButtons({ className, onWalletClick }: Props) {
 							size='lg'
 							isIconOnly
 							onClick={(e) => onWalletClick?.(e, wallet)}
+							disabled={disabled}
 						>
 							<Image
 								src={`/icons/wallets/${wallet.toLowerCase()}.svg`}

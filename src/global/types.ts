@@ -141,7 +141,6 @@ export interface UserDetailsContextType {
 	defaultAddress?: string | null;
 	setUserDetailsContextState: Dispatch<SetStateAction<UserDetailsContextType>>;
 	web3signup?: boolean | null;
-	isLoggedOut: () => boolean;
 	loginWallet: Wallet | null;
 	delegationDashboardAddress: string;
 	loginAddress: string;
@@ -149,4 +148,11 @@ export interface UserDetailsContextType {
 	networkPreferences: INetworkPreferences;
 	primaryNetwork: string;
 	is2FAEnabled?: boolean;
+}
+
+export interface IAuthResponse {
+	token?: string;
+	user_id?: number;
+	isTFAEnabled?: boolean;
+	tfa_token?: string;
 }

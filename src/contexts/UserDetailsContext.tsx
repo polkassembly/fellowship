@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 /* eslint-disable camelcase */
-import React, { createContext, useCallback, useMemo, useState } from 'react';
+import React, { createContext, useMemo, useState } from 'react';
 import { decodeToken } from 'react-jwt';
 
 import { JWTPayloadType, UserDetailsContextType } from '@/global/types';
@@ -18,9 +18,6 @@ const initialUserDetailsContext: UserDetailsContextType = {
 	email_verified: false,
 	id: null,
 	is2FAEnabled: false,
-	isLoggedOut: (): boolean => {
-		throw new Error('isLoggedOut function must be overridden');
-	},
 	loginAddress: '',
 	loginWallet: null,
 	multisigAssociatedAddress: '',
@@ -84,12 +81,7 @@ export const UserDetailsContext = createContext(initialUserDetailsContext);
 export function UserDetailsProvider({ children }: React.PropsWithChildren<object>) {
 	const [userDetailsContextState, setUserDetailsContextState] = useState(initialUserDetailsContext);
 
-	const isLoggedOut = useCallback(() => {
-		return userDetailsContextState.id === null || userDetailsContextState.id === undefined;
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
-
-	const providerValue = useMemo(() => ({ ...userDetailsContextState, isLoggedOut, setUserDetailsContextState }), [isLoggedOut, userDetailsContextState]);
+	const providerValue = useMemo(() => ({ ...userDetailsContextState, setUserDetailsContextState }), [userDetailsContextState, setUserDetailsContextState]);
 
 	return <UserDetailsContext.Provider value={providerValue}>{children}</UserDetailsContext.Provider>;
 }
