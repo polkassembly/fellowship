@@ -4,9 +4,12 @@
 
 'use client';
 
+import { Button } from '@nextui-org/button';
 import { Input } from '@nextui-org/input';
+import Link from 'next/link';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import WalletButtonsRow from './WalletButtonsRow';
 
 function LoginForm() {
 	const {
@@ -24,7 +27,7 @@ function LoginForm() {
 	const onSubmit = (data: unknown) => console.log(data);
 
 	return (
-		<div className='flex flex-col p-3'>
+		<div className='flex flex-col gap-6 p-3 text-sm'>
 			<form
 				onSubmit={handleSubmit(onSubmit)}
 				className='flex flex-col gap-3'
@@ -62,8 +65,40 @@ function LoginForm() {
 						aria-invalid={errors.password ? 'true' : 'false'}
 					/>
 					{errors.password?.message && <p role='alert'>{errors.password.message.toString()}</p>}
+
+					<div className='mt-1.5 flex w-full justify-end'>
+						<Link
+							href='/forgot-password'
+							className='text-xs text-primary'
+						>
+							Forgot Password?
+						</Link>
+					</div>
+				</div>
+
+				<div className='flex justify-center'>
+					<Button
+						color='primary'
+						className='w-3/6'
+					>
+						Login
+					</Button>
 				</div>
 			</form>
+
+			<div className='mt-4 text-center text-gray-500'>Or login with</div>
+
+			<WalletButtonsRow />
+
+			<div className='w-full text-center font-semibold'>
+				Don&apos;t have an account?{' '}
+				<Link
+					href='/signup'
+					className='text-sm text-primary'
+				>
+					Sign Up
+				</Link>
+			</div>
 		</div>
 	);
 }

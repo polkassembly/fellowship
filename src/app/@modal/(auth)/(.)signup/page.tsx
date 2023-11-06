@@ -9,9 +9,8 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 import Image from 'next/image';
 import { Divider } from '@nextui-org/divider';
-import LoginForm from '@/components/Auth/LoginForm';
 
-function LoginModal() {
+function SignupModal() {
 	const router = useRouter();
 
 	const handleOnClose = () => {
@@ -31,19 +30,17 @@ function LoginModal() {
 					<>
 						<ModalHeader className='flex gap-2 text-xl font-semibold'>
 							<Image
-								alt='Join Fellowship Icon'
+								alt='Login Icon'
 								src='/icons/login.svg'
 								width={24}
 								height={24}
 								className='ml-[-8px] mr-2'
 							/>
-							Login
+							Signup
 						</ModalHeader>
 						<Divider />
 
-						<ModalBody>
-							<LoginForm />
-						</ModalBody>
+						<ModalBody>Sign Up Form Here</ModalBody>
 					</>
 				)}
 			</ModalContent>
@@ -51,4 +48,4 @@ function LoginModal() {
 	);
 }
 
-export default LoginModal;
+export default SignupModal;

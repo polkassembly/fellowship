@@ -87,15 +87,7 @@ export interface Roles {
 }
 
 export enum Wallet {
-	TALISMAN = 'talisman',
 	POLKADOT = 'polkadot-js',
-	POLKAGATE = 'polkagate',
-	SUBWALLET = 'subwallet-js',
-	METAMASK = 'metamask',
-	WALLETCONNECT = 'walletconnect',
-	// NOVAWALLET = 'polkadot-js',
-	POLYWALLET = 'polywallet',
-	POLKASAFE = 'polkasafe',
 	OTHER = ''
 }
 
