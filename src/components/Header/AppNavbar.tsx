@@ -5,11 +5,13 @@
 'use client';
 
 import React from 'react';
+import dynamic from 'next/dynamic';
 import styles from './Header.module.scss';
 import NetworkDropdown from './NetworkDropdown';
 import SearchBar from './SearchBar';
-import ConnectWalletButton from './ConnectWalletButton';
 import SwitchThemeBtn from './SwitchThemeBtn';
+
+const ConnectWalletButton = dynamic(() => import('./ConnectWalletButton'), { ssr: false });
 
 function AppNavbar() {
 	return (
