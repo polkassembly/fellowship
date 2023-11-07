@@ -23,12 +23,17 @@
     "@nextui-org/modal": "^2.0.23",
     "@nextui-org/popover": "^2.1.9",
     "@nextui-org/radio": "^2.0.22",
+    "@nextui-org/skeleton": "^2.0.22",
     "@nextui-org/spinner": "^2.0.19",
     "@nextui-org/system": "^2.0.10",
     "@nextui-org/theme": "^2.1.9",
     "@nextui-org/tooltip": "^2.0.24",
     "@polkadot/api": "^10.10.1",
     "@polkadot/api-augment": "^10.10.1",
+    "@polkadot/extension-inject": "^0.46.5",
+    "@polkadot/react-identicon": "^3.6.3",
+    "@polkadot/util": "^12.5.1",
+    "@polkadot/util-crypto": "^12.5.1",
     "dayjs": "^1.11.10",
     "firebase-admin": "^11.11.0",
     "framer-motion": "^10.16.4",
@@ -73,6 +78,9 @@
     "tailwindcss": "^3",
     "tw-colors": "^3.0.3",
     "typescript": "^5"
+  },
+  "resolutions": {
+    "@polkadot/react-identicon": "^3.6.3"
   },
   "lint-staged": {
     "**/*.(ts|tsx|js|jsx)": [

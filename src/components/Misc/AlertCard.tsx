@@ -47,7 +47,7 @@ function AlertCard({ className, type = 'default', message }: Props) {
 					height={18}
 				/>
 			)}
-			<span className='text-xs font-medium capitalize'>{message}</span>
+			<span className='text-xs font-medium'>{message}</span>
 		</Card>
 	);
 }

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ACTIVITY_ACTION_TEXT } from '@/global/activityTypeConstants';
+import { ACTIVITY_ACTION_TEXT } from '@/global/constants/activityTypeConstants';
 import { ActivityType } from '@/global/types';
 import { Chip } from '@nextui-org/chip';
 import React from 'react';

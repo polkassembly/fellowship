@@ -27,7 +27,7 @@ function LoginModal() {
 			shouldBlockScroll
 		>
 			<ModalContent>
-				{() => (
+				{(onClose) => (
 					<>
 						<ModalHeader className='flex gap-2 text-xl font-semibold'>
 							<Image
@@ -42,7 +42,7 @@ function LoginModal() {
 						<Divider />
 
 						<ModalBody>
-							<LoginForm />
+							<LoginForm onClose={onClose} />
 						</ModalBody>
 					</>
 				)}

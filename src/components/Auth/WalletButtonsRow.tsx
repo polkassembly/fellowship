@@ -9,7 +9,7 @@ import Image from 'next/image';
 
 interface Props {
 	className?: string;
-	onWalletClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, wallet: Wallet) => void;
+	onWalletClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, wallet: Wallet) => void;
 	disabled?: boolean;
 }
 
@@ -26,7 +26,7 @@ function WalletButtons({ className, onWalletClick, disabled = false }: Props) {
 							color='primary'
 							size='lg'
 							isIconOnly
-							onClick={(e) => onWalletClick?.(e, wallet)}
+							onClick={(e) => onWalletClick(e, wallet)}
 							disabled={disabled}
 						>
 							<Image

@@ -65,7 +65,7 @@ function NetworkDropdown() {
 					className='flex h-unit-8 justify-between border-1 border-primary_border px-5 text-sm font-medium'
 				>
 					<Image
-						alt='down chevron'
+						alt='Parachain Logo'
 						src='/parachain-logos/kusama-logo.svg'
 						width={16}
 						height={16}

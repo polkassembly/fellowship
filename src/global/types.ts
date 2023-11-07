@@ -156,3 +156,15 @@ export interface IAuthResponse {
 	isTFAEnabled?: boolean;
 	tfa_token?: string;
 }
+
+export interface MessageType {
+	message: string;
+}
+
+export interface ChallengeMessage extends MessageType {
+	signMessage: string;
+}
+
+export interface TokenType {
+	token: string;
+}
