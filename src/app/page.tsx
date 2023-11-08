@@ -13,6 +13,7 @@ import { ClientError } from '@/global/exceptions';
 import MESSAGES from '@/global/messages';
 import { EActivityFeed, ServerComponentProps } from '@/global/types';
 import consolePretty from '@/utils/consolePretty';
+import getOriginFromHeaders from '@/utils/getOriginFromHeaders';
 import { headers } from 'next/headers';
 
 type SearchParamProps = {
@@ -28,7 +29,7 @@ export default async function Home({ searchParams }: ServerComponentProps<unknow
 	}
 
 	const headersList = headers();
-	const originUrl = headersList.get('referer');
+	const originUrl = getOriginFromHeaders(headersList);
 
 	const feedRes = await fetch(`${originUrl}/api/v1/feed`, {
 		body: JSON.stringify({ feed }),
