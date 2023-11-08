@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import dayjs from '@/utils/dayjs-init';
+import dayjs from '@/services/dayjs-init';
 import Image from 'next/image';
 import React from 'react';
 

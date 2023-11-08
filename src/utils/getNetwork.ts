@@ -5,6 +5,7 @@
 import { DEFAULT_NETWORK } from '@/global/defaultNetwork';
 
 import { Network } from '@/global/types';
+import { isValidNetwork } from './isValidNetwork';
 
 /**
  * Returns the current network based on the URL query string
@@ -22,9 +23,7 @@ export default function getNetwork(): Network {
 		network = (params.get('network') as Network) || DEFAULT_NETWORK;
 	}
 
-	const possibleNetworks = Object.values(Network);
-
-	if (!possibleNetworks.includes(network)) {
+	if (!isValidNetwork(network)) {
 		network = DEFAULT_NETWORK;
 	}
 

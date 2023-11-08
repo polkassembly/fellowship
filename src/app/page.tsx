@@ -8,8 +8,11 @@ import Carousel from '@/components/Home/Carousel';
 import JoinFellowshipCard from '@/components/Home/JoinFellowshipCard';
 import Stats from '@/components/Home/Stats';
 import TrendingProposals from '@/components/Home/TrendingProposals';
-import { InvalidSearchParamsError } from '@/global/exceptions';
+import { API_ERROR_CODE } from '@/global/constants/errorCodes';
+import { ClientError } from '@/global/exceptions';
+import MESSAGES from '@/global/messages';
 import { EActivityFeed, ServerComponentProps } from '@/global/types';
+import consolePretty from '@/utils/consolePretty';
 
 type SearchParamProps = {
 	feed: string;
@@ -18,12 +21,37 @@ type SearchParamProps = {
 export default async function Home({ searchParams }: ServerComponentProps<unknown, SearchParamProps>) {
 	const { feed = EActivityFeed.ALL } = searchParams ?? {};
 
-	// TODO: default should be pending if user is logged in and is a fellow
-
 	// validate feed search param
 	if (feed && !Object.values(EActivityFeed).includes(feed as EActivityFeed)) {
-		throw new InvalidSearchParamsError();
+		throw new ClientError(MESSAGES.INVALID_SEARCH_PARAMS_ERROR, API_ERROR_CODE.INVALID_SEARCH_PARAMS_ERROR);
 	}
+
+	const feedRes = await fetch('http://localhost:3000/api/v1/feed', {
+		body: JSON.stringify({ feed }),
+		method: 'POST',
+		cache: 'no-cache'
+	}).catch((e) => {
+		throw new ClientError(`${MESSAGES.STREAM_ERROR} - ${e?.message}`, API_ERROR_CODE.STREAM_ERROR);
+	});
+
+	const reader = await feedRes?.body
+		?.getReader()
+		?.read()
+		.catch((e) => {
+			throw new ClientError(`${MESSAGES.STREAM_ERROR} - ${e?.message}`, API_ERROR_CODE.STREAM_ERROR);
+		});
+
+	const readVal = reader?.value;
+
+	if (readVal) {
+		const textDecoder = new TextDecoder();
+		const jsonString = textDecoder.decode(readVal);
+		const parsedObject = JSON.parse(jsonString);
+
+		consolePretty({ parsedObject2: parsedObject });
+	}
+
+	// TODO: default should be pending if user is logged in and is a fellow
 
 	return (
 		<div className='flex w-full flex-col gap-y-8'>

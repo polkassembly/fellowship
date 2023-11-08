@@ -4,58 +4,42 @@
 
 import { NextResponse } from 'next/server';
 import { headers } from 'next/headers';
-import { isValidNetwork } from '@/utils/isValidNetwork';
-import { EActivityFeed } from '@/global/types';
+// import { EActivityFeed } from '@/global/types';
 import { APIError } from '@/global/exceptions';
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function iteratorToStream(iterator: any) {
-	return new ReadableStream({
-		async pull(controller) {
-			const { value, done } = await iterator.next();
-
-			if (done) {
-				controller.close();
-			} else {
-				controller.enqueue(value);
-			}
-		}
-	});
-}
-
-function sleep(time: number) {
-	return new Promise((resolve) => {
-		setTimeout(resolve, time);
-	});
-}
-
-const encoder = new TextEncoder();
-
-async function* makeIterator() {
-	yield encoder.encode('<p>One</p>');
-	await sleep(200);
-	yield encoder.encode('<p>Two</p>');
-	await sleep(200);
-	yield encoder.encode('<p>Three</p>');
-}
+import { urqlClient } from '@/services/urqlClient';
+import textEncode from '@/utils/textEncode';
+import getNetworkFromHeaders from '@/utils/getNetworkFromHeaders';
+import getReqBody from '@/utils/getReqBody';
+import { API_ERROR_CODE } from '@/global/constants/errorCodes';
+import MESSAGES from '@/global/messages';
+import { GET_FELLOWSHIP_REFERENDUMS } from '../subsquidQueries';
 
 export const POST = async (req: Request) => {
 	try {
-		const { feedType = EActivityFeed.ALL } = await req.json();
-		console.log('feedType', feedType);
+		// TODO: Add feed type
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
+		const { feed } = await getReqBody(req);
 
 		const headersList = headers();
-		const network = headersList.get('x-network');
-		if (!network || !isValidNetwork(network)) return NextResponse.json({ error: 'Invalid network in request header.' }, { status: 400 });
+		const network = getNetworkFromHeaders(headersList);
 
-		const iterator = makeIterator();
-		const stream = iteratorToStream(iterator);
+		const feedStream = new ReadableStream({
+			start(controller) {
+				const gqlClient = urqlClient(network);
 
-		if (stream) {
-			throw new APIError('There is no stream ? How ?', 404, 'TEST_ERROR');
-		}
+				gqlClient.query(GET_FELLOWSHIP_REFERENDUMS, {}).subscribe((result) => {
+					if (result.error) {
+						controller.error(new APIError(`${result.error || MESSAGES.STREAM_ERROR}`, 500, API_ERROR_CODE.STREAM_ERROR));
+						controller.close();
+					}
 
-		return new Response(stream);
+					const encodedData = textEncode(result.data);
+					controller.enqueue(encodedData);
+				});
+			}
+		});
+
+		return new Response(feedStream);
 	} catch (error) {
 		const err = error as APIError;
 		return NextResponse.json({ ...err, message: err.message }, { status: err.status });
