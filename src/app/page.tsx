@@ -13,6 +13,8 @@ import { ClientError } from '@/global/exceptions';
 import MESSAGES from '@/global/messages';
 import { EActivityFeed, ServerComponentProps } from '@/global/types';
 import consolePretty from '@/utils/consolePretty';
+import getOriginFromHeaders from '@/utils/getOriginFromHeaders';
+import { headers } from 'next/headers';
 
 type SearchParamProps = {
 	feed: string;
@@ -26,7 +28,10 @@ export default async function Home({ searchParams }: ServerComponentProps<unknow
 		throw new ClientError(MESSAGES.INVALID_SEARCH_PARAMS_ERROR, API_ERROR_CODE.INVALID_SEARCH_PARAMS_ERROR);
 	}
 
-	const feedRes = await fetch('http://localhost:3000/api/v1/feed', {
+	const headersList = headers();
+	const originUrl = getOriginFromHeaders(headersList);
+
+	const feedRes = await fetch(`${originUrl}/api/v1/feed`, {
 		body: JSON.stringify({ feed }),
 		method: 'POST',
 		cache: 'no-cache'
