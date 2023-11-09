@@ -5,7 +5,7 @@
 import { ReadonlyHeaders } from 'next/dist/server/web/spec-extension/adapters/headers';
 import { Network } from '@/global/types';
 import { DEFAULT_NETWORK } from '@/global/defaultNetwork';
-import { isValidNetwork } from './isValidNetwork';
+import { isValidNetwork } from '@/utils/isValidNetwork';
 
 export default function getNetworkFromHeaders(headers: ReadonlyHeaders): Network {
 	const host = headers.get('host');

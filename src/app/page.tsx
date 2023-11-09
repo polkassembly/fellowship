@@ -12,9 +12,9 @@ import { API_ERROR_CODE } from '@/global/constants/errorCodes';
 import { ClientError } from '@/global/exceptions';
 import MESSAGES from '@/global/messages';
 import { EActivityFeed, ServerComponentProps } from '@/global/types';
-import consolePretty from '@/utils/consolePretty';
-import getOriginFromHeaders from '@/utils/getOriginFromHeaders';
 import { headers } from 'next/headers';
+import getOriginFromHeaders from './api/api-utils/getOriginFromHeaders';
+import consolePretty from './api/api-utils/consolePretty';
 
 type SearchParamProps = {
 	feed: string;
@@ -31,6 +31,7 @@ export default async function Home({ searchParams }: ServerComponentProps<unknow
 	const headersList = headers();
 	const originUrl = getOriginFromHeaders(headersList);
 
+	// TODO: Remove cache once in prod
 	const feedRes = await fetch(`${originUrl}/api/v1/feed`, {
 		body: JSON.stringify({ feed }),
 		method: 'POST',
