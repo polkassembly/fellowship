@@ -5,22 +5,28 @@
 import { ActivityType, ProposalStatus } from '@/global/types';
 import { Divider } from '@nextui-org/divider';
 import React from 'react';
-import UserIdentity from '../Profile/UserIdentity';
+import UserIdentity from '@/components/Profile/UserIdentity';
 import ActivityTypeChip from './ActivityTypeChip';
 import DateHeader from './DateHeader';
 import DecidingEndsHeader from './DecidingEndsHeader';
-import ListingVoteProgress from './ListingVoteProgress';
-import StatusChip from './StatusTag';
 import ActivityActionTypeChip from './ActivityActionTypeChip';
+import ListingVoteProgress from './ListingVoteProgress';
+import StatusChip from '../StatusTag';
 
 interface Props {
 	className?: string;
 	activityType?: ActivityType;
 	address?: string;
 	username?: string;
+	createdAt: Date;
+	votesTally?: {
+		ayes: string;
+		nays: string;
+	};
+	status?: ProposalStatus;
 }
 
-function PostListingHeader({ className = '', activityType, address, username }: Props) {
+function PostListingHeader({ className = '', activityType, address, username, createdAt, votesTally = { ayes: '0', nays: '0' }, status }: Props) {
 	return (
 		<div className={`flex h-[26px] items-center gap-2.5 text-sm ${className}`}>
 			{(address || username) && (
@@ -33,19 +39,26 @@ function PostListingHeader({ className = '', activityType, address, username }: 
 				</>
 			)}
 
-			<DateHeader date={new Date()} />
+			<DateHeader date={createdAt} />
 			<Divider orientation='vertical' />
 			<DecidingEndsHeader />
 			<Divider orientation='vertical' />
-			<ListingVoteProgress />
+			<ListingVoteProgress
+				ayes={votesTally.ayes}
+				nays={votesTally.nays}
+			/>
 			{activityType && (
 				<>
 					<Divider orientation='vertical' />
 					<ActivityTypeChip type={activityType} />
 				</>
 			)}
-			<Divider orientation='vertical' />
-			<StatusChip status={ProposalStatus.Active} />
+			{status && (
+				<>
+					<Divider orientation='vertical' />
+					<StatusChip status={status} />
+				</>
+			)}
 			{activityType && (
 				<span className='ml-auto'>
 					<ActivityActionTypeChip type={activityType} />

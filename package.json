@@ -28,6 +28,7 @@
     "@nextui-org/system": "^2.0.10",
     "@nextui-org/theme": "^2.1.9",
     "@nextui-org/tooltip": "^2.0.24",
+    "@nivo/pie": "^0.83.0",
     "@polkadot/api": "^10.10.1",
     "@polkadot/api-augment": "^10.10.1",
     "@polkadot/extension-inject": "^0.46.5",

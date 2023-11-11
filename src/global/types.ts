@@ -219,6 +219,10 @@ export interface OnChainPostInfo {
 	status: ProposalStatus;
 	track_number: number;
 	description: string;
+	tally: {
+		ayes: string;
+		nays: string;
+	};
 }
 
 export interface PostListingItem {

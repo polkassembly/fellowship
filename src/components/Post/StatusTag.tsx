@@ -8,7 +8,11 @@ import React from 'react';
 
 const tagColoursClasses: { [index: string]: string } = {
 	[ProposalStatus.Passed]: 'bg-success text-white',
-	[ProposalStatus.Active]: 'bg-[#3C74E1] text-white'
+	[ProposalStatus.Active]: 'bg-[#3C74E1] text-white',
+	[ProposalStatus.Executed]: 'bg-[#478F37] text-white',
+	[ProposalStatus.Deciding]: 'bg-[#FF6700] text-white',
+	[ProposalStatus.ExecutionFailed]: 'bg-[#BD2020] text-white',
+	[ProposalStatus.Rejected]: 'bg-[#BD2020] text-white'
 };
 
 function StatusChip({ status }: { status: ProposalStatus }) {

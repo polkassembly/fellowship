@@ -5,6 +5,7 @@ import { nextui } from '@nextui-org/theme/plugin';
 import type { Config } from 'tailwindcss';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { createThemes } from 'tw-colors';
+import THEME_COLORS from './src/global/themeColors';
 
 const config: Config = {
 	content: [
@@ -58,26 +59,7 @@ const config: Config = {
 				}
 			}
 		}),
-		createThemes({
-			light: {
-				primary_border: '#D2D8E0',
-				tooltip_background: '#363636',
-				tooltip_foreground: '#FFFFFF',
-				link: '#1B61FF',
-				mdeHeader: '#EAEEF0',
-				mdeHeaderFocus: '#FFFFFF',
-				mdeHeaderForeground: '#363636'
-			},
-			dark: {
-				primary_border: '#3C3C8F',
-				tooltip_background: '#363636',
-				tooltip_foreground: '#FFFFFF',
-				link: '#1B61FF',
-				mdeHeader: '#363636',
-				mdeHeaderFocus: '#363636',
-				mdeHeaderForeground: '#FFFFFF'
-			}
-		})
+		createThemes(THEME_COLORS)
 	]
 };
 export default config;

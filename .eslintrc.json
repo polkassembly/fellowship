@@ -123,6 +123,10 @@
 		],
 		"react/require-default-props": "off",
 		"no-shadow": "off",
-		"@typescript-eslint/no-shadow": "warn"
+		"@typescript-eslint/no-shadow": "warn",
+		"sonarjs/cognitive-complexity": [
+			"error",
+			16
+		]
 	}
 }

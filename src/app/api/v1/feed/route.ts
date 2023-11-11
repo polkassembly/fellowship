@@ -60,7 +60,11 @@ export const POST = withErrorHandling(async (req: Request) => {
 							description: onChainProposalObj.description ?? '',
 							proposer: onChainProposalObj.proposer,
 							status: onChainProposalObj.status as ProposalStatus,
-							track_number: onChainProposalObj.trackNumber
+							track_number: onChainProposalObj.trackNumber,
+							tally: {
+								ayes: String(onChainProposalObj.tally?.ayes ?? 0),
+								nays: String(onChainProposalObj.tally?.nays ?? 0)
+							}
 						};
 
 						const postListingItem: PostListingItem = {

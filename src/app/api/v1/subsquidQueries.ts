@@ -15,6 +15,10 @@ export const GET_FELLOWSHIP_REFERENDUMS = gql`
 			proposer
 			updatedAt
 			createdAt
+			tally {
+				ayes
+				nays
+			}
 		}
 	}
 `;

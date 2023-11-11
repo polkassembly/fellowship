@@ -37,6 +37,9 @@ function PostListingCard({ feedItem }: Props) {
 					<PostListingHeader
 						activityType={feedItem.proposalType === ProposalType.FELLOWSHIP_REFERENDUMS ? ActivityType.GENERAL_PROPOSAL : undefined}
 						address={feedItem.on_chain_info?.proposer}
+						createdAt={feedItem.created_at}
+						votesTally={feedItem.on_chain_info?.tally}
+						status={feedItem.on_chain_info?.status}
 					/>
 					<PostListingBody
 						index={feedItem.id}

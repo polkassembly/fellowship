@@ -5,10 +5,10 @@
 import { Card } from '@nextui-org/card';
 import React from 'react';
 import { Divider } from '@nextui-org/divider';
-import { ActivityType } from '@/global/types';
+// import { ActivityType } from '@/global/types';
 import PostActionBar from '../Post/PostActionBar';
 import PostReactionInfoBar from '../Post/PostReactionInfoBar';
-import PostListingHeader from '../Post/PostListingHeader';
+// import PostListingHeader from '../Post/PostListingHeader';
 
 function InductionListingCard() {
 	return (
@@ -17,10 +17,10 @@ function InductionListingCard() {
 				shadow='none'
 				className='flex flex-col gap-3 border border-primary_border px-6 py-4'
 			>
-				<PostListingHeader
+				{/* <PostListingHeader
 					className='text-sm'
 					activityType={ActivityType.INDUCTION}
-				/>
+				/> */}
 				<PostReactionInfoBar />
 				<Divider />
 				<PostActionBar />
