@@ -59,7 +59,7 @@ function PostListingHeader({ className = '', activityType, address, username, cr
 					<StatusChip status={status} />
 				</>
 			)}
-			{activityType && (
+			{activityType && status === ProposalStatus.Deciding && (
 				<span className='ml-auto'>
 					<ActivityActionTypeChip type={activityType} />
 				</span>
