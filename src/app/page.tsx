@@ -31,27 +31,10 @@ async function getActivityFeed({ feedType, originUrl }: { feedType: EActivityFee
 		method: 'POST',
 		cache: 'no-cache' // TODO: remove this on prod
 	}).catch((e) => {
-		throw new ClientError(`${MESSAGES.STREAM_ERROR} - ${e?.message}`, API_ERROR_CODE.STREAM_ERROR);
+		throw new ClientError(`${MESSAGES.API_FETCH_ERROR} - ${e?.message}`, API_ERROR_CODE.API_FETCH_ERROR);
 	});
 
-	const reader = await feedRes?.body
-		?.getReader()
-		?.read()
-		.catch((e) => {
-			throw new ClientError(`${MESSAGES.STREAM_ERROR} - ${e?.message}`, API_ERROR_CODE.STREAM_ERROR);
-		});
-
-	const readVal = reader?.value;
-
-	let feedItems: PostListingItem[] = [];
-
-	if (readVal) {
-		const textDecoder = new TextDecoder();
-		const jsonString = textDecoder.decode(readVal);
-		const parsedObject = JSON.parse(jsonString);
-
-		feedItems = parsedObject;
-	}
+	const feedItems: PostListingItem[] = await feedRes.json();
 
 	return feedItems;
 }

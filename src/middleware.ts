@@ -5,7 +5,8 @@
 import { NextResponse } from 'next/server';
 
 export function middleware(request: Request) {
-	if (request.method === 'OPTIONS') return NextResponse.json(null, { status: 200 });
+	if (request.method === 'OPTIONS') return new Response('OK', { status: 200 });
+
 	return NextResponse.next();
 }
 
