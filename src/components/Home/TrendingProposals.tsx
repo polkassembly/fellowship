@@ -10,7 +10,14 @@ import { ProposalStatus } from '@/global/types';
 import Link from 'next/link';
 import StatusChip from '../Post/StatusTag';
 
-function ProposalListingItem({ index, title, status, votePercentage }: { index: number; title: string; status: ProposalStatus; votePercentage: number }) {
+interface Props {
+	index: number;
+	title: string;
+	status: ProposalStatus;
+	votePercentage: number;
+}
+
+function ProposalListingItem({ index, title, status, votePercentage }: Props) {
 	return (
 		<Link
 			href={`#${index}`}
@@ -48,25 +55,25 @@ function TrendingProposals() {
 			{/* Lopp through items */}
 			<ProposalListingItem
 				index={1}
-				status={ProposalStatus.PASSING}
+				status={ProposalStatus.Passed}
 				title='This post has such a long title omgggg this is sooo long okay this is ridiculiously long now, is it ?'
 				votePercentage={80}
 			/>
 			<ProposalListingItem
 				index={1}
-				status={ProposalStatus.PASSING}
+				status={ProposalStatus.Passed}
 				title='This post has such a long title omgggg this is sooo long okay this is ridiculiously long now, is it ?'
 				votePercentage={80}
 			/>
 			<ProposalListingItem
 				index={1}
-				status={ProposalStatus.PASSING}
+				status={ProposalStatus.Passed}
 				title='This post has such a long title omgggg this is sooo long okay this is ridiculiously long now, is it ?'
 				votePercentage={80}
 			/>
 			<ProposalListingItem
 				index={1}
-				status={ProposalStatus.PASSING}
+				status={ProposalStatus.Passed}
 				title='This post has such a long title omgggg this is sooo long okay this is ridiculiously long now, is it ?'
 				votePercentage={80}
 			/>
