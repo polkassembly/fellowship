@@ -48,8 +48,44 @@ export type ServerComponentProps<T, U> = {
 };
 
 export enum ProposalStatus {
-	PASSING = 'passing',
-	ACTIVE = 'active'
+	Noted = 'Noted',
+	Proposed = 'Proposed',
+	Tabled = 'Tabled',
+	Started = 'Started',
+	Announced = 'Announced',
+	Passed = 'Passed',
+	NotPassed = 'NotPassed',
+	Cancelled = 'Cancelled',
+	Executed = 'Executed',
+	ExecutionFailed = 'ExecutionFailed',
+	Used = 'Used',
+	Invalid = 'Invalid',
+	Missing = 'Missing',
+	Reaped = 'Reaped',
+	Approved = 'Approved',
+	Disapproved = 'Disapproved',
+	Closed = 'Closed',
+	Awarded = 'Awarded',
+	Added = 'Added',
+	Rejected = 'Rejected',
+	Retracted = 'Retracted',
+	Slashed = 'Slashed',
+	Active = 'Active',
+	Removed = 'Removed',
+	Extended = 'Extended',
+	Claimed = 'Claimed',
+	Unrequested = 'Unrequested',
+	Requested = 'Requested',
+	Submitted = 'Submitted',
+	Killed = 'Killed',
+	Cleared = 'Cleared',
+	Deciding = 'Deciding',
+	ConfirmStarted = 'ConfirmStarted',
+	ConfirmAborted = 'ConfirmAborted',
+	Confirmed = 'Confirmed',
+	DecisionDepositPlaced = 'DecisionDepositPlaced',
+	TimedOut = 'TimedOut',
+	Opened = 'Opened'
 }
 
 export enum ActivityType {
@@ -167,4 +203,32 @@ export interface ChallengeMessage extends MessageType {
 
 export interface TokenType {
 	token: string;
+}
+
+export enum ProposalType {
+	FELLOWSHIP_REFERENDUMS = 'fellowship_referendums',
+	DISCUSSIONS = 'discussions'
+}
+
+export enum SubsquidProposalType {
+	FELLOWSHIP_REFERENDUMS = 'FellowshipReferendum'
+}
+
+export interface OnChainPostInfo {
+	proposer: string;
+	status: ProposalStatus;
+	track_number: number;
+	description: string;
+}
+
+export interface PostListingItem {
+	id: number;
+	user_id: number | null;
+	title: string;
+	content: string;
+	created_at: Date;
+	updated_at: Date;
+	tags: string[];
+	on_chain_info?: OnChainPostInfo;
+	proposalType: ProposalType;
 }

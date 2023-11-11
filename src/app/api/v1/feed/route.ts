@@ -3,16 +3,21 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { headers } from 'next/headers';
-// import { EActivityFeed } from '@/global/types';
 import { APIError } from '@/global/exceptions';
 import { urqlClient } from '@/services/urqlClient';
 import { API_ERROR_CODE } from '@/global/constants/errorCodes';
 import MESSAGES from '@/global/messages';
+import { LISTING_LIMIT } from '@/global/constants/listingLimit';
+import firebaseAdmin from '@/services/firebaseInit';
+import { OnChainPostInfo, PostListingItem, ProposalStatus, ProposalType } from '@/global/types';
+import DEFAULT_POST_TITLE from '@/global/constants/defaultTitle';
+import getDefaultPostContent from '@/utils/getDefaultPostContent';
 import { GET_FELLOWSHIP_REFERENDUMS } from '../subsquidQueries';
 import getReqBody from '../../api-utils/getReqBody';
 import getNetworkFromHeaders from '../../api-utils/getNetworkFromHeaders';
 import textEncode from '../../api-utils/textEncode';
 import withErrorHandling from '../../api-utils/withErrorHandling';
+import { postsCollRef } from '../firestoreRefs';
 
 export const POST = withErrorHandling(async (req: Request) => {
 	// TODO: Add feed type
@@ -26,15 +31,62 @@ export const POST = withErrorHandling(async (req: Request) => {
 		start(controller) {
 			const gqlClient = urqlClient(network);
 
-			gqlClient.query(GET_FELLOWSHIP_REFERENDUMS, {}).subscribe((result) => {
-				if (result.error) {
-					controller.error(new APIError(`${result.error || MESSAGES.STREAM_ERROR}`, 500, API_ERROR_CODE.STREAM_ERROR));
-					controller.close();
-				}
+			gqlClient
+				.query(GET_FELLOWSHIP_REFERENDUMS, {
+					limit: LISTING_LIMIT,
+					offset: 0
+				})
+				.subscribe(async (result) => {
+					if (result.error) {
+						controller.error(new APIError(`${result.error || MESSAGES.STREAM_ERROR}`, 500, API_ERROR_CODE.STREAM_ERROR));
+						controller.close();
+					}
 
-				const encodedData = textEncode(result.data);
-				controller.enqueue(encodedData);
-			});
+					const onChainProposals = result?.data?.proposals || [];
+
+					// eslint-disable-next-line @typescript-eslint/no-explicit-any
+					const proposalRefs = onChainProposals.map((proposalObj: any) => {
+						return postsCollRef(network, ProposalType.FELLOWSHIP_REFERENDUMS).doc(proposalObj?.id);
+					});
+
+					const firestoreProposalDocs = await firebaseAdmin.firestore().getAll(...proposalRefs);
+
+					// assign proposal data to proposalsData
+					// eslint-disable-next-line @typescript-eslint/no-explicit-any
+					const proposalItems: PostListingItem[] = onChainProposals.map((onChainProposalObj: any) => {
+						const firestoreProposalData = firestoreProposalDocs.find((item) => item.id === onChainProposalObj?.index)?.data() || {};
+
+						const onChainPostInfo: OnChainPostInfo = {
+							description: onChainProposalObj.description ?? '',
+							proposer: onChainProposalObj.proposer,
+							status: onChainProposalObj.status as ProposalStatus,
+							track_number: onChainProposalObj.trackNumber
+						};
+
+						const postListingItem: PostListingItem = {
+							id: onChainProposalObj.index,
+							user_id: firestoreProposalData.user_id ?? null,
+							title: firestoreProposalData.title ?? DEFAULT_POST_TITLE,
+							content:
+								onChainProposalObj.description ??
+								getDefaultPostContent({
+									network,
+									proposalType: ProposalType.FELLOWSHIP_REFERENDUMS,
+									proposerAddress: onChainProposalObj.proposer
+								}),
+							created_at: onChainProposalObj.createdAt ?? firestoreProposalData.created_at ?? Date.now(),
+							updated_at: firestoreProposalData.updated_at ?? onChainProposalObj.updatedAt ?? Date.now(),
+							on_chain_info: onChainPostInfo,
+							tags: firestoreProposalData.tags ?? [],
+							proposalType: ProposalType.FELLOWSHIP_REFERENDUMS
+						};
+
+						return postListingItem;
+					});
+
+					const encodedData = textEncode(proposalItems || []);
+					controller.enqueue(encodedData);
+				});
 		}
 	});
 

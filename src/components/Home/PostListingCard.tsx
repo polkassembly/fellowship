@@ -5,17 +5,23 @@
 import { Card } from '@nextui-org/card';
 import React from 'react';
 import { Divider } from '@nextui-org/divider';
-import { ActivityType } from '@/global/types';
+import { ActivityType, PostListingItem, ProposalType } from '@/global/types';
 import Link from 'next/link';
+import { getSinglePostLinkFromProposalType } from '@/utils/getSinglePostLinkFromProposalType';
 import PostActionBar from '../Post/PostActionBar';
 import PostReactionInfoBar from '../Post/PostReactionInfoBar';
 import PostListingHeader from '../Post/PostListingHeader';
 import PostListingBody from '../Post/PostListingBody';
 import NotVotedYetCard from '../Post/NotVotedYetCard';
 
-const SHOW_NOT_VOTED = true;
+// TODO: Implement this
+const SHOW_NOT_VOTED = false;
 
-function PostListingCard() {
+interface Props {
+	feedItem: PostListingItem;
+}
+
+function PostListingCard({ feedItem }: Props) {
 	return (
 		<article>
 			<Card
@@ -24,16 +30,19 @@ function PostListingCard() {
 				isHoverable
 				isPressable
 				as={Link}
-				href='/post/1'
+				href={`/${getSinglePostLinkFromProposalType(feedItem.proposalType)}/${feedItem.id}`}
 			>
 				{/* Need this wrapper div because isPressable breaks styles */}
 				<div className={`flex flex-col gap-3 px-6 py-4 text-left ${SHOW_NOT_VOTED && 'pb-[35px]'}`}>
-					<PostListingHeader activityType={ActivityType.GENERAL_PROPOSAL} />
+					<PostListingHeader
+						activityType={feedItem.proposalType === ProposalType.FELLOWSHIP_REFERENDUMS ? ActivityType.GENERAL_PROPOSAL : undefined}
+						address={feedItem.on_chain_info?.proposer}
+					/>
 					<PostListingBody
-						index={1}
-						title='Standard Guidelines to judge Liquidity Treasury Proposals on the main governance side - Kusama and Polkadot your Vote!'
-						content='Based on the income to the treasuries, the amounts getting burned and the amounts going to proposals, the treasury can be utilised: this includes spending funds, extending the comments ael...'
-						tags={['kusama', 'polkadot', 'treasury']}
+						index={feedItem.id}
+						title={feedItem.title}
+						content={feedItem.content}
+						tags={feedItem.tags}
 					/>
 					<PostReactionInfoBar />
 					<Divider />

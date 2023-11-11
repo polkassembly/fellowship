@@ -114,6 +114,7 @@ function AddressDropdown({ wallet, onAddressSelect }: Props) {
 						<span>
 							{selectedAddress ? (
 								<Address
+									variant='dropdownItem'
 									name={selectedAddress.name || ''}
 									address={selectedAddress.address}
 								/>
@@ -145,6 +146,7 @@ function AddressDropdown({ wallet, onAddressSelect }: Props) {
 							onPress={() => handleOnAddressSelect(account)}
 						>
 							<Address
+								variant='dropdownItem'
 								name={account.name || 'Untitled'}
 								address={account.address}
 							/>

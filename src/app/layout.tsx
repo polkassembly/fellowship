@@ -14,7 +14,7 @@ import { Providers } from '../global/providers';
 
 export const metadata: Metadata = {
 	title: 'Polkassembly | Fellowship',
-	description: 'Fellowship never felt so good.'
+	description: 'Fellowship never felt so good before.'
 };
 
 export default function RootLayout({ children, modal }: { children: ReactNode; modal: ReactNode }) {

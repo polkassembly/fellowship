@@ -15,26 +15,42 @@ import ActivityActionTypeChip from './ActivityActionTypeChip';
 
 interface Props {
 	className?: string;
-	activityType: ActivityType;
+	activityType?: ActivityType;
+	address?: string;
+	username?: string;
 }
 
-function PostListingHeader({ className = '', activityType }: Props) {
+function PostListingHeader({ className = '', activityType, address, username }: Props) {
 	return (
 		<div className={`flex h-[26px] items-center gap-2.5 text-sm ${className}`}>
-			<UserIdentity />
-			<Divider orientation='vertical' />
+			{(address || username) && (
+				<>
+					<UserIdentity
+						address={address}
+						username={username}
+					/>
+					<Divider orientation='vertical' />
+				</>
+			)}
+
 			<DateHeader date={new Date()} />
 			<Divider orientation='vertical' />
 			<DecidingEndsHeader />
 			<Divider orientation='vertical' />
 			<ListingVoteProgress />
+			{activityType && (
+				<>
+					<Divider orientation='vertical' />
+					<ActivityTypeChip type={activityType} />
+				</>
+			)}
 			<Divider orientation='vertical' />
-			<ActivityTypeChip type={activityType} />
-			<Divider orientation='vertical' />
-			<StatusChip status={ProposalStatus.ACTIVE} />
-			<span className='ml-auto'>
-				<ActivityActionTypeChip type={activityType} />
-			</span>
+			<StatusChip status={ProposalStatus.Active} />
+			{activityType && (
+				<span className='ml-auto'>
+					<ActivityActionTypeChip type={activityType} />
+				</span>
+			)}
 		</div>
 	);
 }

@@ -5,13 +5,16 @@
 import { gql } from '@urql/core';
 
 export const GET_FELLOWSHIP_REFERENDUMS = gql`
-	query GET_FELLOWSHIP_REFERENDUMS {
-		proposals(where: { type_eq: FellowshipReferendum }, limit: 10, offset: 0) {
+	query GET_FELLOWSHIP_REFERENDUMS($limit: Int = 10, $offset: Int = 0) {
+		proposals(where: { type_eq: FellowshipReferendum }, limit: $limit, offset: $offset, orderBy: createdAt_DESC) {
 			id
 			description
 			index
 			status
 			trackNumber
+			proposer
+			updatedAt
+			createdAt
 		}
 	}
 `;
