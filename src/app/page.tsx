@@ -14,7 +14,7 @@ import MESSAGES from '@/global/messages';
 import { EActivityFeed, PostListingItem, ServerComponentProps } from '@/global/types';
 import { headers } from 'next/headers';
 import { Metadata } from 'next';
-import getOriginFromHeaders from './api/api-utils/getOriginFromHeaders';
+import getOriginUrl from '@/utils/getOriginUrl';
 
 type SearchParamProps = {
 	feed: string;
@@ -49,7 +49,7 @@ export default async function Home({ searchParams }: ServerComponentProps<unknow
 	}
 
 	const headersList = headers();
-	const originUrl = getOriginFromHeaders(headersList);
+	const originUrl = getOriginUrl(headersList);
 
 	const feedItems = await getActivityFeed({ feedType: feed as EActivityFeed, originUrl });
 
