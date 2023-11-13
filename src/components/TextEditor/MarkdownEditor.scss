@@ -139,3 +139,7 @@ textarea {
 		display: none !important;
 	}
 }
+
+.mde-text {
+	@apply bg-transparent;
+}
