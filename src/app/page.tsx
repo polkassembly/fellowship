@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 	description: 'Fellowship never felt so good before. - Home'
 };
 
-async function getActivityFeed({ feedType, originUrl }: { feedType: EActivityFeed; originUrl: string }) {
+async function getActivityFeed({ originUrl, feedType }: { feedType: EActivityFeed; originUrl: string }) {
 	const feedRes = await fetch(`${originUrl}/api/v1/feed`, {
 		body: JSON.stringify({ feedType }),
 		method: 'POST',

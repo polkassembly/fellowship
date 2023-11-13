@@ -686,6 +686,15 @@
     "@nextui-org/system" "2.0.10"
     "@nextui-org/theme" "2.1.9"
 
+"@nextui-org/scroll-shadow@^2.1.12":
+  version "2.1.12"
+  resolved "https://registry.yarnpkg.com/@nextui-org/scroll-shadow/-/scroll-shadow-2.1.12.tgz#d896c3a1f7b9e09b86866c7223d34dd754330d28"
+  integrity sha512-uxT8D+WCWeBy4xaFDfqVpBgjjHZUwydXsX5HhbzZCBir/1eRG5GMnUES3w98DSwcUVadG64gAVsyGW4HmSZw1Q==
+  dependencies:
+    "@nextui-org/react-utils" "2.0.10"
+    "@nextui-org/shared-utils" "2.0.4"
+    "@nextui-org/use-data-scroll-overflow" "2.1.2"
+
 "@nextui-org/shared-icons@2.0.4":
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/@nextui-org/shared-icons/-/shared-icons-2.0.4.tgz#f5183c5da08abbb1025c95d6926975c44361e743"
@@ -814,6 +823,13 @@
   integrity sha512-SMa7hCFRbrMiG0H/4BtMLrpzPcqMGbbC8VxosvDnWaRd6Uo4curcZlK2JQS/zQ3kMphnUyMVqXHgUZsSh8ASJg==
   dependencies:
     "@nextui-org/use-safe-layout-effect" "2.0.3"
+
+"@nextui-org/use-data-scroll-overflow@2.1.2":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@nextui-org/use-data-scroll-overflow/-/use-data-scroll-overflow-2.1.2.tgz#eae5d2caead984f0f4462aee3bcf5b04a48238c0"
+  integrity sha512-3h9QX+dWkfqnqciQc2KeeR67e77hobjefNHGBTDuB4LhJSJ180ToZH09SQNHaUmKRLTU/RABjGWXxdbORI0r6g==
+  dependencies:
+    "@nextui-org/shared-utils" "2.0.4"
 
 "@nextui-org/use-disclosure@2.0.5":
   version "2.0.5"
@@ -5424,6 +5440,11 @@ minimist@^1.2.0, minimist@^1.2.6:
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.8.tgz#c1a464e7693302e082a075cee0c057741ac4772c"
   integrity sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==
 
+mitt@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/mitt/-/mitt-3.0.1.tgz#ea36cf0cc30403601ae074c8f77b7092cdab36d1"
+  integrity sha512-vKivATfr97l2/QBCYAkXYDbrIWPM2IIKEl7YPhjCvKlG3kE2gm+uBo6nEXK3M5/Ffh/FLpKExzOQ3JJoJGFKBw==
+
 mkdirp@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-1.0.4.tgz#3eb5ed62622756d79a5f0e2a221dfebad75c2f7e"
@@ -5467,6 +5488,13 @@ next-themes@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/next-themes/-/next-themes-0.2.1.tgz#0c9f128e847979daf6c67f70b38e6b6567856e45"
   integrity sha512-B+AKNfYNIzh0vqQQKqQItTS8evEouKD7H5Hj3kmuPERwddR2TxvDSFZuTj6T7Jfn1oyeUyJMydPl1Bkxkh0W7A==
+
+next-usequerystate@^1.10.2:
+  version "1.10.2"
+  resolved "https://registry.yarnpkg.com/next-usequerystate/-/next-usequerystate-1.10.2.tgz#a1b4445c64088b6609e4cc29d22028ff292953e1"
+  integrity sha512-K77eilccG1phSeqvCAY4etbyDBYDdCV/QFjPIBp/g9HWoDvk76tpHItnFrDysIf5MvUAN/83zB7gUrZK0WvOZQ==
+  dependencies:
+    mitt "^3.0.1"
 
 next@^14.0.1:
   version "14.0.1"

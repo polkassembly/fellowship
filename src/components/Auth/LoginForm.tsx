@@ -96,7 +96,7 @@ function LoginForm({ onClose }: { onClose?: () => void }) {
 	};
 
 	const onTFASubmit = async ({ authCode }: { authCode: string }) => {
-		if (Number.isNaN(authCode)) return;
+		if (isNaN(Number(authCode))) return;
 
 		setLoading(true);
 		setError('');

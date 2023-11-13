@@ -22,7 +22,9 @@ import { postsCollRef } from '../firestoreRefs';
 export const POST = withErrorHandling(async (req: Request) => {
 	// TODO: Add feed type
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-	const { feed } = await getReqBody(req);
+	const { feed, page = 1 } = await getReqBody(req);
+
+	if (!page || isNaN(page) || Number(page) < 1) throw new APIError(`${MESSAGES.REQ_BODY_ERROR}`, 500, API_ERROR_CODE.REQ_BODY_ERROR);
 
 	const headersList = headers();
 	const network = getNetworkFromHeaders(headersList);
@@ -32,7 +34,7 @@ export const POST = withErrorHandling(async (req: Request) => {
 	const result = await gqlClient
 		.query(GET_FELLOWSHIP_REFERENDUMS, {
 			limit: LISTING_LIMIT,
-			offset: 0
+			offset: page * LISTING_LIMIT
 		})
 		.toPromise();
 

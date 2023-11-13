@@ -127,6 +127,7 @@
 		"sonarjs/cognitive-complexity": [
 			"error",
 			16
-		]
+		],
+		"no-restricted-globals": "off"
 	}
 }
