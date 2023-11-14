@@ -47,7 +47,11 @@ function PostListingCard({ feedItem }: Props) {
 						content={feedItem.content}
 						tags={feedItem.tags}
 					/>
-					<PostReactionInfoBar commentCount={feedItem.comments_count} />
+					<PostReactionInfoBar
+						latestReaction={feedItem.latest_reaction ?? undefined}
+						totalReactions={feedItem.reactions_count}
+						commentCount={feedItem.comments_count}
+					/>
 					<Divider />
 					<PostActionBar />
 				</div>

@@ -4,18 +4,19 @@
 
 'use client';
 
+import { ServerComponentProps } from '@/global/types';
 import { Divider } from '@nextui-org/divider';
 import { Modal, ModalContent, ModalHeader, ModalBody } from '@nextui-org/modal';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
-interface Props {
-	params: {
-		id: string;
-	};
+interface IParams {
+	id: string;
 }
 
-function PostModalPage({ params: { id } }: Props) {
+function PostModalPage({ params }: ServerComponentProps<IParams, unknown>) {
+	const postID = params?.id;
+
 	const router = useRouter();
 
 	const handleOnClose = () => {
@@ -31,14 +32,18 @@ function PostModalPage({ params: { id } }: Props) {
 			shouldBlockScroll
 		>
 			<ModalContent>
-				{() => (
-					<>
-						<ModalHeader className='flex gap-2 text-xl font-semibold'>Post {id}</ModalHeader>
-						<Divider />
+				{() =>
+					!postID ? (
+						<div>Post ID not found</div>
+					) : (
+						<>
+							<ModalHeader className='flex gap-2 text-xl font-semibold'>Post {postID}</ModalHeader>
+							<Divider />
 
-						<ModalBody>Post Content here</ModalBody>
-					</>
-				)}
+							<ModalBody>Post Content here</ModalBody>
+						</>
+					)
+				}
 			</ModalContent>
 		</Modal>
 	);

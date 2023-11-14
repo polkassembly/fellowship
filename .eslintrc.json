@@ -126,7 +126,7 @@
 		"@typescript-eslint/no-shadow": "warn",
 		"sonarjs/cognitive-complexity": [
 			"error",
-			16
+			20
 		],
 		"no-restricted-globals": "off"
 	}

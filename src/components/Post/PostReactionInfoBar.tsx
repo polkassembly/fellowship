@@ -3,29 +3,30 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import React from 'react';
-import { Reaction } from '@/global/types';
+import { PublicReactionEntry } from '@/global/types';
 import { Divider } from '@nextui-org/divider';
 import ReactionSummary from './ReactionSummary';
 
 interface Props {
 	commentCount: number;
+	latestReaction?: PublicReactionEntry;
+	totalReactions?: number;
+	totalShares?: number;
 }
 
-function PostReactionInfoBar({ commentCount }: Props) {
+// TODO: implement share count
+
+function PostReactionInfoBar({ commentCount = 0, latestReaction, totalReactions = 0, totalShares = 0 }: Props) {
 	return (
 		<section className='flex justify-between text-xs'>
 			<ReactionSummary
-				latestReaction={{
-					created_at: new Date(),
-					reaction: Reaction.INTERESTING,
-					username: 'Matty2023'
-				}}
-				totalReactions={43}
+				latestReaction={latestReaction}
+				totalReactions={totalReactions}
 			/>
 			<div className='flex gap-2'>
 				<span>{commentCount} comments</span>
 				<Divider orientation='vertical' />
-				<span>4 shares</span>
+				<span>{totalShares} shares</span>
 			</div>
 		</section>
 	);

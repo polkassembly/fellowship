@@ -12,7 +12,7 @@ function ReactionSummary({ latestReaction, totalReactions }: { latestReaction?: 
 			{latestReaction.username} &amp; {totalReactions - 1} others
 		</div>
 	) : (
-		<div />
+		<div className='flex items-center'>0 reactions</div>
 	);
 }
 

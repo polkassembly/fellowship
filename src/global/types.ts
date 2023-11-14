@@ -104,8 +104,11 @@ export enum Reaction {
 
 export type PublicReactionEntry = {
 	reaction: Reaction;
-	username: string;
+	username?: string;
 	created_at: Date;
+	updated_at?: Date;
+	user_id: number;
+	id: number;
 };
 
 export enum Role {
@@ -236,6 +239,9 @@ export interface PostListingItem {
 	on_chain_info?: OnChainPostInfo;
 	proposalType: ProposalType;
 	comments_count: number;
+	reactions_count: number;
+	latest_reaction: PublicReactionEntry | null;
+	shares_count: number;
 }
 
 export interface CreatePostResponseType extends MessageType {
