@@ -28,8 +28,7 @@ export const metadata: Metadata = {
 async function getActivityFeed({ originUrl, feedType }: { feedType: EActivityFeed; originUrl: string }) {
 	const feedRes = await fetch(`${originUrl}/api/v1/feed`, {
 		body: JSON.stringify({ feedType }),
-		method: 'POST',
-		cache: 'no-cache' // TODO: remove this on prod
+		method: 'POST'
 	}).catch((e) => {
 		throw new ClientError(`${MESSAGES.API_FETCH_ERROR} - ${e?.message}`, API_ERROR_CODE.API_FETCH_ERROR);
 	});
