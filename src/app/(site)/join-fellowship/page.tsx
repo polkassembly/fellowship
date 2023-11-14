@@ -6,15 +6,13 @@
 
 import JoinFellowshipForm from '@/components/JoinFellowship/JoinFellowshipForm';
 import { Button } from '@nextui-org/button';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import Image from 'next/image';
 import { useUserDetailsContext } from '@/contexts';
-import { useRouter } from 'next/navigation';
-import LoadingSpinner from '@/components/Misc/LoadingSpinner';
+import Link from 'next/link';
 
 export default function JoinFellowship() {
 	const { id } = useUserDetailsContext();
-	const router = useRouter();
 
 	const joinFellowshipFormRef = useRef<HTMLFormElement>(null);
 
@@ -26,61 +24,66 @@ export default function JoinFellowship() {
 		}
 	};
 
-	useEffect(() => {
-		if (!id) {
-			router.push('/login');
-		}
-	}, [id, router]);
+	return (
+		<div className='rounded-2xl border border-primary_border p-6'>
+			{!id ? (
+				<div className='p-6 text-center'>
+					Please{' '}
+					<Link
+						href='/login'
+						className='text-link'
+					>
+						login
+					</Link>{' '}
+					to create an application request for fellowship
+				</div>
+			) : (
+				<>
+					<JoinFellowshipForm
+						isPreview={isPreview}
+						formRef={joinFellowshipFormRef}
+					/>
 
-	if (id) {
-		return (
-			<div className='rounded-2xl border border-primary_border p-6'>
-				<JoinFellowshipForm
-					isPreview={isPreview}
-					formRef={joinFellowshipFormRef}
-				/>
+					<Button
+						color='primary'
+						onPress={() => {
+							if (!isPreview) {
+								setIsPreview(true);
+							} else {
+								handleSubmit();
+							}
+						}}
+						className='flex w-full flex-1 text-sm'
+					>
+						{isPreview ? (
+							'Submit Application'
+						) : (
+							<>
+								Preview Application Request
+								<Image
+									alt='Join Fellowship Icon'
+									src='/icons/arrow-right-white.svg'
+									width={20}
+									height={20}
+								/>
+							</>
+						)}
+					</Button>
 
-				<Button
-					color='primary'
-					onPress={() => {
-						if (!isPreview) {
-							setIsPreview(true);
-						} else {
-							handleSubmit();
-						}
-					}}
-					className='flex w-full flex-1 text-sm'
-				>
-					{isPreview ? (
-						'Submit Application'
-					) : (
-						<>
-							Preview Application Request
-							<Image
-								alt='Join Fellowship Icon'
-								src='/icons/arrow-right-white.svg'
-								width={20}
-								height={20}
-							/>
-						</>
+					{isPreview && (
+						<div className='flex justify-center'>
+							<Button
+								onPress={() => setIsPreview(false)}
+								variant='light'
+								className='mt-3'
+								size='sm'
+							>
+								Go back
+							</Button>
+						</div>
 					)}
-				</Button>
-
-				{isPreview && (
-					<div className='flex justify-center'>
-						<Button
-							onPress={() => setIsPreview(false)}
-							variant='light'
-							className='mt-3'
-							size='sm'
-						>
-							Go back
-						</Button>
-					</div>
-				)}
-			</div>
-		);
-	}
-
-	return <LoadingSpinner />;
+				</>
+			)}
+		</div>
+	);
 }

@@ -8,11 +8,11 @@ import JoinFellowshipForm from '@/components/JoinFellowship/JoinFellowshipForm';
 import { Button } from '@nextui-org/button';
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from '@nextui-org/modal';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Image from 'next/image';
 import { Divider } from '@nextui-org/divider';
 import { useUserDetailsContext } from '@/contexts';
-import LoadingSpinner from '@/components/Misc/LoadingSpinner';
+import Link from 'next/link';
 
 function JoinFellowshipModal() {
 	const router = useRouter();
@@ -32,12 +32,6 @@ function JoinFellowshipModal() {
 			joinFellowshipFormRef?.current?.requestSubmit(); // Call the submit function from the child component
 		}
 	};
-
-	useEffect(() => {
-		if (!id) {
-			router.push('/login');
-		}
-	}, [id, router]);
 
 	return (
 		<Modal
@@ -128,8 +122,15 @@ function JoinFellowshipModal() {
 							</ModalFooter>
 						</>
 					) : (
-						<div className='p-6'>
-							<LoadingSpinner />
+						<div className='p-6 text-center'>
+							Please{' '}
+							<Link
+								href='/login'
+								className='text-link'
+							>
+								login
+							</Link>{' '}
+							to create an application request for fellowship
 						</div>
 					)
 				}
