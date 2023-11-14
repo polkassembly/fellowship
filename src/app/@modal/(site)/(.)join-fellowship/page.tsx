@@ -4,46 +4,86 @@
 
 'use client';
 
-import JoinFellowshipForm from '@/components/Misc/JoinFellowshipForm';
+import JoinFellowshipForm from '@/components/JoinFellowship/JoinFellowshipForm';
 import { Button } from '@nextui-org/button';
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from '@nextui-org/modal';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import Image from 'next/image';
 import { Divider } from '@nextui-org/divider';
 
 function JoinFellowshipModal() {
+	const joinFellowshipFormRef = useRef<HTMLFormElement>(null);
 	const router = useRouter();
+
+	const [isPreview, setIsPreview] = useState(false);
+	const [isModalOpen, setIsModalOpen] = useState(true);
 
 	const handleOnClose = () => {
 		router.back();
 	};
 
+	const handleSubmit = () => {
+		if (joinFellowshipFormRef.current) {
+			joinFellowshipFormRef?.current?.requestSubmit(); // Call the submit function from the child component
+		}
+	};
+
 	return (
 		<Modal
-			isOpen
+			isOpen={isModalOpen}
 			onClose={handleOnClose}
 			size='4xl'
 			scrollBehavior='inside'
 			shouldBlockScroll
 		>
 			<ModalContent>
-				{(onClose) => (
+				{() => (
 					<>
-						<ModalHeader className='flex gap-2 text-xl font-semibold'>
-							<Image
-								alt='Join Fellowship Icon'
-								src='/icons/add-user-grey-filled.svg'
-								width={24}
-								height={24}
-								className='ml-[-8px] mr-2'
-							/>
-							Join Fellowship
+						<ModalHeader className='flex items-center gap-2 text-sm'>
+							{isPreview ? (
+								<>
+									<Button
+										color='primary'
+										variant='light'
+										isIconOnly
+										onPress={() => setIsPreview(false)}
+										className='h-[24px] w-[24px]'
+									>
+										<Image
+											alt='back button'
+											src='/icons/arrow-right-white.svg'
+											width={24}
+											height={24}
+											className='rotate-180 invert dark:invert-0'
+										/>
+									</Button>
+
+									<h3 className='font-semibold'>Application Request Preview</h3>
+								</>
+							) : (
+								<>
+									<Image
+										alt='Join Fellowship Icon'
+										src='/icons/add-user-grey-filled.svg'
+										width={24}
+										height={24}
+										className='ml-[-8px] mr-2'
+									/>
+									<h3 className='font-semibold'>Join Fellowship</h3>
+								</>
+							)}
 						</ModalHeader>
 						<Divider />
 
 						<ModalBody>
-							<JoinFellowshipForm />
+							<JoinFellowshipForm
+								formRef={joinFellowshipFormRef}
+								isPreview={isPreview}
+								onSuccess={() => {
+									setIsModalOpen(false);
+								}}
+							/>
 						</ModalBody>
 
 						<Divider />
@@ -51,16 +91,28 @@ function JoinFellowshipModal() {
 						<ModalFooter>
 							<Button
 								color='primary'
-								onPress={onClose}
+								onPress={() => {
+									if (!isPreview) {
+										setIsPreview(true);
+									} else {
+										handleSubmit();
+									}
+								}}
 								className='flex flex-1 text-sm'
 							>
-								Preview Application Request
-								<Image
-									alt='Join Fellowship Icon'
-									src='/icons/arrow-right-white.svg'
-									width={20}
-									height={20}
-								/>
+								{isPreview ? (
+									'Submit Application'
+								) : (
+									<>
+										Preview Application Request
+										<Image
+											alt='Join Fellowship Icon'
+											src='/icons/arrow-right-white.svg'
+											width={20}
+											height={20}
+										/>
+									</>
+								)}
 							</Button>
 						</ModalFooter>
 					</>

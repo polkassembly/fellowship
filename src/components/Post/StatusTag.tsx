@@ -12,7 +12,8 @@ const tagColoursClasses: { [index: string]: string } = {
 	[ProposalStatus.Executed]: 'bg-[#478F37] text-white',
 	[ProposalStatus.Deciding]: 'bg-[#FF6700] text-white',
 	[ProposalStatus.ExecutionFailed]: 'bg-[#BD2020] text-white',
-	[ProposalStatus.Rejected]: 'bg-[#BD2020] text-white'
+	[ProposalStatus.Rejected]: 'bg-[#BD2020] text-white',
+	[ProposalStatus.Submitted]: 'bg-[#3C74E1] text-white'
 };
 
 function StatusChip({ status }: { status: ProposalStatus }) {

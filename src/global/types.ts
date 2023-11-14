@@ -236,3 +236,14 @@ export interface PostListingItem {
 	on_chain_info?: OnChainPostInfo;
 	proposalType: ProposalType;
 }
+
+export interface CreatePostResponseType extends MessageType {
+	post_id?: number;
+}
+
+export interface ChangeResponseType extends MessageType, TokenType {}
+
+export enum EGovType {
+	OPEN_GOV = 'open_gov',
+	GOV1 = 'gov1'
+}

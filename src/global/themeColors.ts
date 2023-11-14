@@ -13,7 +13,8 @@ const THEME_COLORS = {
 		mdeHeaderForeground: '#363636',
 		graphNay: '#FF3C5F',
 		graphAye: '#2ED47A',
-		graphBg: '#666666'
+		graphBg: '#666666',
+		successModalHeaderBg: '#51D36E'
 	},
 	dark: {
 		primary_border: '#3C3C8F',
@@ -25,7 +26,8 @@ const THEME_COLORS = {
 		mdeHeaderForeground: '#FFFFFF',
 		graphNay: '#FF3C5F',
 		graphAye: '#2ED47A',
-		graphBg: '#666666'
+		graphBg: '#666666',
+		successModalHeaderBg: '#51D36E'
 	}
 };
 

@@ -17,9 +17,10 @@ interface Props {
 	height?: number;
 	onChange: ((value: string) => void) | undefined;
 	value: string;
+	disabled?: boolean;
 }
 
-const MarkdownEditor = forwardRef(function MarkdownEditor({ className, height, onChange, value }: Props, ref) {
+const MarkdownEditor = forwardRef(function MarkdownEditor({ className, height, onChange, value, disabled }: Props, ref) {
 	const { id, username } = useUserDetailsContext();
 
 	const [selectedTab, setSelectedTab] = React.useState<'write' | 'preview'>('write');
@@ -126,6 +127,7 @@ const MarkdownEditor = forwardRef(function MarkdownEditor({ className, height, o
 			<ReactMde
 				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				ref={ref as LegacyRef<any>}
+				readOnly={disabled}
 				generateMarkdownPreview={(markdown) =>
 					Promise.resolve(
 						<Markdown
