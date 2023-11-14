@@ -7,3 +7,5 @@ import { firestoreDB } from '@/services/firebaseInit';
 
 export const networkDocRef = (networkName: string) => firestoreDB.collection('networks').doc(networkName);
 export const postsCollRef = (networkName: string, proposalType: ProposalType) => networkDocRef(networkName).collection('post_types').doc(String(proposalType)).collection('posts');
+export const postDocRef = (networkName: string, proposalType: ProposalType, postId: string) => postsCollRef(networkName, proposalType).doc(postId);
+export const postCommentsRef = (networkName: string, proposalType: ProposalType, postId: string) => postDocRef(networkName, proposalType, postId).collection('comments');

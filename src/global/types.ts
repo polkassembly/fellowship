@@ -235,6 +235,7 @@ export interface PostListingItem {
 	tags: string[];
 	on_chain_info?: OnChainPostInfo;
 	proposalType: ProposalType;
+	comments_count: number;
 }
 
 export interface CreatePostResponseType extends MessageType {

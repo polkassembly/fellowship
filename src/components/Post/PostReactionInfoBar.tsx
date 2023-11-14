@@ -7,7 +7,11 @@ import { Reaction } from '@/global/types';
 import { Divider } from '@nextui-org/divider';
 import ReactionSummary from './ReactionSummary';
 
-function PostReactionInfoBar() {
+interface Props {
+	commentCount: number;
+}
+
+function PostReactionInfoBar({ commentCount }: Props) {
 	return (
 		<section className='flex justify-between text-xs'>
 			<ReactionSummary
@@ -19,7 +23,7 @@ function PostReactionInfoBar() {
 				totalReactions={43}
 			/>
 			<div className='flex gap-2'>
-				<span>10 comments</span>
+				<span>{commentCount} comments</span>
 				<Divider orientation='vertical' />
 				<span>4 shares</span>
 			</div>

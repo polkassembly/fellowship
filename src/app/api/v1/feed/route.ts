@@ -17,7 +17,26 @@ import { GET_FELLOWSHIP_REFERENDUMS } from '../subsquidQueries';
 import getReqBody from '../../api-utils/getReqBody';
 import getNetworkFromHeaders from '../../api-utils/getNetworkFromHeaders';
 import withErrorHandling from '../../api-utils/withErrorHandling';
-import { postsCollRef } from '../firestoreRefs';
+import { postCommentsRef, postDocRef } from '../firestoreRefs';
+
+async function getFirestoreDocs(onChainProposals: unknown[], network: string) {
+	const proposalRefs: firebaseAdmin.firestore.DocumentReference<firebaseAdmin.firestore.DocumentData>[] = [];
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const commentCountRefs: any[] = [];
+
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	onChainProposals.forEach((proposalObj: any) => {
+		const postRef = postDocRef(network, ProposalType.FELLOWSHIP_REFERENDUMS, String(proposalObj.index));
+		const commentCountRef = postCommentsRef(network, ProposalType.FELLOWSHIP_REFERENDUMS, String(proposalObj.index)).count();
+		proposalRefs.push(postRef);
+		commentCountRefs.push(commentCountRef);
+	});
+
+	const firestoreProposalDocs = await firebaseAdmin.firestore().getAll(...proposalRefs);
+	const firestoreCommentCountDocs = (await Promise.allSettled(commentCountRefs)).map((item) => (item.status === 'fulfilled' ? item.value : 0));
+
+	return { firestoreProposalDocs, firestoreCommentCountDocs };
+}
 
 export const POST = withErrorHandling(async (req: Request) => {
 	// TODO: Add feed type
@@ -42,17 +61,13 @@ export const POST = withErrorHandling(async (req: Request) => {
 
 	const onChainProposals = result?.data?.proposals || [];
 
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const proposalRefs = onChainProposals.map((proposalObj: any) => {
-		return postsCollRef(network, ProposalType.FELLOWSHIP_REFERENDUMS).doc(proposalObj?.id);
-	});
-
-	const firestoreProposalDocs = await firebaseAdmin.firestore().getAll(...proposalRefs);
+	const { firestoreProposalDocs, firestoreCommentCountDocs } = await getFirestoreDocs(onChainProposals, network);
 
 	// assign proposal data to proposalsData
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const proposalItems: PostListingItem[] = onChainProposals.map((onChainProposalObj: any) => {
 		const firestoreProposalData = firestoreProposalDocs.find((item) => item.id === onChainProposalObj?.index)?.data() || {};
+		const firestoreCommentCount = firestoreCommentCountDocs.find((item) => item.id === onChainProposalObj?.index)?.data().count || 0;
 
 		const onChainPostInfo: OnChainPostInfo = {
 			description: onChainProposalObj.description ?? '',
@@ -80,7 +95,8 @@ export const POST = withErrorHandling(async (req: Request) => {
 			updated_at: firestoreProposalData.updated_at ?? onChainProposalObj.updatedAt ?? Date.now(),
 			on_chain_info: onChainPostInfo,
 			tags: firestoreProposalData.tags ?? [],
-			proposalType: ProposalType.FELLOWSHIP_REFERENDUMS
+			proposalType: ProposalType.FELLOWSHIP_REFERENDUMS,
+			comments_count: firestoreCommentCount
 		};
 
 		return postListingItem;

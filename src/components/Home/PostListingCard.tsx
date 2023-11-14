@@ -47,7 +47,7 @@ function PostListingCard({ feedItem }: Props) {
 						content={feedItem.content}
 						tags={feedItem.tags}
 					/>
-					<PostReactionInfoBar />
+					<PostReactionInfoBar commentCount={feedItem.comments_count} />
 					<Divider />
 					<PostActionBar />
 				</div>
