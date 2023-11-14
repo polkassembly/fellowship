@@ -3,11 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { APIError } from '@/global/exceptions';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import consolePretty from './consolePretty';
 
-const withErrorHandling = (handler: { (req: Request): Promise<Response> }) => {
-	return async (req: Request) => {
+const withErrorHandling = (handler: { (req: NextRequest): Promise<NextResponse> }) => {
+	return async (req: NextRequest) => {
 		try {
 			return await handler(req);
 		} catch (error) {

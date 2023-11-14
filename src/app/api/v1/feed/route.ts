@@ -12,7 +12,7 @@ import firebaseAdmin from '@/services/firebaseInit';
 import { OnChainPostInfo, PostListingItem, ProposalStatus, ProposalType, PublicReactionEntry } from '@/global/types';
 import DEFAULT_POST_TITLE from '@/global/constants/defaultTitle';
 import getDefaultPostContent from '@/utils/getDefaultPostContent';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { GET_FELLOWSHIP_REFERENDUMS } from '../subsquidQueries';
 import getReqBody from '../../api-utils/getReqBody';
 import getNetworkFromHeaders from '../../api-utils/getNetworkFromHeaders';
@@ -44,7 +44,7 @@ async function getFirestoreDocs(onChainProposals: unknown[], network: string) {
 	return { firestoreProposalDocs, firestoreCommentCountDocs, firestoreReactionDocs };
 }
 
-export const POST = withErrorHandling(async (req: Request) => {
+export const POST = withErrorHandling(async (req: NextRequest) => {
 	// TODO: Add feed type
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 	const { feed, page = 1 } = await getReqBody(req);
