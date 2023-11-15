@@ -14,7 +14,7 @@ const withErrorHandling = (handler: { (req: NextRequest, options?: any): Promise
 		} catch (error) {
 			const err = error as APIError;
 			// eslint-disable-next-line no-console
-			console.log('Error in API call : ');
+			console.log('Error in API call : ', req.nextUrl);
 			consolePretty({ err });
 			return NextResponse.json({ ...err, message: err.message }, { status: err.status });
 		}
