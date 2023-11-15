@@ -22,3 +22,22 @@ export const GET_FELLOWSHIP_REFERENDUMS = gql`
 		}
 	}
 `;
+
+export const GET_REFERENDUM = gql`
+	query GET_REFERENDUM($index_eq: Int!, $type_eq: ProposalType = FellowshipReferendum) {
+		proposals(where: { type_eq: $type_eq, index_eq: $index_eq }) {
+			id
+			description
+			index
+			status
+			trackNumber
+			proposer
+			updatedAt
+			createdAt
+			tally {
+				ayes
+				nays
+			}
+		}
+	}
+`;

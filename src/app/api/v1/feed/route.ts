@@ -13,6 +13,7 @@ import { OnChainPostInfo, PostListingItem, ProposalStatus, ProposalType, PublicR
 import DEFAULT_POST_TITLE from '@/global/constants/defaultTitle';
 import getDefaultPostContent from '@/utils/getDefaultPostContent';
 import { NextRequest, NextResponse } from 'next/server';
+import dayjs from '@/services/dayjs-init';
 import { GET_FELLOWSHIP_REFERENDUMS } from '../subsquidQueries';
 import getReqBody from '../../api-utils/getReqBody';
 import getNetworkFromHeaders from '../../api-utils/getNetworkFromHeaders';
@@ -94,14 +95,15 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
 			user_id: firestoreProposalData.user_id ?? null,
 			title: firestoreProposalData.title ?? DEFAULT_POST_TITLE,
 			content:
-				onChainProposalObj.description ??
+				firestoreProposalData.content ||
+				onChainProposalObj.description ||
 				getDefaultPostContent({
 					network,
 					proposalType: ProposalType.FELLOWSHIP_REFERENDUMS,
 					proposerAddress: onChainProposalObj.proposer
 				}),
-			created_at: onChainProposalObj.createdAt ?? firestoreProposalData.created_at ?? Date.now(),
-			updated_at: firestoreProposalData.updated_at ?? onChainProposalObj.updatedAt ?? Date.now(),
+			created_at: dayjs(onChainProposalObj.createdAt ?? firestoreProposalData.created_at?.toDate() ?? new Date()).toDate(),
+			updated_at: dayjs(firestoreProposalData.updated_at?.toDate() ?? onChainProposalObj.updatedAt ?? new Date()).toDate(),
 			on_chain_info: onChainPostInfo,
 			tags: firestoreProposalData.tags ?? [],
 			proposalType: ProposalType.FELLOWSHIP_REFERENDUMS,

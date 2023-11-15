@@ -226,6 +226,8 @@ export interface OnChainPostInfo {
 		ayes: string;
 		nays: string;
 	};
+	created_at?: Date;
+	updated_at?: Date;
 }
 
 export interface PostListingItem {
@@ -253,4 +255,19 @@ export interface ChangeResponseType extends MessageType, TokenType {}
 export enum EGovType {
 	OPEN_GOV = 'open_gov',
 	GOV1 = 'gov1'
+}
+
+export interface IPost {
+	id: number;
+	user_id: number | null;
+	title: string;
+	content: string;
+	created_at: Date;
+	updated_at: Date;
+	tags: string[];
+	on_chain_info?: OnChainPostInfo;
+	proposalType: ProposalType;
+	reactions_count: number;
+	shares_count: number;
+	views_count: number;
 }
