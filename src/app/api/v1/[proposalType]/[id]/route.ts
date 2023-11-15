@@ -14,7 +14,7 @@ import { IPost, ProposalType } from '@/global/types';
 import { getOffChainPostData } from './getOffChainPostData';
 import { getOnChainPostData } from './getOnChainPostData';
 
-export const POST = withErrorHandling(async (req: NextRequest, { params }) => {
+export const GET = withErrorHandling(async (req: NextRequest, { params }) => {
 	const { proposalType = '', id = '' } = params;
 	if (!proposalType || !id || isNaN(id) || !isValidProposalType(proposalType)) throw new APIError(`${MESSAGES.INVALID_PARAMS_ERROR}`, 500, API_ERROR_CODE.INVALID_PARAMS_ERROR);
 

@@ -7,7 +7,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { PostListingItem, ProposalType, EActivityFeed } from '@/global/types';
 import { parseAsInteger, useQueryState } from 'next-usequerystate';
-import { useParams } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import getActivityFeed from '@/app/api/v1/feed/getActivityFeed';
 import getOriginUrl from '@/utils/getOriginUrl';
 import { ScrollShadow } from '@nextui-org/scroll-shadow';
@@ -23,6 +23,7 @@ interface Props {
 function ActivityFeed({ items }: Props) {
 	const observerTarget = useRef(null);
 	const { feed = EActivityFeed.ALL } = useParams();
+	const pathname = usePathname();
 
 	const [page, setPage] = useQueryState('page', parseAsInteger);
 	const [feedItems, setFeedItems] = useState<PostListingItem[]>(items || []);
@@ -30,8 +31,8 @@ function ActivityFeed({ items }: Props) {
 	const [isLastPage, setIsLastPage] = useState(false);
 
 	useEffect(() => {
-		if (!page || Number(page) < 1) setPage(1);
-	}, [page, setPage]);
+		if (pathname === '/' && (!page || Number(page) < 1)) setPage(1);
+	}, [page, pathname, setPage]);
 
 	useEffect(() => {
 		const observer = new IntersectionObserver(
