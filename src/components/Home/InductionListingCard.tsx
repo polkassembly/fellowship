@@ -7,7 +7,7 @@ import React from 'react';
 import { Divider } from '@nextui-org/divider';
 // import { ActivityType } from '@/global/types';
 import PostActionBar from '../Post/PostActionBar';
-import PostReactionInfoBar from '../Post/PostReactionInfoBar';
+// import PostReactionInfoBar from '../Post/PostReactionInfoBar';
 // import PostListingHeader from '../Post/PostListingHeader';
 
 function InductionListingCard() {
@@ -21,7 +21,7 @@ function InductionListingCard() {
 					className='text-sm'
 					activityType={ActivityType.INDUCTION}
 				/> */}
-				<PostReactionInfoBar />
+				{/* <PostReactionInfoBar /> */}
 				<Divider />
 				<PostActionBar />
 			</Card>
