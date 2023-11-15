@@ -6,10 +6,11 @@ import { APIError } from '@/global/exceptions';
 import { NextRequest, NextResponse } from 'next/server';
 import consolePretty from './consolePretty';
 
-const withErrorHandling = (handler: { (req: NextRequest): Promise<NextResponse> }) => {
-	return async (req: NextRequest) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const withErrorHandling = (handler: { (req: NextRequest, options?: any): Promise<NextResponse> }) => {
+	return async (req: NextRequest, options: object) => {
 		try {
-			return await handler(req);
+			return await handler(req, options);
 		} catch (error) {
 			const err = error as APIError;
 			// eslint-disable-next-line no-console
