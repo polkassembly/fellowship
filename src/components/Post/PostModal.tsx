@@ -7,7 +7,6 @@
 import { Divider } from '@nextui-org/divider';
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from '@nextui-org/modal';
 import { useRouter } from 'next/navigation';
-import React from 'react';
 import PostDataContextProvider from '@/contexts/PostDataContext';
 import { IPost } from '@/global/types';
 import { Button } from '@nextui-org/button';
@@ -28,6 +27,11 @@ function PostModal({ post }: Props) {
 		router.back();
 	};
 
+	const reloadPage = () => {
+		// to disable itercepting route
+		window.location.reload();
+	};
+
 	return (
 		<Modal
 			isOpen
@@ -39,20 +43,38 @@ function PostModal({ post }: Props) {
 			<ModalContent>
 				{() => (
 					<PostDataContextProvider postItem={post}>
-						<ModalHeader className='flex flex-col gap-2 text-xl font-semibold'>
-							<PostListingHeader
-								createdAt={post.created_at}
-								address={post.on_chain_info?.proposer}
-								status={post.on_chain_info?.status}
-							/>
+						<ModalHeader className='flex justify-between'>
+							<header className='flex flex-col gap-2 text-xl font-semibold'>
+								<PostListingHeader
+									createdAt={post.created_at}
+									address={post.on_chain_info?.proposer}
+									status={post.on_chain_info?.status}
+								/>
 
-							<section className='mt-1 flex gap-2'>
-								<p className='mt-0.5 text-base font-normal text-slate-500'>#{post.id}</p>
-								<article className='flex flex-col gap-1'>
-									<h2 className='text-xl font-semibold'>{post.title}</h2>
-									{post.tags.length > 0 && <PostTags tags={post.tags} />}
-								</article>
-							</section>
+								<section className='mt-1 flex gap-2'>
+									<p className='mt-0.5 text-base font-normal text-slate-500'>#{post.id}</p>
+									<article className='flex flex-col gap-1'>
+										<h2 className='text-xl font-semibold'>{post.title}</h2>
+										{post.tags.length > 0 && <PostTags tags={post.tags} />}
+									</article>
+								</section>
+							</header>
+
+							<Button
+								onPress={reloadPage}
+								color='primary'
+								variant='light'
+								radius='full'
+								isIconOnly
+								className='absolute right-9 top-1 max-h-[32px] min-h-[32px] min-w-[32px] max-w-[32px]'
+							>
+								<Image
+									alt='back button'
+									src='/icons/full-screen-gray.svg'
+									width={18}
+									height={18}
+								/>
+							</Button>
 						</ModalHeader>
 
 						<Divider />
