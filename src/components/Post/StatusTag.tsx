@@ -6,14 +6,19 @@ import { ProposalStatus } from '@/global/types';
 import { Chip } from '@nextui-org/chip';
 import React from 'react';
 
+const failedStateClasses = 'bg-[#BD2020] text-white';
+const passedStateClasses = 'bg-[#478F37] text-white';
+
 const tagColoursClasses: { [index: string]: string } = {
-	[ProposalStatus.Passed]: 'bg-success text-white',
+	[ProposalStatus.Passed]: passedStateClasses,
 	[ProposalStatus.Active]: 'bg-[#3C74E1] text-white',
-	[ProposalStatus.Executed]: 'bg-[#478F37] text-white',
+	[ProposalStatus.Executed]: passedStateClasses,
+	[ProposalStatus.Confirmed]: passedStateClasses,
 	[ProposalStatus.Deciding]: 'bg-[#FF6700] text-white',
-	[ProposalStatus.ExecutionFailed]: 'bg-[#BD2020] text-white',
-	[ProposalStatus.Rejected]: 'bg-[#BD2020] text-white',
-	[ProposalStatus.Submitted]: 'bg-[#3C74E1] text-white'
+	[ProposalStatus.ExecutionFailed]: failedStateClasses,
+	[ProposalStatus.Rejected]: failedStateClasses,
+	[ProposalStatus.Submitted]: 'bg-[#3C74E1] text-white',
+	[ProposalStatus.TimedOut]: failedStateClasses
 };
 
 function StatusChip({ status }: { status: ProposalStatus }) {
