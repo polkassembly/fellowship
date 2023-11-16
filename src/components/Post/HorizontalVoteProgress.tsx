@@ -62,7 +62,7 @@ function HorizontalVoteProgress({ className = '' }: Props) {
 					track: 'bg-voteNay',
 					indicator: 'bg-voteAye'
 				}}
-				className='max-h-[10px] w-[184px]'
+				className='max-h-[10px]'
 			/>
 		</div>
 	);

@@ -10,6 +10,8 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 import PostDataContextProvider from '@/contexts/PostDataContext';
 import { IPost } from '@/global/types';
+import { Button } from '@nextui-org/button';
+import Image from 'next/image';
 import PostListingHeader from './PostListingHeader';
 import PostTags from './PostTags';
 import Markdown from '../TextEditor/Markdown';
@@ -45,7 +47,7 @@ function PostModal({ post }: Props) {
 							/>
 
 							<section className='mt-1 flex gap-2'>
-								<p className='mt-0.5 text-base font-normal text-secondary-700'>#{post.id}</p>
+								<p className='mt-0.5 text-base font-normal text-slate-500'>#{post.id}</p>
 								<article className='flex flex-col gap-1'>
 									<h2 className='text-xl font-semibold'>{post.title}</h2>
 									{post.tags.length > 0 && <PostTags tags={post.tags} />}
@@ -59,9 +61,41 @@ function PostModal({ post }: Props) {
 
 						<Divider />
 
-						<ModalFooter className='flex items-center justify-start gap-3'>
-							<h2 className='text-base font-medium'>Voting Status</h2>
-							<HorizontalVoteProgress className='w-[184px]' />
+						<ModalFooter className='flex flex-col gap-3'>
+							<div className='flex items-center justify-start gap-3'>
+								<h2 className='text-base font-medium'>Voting Status</h2>
+								<HorizontalVoteProgress className='w-[184px]' />
+							</div>
+
+							<div className='flex items-center gap-4'>
+								<Button
+									className='flex w-full items-center gap-1.5 rounded-full bg-voteAye text-base text-white'
+									size='sm'
+								>
+									<Image
+										alt='Login Icon'
+										src='/icons/thumbs-up-white.svg'
+										width={16}
+										height={16}
+										className='ml-[-8px] mr-2 h-[40px]'
+									/>
+									Vote Aye
+								</Button>
+
+								<Button
+									className='flex w-full items-center gap-1.5 rounded-full bg-voteNay text-base text-white'
+									size='sm'
+								>
+									<Image
+										alt='Login Icon'
+										src='/icons/thumbs-up-white.svg'
+										width={16}
+										height={16}
+										className='ml-[-8px] mr-2 h-[40px]'
+									/>
+									Vote Nay
+								</Button>
+							</div>
 						</ModalFooter>
 					</PostDataContextProvider>
 				)}
