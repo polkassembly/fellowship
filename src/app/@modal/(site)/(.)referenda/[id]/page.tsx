@@ -37,9 +37,7 @@ async function PostModalPage({ params }: ServerComponentProps<IParams, unknown>)
 
 	const post = await getPost({ id: Number(postID), originUrl });
 
-	console.log('post: ', post);
-
-	return <PostModal />;
+	return <PostModal post={post} />;
 }
 
 export default PostModalPage;

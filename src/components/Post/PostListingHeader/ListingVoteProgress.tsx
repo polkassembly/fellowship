@@ -23,7 +23,7 @@ function ListingVoteProgress({ className = '', ayes, nays }: Props) {
 	let ayesBN = new BN(ayes);
 	const naysBN = new BN(nays);
 
-	let graphColours = [THEME_COLORS[resolvedTheme as keyof typeof THEME_COLORS].graphAye, THEME_COLORS[resolvedTheme as keyof typeof THEME_COLORS].graphNay];
+	let graphColours = [THEME_COLORS[resolvedTheme as keyof typeof THEME_COLORS].voteAye, THEME_COLORS[resolvedTheme as keyof typeof THEME_COLORS].voteNay];
 
 	// set one of the values to 50 and set colours to bg
 	if (ayesBN.isZero() && naysBN.isZero()) {
@@ -36,13 +36,13 @@ function ListingVoteProgress({ className = '', ayes, nays }: Props) {
 			id: 'ayes',
 			label: 'ayes',
 			value: ayesBN.toNumber(),
-			color: THEME_COLORS[resolvedTheme as keyof typeof THEME_COLORS].graphAye
+			color: THEME_COLORS[resolvedTheme as keyof typeof THEME_COLORS].voteAye
 		},
 		{
 			id: 'nays',
 			label: 'nays',
 			value: naysBN.toNumber(),
-			color: THEME_COLORS[resolvedTheme as keyof typeof THEME_COLORS].graphNay
+			color: THEME_COLORS[resolvedTheme as keyof typeof THEME_COLORS].voteNay
 		}
 	];
 

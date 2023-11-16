@@ -24,9 +24,10 @@ interface Props {
 		nays: string;
 	};
 	status?: ProposalStatus;
+	decidingEnds?: Date;
 }
 
-function PostListingHeader({ className = '', activityType, address, username, createdAt, votesTally = { ayes: '0', nays: '0' }, status }: Props) {
+function PostListingHeader({ className = '', activityType, address, username, createdAt, votesTally, status, decidingEnds }: Props) {
 	return (
 		<div className={`flex h-[26px] items-center gap-2.5 text-sm ${className}`}>
 			{(address || username) && (
@@ -40,25 +41,38 @@ function PostListingHeader({ className = '', activityType, address, username, cr
 			)}
 
 			<DateHeader date={createdAt} />
-			<Divider orientation='vertical' />
-			<DecidingEndsHeader />
-			<Divider orientation='vertical' />
-			<ListingVoteProgress
-				ayes={votesTally.ayes}
-				nays={votesTally.nays}
-			/>
+
+			{decidingEnds && (
+				<>
+					<Divider orientation='vertical' />
+					<DecidingEndsHeader />
+				</>
+			)}
+
+			{votesTally && (
+				<>
+					<Divider orientation='vertical' />
+					<ListingVoteProgress
+						ayes={votesTally.ayes}
+						nays={votesTally.nays}
+					/>
+				</>
+			)}
+
 			{activityType && (
 				<>
 					<Divider orientation='vertical' />
 					<ActivityTypeChip type={activityType} />
 				</>
 			)}
+
 			{status && (
 				<>
 					<Divider orientation='vertical' />
 					<StatusChip status={status} />
 				</>
 			)}
+
 			{activityType && status === ProposalStatus.Deciding && (
 				<span className='ml-auto'>
 					<ActivityActionTypeChip type={activityType} />

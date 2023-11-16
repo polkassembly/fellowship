@@ -11,6 +11,7 @@ import { isValidProposalType } from '@/utils/isValidProposalType';
 import { headers } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { IPost, ProposalType } from '@/global/types';
+import getDefaultPostContent from '@/utils/getDefaultPostContent';
 import { getOffChainPostData } from './getOffChainPostData';
 import { getOnChainPostData } from './getOnChainPostData';
 
@@ -35,6 +36,14 @@ export const GET = withErrorHandling(async (req: NextRequest, { params }) => {
 		...offChainPostData,
 		created_at: onChainPostInfo.created_at || offChainPostData.created_at,
 		updated_at: offChainPostData.updated_at || onChainPostInfo.updated_at,
+		content:
+			offChainPostData.content ||
+			onChainPostInfo.description ||
+			getDefaultPostContent({
+				network,
+				proposalType: ProposalType.FELLOWSHIP_REFERENDUMS,
+				proposerAddress: onChainPostInfo.proposer
+			}),
 		on_chain_info: onChainPostInfo
 	};
 

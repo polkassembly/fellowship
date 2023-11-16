@@ -11,8 +11,8 @@ const THEME_COLORS = {
 		mdeHeader: '#EAEEF0',
 		mdeHeaderFocus: '#FFFFFF',
 		mdeHeaderForeground: '#363636',
-		graphNay: '#FF3C5F',
-		graphAye: '#2ED47A',
+		voteNay: '#FF3C5F',
+		voteAye: '#2ED47A',
 		graphBg: '#666666',
 		successModalHeaderBg: '#51D36E'
 	},
@@ -24,8 +24,8 @@ const THEME_COLORS = {
 		mdeHeader: '#363636',
 		mdeHeaderFocus: '#363636',
 		mdeHeaderForeground: '#FFFFFF',
-		graphNay: '#FF3C5F',
-		graphAye: '#2ED47A',
+		voteNay: '#FF3C5F',
+		voteAye: '#2ED47A',
 		graphBg: '#666666',
 		successModalHeaderBg: '#51D36E'
 	}

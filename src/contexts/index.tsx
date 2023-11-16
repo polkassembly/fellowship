@@ -6,6 +6,7 @@ import { useContext } from 'react';
 
 import { ApiContext } from './ApiContext';
 import { UserDetailsContext } from './UserDetailsContext';
+import { PostDataContext } from './PostDataContext';
 
 const useApiContext = () => {
 	return useContext(ApiContext);
@@ -15,4 +16,8 @@ const useUserDetailsContext = () => {
 	return useContext(UserDetailsContext);
 };
 
-export { useApiContext, useUserDetailsContext };
+const usePostDataContext = () => {
+	return useContext(PostDataContext);
+};
+
+export { useApiContext, useUserDetailsContext, usePostDataContext };

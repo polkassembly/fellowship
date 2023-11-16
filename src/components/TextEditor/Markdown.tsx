@@ -33,7 +33,7 @@ function Markdown({ className, isPreview = false, isAutoComplete = false, md, im
 
 	return (
 		<ReactMarkdown
-			className={`${className} ${isPreview && 'mde-preview-content'} ${imgHidden && 'hide-image'} ${isAutoComplete && 'mde-autocomplete-content'}`}
+			className={`${className} mde-content ${isPreview && 'mde-preview-content'} ${imgHidden && 'hide-image'} ${isAutoComplete && 'mde-autocomplete-content'}`}
 			rehypePlugins={[rehypeRaw, remarkGfm]}
 			components={{ a: LinkRenderer }}
 		>

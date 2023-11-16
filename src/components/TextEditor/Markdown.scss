@@ -1,3 +1,108 @@
+.mde-content {
+	@apply mb-0 overflow-x-auto break-words text-sm text-foreground;
+
+	.hide-image img {
+		@apply hidden;
+	}
+
+	th,
+	td {
+		@apply border-1 border-solid p-2;
+	}
+
+	hr {
+		margin: 1rem 0;
+	}
+
+	p,
+	blockquote,
+	ul,
+	ol,
+	dl,
+	table {
+		@apply text-foreground;
+		line-height: 160%;
+		margin: 0 0 0.5rem 0;
+	}
+
+	h1 {
+		@apply mb-8 text-2xl;
+	}
+
+	h2 {
+		font-size: 1.3rem;
+		margin: 2rem 0 1rem 0;
+	}
+
+	h3,
+	h4 {
+		font-size: 1.2rem;
+		margin-bottom: 0.8rem;
+	}
+
+	ul,
+	ol {
+		padding-left: 2rem;
+
+		li {
+			padding-left: 0.8rem;
+			margin-bottom: 1.2rem;
+		}
+
+		li > input {
+			display: none;
+		}
+	}
+
+	a {
+		@apply text-link;
+
+		&:hover {
+			text-decoration: none;
+		}
+	}
+
+	blockquote {
+		@apply border-l-gray-400;
+
+		margin: 1rem 0;
+		padding: 0 1em;
+		border-left-style: solid;
+		border-left-width: 0.25rem;
+		font-size: 0.9rem;
+		& > :first-child {
+			margin-top: 0;
+		}
+		& > :last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	img {
+		max-width: 100%;
+		margin: 2rem 0;
+	}
+
+	pre {
+		overflow: auto;
+		border-radius: 0.3rem;
+	}
+
+	code {
+		@apply m-0 text-xs;
+
+		border-radius: 3px;
+		white-space: pre-wrap;
+		&::before,
+		&::after {
+			letter-spacing: -0.2em;
+		}
+
+		padding-left: 4px;
+		padding-right: 4px;
+	}
+}
+
 .mde-preview-content {
 	font-size: 14px;
 	margin-bottom: 0;
