@@ -15,15 +15,15 @@ function PostRouteBreadcumbs() {
 		postData: { title, proposalType }
 	} = usePostDataContext();
 
-	const listingView = [ProposalType.DISCUSSIONS, ProposalType.FELLOWSHIP_REFERENDUMS].includes(proposalType) ? ActivityType.GENERAL_PROPOSAL.replaceAll('-', ' ') : '';
+	const listingView = [ProposalType.DISCUSSIONS, ProposalType.FELLOWSHIP_REFERENDUMS].includes(proposalType) ? ActivityType.GENERAL_PROPOSAL : '';
 
 	return (
 		<div className='flex gap-3 text-xs'>
 			<Link
-				href='/'
+				href={`/${listingView}s`}
 				className='capitalize text-link'
 			>
-				{listingView}
+				{listingView.replaceAll('-', ' ')}
 			</Link>
 
 			<span>&gt;</span>

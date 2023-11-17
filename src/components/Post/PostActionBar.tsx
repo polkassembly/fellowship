@@ -8,9 +8,13 @@ import AddViewBtn from './AddViewBtn';
 import AddSubscriptionBtn from './AddSubscriptionBtn';
 import SharePostBtn from './SharePostBtn';
 
-function PostActionBar() {
+interface Props {
+	className?: string;
+}
+
+function PostActionBar({ className }: Props) {
 	return (
-		<section className='flex items-center justify-between'>
+		<section className={`${className} flex items-center justify-between`}>
 			<div className='flex items-center gap-0.5'>
 				<AddReactionBtn />
 
