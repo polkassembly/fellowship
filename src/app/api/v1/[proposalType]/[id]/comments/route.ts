@@ -25,7 +25,7 @@ export const GET = withErrorHandling(async (req: NextRequest, { params }) => {
 	const repliesPromises: Promise<QuerySnapshot<DocumentData>>[] = [];
 
 	const postComments =
-		(await postCommentsCollRef(network, proposalType, String(id)).get()).docs.map((doc) => {
+		(await postCommentsCollRef(network, proposalType, String(id)).orderBy('created_at', 'asc').get()).docs.map((doc) => {
 			const commentData = doc.data();
 
 			reactionsPromises.push(commentReactionCollRef(network, proposalType, String(id), String(doc.id)).get());

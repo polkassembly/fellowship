@@ -258,7 +258,7 @@ export enum EGovType {
 }
 
 export interface IPost {
-	id: number;
+	id: number | string;
 	user_id: number | null;
 	title: string;
 	content: string;
