@@ -271,3 +271,38 @@ export interface IPost {
 	shares_count: number;
 	views_count: number;
 }
+
+export interface ICommentHistory {
+	content: string;
+	created_at: Date;
+	sentiment: number | 0;
+}
+
+export interface PostComment {
+	user_id: number;
+	content: string;
+	created_at: Date;
+	history: ICommentHistory[];
+	id: string;
+	isDeleted: boolean;
+	updated_at: Date;
+	sentiment: number | 0;
+	username: string;
+	user_profile_img: string;
+}
+
+export interface CommentReply {
+	user_id: number;
+	content: string;
+	created_at: Date;
+	id: string;
+	isDeleted: boolean;
+	updated_at: Date;
+	username: string;
+	user_profile_img: string;
+}
+
+export interface PostCommentResponse extends PostComment {
+	replies: CommentReply[];
+	reactions: PublicReactionEntry[];
+}
