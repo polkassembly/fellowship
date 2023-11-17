@@ -7,7 +7,7 @@ import PostPageContent from '@/components/Post/PostPageContent';
 import { API_ERROR_CODE } from '@/global/constants/errorCodes';
 import { ClientError } from '@/global/exceptions';
 import MESSAGES from '@/global/messages';
-import { ServerComponentProps } from '@/global/types';
+import { ProposalType, ServerComponentProps } from '@/global/types';
 import getOriginUrl from '@/utils/getOriginUrl';
 import { headers } from 'next/headers';
 import React from 'react';
@@ -28,7 +28,7 @@ async function PostPage({ params }: ServerComponentProps<IParams, unknown>) {
 	const headersList = headers();
 	const originUrl = getOriginUrl(headersList);
 
-	const post = await getPost({ id: Number(postID), originUrl });
+	const post = await getPost({ id: Number(postID), originUrl, proposalType: ProposalType.FELLOWSHIP_REFERENDUMS });
 
 	return <PostPageContent post={post} />;
 }

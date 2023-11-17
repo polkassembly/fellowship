@@ -7,6 +7,7 @@ import { useContext } from 'react';
 import { ApiContext } from './ApiContext';
 import { UserDetailsContext } from './UserDetailsContext';
 import { PostDataContext } from './PostDataContext';
+import { CommentsContext } from './CommentsContext';
 
 const useApiContext = () => {
 	return useContext(ApiContext);
@@ -20,4 +21,8 @@ const usePostDataContext = () => {
 	return useContext(PostDataContext);
 };
 
-export { useApiContext, useUserDetailsContext, usePostDataContext };
+const useCommentsContext = () => {
+	return useContext(CommentsContext);
+};
+
+export { useApiContext, useUserDetailsContext, usePostDataContext, useCommentsContext };

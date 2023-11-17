@@ -7,6 +7,7 @@ import { IPost } from '@/global/types';
 import React from 'react';
 import PostRouteBreadcumbs from './PostRouteBreadcumbs';
 import PostArticleCard from './PostArticleCard';
+import CommentsCard from './CommentsCard';
 
 interface Props {
 	post: IPost;
@@ -19,7 +20,13 @@ function PostPageContent({ post }: Props) {
 				<PostRouteBreadcumbs />
 
 				<div className='flex gap-8'>
-					<PostArticleCard className='w-9/12' />
+					<div className='flex w-9/12 flex-col gap-6'>
+						<PostArticleCard />
+						<CommentsCard
+							postId={Number(post.id)}
+							proposalType={post.proposalType}
+						/>
+					</div>
 
 					<div className='flex-1 bg-green-400'>Sidebar</div>
 				</div>
