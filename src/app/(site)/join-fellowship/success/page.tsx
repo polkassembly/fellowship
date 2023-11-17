@@ -46,8 +46,14 @@ function JoinFellowshipApplicationSuccessModal({ searchParams }: ServerComponent
 
 						{postId && (
 							<ModalBody>
-								<p className='text-center text-sm'>
-									To see the current status of the application request <Link href={`/post/${postId}`}>click here</Link>
+								<p className='p-7 text-center text-sm'>
+									To see the current status of the application request{' '}
+									<Link
+										className='text-link'
+										href={`/post/${postId}`}
+									>
+										click here
+									</Link>
 								</p>
 							</ModalBody>
 						)}
