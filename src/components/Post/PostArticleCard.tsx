@@ -13,6 +13,7 @@ import { Divider } from '@nextui-org/divider';
 import PostListingHeader from './PostListingHeader';
 import PostTags from './PostTags';
 import PostActionBar from './PostActionBar';
+import Markdown from '../TextEditor/Markdown';
 
 interface Props {
 	className?: string;
@@ -25,31 +26,7 @@ function PostArticleCard({ className }: Props) {
 		{
 			id: 'description',
 			label: 'Description',
-			content: (
-				<p>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt tenetur nobis dolorum sunt quos. Corporis voluptate dignissimos soluta consequuntur, explicabo quos
-					voluptatem id cum suscipit sapiente? Pariatur iure et perspiciatis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt tenetur nobis dolorum sunt quos.
-					Corporis voluptate dignissimos soluta consequuntur, explicabo quos voluptatem id cum suscipit sapiente? Pariatur iure et perspiciatis? Lorem ipsum dolor sit amet
-					consectetur adipisicing elit. Incidunt tenetur nobis dolorum sunt quos. Corporis voluptate dignissimos soluta consequuntur, explicabo quos voluptatem id cum suscipit
-					sapiente? Pariatur iure et perspiciatis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt tenetur nobis dolorum sunt quos. Corporis voluptate dignissimos
-					soluta consequuntur, explicabo quos voluptatem id cum suscipit sapiente? Pariatur iure et perspiciatis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt
-					tenetur nobis dolorum sunt quos. Corporis voluptate dignissimos soluta consequuntur, explicabo quos voluptatem id cum suscipit sapiente? Pariatur iure et perspiciatis?
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt tenetur nobis dolorum sunt quos. Corporis voluptate dignissimos soluta consequuntur, explicabo quos
-					voluptatem id cum suscipit sapiente? Pariatur iure et perspiciatis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt tenetur nobis dolorum sunt quos.
-					Corporis voluptate dignissimos soluta consequuntur, explicabo quos voluptatem id cum suscipit sapiente? Pariatur iure et perspiciatis? Lorem ipsum dolor sit amet
-					consectetur adipisicing elit. Incidunt tenetur nobis dolorum sunt quos. Corporis voluptate dignissimos soluta consequuntur, explicabo quos voluptatem id cum suscipit
-					sapiente? Pariatur iure et perspiciatis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt tenetur nobis dolorum sunt quos. Corporis voluptate dignissimos
-					soluta consequuntur, explicabo quos voluptatem id cum suscipit sapiente? Pariatur iure et perspiciatis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt
-					tenetur nobis dolorum sunt quos. Corporis voluptate dignissimos soluta consequuntur, explicabo quos voluptatem id cum suscipit sapiente? Pariatur iure et perspiciatis?
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt tenetur nobis dolorum sunt quos. Corporis voluptate dignissimos soluta consequuntur, explicabo quos
-					voluptatem id cum suscipit sapiente? Pariatur iure et perspiciatis?Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt tenetur nobis dolorum sunt quos.
-					Corporis voluptate dignissimos soluta consequuntur, explicabo quos voluptatem id cum suscipit sapiente? Pariatur iure et perspiciatis?Lorem ipsum dolor sit amet
-					consectetur adipisicing elit. Incidunt tenetur nobis dolorum sunt quos. Corporis voluptate dignissimos soluta consequuntur, explicabo quos voluptatem id cum suscipit
-					sapiente? Pariatur iure et perspiciatis?Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt tenetur nobis dolorum sunt quos. Corporis voluptate dignissimos
-					soluta consequuntur, explicabo quos voluptatem id cum suscipit sapiente? Pariatur iure et perspiciatis?Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt
-					tenetur nobis dolorum sunt quos. Corporis voluptate dignissimos soluta consequuntur, explicabo quos voluptatem id cum suscipit sapiente? Pariatur iure et perspiciatis?
-				</p>
-			)
+			content: <Markdown md={postData.content} />
 		},
 		{
 			id: 'timeline',
@@ -109,7 +86,7 @@ function PostArticleCard({ className }: Props) {
 								key={item.id}
 								title={item.label}
 							>
-								<ScrollShadow className='max-h-[55vh] px-6 py-4'>{item.content}</ScrollShadow>
+								<ScrollShadow className='max-h-[55vh] px-6'>{item.content}</ScrollShadow>
 							</Tab>
 						)}
 					</Tabs>
