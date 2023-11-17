@@ -60,7 +60,7 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
 	const result = await gqlClient
 		.query(GET_FELLOWSHIP_REFERENDUMS, {
 			limit: LISTING_LIMIT,
-			offset: page * LISTING_LIMIT
+			offset: (page - 1) * LISTING_LIMIT
 		})
 		.toPromise();
 
