@@ -6,6 +6,7 @@ interface Params {
 	text: string;
 	startChars: number;
 	endChars: number;
+	separator?: string;
 }
 
 /**
@@ -16,8 +17,8 @@ interface Params {
  * @param {Params} { text, startChars, endChars }
  * @return {string}
  */
-export default function midTruncateText({ text, startChars, endChars }: Params): string {
+export default function midTruncateText({ text, startChars, endChars, separator = '...' }: Params): string {
 	const maxLength = startChars + endChars;
 
-	return text.length > maxLength ? `${text.slice(0, startChars)}...${text.slice(-endChars)}` : text;
+	return text.length > maxLength ? `${text.slice(0, startChars)}${separator}${text.slice(-endChars)}` : text;
 }

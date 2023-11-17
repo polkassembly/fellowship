@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+'use client';
+
 import { IPost } from '@/global/types';
 import { Context, createContext, Dispatch, PropsWithChildren, SetStateAction, useMemo, useState } from 'react';
 

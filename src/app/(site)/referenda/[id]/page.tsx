@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import getPost from '@/app/api/v1/[proposalType]/[id]/getPost';
+import PostPageContent from '@/components/Post/PostPageContent';
 import { API_ERROR_CODE } from '@/global/constants/errorCodes';
 import { ClientError } from '@/global/exceptions';
 import MESSAGES from '@/global/messages';
@@ -29,9 +30,7 @@ async function PostPage({ params }: ServerComponentProps<IParams, unknown>) {
 
 	const post = await getPost({ id: Number(postID), originUrl });
 
-	console.log('post: ', post);
-
-	return <div>PostPage {postID}</div>;
+	return <PostPageContent post={post} />;
 }
 
 export default PostPage;
