@@ -77,7 +77,7 @@ function PostArticleCard({ className }: Props) {
 							tabList: 'gap-12 w-full relative rounded-none p-0 border-b-0 border-divider',
 							cursor: 'w-full bg-primary',
 							tab: 'max-w-fit px-0 h-12',
-							tabContent: 'group-data-[selected=true]:text-primary text-foreground hover:text-primary'
+							tabContent: 'group-data-[selected=true]:text-primary text-foreground hover:text-primary group-data-[selected=true]:font-medium'
 						}}
 						items={tabs}
 					>
