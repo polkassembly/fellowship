@@ -29,6 +29,8 @@ async function PostModalPage({ params }: ServerComponentProps<IParams, unknown>)
 
 	const post = await getPost({ id: Number(postID), originUrl, proposalType: ProposalType.FELLOWSHIP_REFERENDUMS });
 
+	// TODO: generate metadata for post
+
 	return <PostModal post={post} />;
 }
 

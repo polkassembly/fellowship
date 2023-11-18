@@ -29,6 +29,7 @@ async function PostPage({ params }: ServerComponentProps<IParams, unknown>) {
 	const originUrl = getOriginUrl(headersList);
 
 	const post = await getPost({ id: Number(postID), originUrl, proposalType: ProposalType.FELLOWSHIP_REFERENDUMS });
+	// TODO: generate metadata for post
 
 	return <PostPageContent post={post} />;
 }
