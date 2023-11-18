@@ -10,7 +10,7 @@ import Image from 'next/image';
 import { Button } from '@nextui-org/button';
 import VoteProgress from '../VoteProgress';
 
-function VotingCard() {
+function VoteInfoCard() {
 	const {
 		postData: { on_chain_info: onChainInfo }
 	} = usePostDataContext();
@@ -35,7 +35,7 @@ function VotingCard() {
 		>
 			<div className='mb-3 flex items-center justify-between'>
 				<h3 className='text-lg font-semibold'>Cast Vote Card</h3>
-				<span className='text-xs'>Passing</span>
+				{/* <span className='text-xs'>Passing</span> */}
 			</div>
 
 			<section className='flex items-end gap-2'>
@@ -68,4 +68,4 @@ function VotingCard() {
 	);
 }
 
-export default VotingCard;
+export default VoteInfoCard;
