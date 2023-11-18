@@ -11,6 +11,7 @@ import PostDataContextProvider from '@/contexts/PostDataContext';
 import { IPost } from '@/global/types';
 import { Button } from '@nextui-org/button';
 import Image from 'next/image';
+import VoteButton from '@/components/Post/GovernanceSidebar/VoteButton';
 import ContentListingHeader from './ContentListingHeader';
 import PostTags from './PostTags';
 import Markdown from '../TextEditor/Markdown';
@@ -90,33 +91,8 @@ function PostModal({ post }: Props) {
 							</div>
 
 							<div className='flex items-center gap-4'>
-								<Button
-									className='flex w-full items-center gap-1.5 rounded-full bg-voteAye text-base text-white'
-									size='sm'
-								>
-									<Image
-										alt='Login Icon'
-										src='/icons/thumbs-up-white.svg'
-										width={16}
-										height={16}
-										className='ml-[-8px] mr-2 h-[40px]'
-									/>
-									Vote Aye
-								</Button>
-
-								<Button
-									className='flex w-full items-center gap-1.5 rounded-full bg-voteNay text-base text-white'
-									size='sm'
-								>
-									<Image
-										alt='Login Icon'
-										src='/icons/thumbs-up-white.svg'
-										width={16}
-										height={16}
-										className='ml-[-8px] mr-2 h-[40px]'
-									/>
-									Vote Nay
-								</Button>
+								<VoteButton voteType='aye' />
+								<VoteButton voteType='nay' />
 							</div>
 						</ModalFooter>
 					</PostDataContextProvider>

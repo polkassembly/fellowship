@@ -16,6 +16,7 @@ import PostArticleCard from './PostArticleCard';
 import CommentsCard from '../CommentsCard';
 import PostRouteBreadcumbs from './PostRouteBreadcumbs';
 import EditPostCard from './EditPostCard';
+import GovernanceSidebar from '../GovernanceSidebar';
 
 interface Props {
 	post: IPost;
@@ -50,6 +51,7 @@ function PostPageContent({ post }: Props) {
 				<div className='flex w-9/12 flex-col gap-6'>
 					<div className='flex items-center justify-between'>
 						<PostRouteBreadcumbs />
+
 						{canEdit && (
 							<Button
 								size='sm'
@@ -79,7 +81,9 @@ function PostPageContent({ post }: Props) {
 					</CommentsContextProvider>
 				</div>
 
-				<div className='mt-14 flex-1'>Sidebar</div>
+				<div className={`${canEdit ? 'mt-14' : 'mt-10'} flex-1`}>
+					<GovernanceSidebar />
+				</div>
 			</section>
 		</PostDataContextProvider>
 	);
