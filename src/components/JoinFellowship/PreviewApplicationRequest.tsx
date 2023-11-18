@@ -8,7 +8,7 @@ import { Divider } from '@nextui-org/divider';
 import { ProposalStatus } from '@/global/types';
 import UserIdentity from '../Profile/UserIdentity';
 import DateHeader from '../Post/ContentListingHeader/DateHeader';
-import StatusChip from '../Post/StatusTag';
+import StatusChip from '../Post/StatusChip';
 import AlertCard from '../Misc/AlertCard';
 import LoadingSpinner from '../Misc/LoadingSpinner';
 

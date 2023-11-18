@@ -50,7 +50,7 @@ function HorizontalVoteProgress({ className = '' }: Props) {
 						}}
 						className='inline-block h-[6px] w-[6px] rounded-full'
 					/>
-					{100 - ayesPercentage}% Nays
+					{totalVotes.isZero() ? '0' : 100 - ayesPercentage}% Nays
 				</div>
 			</div>
 
@@ -59,7 +59,7 @@ function HorizontalVoteProgress({ className = '' }: Props) {
 				aria-label='Voting Progress'
 				value={ayesPercentage}
 				classNames={{
-					track: 'bg-voteNay',
+					track: totalVotes.isZero() ? 'bg-graphBg' : 'bg-voteNay',
 					indicator: 'bg-voteAye'
 				}}
 				className='max-h-[10px]'

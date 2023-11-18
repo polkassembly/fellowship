@@ -15,9 +15,10 @@ interface Props {
 	className?: string;
 	ayes: string;
 	nays: string;
+	variant?: 'listing' | 'post';
 }
 
-function ListingVoteProgress({ className = '', ayes, nays }: Props) {
+function VoteProgress({ className = '', ayes, nays, variant = 'post' }: Props) {
 	const { resolvedTheme = 'light' } = useTheme();
 
 	let ayesBN = new BN(ayes);
@@ -46,38 +47,60 @@ function ListingVoteProgress({ className = '', ayes, nays }: Props) {
 		}
 	];
 
+	if (variant === 'listing') {
+		return (
+			<Tooltip
+				showArrow
+				content={
+					<section className='flex flex-col gap-1 text-xs'>
+						<div>Ayes: {ayes}</div>
+						<div>Nays: {nays}</div>
+					</section>
+				}
+				className='bg-tooltip_background text-tooltip_foreground'
+				classNames={{
+					arrow: 'bg-tooltip_background'
+				}}
+			>
+				<div className={className}>
+					<Pie
+						height={12}
+						width={24}
+						data={data}
+						startAngle={-90}
+						endAngle={90}
+						innerRadius={0.8}
+						enableArcLabels={false}
+						enableArcLinkLabels={false}
+						isInteractive={false}
+						animate={false}
+						colors={graphColours}
+						fit
+					/>
+				</div>
+			</Tooltip>
+		);
+	}
+
 	return (
-		<Tooltip
-			showArrow
-			content={
-				<section className='flex flex-col gap-1 text-xs'>
-					<div>Ayes: {ayes}</div>
-					<div>Nays: {nays}</div>
-				</section>
-			}
-			className='bg-tooltip_background text-tooltip_foreground'
-			classNames={{
-				arrow: 'bg-tooltip_background'
-			}}
-		>
-			<div className={className}>
-				<Pie
-					height={12}
-					width={24}
-					data={data}
-					startAngle={-90}
-					endAngle={90}
-					innerRadius={0.8}
-					enableArcLabels={false}
-					enableArcLinkLabels={false}
-					isInteractive={false}
-					animate={false}
-					colors={graphColours}
-					fit
-				/>
-			</div>
-		</Tooltip>
+		<div className={className}>
+			<Pie
+				height={82}
+				width={164}
+				data={data}
+				startAngle={-90}
+				endAngle={90}
+				innerRadius={0.88}
+				enableArcLabels={false}
+				enableArcLinkLabels={false}
+				isInteractive={false}
+				animate
+				colors={graphColours}
+				cornerRadius={30}
+				fit
+			/>
+		</div>
 	);
 }
 
-export default ListingVoteProgress;
+export default VoteProgress;

@@ -10,8 +10,8 @@ import ActivityTypeChip from './ActivityTypeChip';
 import DateHeader from './DateHeader';
 import DecidingEndsHeader from './DecidingEndsHeader';
 import ActivityActionTypeChip from './ActivityActionTypeChip';
-import ListingVoteProgress from './ListingVoteProgress';
-import StatusChip from '../StatusTag';
+import StatusChip from '../StatusChip';
+import VoteProgress from '../VoteProgress';
 
 interface Props {
 	className?: string;
@@ -52,9 +52,10 @@ function ContentListingHeader({ className = '', activityType, address, username,
 			{votesTally && (
 				<>
 					<Divider orientation='vertical' />
-					<ListingVoteProgress
+					<VoteProgress
 						ayes={votesTally.ayes}
 						nays={votesTally.nays}
+						variant='listing'
 					/>
 				</>
 			)}

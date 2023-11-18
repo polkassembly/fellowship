@@ -8,7 +8,7 @@ import Image from 'next/image';
 import React from 'react';
 import { ProposalStatus } from '@/global/types';
 import Link from 'next/link';
-import StatusChip from '../Post/StatusTag';
+import StatusChip from '../Post/StatusChip';
 
 interface Props {
 	index: number;

@@ -13,7 +13,7 @@ const THEME_COLORS = {
 		mdeHeaderForeground: '#363636',
 		voteNay: '#FF3C5F',
 		voteAye: '#2ED47A',
-		graphBg: '#666666',
+		graphBg: '#D2D8E0',
 		successModalHeaderBg: '#51D36E'
 	},
 	dark: {
