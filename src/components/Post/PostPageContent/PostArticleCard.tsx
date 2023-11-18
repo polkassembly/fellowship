@@ -31,17 +31,17 @@ function PostArticleCard({ className }: Props) {
 		{
 			id: 'timeline',
 			label: 'Timeline',
-			content: <p>2</p>
+			content: <p>Timeline</p>
 		},
-		{
-			id: 'audit',
-			label: 'Audit',
-			content: <p>3</p>
-		},
+		// {
+		// id: 'audit',
+		// label: 'Audit',
+		// content: <p>3</p>
+		// },
 		{
 			id: 'on-chain-info',
 			label: 'On Chain Info',
-			content: <p>4</p>
+			content: <p>On Chain Info</p>
 		}
 	];
 
