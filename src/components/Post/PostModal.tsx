@@ -11,7 +11,7 @@ import PostDataContextProvider from '@/contexts/PostDataContext';
 import { IPost } from '@/global/types';
 import { Button } from '@nextui-org/button';
 import Image from 'next/image';
-import PostListingHeader from './PostListingHeader';
+import ContentListingHeader from './ContentListingHeader';
 import PostTags from './PostTags';
 import Markdown from '../TextEditor/Markdown';
 import HorizontalVoteProgress from './HorizontalVoteProgress';
@@ -45,7 +45,7 @@ function PostModal({ post }: Props) {
 					<PostDataContextProvider postItem={post}>
 						<ModalHeader className='flex justify-between'>
 							<header className='flex flex-col gap-2 text-xl font-semibold'>
-								<PostListingHeader
+								<ContentListingHeader
 									createdAt={post.created_at}
 									address={post.on_chain_info?.proposer}
 									status={post.on_chain_info?.status}

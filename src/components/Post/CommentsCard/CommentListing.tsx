@@ -6,14 +6,15 @@
 
 import { useCommentsContext } from '@/contexts';
 import React from 'react';
+import CommentListingItem from './CommentListingItem';
 
 function CommentListing() {
 	const { postComments } = useCommentsContext();
 
 	return (
-		<div className='flex flex-col gap-3'>
+		<div className='flex flex-col gap-4'>
 			{postComments.map((comment) => (
-				<div>{comment.content}</div>
+				<CommentListingItem comment={comment} />
 			))}
 		</div>
 	);

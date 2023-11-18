@@ -27,7 +27,7 @@ interface Props {
 	decidingEnds?: Date;
 }
 
-function PostListingHeader({ className = '', activityType, address, username, createdAt, votesTally, status, decidingEnds }: Props) {
+function ContentListingHeader({ className = '', activityType, address, username, createdAt, votesTally, status, decidingEnds }: Props) {
 	return (
 		<div className={`flex h-[26px] items-center gap-2.5 text-sm ${className}`}>
 			{(address || username) && (
@@ -82,4 +82,4 @@ function PostListingHeader({ className = '', activityType, address, username, cr
 	);
 }
 
-export default PostListingHeader;
+export default ContentListingHeader;

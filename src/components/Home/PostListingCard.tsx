@@ -10,7 +10,7 @@ import Link from 'next/link';
 import { getSinglePostLinkFromProposalType } from '@/utils/getSinglePostLinkFromProposalType';
 import PostActionBar from '../Post/PostActionBar';
 import PostReactionInfoBar from '../Post/PostReactionInfoBar';
-import PostListingHeader from '../Post/PostListingHeader';
+import ContentListingHeader from '../Post/ContentListingHeader';
 import PostListingBody from '../Post/PostListingBody';
 import NotVotedYetCard from '../Post/NotVotedYetCard';
 
@@ -34,7 +34,7 @@ function PostListingCard({ feedItem }: Props) {
 			>
 				{/* Need this wrapper div because isPressable breaks styles */}
 				<div className={`flex flex-col gap-3 px-6 py-4 text-left ${SHOW_NOT_VOTED && 'pb-[35px]'}`}>
-					<PostListingHeader
+					<ContentListingHeader
 						activityType={feedItem.proposalType === ProposalType.FELLOWSHIP_REFERENDUMS ? ActivityType.GENERAL_PROPOSAL : undefined}
 						address={feedItem.on_chain_info?.proposer}
 						createdAt={feedItem.created_at}

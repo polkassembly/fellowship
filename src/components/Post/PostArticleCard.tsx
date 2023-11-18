@@ -10,7 +10,7 @@ import { usePostDataContext } from '@/contexts';
 import { Tabs, Tab } from '@nextui-org/tabs';
 import { ScrollShadow } from '@nextui-org/scroll-shadow';
 import { Divider } from '@nextui-org/divider';
-import PostListingHeader from './PostListingHeader';
+import ContentListingHeader from './ContentListingHeader';
 import PostTags from './PostTags';
 import PostActionBar from './PostActionBar';
 import Markdown from '../TextEditor/Markdown';
@@ -52,7 +52,7 @@ function PostArticleCard({ className }: Props) {
 				className='flex flex-col gap-3 border border-primary_border pb-4 pt-6'
 			>
 				<div className='px-6'>
-					<PostListingHeader
+					<ContentListingHeader
 						createdAt={postData.created_at}
 						address={postData.on_chain_info?.proposer}
 						status={postData.on_chain_info?.status}

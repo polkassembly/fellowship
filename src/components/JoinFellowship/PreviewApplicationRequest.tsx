@@ -7,7 +7,7 @@ import React from 'react';
 import { Divider } from '@nextui-org/divider';
 import { ProposalStatus } from '@/global/types';
 import UserIdentity from '../Profile/UserIdentity';
-import DateHeader from '../Post/PostListingHeader/DateHeader';
+import DateHeader from '../Post/ContentListingHeader/DateHeader';
 import StatusChip from '../Post/StatusTag';
 import AlertCard from '../Misc/AlertCard';
 import LoadingSpinner from '../Misc/LoadingSpinner';

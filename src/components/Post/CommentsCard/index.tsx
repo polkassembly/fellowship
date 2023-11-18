@@ -23,12 +23,14 @@ async function CommentsCard({ postId, proposalType }: Props) {
 	const comments = await getComments({ id: Number(postId), originUrl, proposalType });
 
 	return (
-		<CommentsContextProvider initPostComments={comments}>
+		<CommentsContextProvider initPostComments={comments || []}>
 			<Card
 				shadow='none'
-				className='flex flex-col gap-4 border border-primary_border p-6'
+				className='flex flex-col gap-6 border border-primary_border p-6'
 			>
-				<h2 className='text-base font-semibold'>Comments</h2>
+				<h2 className='text-base font-semibold'>
+					Comments <span className='text-xs font-normal'>({comments.length})</span>
+				</h2>
 
 				<CommentForm />
 				<CommentListing />
