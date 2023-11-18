@@ -17,12 +17,12 @@ const THEME_COLORS = {
 		successModalHeaderBg: '#51D36E'
 	},
 	dark: {
-		primary_border: '#3C3C8F',
+		primary_border: '#3F3F46',
 		tooltip_background: '#363636',
 		tooltip_foreground: '#FFFFFF',
 		link: '#1B61FF',
-		mdeHeader: '#363636',
-		mdeHeaderFocus: '#363636',
+		mdeHeader: '#3F3F46',
+		mdeHeaderFocus: '#3F3F46',
 		mdeHeaderForeground: '#FFFFFF',
 		voteNay: '#FF3C5F',
 		voteAye: '#2ED47A',

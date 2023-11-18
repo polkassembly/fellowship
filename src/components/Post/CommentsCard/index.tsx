@@ -5,7 +5,7 @@
 'use client';
 
 import { Card } from '@nextui-org/card';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import { PostCommentResponse, ProposalType } from '@/global/types';
 import nextApiClientFetch from '@/utils/nextApiClientFetch';
 import AlertCard from '@/components/Misc/AlertCard';
@@ -70,4 +70,4 @@ function CommentsCard({ postId, proposalType }: Props) {
 	);
 }
 
-export default CommentsCard;
+export default memo(CommentsCard);

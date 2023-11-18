@@ -6,19 +6,22 @@
 
 import PostDataContextProvider from '@/contexts/PostDataContext';
 import { IPost } from '@/global/types';
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@nextui-org/button';
 import Image from 'next/image';
 import CommentsContextProvider from '@/contexts/CommentsContext';
 import PostArticleCard from './PostArticleCard';
 import CommentsCard from '../CommentsCard';
 import PostRouteBreadcumbs from './PostRouteBreadcumbs';
+import EditPostCard from './EditPostCard';
 
 interface Props {
 	post: IPost;
 }
 
 function PostPageContent({ post }: Props) {
+	const [isEditing, setIsEditing] = useState(false);
+
 	return (
 		<PostDataContextProvider postItem={post}>
 			<div className='flex gap-8'>
@@ -30,7 +33,7 @@ function PostPageContent({ post }: Props) {
 							variant='flat'
 							className='flex items-center text-primary'
 							color='primary'
-							onPress={() => console.log('edit post')}
+							onPress={() => setIsEditing(!isEditing)}
 						>
 							<Image
 								alt='Login Icon'
@@ -38,11 +41,12 @@ function PostPageContent({ post }: Props) {
 								width={16}
 								height={16}
 							/>
-							Edit Post
+							{isEditing ? 'Cancel Edit' : 'Edit Post'}
 						</Button>
 					</div>
 
-					<PostArticleCard />
+					{isEditing ? <EditPostCard /> : <PostArticleCard />}
+
 					<CommentsContextProvider initPostComments={[]}>
 						<CommentsCard
 							postId={Number(post.id)}
