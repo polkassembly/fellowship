@@ -2,13 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+'use client';
+
 import { Card } from '@nextui-org/card';
-import React from 'react';
-import getComments from '@/app/api/v1/[proposalType]/[id]/comments/getComments';
-import { headers } from 'next/headers';
-import getOriginUrl from '@/utils/getOriginUrl';
-import { ProposalType } from '@/global/types';
-import CommentsContextProvider from '@/contexts/CommentsContext';
+import React, { useEffect, useState } from 'react';
+import { PostCommentResponse, ProposalType } from '@/global/types';
+import nextApiClientFetch from '@/utils/nextApiClientFetch';
+import AlertCard from '@/components/Misc/AlertCard';
+import LoadingSpinner from '@/components/Misc/LoadingSpinner';
+import { useCommentsContext } from '@/contexts';
 import CommentForm from './CommentForm';
 import CommentListing from './CommentListing';
 
@@ -17,25 +19,54 @@ type Props = {
 	proposalType: ProposalType;
 };
 
-async function CommentsCard({ postId, proposalType }: Props) {
-	const headersList = headers();
-	const originUrl = getOriginUrl(headersList);
-	const comments = await getComments({ id: Number(postId), originUrl, proposalType });
+function CommentsCard({ postId, proposalType }: Props) {
+	const { postComments, setPostComments } = useCommentsContext();
+
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState('');
+
+	useEffect(() => {
+		(async () => {
+			const { data, error: fetchingError } = await nextApiClientFetch<PostCommentResponse[]>({
+				url: `/api/v1/${proposalType}/${postId}/comments`,
+				isPolkassemblyAPI: false
+			});
+
+			if (!data || fetchingError) {
+				setError(fetchingError || 'Error fetching comments. Please refresh and try again.');
+				setLoading(false);
+				return;
+			}
+
+			setPostComments(data);
+			setLoading(false);
+		})();
+	}, [postId, proposalType, setPostComments]);
 
 	return (
-		<CommentsContextProvider initPostComments={comments || []}>
-			<Card
-				shadow='none'
-				className='flex flex-col gap-6 border border-primary_border p-6'
-			>
-				<h2 className='text-base font-semibold'>
-					Comments <span className='text-xs font-normal'>({comments.length})</span>
-				</h2>
+		<Card
+			shadow='none'
+			className='flex flex-col gap-6 border border-primary_border p-6'
+		>
+			<h2 className='text-base font-semibold'>
+				Comments <span className='text-xs font-normal'>({postComments.length})</span>
+			</h2>
 
-				<CommentForm />
+			<CommentForm />
+
+			{loading ? (
+				<div className='my-4 flex justify-center'>
+					<LoadingSpinner message='Fetching comments...' />
+				</div>
+			) : error ? (
+				<AlertCard
+					message={error}
+					type='warning'
+				/>
+			) : (
 				<CommentListing />
-			</Card>
-		</CommentsContextProvider>
+			)}
+		</Card>
 	);
 }
 

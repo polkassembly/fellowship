@@ -27,7 +27,7 @@ async function nextApiClientFetch<T>({ url, data, method = 'GET', isPolkassembly
 			'Content-Type': 'application/json',
 			'x-network': network
 		},
-		method: method ?? Boolean(data) ? 'POST' : 'GET'
+		method: method ?? (data ? 'POST' : 'GET')
 	});
 
 	const resJSON = await response.json();

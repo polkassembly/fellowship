@@ -14,7 +14,10 @@ function CommentListing() {
 	return (
 		<div className='flex flex-col gap-4'>
 			{postComments.map((comment) => (
-				<CommentListingItem comment={comment} />
+				<CommentListingItem
+					key={`comment_${comment.id}`}
+					comment={comment}
+				/>
 			))}
 		</div>
 	);
