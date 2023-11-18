@@ -14,7 +14,7 @@ interface Args {
 	isPolkassemblyAPI?: boolean;
 }
 
-async function nextApiClientFetch<T>({ url, data, method = 'GET', isPolkassemblyAPI = true }: Args): Promise<{ data?: T; error?: string }> {
+async function nextApiClientFetch<T>({ url, data, method, isPolkassemblyAPI = true }: Args): Promise<{ data?: T; error?: string }> {
 	const network = getNetwork();
 
 	const currentURL = new URL(window.location.href);
