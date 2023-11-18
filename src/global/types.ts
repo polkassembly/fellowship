@@ -306,3 +306,15 @@ export interface PostCommentResponse extends PostComment {
 	replies: CommentReply[];
 	reactions: PublicReactionEntry[];
 }
+
+export interface IEditPostResponse {
+	content: string;
+	proposer: string;
+	summary: string;
+	title: string;
+	topic: {
+		id: number;
+		name: string;
+	};
+	last_edited_at: Date;
+}

@@ -22,6 +22,7 @@ function ReplyListingItem({ className, parentComment, reply }: Props) {
 			<Avatar
 				src={reply.user_profile_img}
 				name={reply.username?.[0].toUpperCase()}
+				className='mt-1'
 			/>
 
 			<section className='flex flex-1 flex-col'>

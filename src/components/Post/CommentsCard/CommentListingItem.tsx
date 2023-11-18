@@ -20,6 +20,7 @@ function CommentListingItem({ comment }: Props) {
 			<Avatar
 				src={comment.user_profile_img}
 				name={comment.username?.[0].toUpperCase()}
+				className='mt-1'
 			/>
 
 			<section className='flex flex-1 flex-col'>
