@@ -7,7 +7,7 @@ import { IPost } from '@/global/types';
 import React from 'react';
 import PostRouteBreadcumbs from './PostRouteBreadcumbs';
 import PostArticleCard from './PostArticleCard';
-import CommentsCard from './CommentsCard';
+import CommentsCard from '../CommentsCard';
 
 interface Props {
 	post: IPost;

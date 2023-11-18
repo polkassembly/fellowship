@@ -10,10 +10,10 @@ import { usePostDataContext } from '@/contexts';
 import { Tabs, Tab } from '@nextui-org/tabs';
 import { ScrollShadow } from '@nextui-org/scroll-shadow';
 import { Divider } from '@nextui-org/divider';
-import ContentListingHeader from './ContentListingHeader';
-import PostTags from './PostTags';
-import PostActionBar from './PostActionBar';
-import Markdown from '../TextEditor/Markdown';
+import Markdown from '@/components/TextEditor/Markdown';
+import ContentListingHeader from '../ContentListingHeader';
+import PostTags from '../PostTags';
+import PostActionBar from '../PostActionBar';
 
 interface Props {
 	className?: string;
