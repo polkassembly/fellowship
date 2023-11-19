@@ -18,13 +18,14 @@ import AlertCard from '../Misc/AlertCard';
 import Address from '../Profile/Address';
 
 interface Props {
+	disabled?: boolean;
 	wallet: Wallet;
 	onAddressSelect: (account: InjectedAccount) => void;
 }
 
 const network = getNetwork();
 
-function AddressDropdown({ wallet, onAddressSelect }: Props) {
+function AddressDropdown({ disabled, wallet, onAddressSelect }: Props) {
 	const { api, apiReady } = useApiContext();
 
 	const [extensionNotFound, setExtensionNotFound] = useState<boolean>(false);
@@ -105,11 +106,12 @@ function AddressDropdown({ wallet, onAddressSelect }: Props) {
 		<div className='flex flex-col gap-3'>
 			{walletError && <AlertCard message={walletError} />}
 
-			<Dropdown>
-				<DropdownTrigger>
+			<Dropdown isDisabled={disabled}>
+				<DropdownTrigger disabled={disabled}>
 					<Button
 						variant='bordered'
 						className='flex items-center justify-between border-1 py-6'
+						disabled={disabled}
 					>
 						<span>
 							{selectedAddress ? (

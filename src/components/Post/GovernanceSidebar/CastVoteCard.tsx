@@ -5,32 +5,46 @@
 import { usePostDataContext } from '@/contexts';
 import VOTABLE_STATUSES from '@/global/constants/votableStatuses';
 import { Card } from '@nextui-org/card';
-import React from 'react';
+import React, { useState } from 'react';
+import { EVoteDecisionType } from '@/global/types';
 import VoteButton from './VoteButton';
+import VoteModal from './VoteModal';
 
 function CastVoteCard() {
 	const {
 		postData: { on_chain_info: onChainInfo }
 	} = usePostDataContext();
 
+	const [voteModalType, setVoteModalType] = useState<EVoteDecisionType | null>(null);
+
 	if (!onChainInfo?.status || !VOTABLE_STATUSES.includes(onChainInfo?.status)) return null;
 
 	return (
-		<Card
-			className='flex flex-col gap-3 border border-primary_border px-4 py-6'
-			shadow='none'
-			radius='lg'
-		>
-			<h3 className='mb-3 text-lg font-semibold'>Cast Vote Card</h3>
-			<VoteButton
-				voteType='aye'
-				className='h-[40px]'
+		<>
+			<Card
+				className='flex flex-col gap-3 border border-primary_border px-4 py-6'
+				shadow='none'
+				radius='lg'
+			>
+				<h3 className='mb-3 text-lg font-semibold'>Cast Vote Card</h3>
+				<VoteButton
+					voteType='aye'
+					className='h-[40px]'
+					onClick={() => setVoteModalType(EVoteDecisionType.AYE)}
+				/>
+				<VoteButton
+					voteType='nay'
+					className='h-[40px]'
+					onClick={() => setVoteModalType(EVoteDecisionType.NAY)}
+				/>
+			</Card>
+
+			<VoteModal
+				isModalOpen={voteModalType !== null}
+				defaultVoteType={voteModalType ?? EVoteDecisionType.AYE}
+				closeModal={() => setVoteModalType(null)}
 			/>
-			<VoteButton
-				voteType='nay'
-				className='h-[40px]'
-			/>
-		</Card>
+		</>
 	);
 }
 

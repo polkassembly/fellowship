@@ -11,13 +11,15 @@ import Image from 'next/image';
 interface Props {
 	className?: string;
 	voteType: 'aye' | 'nay';
+	onClick?: () => void;
 }
 
-function VoteButton({ className = '', voteType = 'aye' }: Props) {
+function VoteButton({ className = '', voteType = 'aye', onClick }: Props) {
 	return (
 		<Button
 			className={`${className} ${voteType === 'aye' ? 'bg-voteAye' : 'bg-voteNay'} flex w-full items-center gap-1.5 rounded-full text-base capitalize text-white`}
 			size='sm'
+			onPress={onClick}
 		>
 			<Image
 				alt='Login Icon'

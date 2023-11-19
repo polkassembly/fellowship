@@ -318,3 +318,10 @@ export interface IEditPostResponse {
 	};
 	last_edited_at: Date;
 }
+
+export enum EVoteDecisionType {
+	AYE = 'aye',
+	NAY = 'nay'
+	// ABSTAIN = 'abstain',
+	// SPLIT = 'split'
+}
