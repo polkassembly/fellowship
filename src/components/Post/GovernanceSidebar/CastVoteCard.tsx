@@ -28,12 +28,12 @@ function CastVoteCard() {
 			>
 				<h3 className='mb-3 text-lg font-semibold'>Cast Vote Card</h3>
 				<VoteButton
-					voteType='aye'
+					voteType={EVoteDecisionType.AYE}
 					className='h-[40px]'
 					onClick={() => setVoteModalType(EVoteDecisionType.AYE)}
 				/>
 				<VoteButton
-					voteType='nay'
+					voteType={EVoteDecisionType.NAY}
 					className='h-[40px]'
 					onClick={() => setVoteModalType(EVoteDecisionType.NAY)}
 				/>

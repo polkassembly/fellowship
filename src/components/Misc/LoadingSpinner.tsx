@@ -4,11 +4,11 @@
 
 import { Spinner } from '@nextui-org/spinner';
 
-function LoadingSpinner({ className = '', message = 'Loading...' }: { className?: string; message?: string }) {
+function LoadingSpinner({ className = '', message = 'Loading...', size = 'md' }: { className?: string; message?: string; size?: 'sm' | 'md' | 'lg' }) {
 	return (
 		<div className={`${className} flex flex-col items-center justify-center gap-3`}>
-			<Spinner />
-			<span className='text-xs'>{message}</span>
+			<Spinner size={size} />
+			{message && <span className='text-xs'>{message}</span>}
 		</div>
 	);
 }

@@ -3,13 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Card } from '@nextui-org/card';
-import React from 'react';
+import React, { ReactNode } from 'react';
 import Image from 'next/image';
 
 interface Props {
 	className?: string;
 	type?: 'error' | 'warning' | 'info' | 'success' | 'default';
-	message: string;
+	message: ReactNode;
 }
 
 // TODO: add icons and classes for other types

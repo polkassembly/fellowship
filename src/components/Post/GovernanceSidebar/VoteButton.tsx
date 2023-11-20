@@ -7,14 +7,15 @@
 import React from 'react';
 import { Button } from '@nextui-org/button';
 import Image from 'next/image';
+import { EVoteDecisionType } from '@/global/types';
 
 interface Props {
 	className?: string;
-	voteType: 'aye' | 'nay';
+	voteType: EVoteDecisionType;
 	onClick?: () => void;
 }
 
-function VoteButton({ className = '', voteType = 'aye', onClick }: Props) {
+function VoteButton({ className = '', voteType = EVoteDecisionType.AYE, onClick }: Props) {
 	return (
 		<Button
 			className={`${className} ${voteType === 'aye' ? 'bg-voteAye' : 'bg-voteNay'} flex w-full items-center gap-1.5 rounded-full text-base capitalize text-white`}

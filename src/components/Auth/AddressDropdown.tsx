@@ -20,12 +20,13 @@ import Address from '../Profile/Address';
 interface Props {
 	disabled?: boolean;
 	wallet: Wallet;
+	label?: string;
 	onAddressSelect: (account: InjectedAccount) => void;
 }
 
 const network = getNetwork();
 
-function AddressDropdown({ disabled, wallet, onAddressSelect }: Props) {
+function AddressDropdown({ disabled, label, wallet, onAddressSelect }: Props) {
 	const { api, apiReady } = useApiContext();
 
 	const [extensionNotFound, setExtensionNotFound] = useState<boolean>(false);
@@ -55,6 +56,8 @@ function AddressDropdown({ disabled, wallet, onAddressSelect }: Props) {
 
 	const handleOnAddressSelect = useCallback(
 		(account: InjectedAccount) => {
+			if (disabled) return;
+
 			setSelectedAddress(account);
 			onAddressSelect(account);
 
@@ -103,59 +106,69 @@ function AddressDropdown({ disabled, wallet, onAddressSelect }: Props) {
 	}
 
 	return (
-		<div className='flex flex-col gap-3'>
+		<div className='flex w-full flex-col gap-3'>
 			{walletError && <AlertCard message={walletError} />}
 
-			<Dropdown isDisabled={disabled}>
-				<DropdownTrigger disabled={disabled}>
-					<Button
-						variant='bordered'
-						className='flex items-center justify-between border-1 py-6'
+			<div className='flex w-full flex-col gap-1'>
+				{label && <small className='text-xs text-foreground/60'>{label}</small>}
+
+				<Dropdown
+					isDisabled={disabled}
+					className='w-full'
+				>
+					<DropdownTrigger
 						disabled={disabled}
+						className='w-full'
 					>
-						<span>
-							{selectedAddress ? (
+						<Button
+							variant='bordered'
+							className='flex items-center justify-between border-1 py-6'
+							disabled={disabled}
+						>
+							<span>
+								{selectedAddress ? (
+									<Address
+										variant='dropdownItem'
+										name={selectedAddress.name || ''}
+										address={selectedAddress.address}
+									/>
+								) : (
+									'Select Address'
+								)}
+							</span>
+							<span>
+								<Image
+									alt='down chevron'
+									src='/icons/chevron.svg'
+									width={12}
+									height={12}
+									className='rounded-full'
+								/>
+							</span>
+						</Button>
+					</DropdownTrigger>
+
+					<DropdownMenu
+						aria-label='Addresses'
+						className='max-h-[30vh] w-[480px] overflow-y-scroll text-sm'
+					>
+						{accounts.map((account) => (
+							<DropdownItem
+								key={account.address}
+								textValue={account.address}
+								className='py-2'
+								onPress={() => handleOnAddressSelect(account)}
+							>
 								<Address
 									variant='dropdownItem'
-									name={selectedAddress.name || ''}
-									address={selectedAddress.address}
+									name={account.name || 'Untitled'}
+									address={account.address}
 								/>
-							) : (
-								'Select Address'
-							)}
-						</span>
-						<span>
-							<Image
-								alt='down chevron'
-								src='/icons/chevron.svg'
-								width={12}
-								height={12}
-								className='rounded-full'
-							/>
-						</span>
-					</Button>
-				</DropdownTrigger>
-
-				<DropdownMenu
-					aria-label='Addresses'
-					className='max-h-[30vh] w-[480px] overflow-y-scroll text-sm'
-				>
-					{accounts.map((account) => (
-						<DropdownItem
-							key={account.address}
-							textValue={account.address}
-							className='py-2'
-							onPress={() => handleOnAddressSelect(account)}
-						>
-							<Address
-								variant='dropdownItem'
-								name={account.name || 'Untitled'}
-								address={account.address}
-							/>
-						</DropdownItem>
-					))}
-				</DropdownMenu>
-			</Dropdown>
+							</DropdownItem>
+						))}
+					</DropdownMenu>
+				</Dropdown>
+			</div>
 		</div>
 	);
 }

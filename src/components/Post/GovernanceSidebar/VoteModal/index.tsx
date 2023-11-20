@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@nextui-org/modal';
-import React from 'react';
+import React, { useRef } from 'react';
 import Image from 'next/image';
 import { Divider } from '@nextui-org/divider';
 import { Button } from '@nextui-org/button';
@@ -17,13 +17,21 @@ interface Props {
 }
 
 function VoteModal({ isModalOpen, defaultVoteType, closeModal }: Props) {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const formRef = useRef<any>(null);
+
+	const handleConfirm = () => {
+		formRef?.current?.submitVote?.();
+	};
+
 	return (
 		<Modal
 			isOpen={isModalOpen}
 			onClose={closeModal}
-			size='2xl'
+			size='xl'
 			scrollBehavior='inside'
 			shouldBlockScroll
+			isDismissable={false}
 		>
 			<ModalContent>
 				{() => (
@@ -41,7 +49,11 @@ function VoteModal({ isModalOpen, defaultVoteType, closeModal }: Props) {
 						<Divider />
 
 						<ModalBody className='p-6'>
-							<VoteForm defaultVoteType={defaultVoteType} />
+							<VoteForm
+								defaultVoteType={defaultVoteType}
+								ref={formRef}
+								onSuccess={closeModal}
+							/>
 						</ModalBody>
 
 						<Divider />
@@ -50,6 +62,7 @@ function VoteModal({ isModalOpen, defaultVoteType, closeModal }: Props) {
 								color='primary'
 								className='flex w-min text-sm'
 								size='sm'
+								onPress={handleConfirm}
 							>
 								Confirm
 							</Button>
