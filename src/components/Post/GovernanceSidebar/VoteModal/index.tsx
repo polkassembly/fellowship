@@ -7,12 +7,12 @@ import React, { useRef } from 'react';
 import Image from 'next/image';
 import { Divider } from '@nextui-org/divider';
 import { Button } from '@nextui-org/button';
-import { EVoteDecisionType } from '@/global/types';
+import { VoteDecisionType } from '@/global/types';
 import VoteForm from './VoteForm';
 
 interface Props {
 	isModalOpen: boolean;
-	defaultVoteType?: EVoteDecisionType;
+	defaultVoteType?: VoteDecisionType;
 	closeModal: () => void;
 }
 

@@ -8,7 +8,7 @@ import { Divider } from '@nextui-org/divider';
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from '@nextui-org/modal';
 import { useRouter } from 'next/navigation';
 import PostDataContextProvider from '@/contexts/PostDataContext';
-import { IPost } from '@/global/types';
+import { VoteDecisionType, IPost } from '@/global/types';
 import { Button } from '@nextui-org/button';
 import Image from 'next/image';
 import VoteButton from '@/components/Post/GovernanceSidebar/VoteButton';
@@ -91,8 +91,8 @@ function PostModal({ post }: Props) {
 							</div>
 
 							<div className='flex items-center gap-4'>
-								<VoteButton voteType='aye' />
-								<VoteButton voteType='nay' />
+								<VoteButton voteType={VoteDecisionType.AYE} />
+								<VoteButton voteType={VoteDecisionType.NAY} />
 							</div>
 						</ModalFooter>
 					</PostDataContextProvider>

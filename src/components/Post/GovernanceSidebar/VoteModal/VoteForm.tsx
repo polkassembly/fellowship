@@ -6,7 +6,7 @@ import AddressDropdown from '@/components/Auth/AddressDropdown';
 import WalletButtonsRow from '@/components/Auth/WalletButtonsRow';
 import AlertCard from '@/components/Misc/AlertCard';
 import { useApiContext, usePostDataContext, useUserDetailsContext } from '@/contexts';
-import { EVoteDecisionType, Wallet } from '@/global/types';
+import { VoteDecisionType, Wallet } from '@/global/types';
 import getAllFellowAddresses from '@/utils/getAllFellowAddresses';
 import getSubstrateAddress from '@/utils/getSubstrateAddress';
 import { InjectedAccount } from '@polkadot/extension-inject/types';
@@ -18,7 +18,7 @@ import queueNotification from '@/utils/queueNotification';
 import VoteSelect from './VoteSelect';
 
 interface Props {
-	defaultVoteType?: EVoteDecisionType;
+	defaultVoteType?: VoteDecisionType;
 	onSuccess?: () => void;
 }
 
@@ -35,7 +35,7 @@ const VoteForm = forwardRef(({ defaultVoteType, onSuccess }: Props, ref) => {
 	const [fellowAddresses, setFellowAddresses] = useState<string[]>([]);
 	const [selectedWallet, setSelectedWallet] = useState<Wallet | null>(loginWallet);
 	const [selectedAddress, setSelectedAddress] = useState<InjectedAccount | null>(null);
-	const [setselectedVoteType, setSetselectedVoteType] = useState(defaultVoteType ?? EVoteDecisionType.AYE);
+	const [setselectedVoteType, setSetselectedVoteType] = useState(defaultVoteType ?? VoteDecisionType.AYE);
 	const [error, setError] = useState('');
 	const [txStatus, setTxStatus] = useState('');
 
@@ -51,7 +51,7 @@ const VoteForm = forwardRef(({ defaultVoteType, onSuccess }: Props, ref) => {
 			return;
 		}
 
-		const voteTx = api.tx.fellowshipCollective.vote(postId, setselectedVoteType === EVoteDecisionType.AYE);
+		const voteTx = api.tx.fellowshipCollective.vote(postId, setselectedVoteType === VoteDecisionType.AYE);
 
 		const onTxSuccess = () => {
 			setLoading(false);

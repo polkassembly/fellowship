@@ -2,23 +2,23 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { EVoteDecisionType } from '@/global/types';
+import { VoteDecisionType } from '@/global/types';
 import { Tab, Tabs } from '@nextui-org/tabs';
 import React, { Key, useState } from 'react';
 
 interface Props {
-	defaultVoteType?: EVoteDecisionType;
-	onSelection: (selected: EVoteDecisionType) => void;
+	defaultVoteType?: VoteDecisionType;
+	onSelection: (selected: VoteDecisionType) => void;
 	label?: string;
 	disabled?: boolean;
 }
 
 function VoteSelect({ disabled, defaultVoteType, label, onSelection }: Props) {
-	const [selected, setSelected] = useState<EVoteDecisionType>(defaultVoteType ?? EVoteDecisionType.AYE);
+	const [selected, setSelected] = useState<VoteDecisionType>(defaultVoteType ?? VoteDecisionType.AYE);
 
 	const handleSelection = (key: Key) => {
-		setSelected(key as EVoteDecisionType);
-		onSelection(key as EVoteDecisionType);
+		setSelected(key as VoteDecisionType);
+		onSelection(key as VoteDecisionType);
 	};
 
 	return (
@@ -39,7 +39,7 @@ function VoteSelect({ disabled, defaultVoteType, label, onSelection }: Props) {
 				isDisabled={disabled}
 			>
 				<Tab
-					key={EVoteDecisionType.AYE}
+					key={VoteDecisionType.AYE}
 					title={
 						<div className='flex items-center space-x-2'>
 							<span>Aye</span>
@@ -47,7 +47,7 @@ function VoteSelect({ disabled, defaultVoteType, label, onSelection }: Props) {
 					}
 				/>
 				<Tab
-					key={EVoteDecisionType.NAY}
+					key={VoteDecisionType.NAY}
 					title={
 						<div className='flex items-center space-x-2'>
 							<span>Nay</span>

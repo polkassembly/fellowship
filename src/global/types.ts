@@ -319,7 +319,7 @@ export interface IEditPostResponse {
 	last_edited_at: Date;
 }
 
-export enum EVoteDecisionType {
+export enum VoteDecisionType {
 	AYE = 'aye',
 	NAY = 'nay'
 	// ABSTAIN = 'abstain',
