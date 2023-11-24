@@ -48,14 +48,14 @@ function StatDisplay({ heroImg, title, value, icon, percentage }: { heroImg: str
 function Stats() {
 	const { api, apiReady } = useApiContext();
 
-	const [members, setMembers] = useState<string[]>([]);
+	const [memberCount, setMemberCount] = useState(0);
 
 	useEffect(() => {
 		if (!api || !apiReady) return;
 
 		(async () => {
-			const membersArr = await api.query.alliance.members('Fellow');
-			setMembers(membersArr.map((member) => member.toString()));
+			const count = (await api.query.fellowshipCollective.memberCount(0)) || 0;
+			setMemberCount(Number(count.toString()));
 		})();
 	}, [api, apiReady]);
 
@@ -67,7 +67,7 @@ function Stats() {
 			<StatDisplay
 				heroImg='/icons/stats-users.svg'
 				title='Number of fellows'
-				value={members.length}
+				value={memberCount}
 				// icon='/icons/arrow-up-green.svg'
 				// percentage={12.8}
 			/>
