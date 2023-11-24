@@ -51,6 +51,8 @@ const VoteForm = forwardRef(({ defaultVoteType, onSuccess }: Props, ref) => {
 			return;
 		}
 
+		setError('');
+
 		const voteTx = api.tx.fellowshipCollective.vote(postId, setselectedVoteType === VoteDecisionType.AYE);
 
 		const onTxSuccess = () => {
@@ -66,7 +68,7 @@ const VoteForm = forwardRef(({ defaultVoteType, onSuccess }: Props, ref) => {
 		const onTxFailed = (message: string) => {
 			setLoading(false);
 			setTxStatus('');
-			setError(`Transaction failed : ${message}`);
+			setError(`Transaction failed - ${message}`);
 			queueNotification({
 				header: 'Failed!',
 				message,
@@ -74,7 +76,10 @@ const VoteForm = forwardRef(({ defaultVoteType, onSuccess }: Props, ref) => {
 			});
 		};
 
-		if (!voteTx) return;
+		if (!voteTx) {
+			setError('Invalid transaction, please reload and try again.');
+			return;
+		}
 
 		setLoading(true);
 		setTxStatus('Sending transaction...');

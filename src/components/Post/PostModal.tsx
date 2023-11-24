@@ -12,10 +12,13 @@ import { VoteDecisionType, IPost } from '@/global/types';
 import { Button } from '@nextui-org/button';
 import Image from 'next/image';
 import VoteButton from '@/components/Post/GovernanceSidebar/VoteButton';
+import { useState } from 'react';
+import VOTABLE_STATUSES from '@/global/constants/votableStatuses';
 import ContentListingHeader from './ContentListingHeader';
 import PostTags from './PostTags';
 import Markdown from '../TextEditor/Markdown';
 import HorizontalVoteProgress from './HorizontalVoteProgress';
+import VoteModal from './GovernanceSidebar/VoteModal';
 
 interface Props {
 	post: IPost;
@@ -23,6 +26,8 @@ interface Props {
 
 function PostModal({ post }: Props) {
 	const router = useRouter();
+
+	const [voteModalType, setVoteModalType] = useState<VoteDecisionType | null>(null);
 
 	const handleOnClose = () => {
 		router.back();
@@ -33,72 +38,90 @@ function PostModal({ post }: Props) {
 		window.location.reload();
 	};
 
+	const canVote = post.on_chain_info?.status && VOTABLE_STATUSES.includes(post.on_chain_info?.status);
+
 	return (
-		<Modal
-			isOpen
-			onClose={handleOnClose}
-			size='5xl'
-			scrollBehavior='inside'
-			shouldBlockScroll
-		>
-			<ModalContent>
-				{() => (
-					<PostDataContextProvider postItem={post}>
-						<ModalHeader className='flex justify-between'>
-							<header className='flex flex-col gap-2 text-xl font-semibold'>
-								<ContentListingHeader
-									createdAt={post.created_at}
-									address={post.on_chain_info?.proposer}
-									status={post.on_chain_info?.status}
-								/>
+		<PostDataContextProvider postItem={post}>
+			<Modal
+				isOpen
+				onClose={handleOnClose}
+				size='5xl'
+				scrollBehavior='inside'
+				shouldBlockScroll
+			>
+				<ModalContent>
+					{() => (
+						<>
+							<ModalHeader className='flex justify-between'>
+								<header className='flex flex-col gap-2 text-xl font-semibold'>
+									<ContentListingHeader
+										createdAt={post.created_at}
+										address={post.on_chain_info?.proposer}
+										status={post.on_chain_info?.status}
+									/>
 
-								<section className='mt-1 flex gap-2'>
-									<p className='mt-0.5 text-base font-normal text-slate-500'>#{post.id}</p>
-									<article className='flex flex-col gap-1'>
-										<h2 className='text-xl font-semibold'>{post.title}</h2>
-										{post.tags.length > 0 && <PostTags tags={post.tags} />}
-									</article>
-								</section>
-							</header>
+									<section className='mt-1 flex gap-2'>
+										<p className='mt-0.5 text-base font-normal text-slate-500'>#{post.id}</p>
+										<article className='flex flex-col gap-1'>
+											<h2 className='text-xl font-semibold'>{post.title}</h2>
+											{post.tags.length > 0 && <PostTags tags={post.tags} />}
+										</article>
+									</section>
+								</header>
 
-							<Button
-								onPress={reloadPage}
-								color='primary'
-								variant='light'
-								radius='full'
-								isIconOnly
-								className='absolute right-9 top-1 max-h-[32px] min-h-[32px] min-w-[32px] max-w-[32px]'
-							>
-								<Image
-									alt='back button'
-									src='/icons/full-screen-gray.svg'
-									width={18}
-									height={18}
-								/>
-							</Button>
-						</ModalHeader>
+								<Button
+									onPress={reloadPage}
+									color='primary'
+									variant='light'
+									radius='full'
+									isIconOnly
+									className='absolute right-9 top-1 max-h-[32px] min-h-[32px] min-w-[32px] max-w-[32px]'
+								>
+									<Image
+										alt='back button'
+										src='/icons/full-screen-gray.svg'
+										width={18}
+										height={18}
+									/>
+								</Button>
+							</ModalHeader>
 
-						<Divider />
+							<Divider />
 
-						<ModalBody className='p-6'>{post.content && <Markdown md={post.content} />}</ModalBody>
+							<ModalBody className='p-6'>{post.content && <Markdown md={post.content} />}</ModalBody>
 
-						<Divider />
+							<Divider />
 
-						<ModalFooter className='flex flex-col gap-3'>
-							<div className='flex items-center justify-start gap-3'>
-								<h2 className='text-base font-medium'>Voting Status</h2>
-								<HorizontalVoteProgress className='w-[184px]' />
-							</div>
+							<ModalFooter className='flex flex-col gap-3'>
+								<div className='flex items-center justify-start gap-3'>
+									<h2 className='text-base font-medium'>Voting Status</h2>
+									<HorizontalVoteProgress className='w-[184px]' />
+								</div>
 
-							<div className='flex items-center gap-4'>
-								<VoteButton voteType={VoteDecisionType.AYE} />
-								<VoteButton voteType={VoteDecisionType.NAY} />
-							</div>
-						</ModalFooter>
-					</PostDataContextProvider>
-				)}
-			</ModalContent>
-		</Modal>
+								{canVote && (
+									<div className='flex items-center gap-4'>
+										<VoteButton
+											voteType={VoteDecisionType.AYE}
+											onClick={() => setVoteModalType(VoteDecisionType.AYE)}
+										/>
+										<VoteButton
+											voteType={VoteDecisionType.NAY}
+											onClick={() => setVoteModalType(VoteDecisionType.NAY)}
+										/>
+									</div>
+								)}
+							</ModalFooter>
+						</>
+					)}
+				</ModalContent>
+			</Modal>
+
+			<VoteModal
+				isModalOpen={voteModalType !== null}
+				defaultVoteType={voteModalType ?? VoteDecisionType.AYE}
+				closeModal={() => setVoteModalType(null)}
+			/>
+		</PostDataContextProvider>
 	);
 }
 
