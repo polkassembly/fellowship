@@ -48,7 +48,7 @@ function PostPageContent({ post }: Props) {
 	return (
 		<PostDataContextProvider postItem={post}>
 			<section className='flex gap-8'>
-				<div className='flex w-9/12 flex-col gap-6'>
+				<div className='flex w-9/12 flex-grow flex-col gap-6'>
 					<div className='flex items-center justify-between'>
 						<PostRouteBreadcumbs />
 
@@ -81,7 +81,7 @@ function PostPageContent({ post }: Props) {
 					</CommentsContextProvider>
 				</div>
 
-				<div className={`${canEdit ? 'mt-14' : 'mt-10'} flex-1`}>
+				<div className={`${canEdit ? 'mt-14' : 'mt-10'} flex-shrink`}>
 					<GovernanceSidebar />
 				</div>
 			</section>
