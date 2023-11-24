@@ -2,25 +2,58 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import Image from 'next/image';
-import React from 'react';
+'use client';
 
-const images = ['/carousel/carousel-1.svg'];
+import { Button } from '@nextui-org/button';
+import Link from 'next/link';
+import React, { useState } from 'react';
+import Image from 'next/image';
 
 function Carousel() {
+	const [isOpen, setIsOpen] = useState(true);
+
+	if (!isOpen) return null;
+
 	return (
-		<div className='flex'>
-			{images.map((image, index) => (
-				<div key={image}>
+		<div className='flex flex-row-reverse'>
+			<Button
+				variant='light'
+				className='absolute mr-3 mt-2 text-sm font-semibold shadow-md light:bg-white'
+				radius='full'
+				size='sm'
+				onPress={() => setIsOpen(false)}
+				isIconOnly
+			>
+				&#x2715;
+			</Button>
+			<div className="flex min-h-[200px] w-full flex-col items-center justify-center gap-3 bg-[url('/carousel/carousel-1.svg')] bg-cover p-4">
+				<h1 className='flex items-center justify-center gap-2 text-2xl font-semibold'>
 					<Image
-						src={image}
-						alt={`Slide ${index}`}
-						className='h-full w-[100vw]'
-						width={500}
-						height={300}
+						alt='Join Fellowship Icon'
+						src='/icons/sparkle-pink.svg'
+						width={32}
+						height={32}
 					/>
-				</div>
-			))}
+					Welcome to Technical Fellowship Community!
+				</h1>
+				<Button
+					color='primary'
+					href='/join-fellowship'
+					as={Link}
+					className='text-sm font-semibold shadow-md light:bg-white'
+					radius='full'
+					size='md'
+				>
+					<Image
+						alt='Join Fellowship Icon'
+						src='/icons/add-user-grey-filled.svg'
+						width={24}
+						height={24}
+						className='brightness-0 invert'
+					/>
+					Join Fellowship
+				</Button>
+			</div>
 		</div>
 	);
 }
