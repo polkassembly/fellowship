@@ -18,6 +18,9 @@ export default async function getPost({ originUrl, id, proposalType }: Params) {
 		throw new ClientError(`${MESSAGES.API_FETCH_ERROR} - ${e?.message}`, API_ERROR_CODE.API_FETCH_ERROR);
 	});
 
+	if (feedRes.status === 404) throw new ClientError(`${MESSAGES.POST_NOT_FOUND_ERROR}`, API_ERROR_CODE.POST_NOT_FOUND_ERROR);
+	if (feedRes.status !== 200) throw new ClientError(`${MESSAGES.CLIENT_ERROR}`, API_ERROR_CODE.CLIENT_ERROR);
+
 	const post: IPost = await feedRes.json();
 	return post;
 }

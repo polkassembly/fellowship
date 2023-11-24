@@ -28,6 +28,7 @@ export async function getOnChainPostData({ network, id, proposalType }: Params) 
 
 	const subsquidPost = subsquidData?.proposals?.[0];
 
+	if (!subsquidPost && Array.isArray(subsquidData?.proposals)) throw new APIError(`${MESSAGES.POST_NOT_FOUND_ERROR}`, 404, API_ERROR_CODE.POST_NOT_FOUND_ERROR);
 	if (!subsquidData || subsquidErr || !subsquidPost) throw new APIError(`${subsquidErr || MESSAGES.SUBSQUID_FETCH_ERROR}`, 500, API_ERROR_CODE.SUBSQUID_FETCH_ERROR);
 
 	return {

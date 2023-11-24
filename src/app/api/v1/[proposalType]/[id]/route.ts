@@ -26,6 +26,11 @@ export const GET = withErrorHandling(async (req: NextRequest, { params }) => {
 
 	// if is off-chain post
 	if (proposalType === ProposalType.DISCUSSIONS) {
+		// then post does not exist
+		if (offChainPostData.user_id === null) {
+			throw new APIError(`${MESSAGES.POST_NOT_FOUND_ERROR}`, 404, API_ERROR_CODE.POST_NOT_FOUND_ERROR);
+		}
+
 		return NextResponse.json(offChainPostData);
 	}
 
