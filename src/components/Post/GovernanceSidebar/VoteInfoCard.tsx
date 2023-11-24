@@ -38,7 +38,7 @@ function VoteInfoCard() {
 				{/* <span className='text-xs'>Passing</span> */}
 			</div>
 
-			<section className='flex items-end gap-2'>
+			<section className='flex items-end justify-center gap-2'>
 				<div className='flex flex-col text-base font-semibold text-voteAye'>
 					{ayesPercentage}% <span className='text-xs font-medium text-foreground'>Aye</span>
 				</div>
