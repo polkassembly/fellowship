@@ -4,8 +4,8 @@
 
 import React from 'react';
 
-function MemberInductionForm() {
-	return <div>MemberInductionForm</div>;
+function InductMemberForm() {
+	return <div>InductMemberForm</div>;
 }
 
-export default MemberInductionForm;
+export default InductMemberForm;
