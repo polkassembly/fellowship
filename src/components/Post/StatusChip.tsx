@@ -24,12 +24,15 @@ const tagColoursClasses: { [index: string]: string } = {
 };
 
 function StatusChip({ status }: { status: ProposalStatus }) {
+	const titleCase = status.replace(/([A-Z])/g, ' $1');
+	const statusText = titleCase.charAt(0).toUpperCase() + titleCase.slice(1);
+
 	return (
 		<Chip
 			size='sm'
 			className={`max-h-[18px] capitalize ${tagColoursClasses[status as string]}`}
 		>
-			<span className='text-xs font-medium'>{status}</span>
+			<span className='text-xs font-medium'>{statusText}</span>
 		</Chip>
 	);
 }
