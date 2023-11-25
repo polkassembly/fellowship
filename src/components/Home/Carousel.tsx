@@ -18,7 +18,7 @@ function Carousel() {
 		<div className='flex flex-row-reverse'>
 			<Button
 				variant='light'
-				className='absolute mr-3 mt-2 text-sm font-semibold shadow-md light:bg-white'
+				className='absolute mr-3 mt-2 text-sm font-semibold text-gray-300'
 				radius='full'
 				size='sm'
 				onPress={() => setIsOpen(false)}
@@ -27,7 +27,7 @@ function Carousel() {
 				&#x2715;
 			</Button>
 			<div className="flex min-h-[200px] w-full flex-col items-center justify-center gap-3 bg-[url('/carousel/carousel-1.svg')] bg-cover p-4">
-				<h1 className='flex items-center justify-center gap-2 text-2xl font-semibold'>
+				<h1 className='flex items-center justify-center gap-2 text-2xl font-semibold text-white'>
 					<Image
 						alt='Join Fellowship Icon'
 						src='/icons/sparkle-pink.svg'
@@ -40,7 +40,7 @@ function Carousel() {
 					color='primary'
 					href='/join-fellowship'
 					as={Link}
-					className='text-sm font-semibold shadow-md light:bg-white'
+					className='text-sm font-semibold shadow-md'
 					radius='full'
 					size='md'
 				>

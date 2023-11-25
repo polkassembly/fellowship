@@ -32,16 +32,17 @@ export default function InductMemberPageContent({ post }: Props) {
 					to induct a member to the fellowship.
 				</div>
 			) : (
-				<>
+				<div className='flex flex-col gap-6'>
 					<InductMemberForm />
 
 					<Button
+						size='md'
 						color='primary'
-						className='flex w-full flex-1 text-sm'
+						className='flex min-h-[40px] w-full flex-1 text-sm'
 					>
 						Submit Application
 					</Button>
-				</>
+				</div>
 			)}
 		</div>
 	);

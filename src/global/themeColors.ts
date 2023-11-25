@@ -14,7 +14,8 @@ const THEME_COLORS = {
 		voteNay: '#FF3C5F',
 		voteAye: '#2ED47A',
 		graphBg: '#D2D8E0',
-		successModalHeaderBg: '#51D36E'
+		successModalHeaderBg: '#51D36E',
+		inductionAccordionHeaderBg: '#191042'
 	},
 	dark: {
 		primary_border: '#3F3F46',
@@ -27,7 +28,8 @@ const THEME_COLORS = {
 		voteNay: '#FF3C5F',
 		voteAye: '#2ED47A',
 		graphBg: '#666666',
-		successModalHeaderBg: '#51D36E'
+		successModalHeaderBg: '#51D36E',
+		inductionAccordionHeaderBg: '#191042'
 	}
 };
 
