@@ -17,17 +17,13 @@ import PostActionBar from '../PostActionBar';
 
 interface Props {
 	className?: string;
+	onlyDescriptionTab?: boolean;
 }
 
-function PostArticleCard({ className }: Props) {
+function PostArticleCard({ className, onlyDescriptionTab }: Props) {
 	const { postData } = usePostDataContext();
 
-	const tabs = [
-		{
-			id: 'description',
-			label: 'Description',
-			content: <Markdown md={postData.content} />
-		},
+	const onChainTabs = [
 		{
 			id: 'timeline',
 			label: 'Timeline',
@@ -43,6 +39,15 @@ function PostArticleCard({ className }: Props) {
 			label: 'On Chain Info',
 			content: <p>On Chain Info</p>
 		}
+	];
+
+	const tabs = [
+		{
+			id: 'description',
+			label: 'Description',
+			content: <Markdown md={postData.content} />
+		},
+		...onChainTabs
 	];
 
 	return (
@@ -68,28 +73,34 @@ function PostArticleCard({ className }: Props) {
 				</section>
 
 				<section>
-					<Tabs
-						aria-label='Tabs'
-						color='primary'
-						variant='underlined'
-						className='w-full border-b-1 border-b-gray-300/70 pl-16'
-						classNames={{
-							tabList: 'gap-12 w-full relative rounded-none p-0 border-b-0 border-divider',
-							cursor: 'w-full bg-primary',
-							tab: 'max-w-fit px-0 h-12',
-							tabContent: 'group-data-[selected=true]:text-primary text-foreground hover:text-primary group-data-[selected=true]:font-medium'
-						}}
-						items={tabs}
-					>
-						{(item) => (
-							<Tab
-								key={item.id}
-								title={item.label}
-							>
-								<ScrollShadow className='max-h-[55vh] px-6'>{item.content}</ScrollShadow>
-							</Tab>
-						)}
-					</Tabs>
+					{onlyDescriptionTab ? (
+						<ScrollShadow className='max-h-[55vh] px-6'>
+							<Markdown md={postData.content} />
+						</ScrollShadow>
+					) : (
+						<Tabs
+							aria-label='Tabs'
+							color='primary'
+							variant='underlined'
+							className='w-full border-b-1 border-b-gray-300/70 pl-16'
+							classNames={{
+								tabList: 'gap-12 w-full relative rounded-none p-0 border-b-0 border-divider',
+								cursor: 'w-full bg-primary',
+								tab: 'max-w-fit px-0 h-12',
+								tabContent: 'group-data-[selected=true]:text-primary text-foreground hover:text-primary group-data-[selected=true]:font-medium'
+							}}
+							items={tabs}
+						>
+							{(item) => (
+								<Tab
+									key={item.id}
+									title={item.label}
+								>
+									<ScrollShadow className='max-h-[55vh] px-6'>{item.content}</ScrollShadow>
+								</Tab>
+							)}
+						</Tabs>
+					)}
 				</section>
 
 				<Divider />

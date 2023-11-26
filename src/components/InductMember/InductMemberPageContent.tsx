@@ -8,15 +8,37 @@ import { Button } from '@nextui-org/button';
 import { useUserDetailsContext } from '@/contexts';
 import Link from 'next/link';
 import { IPost } from '@/global/types';
+import PostDataContextProvider from '@/contexts/PostDataContext';
+import { useRef, useState } from 'react';
 import InductMemberForm from './InductMemberForm';
+import InductMemberSuccessModal from './InductMemberSuccessModal';
 
 interface Props {
 	post: IPost;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 export default function InductMemberPageContent({ post }: Props) {
 	const { id } = useUserDetailsContext();
+
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const formRef = useRef<any>(null);
+
+	const [setsubmitBtnText, setSetsubmitBtnText] = useState('Next Step');
+	const [successDetails, setSuccessDetails] = useState({
+		proposer: '',
+		inductee: '',
+		preimageHash: '',
+		preimageLength: 0,
+		postId: 0
+	});
+
+	const handleNextStep = () => {
+		formRef?.current?.nextStep?.();
+	};
+
+	if (successDetails.proposer) {
+		return <InductMemberSuccessModal successDetails={successDetails} />;
+	}
 
 	return (
 		<div className='rounded-2xl border border-primary_border p-6'>
@@ -33,14 +55,21 @@ export default function InductMemberPageContent({ post }: Props) {
 				</div>
 			) : (
 				<div className='flex flex-col gap-6'>
-					<InductMemberForm />
+					<PostDataContextProvider postItem={post}>
+						<InductMemberForm
+							ref={formRef}
+							setSetsubmitBtnText={setSetsubmitBtnText}
+							setSuccessDetails={setSuccessDetails}
+						/>
+					</PostDataContextProvider>
 
 					<Button
 						size='md'
 						color='primary'
 						className='flex min-h-[40px] w-full flex-1 text-sm'
+						onPress={handleNextStep}
 					>
-						Submit Application
+						{setsubmitBtnText}
 					</Button>
 				</div>
 			)}

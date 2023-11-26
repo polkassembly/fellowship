@@ -7,28 +7,55 @@
 import { useUserDetailsContext } from '@/contexts';
 import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@nextui-org/modal';
 import Link from 'next/link';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import Image from 'next/image';
 import { Divider } from '@nextui-org/divider';
 import { Button } from '@nextui-org/button';
 import { useRouter } from 'next/navigation';
+import { IPost } from '@/global/types';
+import PostDataContextProvider from '@/contexts/PostDataContext';
 import InductMemberForm from './InductMemberForm';
+import InductMemberSuccessModal from './InductMemberSuccessModal';
 
-function InductMemberModal() {
+interface Props {
+	post: IPost;
+}
+
+function InductMemberModal({ post }: Props) {
 	const router = useRouter();
 	const { id } = useUserDetailsContext();
+
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const formRef = useRef<any>(null);
+
+	const [setsubmitBtnText, setSetsubmitBtnText] = useState('Next Step');
+	const [successDetails, setSuccessDetails] = useState({
+		proposer: '',
+		inductee: '',
+		preimageHash: '',
+		preimageLength: 0,
+		postId: 0
+	});
 
 	const handleOnClose = () => {
 		router.back();
 	};
+
+	const handleNextStep = () => {
+		formRef?.current?.nextStep?.();
+	};
+
+	if (successDetails.proposer) {
+		return <InductMemberSuccessModal successDetails={successDetails} />;
+	}
 
 	return (
 		<Modal
 			isOpen
 			onClose={handleOnClose}
 			size='4xl'
-			scrollBehavior='inside'
-			shouldBlockScroll
+			scrollBehavior='outside'
+			backdrop='blur'
 		>
 			<ModalContent>
 				{() =>
@@ -47,7 +74,13 @@ function InductMemberModal() {
 							<Divider />
 
 							<ModalBody>
-								<InductMemberForm />
+								<PostDataContextProvider postItem={post}>
+									<InductMemberForm
+										ref={formRef}
+										setSetsubmitBtnText={setSetsubmitBtnText}
+										setSuccessDetails={setSuccessDetails}
+									/>
+								</PostDataContextProvider>
 							</ModalBody>
 
 							<Divider />
@@ -56,8 +89,9 @@ function InductMemberModal() {
 								<Button
 									color='primary'
 									className='flex flex-1 text-sm'
+									onPress={handleNextStep}
 								>
-									Next Step
+									{setsubmitBtnText}
 								</Button>
 							</ModalFooter>
 						</>

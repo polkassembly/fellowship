@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Button } from '@nextui-org/button';
+import { Button, ButtonProps } from '@nextui-org/button';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from '@nextui-org/dropdown';
 import React, { useCallback, useEffect, useState } from 'react';
 import Image from 'next/image';
@@ -21,12 +21,13 @@ interface Props {
 	disabled?: boolean;
 	wallet: Wallet;
 	label?: string;
+	triggerVariant?: ButtonProps['variant'];
 	onAddressSelect: (account: InjectedAccount) => void;
 }
 
 const network = getNetwork();
 
-function AddressDropdown({ disabled, label, wallet, onAddressSelect }: Props) {
+function AddressDropdown({ disabled, label, wallet, triggerVariant, onAddressSelect }: Props) {
 	const { api, apiReady } = useApiContext();
 
 	const [extensionNotFound, setExtensionNotFound] = useState<boolean>(false);
@@ -121,7 +122,7 @@ function AddressDropdown({ disabled, label, wallet, onAddressSelect }: Props) {
 						className='w-full'
 					>
 						<Button
-							variant='bordered'
+							variant={triggerVariant || 'bordered'}
 							className='flex items-center justify-between border-1 py-6'
 							disabled={disabled}
 						>

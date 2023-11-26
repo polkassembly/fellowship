@@ -27,10 +27,9 @@ async function InductMemberModalPage({ params }: ServerComponentProps<IParams, u
 	const headersList = headers();
 	const originUrl = getOriginUrl(headersList);
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-	const post = await getPost({ id: Number(postID), originUrl, proposalType: ProposalType.FELLOWSHIP_REFERENDUMS });
+	const post = await getPost({ id: Number(postID), originUrl, proposalType: ProposalType.DISCUSSIONS });
 
-	return <InductMemberModal />;
+	return <InductMemberModal post={post} />;
 }
 
 export default InductMemberModalPage;

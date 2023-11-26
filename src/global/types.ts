@@ -2,6 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { SubmittableExtrinsic } from '@polkadot/api/types';
+import { BN } from '@polkadot/util';
+import { HexString } from '@polkadot/util/types';
 import { Dispatch, SetStateAction } from 'react';
 
 export type TRPCEndpoint = {
@@ -27,6 +30,7 @@ export type NetworkProperties = {
 	rpcEndpoints: TRPCEndpoint[];
 	relayRpcEndpoints?: TRPCEndpoint[];
 	name: string; // to store alphabetical case
+	preImageBaseDeposit?: string;
 };
 
 export type NetworkConstants = {
@@ -324,4 +328,12 @@ export enum VoteDecisionType {
 	NAY = 'nay'
 	// ABSTAIN = 'abstain',
 	// SPLIT = 'split'
+}
+
+export interface IPreimage {
+	encodedProposal: HexString | null;
+	notePreimageTx: SubmittableExtrinsic<'promise'> | null;
+	preimageHash: string;
+	preimageLength: number;
+	storageFee: BN;
 }
