@@ -8,7 +8,7 @@ import AddressDropdown from '@/components/Auth/AddressDropdown';
 import WalletButtonsRow from '@/components/Auth/WalletButtonsRow';
 import AlertCard from '@/components/Misc/AlertCard';
 import PostArticleCard from '@/components/Post/PostPageContent/PostArticleCard';
-import { useApiContext, useUserDetailsContext } from '@/contexts';
+import { useApiContext, usePostDataContext, useUserDetailsContext } from '@/contexts';
 import networkConstants from '@/global/networkConstants';
 import { IPreimage, Wallet } from '@/global/types';
 import executeTx from '@/utils/executeTx';
@@ -71,9 +71,14 @@ interface Props {
 	>;
 }
 
+// TODO: reduce cognitive complexity
+// eslint-disable-next-line sonarjs/cognitive-complexity
 const InductMemberForm = forwardRef(({ setSetsubmitBtnText, setSuccessDetails }: Props, ref) => {
 	const { api, apiReady } = useApiContext();
 	const { loginWallet } = useUserDetailsContext();
+	const {
+		postData: { inductee_address: inducteeAddress = '' }
+	} = usePostDataContext();
 
 	const [loading, setLoading] = useState(false);
 	const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set(['1']));
@@ -83,6 +88,8 @@ const InductMemberForm = forwardRef(({ setSetsubmitBtnText, setSuccessDetails }:
 	const [preimage, setPreimage] = useState<IPreimage>();
 	const [preimageGasFee, setPreimageGasFee] = useState(BN_ZERO);
 	const [proposalGasFee, setProposalGasFee] = useState(BN_ZERO);
+
+	const substrateInducteeAddress = getSubstrateAddress(inducteeAddress);
 
 	const network = getNetwork();
 	const networkProps = networkConstants[String(network)];
@@ -150,7 +157,7 @@ const InductMemberForm = forwardRef(({ setSetsubmitBtnText, setSuccessDetails }:
 	};
 
 	const handleSubmitProposal = async () => {
-		if (!api || !apiReady || !selectedAddress || !preimage) return;
+		if (!api || !apiReady || !selectedAddress || !preimage || !substrateInducteeAddress) return;
 
 		const proposalOrigin = { FellowshipOrigins: 'FellowshipCandidates' };
 
@@ -176,7 +183,7 @@ const InductMemberForm = forwardRef(({ setSetsubmitBtnText, setSuccessDetails }:
 			const postId = Number(await api.query.fellowshipReferenda.referendumCount());
 			setSuccessDetails({
 				proposer: selectedAddress.address,
-				inductee: selectedAddress.address, // TODO: change to one from postID
+				inductee: substrateInducteeAddress,
 				preimageHash: preimage.preimageHash,
 				preimageLength: preimage.preimageLength,
 				postId
@@ -198,7 +205,7 @@ const InductMemberForm = forwardRef(({ setSetsubmitBtnText, setSuccessDetails }:
 	};
 
 	const nextStep = async () => {
-		if (loading) return;
+		if (loading || !substrateInducteeAddress) return;
 
 		const currKey = Number(Array.from(selectedKeys)[0]);
 		switch (currKey) {
@@ -241,8 +248,7 @@ const InductMemberForm = forwardRef(({ setSetsubmitBtnText, setSuccessDetails }:
 
 		(async () => {
 			setLoading(true);
-			// TODO: change address to the one from postContext
-			const preImageTxArr = [api.tx.fellowshipCollective.addMember(selectedAddress.address)];
+			const preImageTxArr = [api.tx.fellowshipCollective.addMember(substrateInducteeAddress)];
 			const txFee = await getTxFee(api, preImageTxArr, selectedAddress.address);
 			setPreimageGasFee(txFee);
 
@@ -265,7 +271,19 @@ const InductMemberForm = forwardRef(({ setSetsubmitBtnText, setSuccessDetails }:
 
 			setLoading(false);
 		})();
-	}, [api, apiReady, fellowAddresses, preimage, selectedAddress]);
+	}, [api, apiReady, fellowAddresses, preimage, selectedAddress, substrateInducteeAddress]);
+
+	if (!substrateInducteeAddress) {
+		return (
+			<div className='flex flex-col items-center justify-center gap-6 text-center text-sm'>
+				<AlertCard
+					className='w-full'
+					type='warning'
+					message='The inductee address is not a valid substrate address. Please check the address on the post and try again.'
+				/>
+			</div>
+		);
+	}
 
 	return (
 		<div className='flex gap-8 p-6'>

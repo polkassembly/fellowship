@@ -274,6 +274,7 @@ export interface IPost {
 	reactions_count: number;
 	shares_count: number;
 	views_count: number;
+	inductee_address?: string;
 }
 
 export interface ICommentHistory {

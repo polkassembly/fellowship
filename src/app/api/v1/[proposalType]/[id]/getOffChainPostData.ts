@@ -4,6 +4,7 @@
 
 import { IPost, Network, ProposalType } from '@/global/types';
 import DEFAULT_POST_TITLE from '@/global/constants/defaultTitle';
+import getSubstrateAddress from '@/utils/getSubstrateAddress';
 import { postDocRef, postReactionCollRef } from '../../firestoreRefs';
 
 interface Params {
@@ -27,6 +28,7 @@ export async function getOffChainPostData({ network, id, proposalType }: Params)
 		proposalType,
 		reactions_count: firestoreReactionCountData,
 		shares_count: 0,
-		views_count: 0
+		views_count: 0,
+		inductee_address: firestoreProposalData.inductee_address ?? getSubstrateAddress(firestoreProposalData.inductee_address) ?? null
 	} as IPost;
 }

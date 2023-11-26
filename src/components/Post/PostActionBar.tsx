@@ -18,25 +18,25 @@ function PostActionBar({ className }: Props) {
 			<div className='flex items-center gap-0.5'>
 				<AddReactionBtn />
 
-				<span className='text-xs'>16</span>
+				<span className='text-xs'>0</span>
 			</div>
 
 			<div className='flex items-center gap-0.5'>
 				<AddViewBtn />
 
-				<span className='text-xs'>45</span>
+				<span className='text-xs'>0</span>
 			</div>
 
 			<div className='flex items-center gap-0.5'>
 				<AddSubscriptionBtn />
 
-				<span className='text-xs'>16</span>
+				<span className='text-xs'>0</span>
 			</div>
 
 			<div className='flex items-center gap-0.5'>
 				<SharePostBtn />
 
-				<span className='text-xs'>16</span>
+				<span className='text-xs'>0</span>
 			</div>
 		</section>
 	);
