@@ -14,14 +14,15 @@ import LoadingSpinner from '../Misc/LoadingSpinner';
 
 interface Props {
 	className?: string;
+	address?: string;
 	title: string;
 	description: string;
 	errorString?: string;
 	loading?: boolean;
 }
 
-function PreviewApplicationRequest({ className = '', title, description, errorString, loading }: Props) {
-	const { loginAddress, username } = useUserDetailsContext();
+function PreviewApplicationRequest({ address, className = '', title, description, errorString, loading }: Props) {
+	const { username } = useUserDetailsContext();
 
 	return (
 		<article className={className}>
@@ -45,7 +46,7 @@ function PreviewApplicationRequest({ className = '', title, description, errorSt
 			<div className='flex flex-row items-center gap-3'>
 				{username && (
 					<UserIdentity
-						address={loginAddress}
+						address={address}
 						username={username ?? ''}
 					/>
 				)}

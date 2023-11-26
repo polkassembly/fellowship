@@ -4,7 +4,7 @@
 
 'use client';
 
-import { RefObject, useState } from 'react';
+import React, { RefObject, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Divider } from '@nextui-org/divider';
@@ -13,12 +13,15 @@ import { Controller, useForm } from 'react-hook-form';
 import { useUserDetailsContext } from '@/contexts';
 import DEFAULT_POST_TITLE from '@/global/constants/defaultTitle';
 import nextApiClientFetch from '@/utils/nextApiClientFetch';
-import { ChangeResponseType, CreatePostResponseType, EGovType, ProposalType } from '@/global/types';
+import { ChangeResponseType, CreatePostResponseType, EGovType, ProposalType, Wallet } from '@/global/types';
 import queueNotification from '@/utils/queueNotification';
 import { useRouter } from 'next/navigation';
+import { InjectedAccount } from '@polkadot/extension-inject/types';
 import AlertCard from '../Misc/AlertCard';
 import MarkdownEditor from '../TextEditor/MarkdownEditor';
 import PreviewApplicationRequest from './PreviewApplicationRequest';
+import AddressDropdown from '../Auth/AddressDropdown';
+import WalletButtonsRow from '../Auth/WalletButtonsRow';
 
 interface Props {
 	className?: string;
@@ -29,10 +32,12 @@ interface Props {
 
 function JoinFellowshipForm({ className = '', formRef, isPreview, onSuccess }: Props) {
 	const router = useRouter();
-	const { id, email_verified: userEmailVerified } = useUserDetailsContext();
+	const { id, email_verified: userEmailVerified, loginWallet } = useUserDetailsContext();
 
 	const [error, setError] = useState('');
 	const [loading, setLoading] = useState(false);
+	const [selectedWallet, setSelectedWallet] = useState<Wallet | null>(loginWallet);
+	const [selectedAddress, setSelectedAddress] = useState<InjectedAccount | null>(null);
 
 	const {
 		register,
@@ -46,6 +51,10 @@ function JoinFellowshipForm({ className = '', formRef, isPreview, onSuccess }: P
 			description: ''
 		}
 	});
+
+	const onWalletClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, wallet: Wallet) => {
+		setSelectedWallet(wallet);
+	};
 
 	const createSubscription = async (postId: number) => {
 		if (userEmailVerified) return;
@@ -71,6 +80,11 @@ function JoinFellowshipForm({ className = '', formRef, isPreview, onSuccess }: P
 			return;
 		}
 
+		if (!selectedAddress) {
+			setError('Please select a fellow address.');
+			return;
+		}
+
 		if (!title) {
 			setError('Title is required');
 			return;
@@ -91,7 +105,8 @@ function JoinFellowshipForm({ className = '', formRef, isPreview, onSuccess }: P
 				proposalType: ProposalType.DISCUSSIONS,
 				title,
 				topicId: 10,
-				userId: id
+				userId: id,
+				inductee_address: selectedAddress.address
 			}
 		});
 
@@ -127,6 +142,7 @@ function JoinFellowshipForm({ className = '', formRef, isPreview, onSuccess }: P
 		<div className='p-6'>
 			{isPreview && (
 				<PreviewApplicationRequest
+					address={selectedAddress?.address}
 					loading={loading}
 					title={title || DEFAULT_POST_TITLE}
 					description={description || 'No description'}
@@ -165,11 +181,41 @@ function JoinFellowshipForm({ className = '', formRef, isPreview, onSuccess }: P
 							message='Note: A fellow with at least rank x must apply for fellowship on behalf of another user.'
 						/>
 
+						{error && (
+							<AlertCard
+								type='error'
+								message={error}
+							/>
+						)}
+
 						<form
 							ref={formRef}
 							onSubmit={handleSubmit(submitForm)}
 							className='flex flex-col gap-3'
 						>
+							<div className='flex w-full flex-col items-start'>
+								<div className='flex flex-col items-start justify-start gap-2 text-center text-sm'>
+									<h3>Please select a wallet : </h3>
+									<WalletButtonsRow
+										disabled={loading}
+										onWalletClick={onWalletClick}
+									/>
+								</div>
+							</div>
+
+							{selectedWallet && (
+								<div className='w-full'>
+									<span className='text-sm'>
+										Inductee Address <span className='text-rose-500'>*</span>
+									</span>
+									<AddressDropdown
+										disabled={loading}
+										wallet={selectedWallet}
+										onAddressSelect={setSelectedAddress}
+									/>
+								</div>
+							)}
+
 							<div>
 								<Input
 									label={
