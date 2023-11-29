@@ -165,11 +165,11 @@
 	}
 
 	a {
-		color: pink_primary !important;
+		@apply text-link;
 
 		&:hover {
+			@apply text-link;
 			text-decoration: none;
-			color: pink_secondary;
 		}
 	}
 
@@ -195,7 +195,7 @@
 	}
 
 	pre {
-		background-color: grey_light;
+		@apply bg-background;
 		overflow: auto;
 		border-radius: 0.3rem;
 	}
@@ -233,10 +233,6 @@
 		font-size: 1.2rem;
 		font-weight: 500;
 	}
-
-	h3 {
-		font-family: font_default !important;
-	}
 }
 
 .mde-autocomplete-content {
@@ -253,6 +249,6 @@
 	}
 
 	&:hover {
-		color: pink_primary !important;
+		@apply text-primary;
 	}
 }
