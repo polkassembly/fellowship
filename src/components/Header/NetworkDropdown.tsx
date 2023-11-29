@@ -20,6 +20,8 @@ function NetworkDropdown() {
 	const { network, setNetwork } = useApiContext();
 	const currentNetworkProperties = networkConstants[String(network)];
 
+	// TODO: fix hyrdation warning
+
 	return (
 		<Dropdown>
 			<DropdownTrigger>

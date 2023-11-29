@@ -27,6 +27,7 @@ function LinkWithNetwork({ className, href, children, replace = false, target = 
 			className={className}
 			target={target}
 			rel={rel}
+			suppressHydrationWarning
 		>
 			{children}
 		</Link>

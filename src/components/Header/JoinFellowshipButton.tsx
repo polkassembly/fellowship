@@ -6,15 +6,10 @@
 
 import React from 'react';
 import { Button } from '@nextui-org/button';
-import Link from 'next/link';
-import { useApiContext } from '@/contexts';
 import UserAvatar from '../Profile/UserAvatar';
-
-// TODO: fix hyrdation warning
+import LinkWithNetwork from '../Misc/LinkWithNetwork';
 
 function JoinFellowshipButton({ className = '' }: { className?: string }) {
-	const { network } = useApiContext();
-
 	return (
 		<div className={`flex items-center ${className}`}>
 			<div className='min-w-max'>
@@ -22,19 +17,17 @@ function JoinFellowshipButton({ className = '' }: { className?: string }) {
 			</div>
 			<div className='ml-3 flex flex-col gap-y-1.5'>
 				<small className='text-xs'>Not a member yet ?</small>
-				{network && (
-					<Button
-						href={`/join-fellowship?network=${network}`}
-						as={Link}
-						color='primary'
-						size='sm'
-						variant='bordered'
-						className='h-unit-7 text-xs'
-						suppressHydrationWarning
-					>
-						Join Fellowship
-					</Button>
-				)}
+				<Button
+					href='/join-fellowship'
+					as={LinkWithNetwork}
+					color='primary'
+					size='sm'
+					variant='bordered'
+					className='h-unit-7 text-xs'
+					suppressHydrationWarning
+				>
+					Join Fellowship
+				</Button>
 			</div>
 		</div>
 	);

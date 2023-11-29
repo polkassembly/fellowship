@@ -5,14 +5,12 @@
 'use client';
 
 import { Button } from '@nextui-org/button';
-import Link from 'next/link';
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { useApiContext } from '@/contexts';
+import LinkWithNetwork from '../Misc/LinkWithNetwork';
 
 function Carousel() {
 	const [isOpen, setIsOpen] = useState(true);
-	const { network } = useApiContext();
 
 	if (!isOpen) return null;
 
@@ -40,8 +38,8 @@ function Carousel() {
 				</h1>
 				<Button
 					color='primary'
-					href={`/join-fellowship?network=${network}`}
-					as={Link}
+					href='/join-fellowship'
+					as={LinkWithNetwork}
 					className='text-sm font-semibold shadow-md'
 					radius='full'
 					size='md'

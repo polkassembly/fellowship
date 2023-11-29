@@ -4,15 +4,14 @@
 
 'use client';
 
-import { useApiContext, useUserDetailsContext } from '@/contexts';
+import { useUserDetailsContext } from '@/contexts';
 import { logout } from '@/services/auth.service';
 import { Button } from '@nextui-org/button';
-import Link from 'next/link';
 import React from 'react';
+import LinkWithNetwork from '../Misc/LinkWithNetwork';
 
 function ConnectWalletButton() {
 	const { id, setUserDetailsContextState } = useUserDetailsContext();
-	const { network } = useApiContext();
 
 	return id ? (
 		<Button
@@ -27,8 +26,8 @@ function ConnectWalletButton() {
 		</Button>
 	) : (
 		<Button
-			href={`/login?network=${network}`}
-			as={Link}
+			href='/login'
+			as={LinkWithNetwork}
 			radius='full'
 			variant='bordered'
 			color='primary'
