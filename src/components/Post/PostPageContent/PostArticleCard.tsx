@@ -11,6 +11,7 @@ import { Tabs, Tab } from '@nextui-org/tabs';
 import { ScrollShadow } from '@nextui-org/scroll-shadow';
 import { Divider } from '@nextui-org/divider';
 import Markdown from '@/components/TextEditor/Markdown';
+import { ActivityType } from '@/global/types';
 import ContentListingHeader from '../ContentListingHeader';
 import PostTags from '../PostTags';
 import PostActionBar from '../PostActionBar';
@@ -59,8 +60,9 @@ function PostArticleCard({ className, onlyDescriptionTab }: Props) {
 				<div className='px-6'>
 					<ContentListingHeader
 						createdAt={postData.created_at}
-						address={postData.on_chain_info?.proposer}
+						address={postData.inductee_address || postData.on_chain_info?.proposer}
 						status={postData.on_chain_info?.status}
+						activityType={postData.inductee_address ? ActivityType.INDUCTION : undefined}
 					/>
 				</div>
 

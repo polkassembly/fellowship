@@ -8,7 +8,7 @@ import { Divider } from '@nextui-org/divider';
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from '@nextui-org/modal';
 import { useRouter } from 'next/navigation';
 import PostDataContextProvider from '@/contexts/PostDataContext';
-import { VoteDecisionType, IPost } from '@/global/types';
+import { VoteDecisionType, IPost, ProposalType, ActivityType } from '@/global/types';
 import { Button } from '@nextui-org/button';
 import Image from 'next/image';
 import VoteButton from '@/components/Post/GovernanceSidebar/VoteButton';
@@ -56,8 +56,9 @@ function PostModal({ post }: Props) {
 								<header className='flex flex-col gap-2 text-xl font-semibold'>
 									<ContentListingHeader
 										createdAt={post.created_at}
-										address={post.on_chain_info?.proposer}
+										address={post.inductee_address || post.on_chain_info?.proposer}
 										status={post.on_chain_info?.status}
+										activityType={post.inductee_address ? ActivityType.INDUCTION : undefined}
 									/>
 
 									<section className='mt-1 flex gap-2'>
@@ -90,37 +91,42 @@ function PostModal({ post }: Props) {
 
 							<ModalBody className='p-6'>{post.content && <Markdown md={post.content} />}</ModalBody>
 
-							<Divider />
+							{post.proposalType !== ProposalType.DISCUSSIONS && (
+								<>
+									<Divider />
+									<ModalFooter className='flex flex-col gap-3'>
+										<div className='flex items-center justify-start gap-3'>
+											<h2 className='text-base font-medium'>Voting Status</h2>
+											<HorizontalVoteProgress className='w-[184px]' />
+										</div>
 
-							<ModalFooter className='flex flex-col gap-3'>
-								<div className='flex items-center justify-start gap-3'>
-									<h2 className='text-base font-medium'>Voting Status</h2>
-									<HorizontalVoteProgress className='w-[184px]' />
-								</div>
-
-								{canVote && (
-									<div className='flex items-center gap-4'>
-										<VoteButton
-											voteType={VoteDecisionType.AYE}
-											onClick={() => setVoteModalType(VoteDecisionType.AYE)}
-										/>
-										<VoteButton
-											voteType={VoteDecisionType.NAY}
-											onClick={() => setVoteModalType(VoteDecisionType.NAY)}
-										/>
-									</div>
-								)}
-							</ModalFooter>
+										{canVote && (
+											<div className='flex items-center gap-4'>
+												<VoteButton
+													voteType={VoteDecisionType.AYE}
+													onClick={() => setVoteModalType(VoteDecisionType.AYE)}
+												/>
+												<VoteButton
+													voteType={VoteDecisionType.NAY}
+													onClick={() => setVoteModalType(VoteDecisionType.NAY)}
+												/>
+											</div>
+										)}
+									</ModalFooter>
+								</>
+							)}
 						</>
 					)}
 				</ModalContent>
 			</Modal>
 
-			<VoteModal
-				isModalOpen={voteModalType !== null}
-				defaultVoteType={voteModalType ?? VoteDecisionType.AYE}
-				closeModal={() => setVoteModalType(null)}
-			/>
+			{post.proposalType !== ProposalType.DISCUSSIONS && (
+				<VoteModal
+					isModalOpen={voteModalType !== null}
+					defaultVoteType={voteModalType ?? VoteDecisionType.AYE}
+					closeModal={() => setVoteModalType(null)}
+				/>
+			)}
 		</PostDataContextProvider>
 	);
 }
