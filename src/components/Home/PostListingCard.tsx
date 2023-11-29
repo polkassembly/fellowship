@@ -7,6 +7,7 @@ import React from 'react';
 import { Divider } from '@nextui-org/divider';
 import { ActivityType, PostListingItem, ProposalType } from '@/global/types';
 import { getSinglePostLinkFromProposalType } from '@/utils/getSinglePostLinkFromProposalType';
+import VOTABLE_STATUSES from '@/global/constants/votableStatuses';
 import PostActionBar from '../Post/PostActionBar';
 import PostReactionInfoBar from '../Post/PostReactionInfoBar';
 import ContentListingHeader from '../Post/ContentListingHeader';
@@ -35,7 +36,11 @@ function PostListingCard({ feedItem }: Props) {
 				{/* Need this wrapper div because isPressable breaks styles */}
 				<div className={`flex flex-col gap-3 px-6 py-4 text-left ${SHOW_NOT_VOTED && 'pb-[35px]'}`}>
 					<ContentListingHeader
-						activityType={feedItem.proposalType === ProposalType.FELLOWSHIP_REFERENDUMS ? ActivityType.GENERAL_PROPOSAL : undefined}
+						activityType={
+							feedItem.proposalType === ProposalType.FELLOWSHIP_REFERENDUMS && feedItem.on_chain_info?.status && VOTABLE_STATUSES.includes(feedItem.on_chain_info?.status)
+								? ActivityType.GENERAL_PROPOSAL
+								: undefined
+						}
 						address={feedItem.on_chain_info?.proposer}
 						createdAt={feedItem.created_at}
 						votesTally={feedItem.on_chain_info?.tally}
