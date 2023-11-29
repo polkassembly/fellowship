@@ -9,7 +9,7 @@ import { Button } from '@nextui-org/button';
 import { useRef, useState } from 'react';
 import Image from 'next/image';
 import { useUserDetailsContext } from '@/contexts';
-import Link from 'next/link';
+import LinkWithNetwork from '@/components/Misc/LinkWithNetwork';
 
 export default function JoinFellowship() {
 	const { id } = useUserDetailsContext();
@@ -29,12 +29,12 @@ export default function JoinFellowship() {
 			{!id ? (
 				<div className='p-6 text-center'>
 					Please{' '}
-					<Link
+					<LinkWithNetwork
 						href='/login'
 						className='text-link'
 					>
 						login
-					</Link>{' '}
+					</LinkWithNetwork>{' '}
 					to create an application request for fellowship
 				</div>
 			) : (

@@ -12,7 +12,7 @@ import React, { useRef, useState } from 'react';
 import Image from 'next/image';
 import { Divider } from '@nextui-org/divider';
 import { useUserDetailsContext } from '@/contexts';
-import Link from 'next/link';
+import LinkWithNetwork from '@/components/Misc/LinkWithNetwork';
 
 function JoinFellowshipModal() {
 	const router = useRouter();
@@ -124,12 +124,12 @@ function JoinFellowshipModal() {
 					) : (
 						<div className='p-6 text-center'>
 							Please{' '}
-							<Link
+							<LinkWithNetwork
 								href='/login'
 								className='text-link'
 							>
 								login
-							</Link>{' '}
+							</LinkWithNetwork>{' '}
 							to create an application request for fellowship
 						</div>
 					)

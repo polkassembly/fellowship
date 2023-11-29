@@ -6,11 +6,10 @@
 
 import React, { RefObject, useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { Divider } from '@nextui-org/divider';
 import { Input } from '@nextui-org/input';
 import { Controller, useForm } from 'react-hook-form';
-import { useUserDetailsContext } from '@/contexts';
+import { useApiContext, useUserDetailsContext } from '@/contexts';
 import DEFAULT_POST_TITLE from '@/global/constants/defaultTitle';
 import nextApiClientFetch from '@/utils/nextApiClientFetch';
 import { ChangeResponseType, CreatePostResponseType, EGovType, ProposalType, Wallet } from '@/global/types';
@@ -33,6 +32,7 @@ interface Props {
 function JoinFellowshipForm({ className = '', formRef, isPreview, onSuccess }: Props) {
 	const router = useRouter();
 	const { id, email_verified: userEmailVerified, loginWallet } = useUserDetailsContext();
+	const { network } = useApiContext();
 
 	const [error, setError] = useState('');
 	const [loading, setLoading] = useState(false);
@@ -60,6 +60,7 @@ function JoinFellowshipForm({ className = '', formRef, isPreview, onSuccess }: P
 		if (userEmailVerified) return;
 
 		const { data, error: createSubError } = await nextApiClientFetch<ChangeResponseType>({
+			network,
 			url: 'api/v1/auth/actions/postSubscribe',
 			data: { post_id: postId, proposalType: ProposalType.DISCUSSIONS }
 		});
@@ -97,6 +98,7 @@ function JoinFellowshipForm({ className = '', formRef, isPreview, onSuccess }: P
 		setLoading(true);
 
 		const { data, error: apiError } = await nextApiClientFetch<CreatePostResponseType>({
+			network,
 			url: 'api/v1/auth/actions/createPost',
 			isPolkassemblyAPI: true,
 			data: {
@@ -167,9 +169,8 @@ function JoinFellowshipForm({ className = '', formRef, isPreview, onSuccess }: P
 						<li>Sincerely uphold the interests of Polkadot and avoid actions which clearly work against it.</li>
 						<li>Respect the philosophy and principles of Polkadot.</li>
 						<li>Respect the operational procedures, norms and voting conventions of the Fellowship.</li>
-						<li>
-							Respect your fellow Members and the wider community <Link href='/'>Learn more</Link>
-						</li>
+						<li>Respect your fellow Members and the wider community.</li>
+						{/* TODO: add learn more */}
 					</ul>
 
 					<div className='my-6 flex flex-col gap-6'>

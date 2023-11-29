@@ -9,8 +9,8 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 import Image from 'next/image';
 import midTruncateText from '@/utils/midTruncateText';
-import Link from 'next/link';
 import Address from '../Profile/Address';
+import LinkWithNetwork from '../Misc/LinkWithNetwork';
 
 interface Props {
 	successDetails: { proposer: string; inductee: string; preimageHash: string; preimageLength: string | number; postId: string | number };
@@ -80,14 +80,14 @@ function InductMemberSuccessModal({ successDetails }: Props) {
 
 								<div className='flex items-center justify-center'>
 									To see the proposal submitted click&nbsp;
-									<Link
+									<LinkWithNetwork
 										className='text-link underline'
 										href={`/referenda/${successDetails.postId}`}
 										target='_blank'
 										rel='noopener noreferrer'
 									>
 										here
-									</Link>
+									</LinkWithNetwork>
 								</div>
 
 								{/* TODO: Add Social Icons */}

@@ -4,10 +4,10 @@
 
 'use client';
 
+import LinkWithNetwork from '@/components/Misc/LinkWithNetwork';
 import { usePostDataContext } from '@/contexts';
 import { ActivityType, ProposalType } from '@/global/types';
 import midTruncateText from '@/utils/midTruncateText';
-import Link from 'next/link';
 import React from 'react';
 
 function PostRouteBreadcumbs() {
@@ -19,12 +19,12 @@ function PostRouteBreadcumbs() {
 
 	return (
 		<div className='flex gap-3 text-xs'>
-			<Link
+			<LinkWithNetwork
 				href={`/${listingView}s`}
 				className='capitalize text-link'
 			>
 				{listingView.replaceAll('-', ' ')}
-			</Link>
+			</LinkWithNetwork>
 
 			<span>&gt;</span>
 

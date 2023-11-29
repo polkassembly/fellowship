@@ -2,6 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+'use client';
+
+import { useApiContext } from '@/contexts';
 import { Button } from '@nextui-org/button';
 import { Card } from '@nextui-org/card';
 import Link from 'next/link';
@@ -10,6 +13,8 @@ import React from 'react';
 // TODO: change copy
 
 function JoinFellowshipCard() {
+	const { network } = useApiContext();
+
 	return (
 		<Card
 			className='h-[150px] bg-gradient-to-br from-sky-500 via-green-400 to-lime-400 p-6'
@@ -17,7 +22,7 @@ function JoinFellowshipCard() {
 		>
 			<span className='px-4 text-center text-sm text-white'>Join the community to get access to..!</span>
 			<Button
-				href='/join-fellowship'
+				href={`/join-fellowship?network=${network}`}
 				as={Link}
 				className='mt-5 text-sm font-semibold shadow-md light:bg-white'
 				radius='full'

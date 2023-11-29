@@ -4,6 +4,7 @@
 
 import React from 'react';
 import dynamic from 'next/dynamic';
+import { useApiContext } from '@/contexts';
 import PostTags from './PostTags';
 
 const Link = dynamic(() => import('next/link'), { ssr: false }); // for hydration
@@ -17,6 +18,8 @@ interface Props {
 }
 
 function PostListingBody({ className = '', index = 0, title = '', content = '', tags = [] }: Props) {
+	const { network } = useApiContext();
+
 	return (
 		<section className={`flex gap-2 ${className}`}>
 			<p className='mt-0.5 text-xs font-normal text-slate-500'>#{index}</p>
@@ -27,7 +30,7 @@ function PostListingBody({ className = '', index = 0, title = '', content = '', 
 						<p className='line-clamp-2 text-sm'>{content}</p>
 						<Link
 							className='mb-0.5 text-xs text-link'
-							href={`/referenda/${index}`}
+							href={`/referenda/${index}?network=${network}`}
 						>
 							Read more
 						</Link>

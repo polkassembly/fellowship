@@ -38,9 +38,9 @@ async function getFirestoreDocs(onChainProposals: unknown[], network: string) {
 		reactionRefs.push(reactionCollRef);
 	});
 
-	const firestoreProposalDocs = await firebaseAdmin.firestore().getAll(...proposalRefs);
-	const firestoreCommentCountDocs = (await Promise.allSettled(commentCountRefs)).map((item) => (item.status === 'fulfilled' ? item.value : 0));
-	const firestoreReactionDocs = (await Promise.allSettled(reactionRefs)).map((item) => (item.status === 'fulfilled' ? item.value : null));
+	const firestoreProposalDocs = proposalRefs.length ? await firebaseAdmin.firestore().getAll(...proposalRefs) : [];
+	const firestoreCommentCountDocs = proposalRefs.length ? (await Promise.allSettled(commentCountRefs)).map((item) => (item.status === 'fulfilled' ? item.value : 0)) : [];
+	const firestoreReactionDocs = proposalRefs.length ? (await Promise.allSettled(reactionRefs)).map((item) => (item.status === 'fulfilled' ? item.value : null)) : [];
 
 	return { firestoreProposalDocs, firestoreCommentCountDocs, firestoreReactionDocs };
 }

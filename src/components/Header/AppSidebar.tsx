@@ -7,11 +7,14 @@
 import React from 'react';
 
 import Image from 'next/image';
-import Link from 'next/link';
 import { Listbox, ListboxItem } from '@nextui-org/listbox';
 import { usePathname, useRouter } from 'next/navigation';
+import { useApiContext } from '@/contexts';
+import dynamic from 'next/dynamic';
 import styles from './Header.module.scss';
-import JoinFellowshipButton from './JoinFellowshipButton';
+import LinkWithNetwork from '../Misc/LinkWithNetwork';
+
+const JoinFellowshipButton = dynamic(() => import('./JoinFellowshipButton'), { ssr: false });
 
 function ListboxItemStartContent({ isParentItem = false, isCurrentRoute, icon }: { isParentItem: boolean; isCurrentRoute: boolean; icon?: string }) {
 	return (
@@ -98,6 +101,7 @@ const navItems: NavItem[] = [
 function AppSidebar() {
 	const pathname = usePathname();
 	const router = useRouter();
+	const { network } = useApiContext();
 
 	return (
 		<nav className={styles.appSidebar}>
@@ -111,7 +115,7 @@ function AppSidebar() {
 					selectedKeys={[pathname]}
 					onAction={(key) => {
 						if (key.toString().startsWith('#')) return;
-						router.push(key.toString().toLowerCase());
+						router.push(`${key.toString().toLowerCase()}?network=${network}`);
 					}}
 				>
 					{navItems.map((navItem) => {
@@ -142,12 +146,12 @@ function AppSidebar() {
 								{navItem.url.startsWith('#') ? (
 									<span>{navItem.label}</span>
 								) : (
-									<Link
+									<LinkWithNetwork
 										className={`${navItem.subItem && !isCurrentRoute && 'ml-16'} ${isCurrentRoute && navItem.subItem && 'ml-14'}`}
 										href={navItem.url}
 									>
 										{navItem.label}
-									</Link>
+									</LinkWithNetwork>
 								)}
 							</ListboxItem>
 						);
@@ -163,41 +167,41 @@ function AppSidebar() {
 					height='55'
 				/>
 				<div className='ml-2 flex max-w-[150px] items-center justify-between gap-x-4'>
-					<Link href='/'>
+					<LinkWithNetwork href='/'>
 						<Image
 							alt='Tiwtter Logo'
 							src='/brand/twitter-grey.svg'
 							width='20'
 							height='20'
 						/>
-					</Link>
+					</LinkWithNetwork>
 
-					<Link href='/'>
+					<LinkWithNetwork href='/'>
 						<Image
 							alt='Discord Logo'
 							src='/brand/discord-grey.svg'
 							width='20'
 							height='20'
 						/>
-					</Link>
+					</LinkWithNetwork>
 
-					<Link href='/'>
+					<LinkWithNetwork href='/'>
 						<Image
 							alt='Telegram Logo'
 							src='/brand/telegram-grey.svg'
 							width='20'
 							height='20'
 						/>
-					</Link>
+					</LinkWithNetwork>
 
-					<Link href='/'>
+					<LinkWithNetwork href='/'>
 						<Image
 							alt='Web Logo'
 							src='/icons/web-grey.svg'
 							width='20'
 							height='20'
 						/>
-					</Link>
+					</LinkWithNetwork>
 				</div>
 			</footer>
 		</nav>

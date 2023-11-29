@@ -7,7 +7,7 @@ import InductMemberModal from '@/components/InductMember/InductMemberModal';
 import { API_ERROR_CODE } from '@/global/constants/errorCodes';
 import { ClientError } from '@/global/exceptions';
 import MESSAGES from '@/global/messages';
-import { ProposalType, ServerComponentProps } from '@/global/types';
+import { Network, ProposalType, ServerComponentProps } from '@/global/types';
 import getOriginUrl from '@/utils/getOriginUrl';
 import { headers } from 'next/headers';
 import React from 'react';
@@ -16,8 +16,13 @@ interface IParams {
 	id: string;
 }
 
-async function InductMemberModalPage({ params }: ServerComponentProps<IParams, unknown>) {
+type SearchParamProps = {
+	network?: string;
+};
+
+async function InductMemberModalPage({ params, searchParams }: ServerComponentProps<IParams, SearchParamProps>) {
 	const postID = params?.id;
+	const { network } = searchParams ?? {};
 
 	// validate id
 	if (isNaN(Number(postID))) {
@@ -27,7 +32,7 @@ async function InductMemberModalPage({ params }: ServerComponentProps<IParams, u
 	const headersList = headers();
 	const originUrl = getOriginUrl(headersList);
 
-	const post = await getPost({ id: Number(postID), originUrl, proposalType: ProposalType.DISCUSSIONS });
+	const post = await getPost({ id: Number(postID), originUrl, proposalType: ProposalType.DISCUSSIONS, network: network as Network });
 
 	return <InductMemberModal post={post} />;
 }

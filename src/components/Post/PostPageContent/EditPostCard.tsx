@@ -6,7 +6,7 @@
 
 import AlertCard from '@/components/Misc/AlertCard';
 import MarkdownEditor from '@/components/TextEditor/MarkdownEditor';
-import { usePostDataContext, useUserDetailsContext } from '@/contexts';
+import { useApiContext, usePostDataContext, useUserDetailsContext } from '@/contexts';
 import { IEditPostResponse } from '@/global/types';
 import nextApiClientFetch from '@/utils/nextApiClientFetch';
 import queueNotification from '@/utils/queueNotification';
@@ -18,6 +18,7 @@ import { Controller, useForm } from 'react-hook-form';
 
 function EditPostCard() {
 	const { id } = useUserDetailsContext();
+	const { network } = useApiContext();
 
 	const {
 		postData: { id: postId, content, title, proposalType },
@@ -62,6 +63,7 @@ function EditPostCard() {
 		setLoading(true);
 
 		const { data, error: editError } = await nextApiClientFetch<IEditPostResponse>({
+			network,
 			url: 'api/v1/auth/actions/editPost',
 			isPolkassemblyAPI: true,
 			data: {

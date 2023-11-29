@@ -11,6 +11,7 @@ import { useParams, usePathname } from 'next/navigation';
 import getActivityFeed from '@/app/api/v1/feed/getActivityFeed';
 import getOriginUrl from '@/utils/getOriginUrl';
 import { ScrollShadow } from '@nextui-org/scroll-shadow';
+import { useApiContext } from '@/contexts';
 import PostListingCard from './PostListingCard';
 import LoadingSpinner from '../Misc/LoadingSpinner';
 
@@ -21,14 +22,25 @@ interface Props {
 }
 
 function ActivityFeed({ items }: Props) {
-	const observerTarget = useRef(null);
 	const { feed = EActivityFeed.ALL } = useParams();
 	const pathname = usePathname();
+
+	const { network } = useApiContext();
+
+	const observerTarget = useRef(null);
 
 	const [page, setPage] = useQueryState('page', parseAsInteger);
 	const [feedItems, setFeedItems] = useState<PostListingItem[]>(items || []);
 	const [isFetching, setIsFetching] = useState(false);
 	const [isLastPage, setIsLastPage] = useState(false);
+
+	useEffect(() => {
+		setFeedItems(items || []);
+	}, [items]);
+
+	useEffect(() => {
+		setIsLastPage(false);
+	}, [network]);
 
 	useEffect(() => {
 		if (pathname === '/' && (!page || Number(page) < 1)) setPage(1);
@@ -42,7 +54,7 @@ function ActivityFeed({ items }: Props) {
 						setIsFetching(true);
 						const originUrl = getOriginUrl();
 						const nextPage = page ? page + 1 : 1;
-						const newFeedItems = await getActivityFeed({ feedType: feed as EActivityFeed, originUrl, page: nextPage });
+						const newFeedItems = await getActivityFeed({ feedType: feed as EActivityFeed, originUrl, page: nextPage, network });
 
 						if (newFeedItems.length) {
 							setFeedItems([...feedItems, ...newFeedItems]);
@@ -70,6 +82,10 @@ function ActivityFeed({ items }: Props) {
 		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [feed, observerTarget, page]);
+
+	if (!feedItems.length) {
+		return <div className='p-6 text-center text-sm'>No feed items found.</div>;
+	}
 
 	return (
 		<ScrollShadow className='flex max-h-screen w-full flex-col gap-y-4 overflow-auto'>

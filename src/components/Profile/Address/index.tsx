@@ -8,7 +8,7 @@
 import React from 'react';
 import midTruncateText from '@/utils/midTruncateText';
 import getEncodedAddress from '@/utils/getEncodedAddress';
-import getNetwork from '@/utils/getNetwork';
+import { useApiContext } from '@/contexts';
 import AddressInline from './AddressInline';
 import AddressDropdownItem from './AddressDropdownItem';
 
@@ -31,8 +31,7 @@ interface AddressDropdownItemProps extends BaseProps {
 type Props = AddressInlineProps | AddressDropdownItemProps;
 
 function Address(props: Props) {
-	const network = getNetwork();
-
+	const { network } = useApiContext();
 	const addressDisplayText = props.truncateCharLen
 		? midTruncateText({
 				text: props.address,

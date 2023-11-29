@@ -8,7 +8,7 @@ import ReactMde, { Suggestion } from 'react-mde';
 import { IMG_BB_API_KEY } from '@/global/apiKeys';
 import nextApiClientFetch from '@/utils/nextApiClientFetch';
 import debounce from 'lodash.debounce';
-import { useUserDetailsContext } from '@/contexts';
+import { useApiContext, useUserDetailsContext } from '@/contexts';
 import './MarkdownEditor.scss';
 import Markdown from './Markdown';
 
@@ -22,6 +22,7 @@ interface Props {
 
 const MarkdownEditor = forwardRef(function MarkdownEditor({ className, height, onChange, value, disabled }: Props, ref) {
 	const { id, username } = useUserDetailsContext();
+	const { network } = useApiContext();
 
 	const [selectedTab, setSelectedTab] = React.useState<'write' | 'preview'>('write');
 
@@ -76,6 +77,7 @@ const MarkdownEditor = forwardRef(function MarkdownEditor({ className, height, o
 	async function getUserData(usernameQuery: string, content: string) {
 		let inputData = content;
 		const res = await nextApiClientFetch({
+			network,
 			url: `api/v1/auth/data/userProfileWithUsername?username=${usernameQuery}`,
 			isPolkassemblyAPI: true
 		});

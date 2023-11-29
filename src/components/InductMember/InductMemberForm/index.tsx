@@ -12,8 +12,6 @@ import { useApiContext, usePostDataContext, useUserDetailsContext } from '@/cont
 import networkConstants from '@/global/networkConstants';
 import { IPreimage, Wallet } from '@/global/types';
 import executeTx from '@/utils/executeTx';
-import getAllFellowAddresses from '@/utils/getAllFellowAddresses';
-import getNetwork from '@/utils/getNetwork';
 import getPreimage from '@/utils/getPreimage';
 import getSubstrateAddress from '@/utils/getSubstrateAddress';
 import getTxFee from '@/utils/getTxFee';
@@ -74,7 +72,7 @@ interface Props {
 // TODO: reduce cognitive complexity
 // eslint-disable-next-line sonarjs/cognitive-complexity
 const InductMemberForm = forwardRef(({ setSetsubmitBtnText, setSuccessDetails }: Props, ref) => {
-	const { api, apiReady } = useApiContext();
+	const { api, apiReady, network, fellowAddresses } = useApiContext();
 	const { loginWallet } = useUserDetailsContext();
 	const {
 		postData: { inductee_address: inducteeAddress = '' }
@@ -82,7 +80,6 @@ const InductMemberForm = forwardRef(({ setSetsubmitBtnText, setSuccessDetails }:
 
 	const [loading, setLoading] = useState(false);
 	const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set(['1']));
-	const [fellowAddresses, setFellowAddresses] = useState<string[]>([]);
 	const [selectedWallet, setSelectedWallet] = useState<Wallet | null>(loginWallet);
 	const [selectedAddress, setSelectedAddress] = useState<InjectedAccount | null>(null);
 	const [preimage, setPreimage] = useState<IPreimage>();
@@ -91,7 +88,6 @@ const InductMemberForm = forwardRef(({ setSetsubmitBtnText, setSuccessDetails }:
 
 	const substrateInducteeAddress = getSubstrateAddress(inducteeAddress);
 
-	const network = getNetwork();
 	const networkProps = networkConstants[String(network)];
 	const baseDeposit = new BN(`${networkConstants[String(network)]?.preImageBaseDeposit}` || 0);
 
@@ -231,17 +227,6 @@ const InductMemberForm = forwardRef(({ setSetsubmitBtnText, setSuccessDetails }:
 	useImperativeHandle(ref, () => ({
 		nextStep
 	}));
-
-	useEffect(() => {
-		if (!api || !apiReady) return;
-
-		(async () => {
-			setLoading(true);
-			const fellows = await getAllFellowAddresses(api);
-			setFellowAddresses(fellows);
-			setLoading(false);
-		})();
-	}, [api, apiReady]);
 
 	useEffect(() => {
 		if (!api || !apiReady || !selectedAddress || !fellowAddresses.includes(getSubstrateAddress(selectedAddress.address) || '')) return;

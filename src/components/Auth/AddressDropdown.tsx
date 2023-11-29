@@ -8,7 +8,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Wallet } from '@/global/types';
 import { InjectedAccount, InjectedWindow } from '@polkadot/extension-inject/types';
-import getNetwork from '@/utils/getNetwork';
 import getWalletAccounts from '@/utils/getWalletAccounts';
 import { Skeleton } from '@nextui-org/skeleton';
 import { useApiContext } from '@/contexts';
@@ -25,10 +24,8 @@ interface Props {
 	onAddressSelect: (account: InjectedAccount) => void;
 }
 
-const network = getNetwork();
-
 function AddressDropdown({ disabled, label, wallet, triggerVariant, onAddressSelect }: Props) {
-	const { api, apiReady } = useApiContext();
+	const { api, apiReady, network } = useApiContext();
 
 	const [extensionNotFound, setExtensionNotFound] = useState<boolean>(false);
 	const [loading, setLoading] = useState<boolean>(false);
@@ -88,7 +85,7 @@ function AddressDropdown({ disabled, label, wallet, triggerVariant, onAddressSel
 			setAccounts,
 			setSelectedAddress: handleOnAddressSelect
 		});
-	}, [handleOnAddressSelect, wallet]);
+	}, [handleOnAddressSelect, network, wallet]);
 
 	if (extensionNotFound) {
 		return <AlertCard message={`${wallet} extension not found.`} />;

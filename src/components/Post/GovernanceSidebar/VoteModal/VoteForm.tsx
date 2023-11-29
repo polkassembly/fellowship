@@ -7,12 +7,10 @@ import WalletButtonsRow from '@/components/Auth/WalletButtonsRow';
 import AlertCard from '@/components/Misc/AlertCard';
 import { useApiContext, usePostDataContext, useUserDetailsContext } from '@/contexts';
 import { VoteDecisionType, Wallet } from '@/global/types';
-import getAllFellowAddresses from '@/utils/getAllFellowAddresses';
 import getSubstrateAddress from '@/utils/getSubstrateAddress';
 import { InjectedAccount } from '@polkadot/extension-inject/types';
-import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
+import React, { forwardRef, useImperativeHandle, useState } from 'react';
 import executeTx from '@/utils/executeTx';
-import getNetwork from '@/utils/getNetwork';
 import LoadingSpinner from '@/components/Misc/LoadingSpinner';
 import queueNotification from '@/utils/queueNotification';
 import VoteSelect from './VoteSelect';
@@ -23,16 +21,13 @@ interface Props {
 }
 
 const VoteForm = forwardRef(({ defaultVoteType, onSuccess }: Props, ref) => {
-	const network = getNetwork();
-
 	const { loginWallet } = useUserDetailsContext();
-	const { api, apiReady } = useApiContext();
+	const { api, apiReady, network, fellowAddresses } = useApiContext();
 	const {
 		postData: { id: postId }
 	} = usePostDataContext();
 
 	const [loading, setLoading] = useState(false);
-	const [fellowAddresses, setFellowAddresses] = useState<string[]>([]);
 	const [selectedWallet, setSelectedWallet] = useState<Wallet | null>(loginWallet);
 	const [selectedAddress, setSelectedAddress] = useState<InjectedAccount | null>(null);
 	const [setselectedVoteType, setSetselectedVoteType] = useState(defaultVoteType ?? VoteDecisionType.AYE);
@@ -96,17 +91,6 @@ const VoteForm = forwardRef(({ defaultVoteType, onSuccess }: Props, ref) => {
 			tx: voteTx
 		});
 	};
-
-	useEffect(() => {
-		if (!api || !apiReady) return;
-
-		(async () => {
-			setLoading(true);
-			const fellows = await getAllFellowAddresses(api);
-			setFellowAddresses(fellows);
-			setLoading(false);
-		})();
-	}, [api, apiReady]);
 
 	useImperativeHandle(ref, () => ({
 		submitVote() {

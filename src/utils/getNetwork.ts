@@ -14,6 +14,7 @@ import { isValidNetwork } from './isValidNetwork';
 
 export default function getNetwork(): Network {
 	if (!global?.window) return DEFAULT_NETWORK;
+
 	let network: Network = DEFAULT_NETWORK;
 
 	const queryString = global.window.location.search;

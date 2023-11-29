@@ -2,7 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { useUserDetailsContext } from '@/contexts';
+'use client';
+
+import { useApiContext, useUserDetailsContext } from '@/contexts';
 import { logout } from '@/services/auth.service';
 import { Button } from '@nextui-org/button';
 import Link from 'next/link';
@@ -10,6 +12,8 @@ import React from 'react';
 
 function ConnectWalletButton() {
 	const { id, setUserDetailsContextState } = useUserDetailsContext();
+	const { network } = useApiContext();
+
 	return id ? (
 		<Button
 			radius='full'
@@ -23,7 +27,7 @@ function ConnectWalletButton() {
 		</Button>
 	) : (
 		<Button
-			href='/login'
+			href={`/login?network=${network}`}
 			as={Link}
 			radius='full'
 			variant='bordered'

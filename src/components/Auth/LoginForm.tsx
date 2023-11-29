@@ -6,14 +6,13 @@
 
 import { Button } from '@nextui-org/button';
 import { Input } from '@nextui-org/input';
-import Link from 'next/link';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { PASSWORD_RULES, TFA_CODE_RULES, USERNAME_RULES } from '@/global/validationRules';
 import { ChallengeMessage, IAuthResponse, TokenType, Wallet } from '@/global/types';
 import nextApiClientFetch from '@/utils/nextApiClientFetch';
 import { handleTokenChange } from '@/services/auth.service';
-import { useUserDetailsContext } from '@/contexts';
+import { useApiContext, useUserDetailsContext } from '@/contexts';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { InjectedAccount, InjectedWindow } from '@polkadot/extension-inject/types';
@@ -24,6 +23,7 @@ import { SignerResult } from '@polkadot/api/types';
 import WalletButtonsRow from './WalletButtonsRow';
 import AlertCard from '../Misc/AlertCard';
 import AddressDropdown from './AddressDropdown';
+import LinkWithNetwork from '../Misc/LinkWithNetwork';
 
 const INPUT_LABEL_CLASSNAMES = 'text-sm font-normal';
 const INPUT_WRAPPER_CLASSNAMES = 'border-primary_border border-1';
@@ -52,6 +52,7 @@ function LoginForm({ onClose }: { onClose?: () => void }) {
 
 	const currentUser = useUserDetailsContext();
 	const router = useRouter();
+	const { network } = useApiContext();
 
 	const [loading, setLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string>('');
@@ -67,6 +68,7 @@ function LoginForm({ onClose }: { onClose?: () => void }) {
 		setError('');
 
 		const { data, error: loginError } = await nextApiClientFetch<IAuthResponse>({
+			network,
 			url: 'api/v1/auth/actions/login',
 			isPolkassemblyAPI: true,
 			data: {
@@ -102,6 +104,7 @@ function LoginForm({ onClose }: { onClose?: () => void }) {
 		setError('');
 
 		const { data, error: tfaError } = await nextApiClientFetch<IAuthResponse>({
+			network,
 			url: 'api/v1/auth/actions/2fa/validate',
 			isPolkassemblyAPI: true,
 			data: {
@@ -136,6 +139,7 @@ function LoginForm({ onClose }: { onClose?: () => void }) {
 			setLoading(true);
 
 			const { data: signupStartData, error: signupStartError } = await nextApiClientFetch<ChallengeMessage>({
+				network,
 				url: 'api/v1/auth/actions/addressSignupStart',
 				isPolkassemblyAPI: true,
 				data: { address: substrateAddress }
@@ -153,6 +157,7 @@ function LoginForm({ onClose }: { onClose?: () => void }) {
 			});
 
 			const { data: confirmData, error: confirmError } = await nextApiClientFetch<TokenType>({
+				network,
 				url: 'api/v1/auth/actions/addressSignupConfirm',
 				isPolkassemblyAPI: true,
 				data: {
@@ -175,7 +180,7 @@ function LoginForm({ onClose }: { onClose?: () => void }) {
 
 			onClose?.();
 
-			router.push('/');
+			router.push(`/?network=${network}`);
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (err: any) {
 			setError(err.message);
@@ -204,6 +209,7 @@ function LoginForm({ onClose }: { onClose?: () => void }) {
 			const substrateAddress = getSubstrateAddress(selectedAddress.address) ?? selectedAddress.address;
 
 			const { data: loginStartData, error: loginStartError } = await nextApiClientFetch<ChallengeMessage>({
+				network,
 				url: 'api/v1/auth/actions/addressLoginStart',
 				isPolkassemblyAPI: true,
 				data: {
@@ -224,6 +230,7 @@ function LoginForm({ onClose }: { onClose?: () => void }) {
 			});
 
 			const { data: addressLoginData, error: addressLoginError } = await nextApiClientFetch<IAuthResponse>({
+				network,
 				url: 'api/v1/auth/actions/addressLogin',
 				isPolkassemblyAPI: true,
 				data: {
@@ -251,7 +258,7 @@ function LoginForm({ onClose }: { onClose?: () => void }) {
 				handleTokenChange(addressLoginData.token, currentUser);
 
 				onClose?.();
-				router.push('/');
+				router.push(`/?network=${network}`);
 			} else if (addressLoginData?.isTFAEnabled) {
 				if (!addressLoginData?.tfa_token) throw new Error(error || 'TFA token missing. Please try again.');
 
@@ -419,12 +426,12 @@ function LoginForm({ onClose }: { onClose?: () => void }) {
 							{Boolean(errors.password) && <small className='text-danger'>Please input a vaild password.</small>}
 
 							<div className='mt-1.5 flex w-full justify-end'>
-								<Link
+								<LinkWithNetwork
 									href='/forgot-password'
 									className='text-xs text-primary'
 								>
 									Forgot Password?
-								</Link>
+								</LinkWithNetwork>
 							</div>
 						</div>
 
@@ -449,13 +456,13 @@ function LoginForm({ onClose }: { onClose?: () => void }) {
 
 					<div className='w-full text-center font-semibold'>
 						Don&apos;t have an account?{' '}
-						<Link
+						<LinkWithNetwork
 							href='/signup'
 							className='text-sm text-primary'
 							replace
 						>
 							Sign Up
-						</Link>
+						</LinkWithNetwork>
 					</div>
 				</>
 			)}

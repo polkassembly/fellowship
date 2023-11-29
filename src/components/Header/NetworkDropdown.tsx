@@ -6,56 +6,19 @@
 
 import React from 'react';
 
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, DropdownSection } from '@nextui-org/dropdown';
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from '@nextui-org/dropdown';
 import { Button } from '@nextui-org/button';
-import networkConstants from '@/global/networkConstants';
-import { NetworkProperties } from '@/global/types';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-
-const networkOptions: { [index: string]: NetworkProperties[] } = {
-	polkadot: [],
-	kusama: [],
-	solo: []
-};
-
-Object.values(networkConstants).forEach((chainProperties) => {
-	switch (chainProperties.category) {
-		case 'polkadot':
-			networkOptions.polkadot.push(chainProperties);
-			break;
-		case 'kusama':
-			networkOptions.kusama.push(chainProperties);
-			break;
-		default:
-			networkOptions.solo.push(chainProperties);
-	}
-});
-
-const generateDropdownItems = (groupName: keyof typeof networkOptions) => {
-	return networkOptions[groupName as string].map((chainProperties) => (
-		<DropdownItem
-			key={chainProperties.name}
-			startContent={
-				<Image
-					alt={`${chainProperties.name} logo`}
-					src={`${chainProperties.logoUrl}`}
-					width={12}
-					height={12}
-					className='rounded-full'
-				/>
-			}
-		>
-			<Link href={`/?network=${chainProperties.name.toLowerCase()}`}>{chainProperties.name}</Link>
-		</DropdownItem>
-	));
-};
-
-// TODO: get current network from redux and populate trigger button content
+import networkConstants from '@/global/networkConstants';
+import { Network, NetworkProperties } from '@/global/types';
+import { useApiContext } from '@/contexts';
+import LinkWithNetwork from '../Misc/LinkWithNetwork';
 
 function NetworkDropdown() {
 	const router = useRouter();
+	const { network, setNetwork } = useApiContext();
+	const currentNetworkProperties = networkConstants[String(network)];
 
 	return (
 		<Dropdown>
@@ -65,13 +28,13 @@ function NetworkDropdown() {
 					className='flex h-unit-8 justify-between border-1 border-primary_border px-5 text-sm font-medium'
 				>
 					<Image
-						alt='Parachain Logo'
-						src='/parachain-logos/kusama-logo.svg'
+						alt={`${currentNetworkProperties.name} Logo`}
+						src={currentNetworkProperties.logoUrl}
 						width={16}
 						height={16}
 						className='rounded-full'
 					/>
-					<span>Kusama</span>
+					<span>{currentNetworkProperties.name}</span>
 					<Image
 						alt='down chevron'
 						src='/icons/chevron.svg'
@@ -86,27 +49,26 @@ function NetworkDropdown() {
 				variant='bordered'
 				aria-label='Network selection dropdown'
 				onAction={(key) => {
-					router.push(`/?network=${key.toString().toLowerCase()}`);
+					setNetwork(key as Network);
+					router.push(`/?network=${key}`);
 				}}
 			>
-				<DropdownSection
-					title='Polkadot & Parachains'
-					classNames={{
-						heading: 'font-medium'
-					}}
-					showDivider
-				>
-					{generateDropdownItems('polkadot')}
-				</DropdownSection>
-
-				<DropdownSection
-					title='Kusama & Parachains'
-					classNames={{
-						heading: 'font-medium'
-					}}
-				>
-					{generateDropdownItems('kusama')}
-				</DropdownSection>
+				{Object.values(networkConstants).map((networkObj: NetworkProperties) => (
+					<DropdownItem
+						key={networkObj.key}
+						startContent={
+							<Image
+								alt={`${networkObj.name} logo`}
+								src={`${networkObj.logoUrl}`}
+								width={12}
+								height={12}
+								className='rounded-full'
+							/>
+						}
+					>
+						<LinkWithNetwork href='/'>{networkObj.name}</LinkWithNetwork>
+					</DropdownItem>
+				))}
 			</DropdownMenu>
 		</Dropdown>
 	);

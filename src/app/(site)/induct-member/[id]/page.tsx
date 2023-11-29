@@ -7,7 +7,7 @@ import InductMemberPageContent from '@/components/InductMember/InductMemberPageC
 import { API_ERROR_CODE } from '@/global/constants/errorCodes';
 import { ClientError } from '@/global/exceptions';
 import MESSAGES from '@/global/messages';
-import { ProposalType, ServerComponentProps } from '@/global/types';
+import { Network, ProposalType, ServerComponentProps } from '@/global/types';
 import getOriginUrl from '@/utils/getOriginUrl';
 import { headers } from 'next/headers';
 import React from 'react';
@@ -16,7 +16,13 @@ interface IParams {
 	id: string;
 }
 
-async function InductMemberPage({ params }: ServerComponentProps<IParams, unknown>) {
+type SearchParamProps = {
+	network?: string;
+};
+
+async function InductMemberPage({ params, searchParams }: ServerComponentProps<IParams, SearchParamProps>) {
+	const { network } = searchParams ?? {};
+
 	const discussionPostID = params?.id;
 	if (!discussionPostID) return <div>Discussion post ID not found</div>;
 
@@ -28,7 +34,7 @@ async function InductMemberPage({ params }: ServerComponentProps<IParams, unknow
 	const headersList = headers();
 	const originUrl = getOriginUrl(headersList);
 
-	const post = await getPost({ id: Number(discussionPostID), originUrl, proposalType: ProposalType.DISCUSSIONS });
+	const post = await getPost({ id: Number(discussionPostID), originUrl, proposalType: ProposalType.DISCUSSIONS, network: network as Network });
 
 	// TODO: generate metadata for post
 

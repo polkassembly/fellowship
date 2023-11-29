@@ -6,12 +6,12 @@
 
 import { Button } from '@nextui-org/button';
 import { useUserDetailsContext } from '@/contexts';
-import Link from 'next/link';
 import { IPost } from '@/global/types';
 import PostDataContextProvider from '@/contexts/PostDataContext';
 import { useRef, useState } from 'react';
 import InductMemberForm from './InductMemberForm';
 import InductMemberSuccessModal from './InductMemberSuccessModal';
+import LinkWithNetwork from '../Misc/LinkWithNetwork';
 
 interface Props {
 	post: IPost;
@@ -45,12 +45,12 @@ export default function InductMemberPageContent({ post }: Props) {
 			{!id ? (
 				<div className='p-6 text-center'>
 					Please{' '}
-					<Link
+					<LinkWithNetwork
 						href='/login'
 						className='text-link'
 					>
 						login
-					</Link>{' '}
+					</LinkWithNetwork>{' '}
 					to induct a member to the fellowship.
 				</div>
 			) : (

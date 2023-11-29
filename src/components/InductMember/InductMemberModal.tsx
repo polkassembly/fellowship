@@ -6,7 +6,6 @@
 
 import { useUserDetailsContext } from '@/contexts';
 import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@nextui-org/modal';
-import Link from 'next/link';
 import React, { useRef, useState } from 'react';
 import Image from 'next/image';
 import { Divider } from '@nextui-org/divider';
@@ -16,6 +15,7 @@ import { IPost } from '@/global/types';
 import PostDataContextProvider from '@/contexts/PostDataContext';
 import InductMemberForm from './InductMemberForm';
 import InductMemberSuccessModal from './InductMemberSuccessModal';
+import LinkWithNetwork from '../Misc/LinkWithNetwork';
 
 interface Props {
 	post: IPost;
@@ -98,12 +98,12 @@ function InductMemberModal({ post }: Props) {
 					) : (
 						<div className='p-6 text-center'>
 							Please{' '}
-							<Link
+							<LinkWithNetwork
 								href='/login'
 								className='text-link'
 							>
 								login
-							</Link>{' '}
+							</LinkWithNetwork>{' '}
 							to induct a member to the Fellowship.
 						</div>
 					)

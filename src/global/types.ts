@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ApiPromise } from '@polkadot/api';
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { BN } from '@polkadot/util';
 import { HexString } from '@polkadot/util/types';
@@ -13,12 +14,23 @@ export type TRPCEndpoint = {
 };
 
 export enum Network {
-	KUSAMA = 'kusama',
-	POLKADOT = 'polkadot',
-	COLLECTIVES = 'collectives'
+	COLLECTIVES = 'collectives',
+	WESTEND_COLLECTIVES = 'westend-collectives'
+}
+
+export interface ApiContextType {
+	api?: ApiPromise;
+	apiReady: boolean;
+	isApiLoading: boolean;
+	wsProvider: string;
+	setWsProvider: Dispatch<SetStateAction<string>>;
+	network: Network;
+	setNetwork: Dispatch<SetStateAction<Network>>;
+	fellowAddresses: string[];
 }
 
 export type NetworkProperties = {
+	key: Network;
 	blockTime: number;
 	logoUrl: string;
 	ss58Format: number;

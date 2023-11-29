@@ -7,8 +7,8 @@ import { Divider } from '@nextui-org/divider';
 import Image from 'next/image';
 import React from 'react';
 import { ProposalStatus } from '@/global/types';
-import Link from 'next/link';
 import StatusChip from '../Post/StatusChip';
+import LinkWithNetwork from '../Misc/LinkWithNetwork';
 
 interface Props {
 	index: number;
@@ -19,7 +19,7 @@ interface Props {
 
 function ProposalListingItem({ index, title, status, votePercentage }: Props) {
 	return (
-		<Link
+		<LinkWithNetwork
 			href={`#${index}`}
 			className='px-4'
 		>
@@ -36,7 +36,7 @@ function ProposalListingItem({ index, title, status, votePercentage }: Props) {
 					</div>
 				</article>
 			</div>
-		</Link>
+		</LinkWithNetwork>
 	);
 }
 

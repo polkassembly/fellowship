@@ -9,12 +9,14 @@ import { Card } from '@nextui-org/card';
 import { RadioGroup, Radio } from '@nextui-org/radio';
 import { EActivityFeed } from '@/global/types';
 import { useRouter } from 'next/navigation';
+import { useApiContext } from '@/contexts';
 
 function ActivitySelectorCard({ value = EActivityFeed.ALL }: { value?: EActivityFeed }) {
 	const router = useRouter();
+	const { network } = useApiContext();
 
 	const handleOnValueChange = (activityValue: string) => {
-		router.push(`/?feed=${activityValue}`);
+		router.push(`/?feed=${activityValue}?network=${network}`);
 	};
 
 	return (

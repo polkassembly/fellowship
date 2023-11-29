@@ -4,9 +4,9 @@
 
 'use client';
 
+import LinkWithNetwork from '@/components/Misc/LinkWithNetwork';
 import { ErrorBoundaryPageProps } from '@/global/types';
 import { Button } from '@nextui-org/button';
-import Link from 'next/link';
 import React from 'react';
 
 function RootError({ error, reset }: ErrorBoundaryPageProps) {
@@ -32,12 +32,12 @@ function RootError({ error, reset }: ErrorBoundaryPageProps) {
 				>
 					Try again
 				</Button>
-				<Link
+				<LinkWithNetwork
 					href='/'
 					className='text-sm underline'
 				>
 					Go to home
-				</Link>
+				</LinkWithNetwork>
 			</div>
 		</section>
 	);

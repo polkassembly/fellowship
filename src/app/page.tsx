@@ -11,13 +11,15 @@ import TrendingProposals from '@/components/Home/TrendingProposals';
 import { API_ERROR_CODE } from '@/global/constants/errorCodes';
 import { ClientError } from '@/global/exceptions';
 import MESSAGES from '@/global/messages';
-import { EActivityFeed, PostListingItem, ServerComponentProps } from '@/global/types';
+import { EActivityFeed, Network, ServerComponentProps } from '@/global/types';
 import { headers } from 'next/headers';
 import { Metadata } from 'next';
 import getOriginUrl from '@/utils/getOriginUrl';
+import getActivityFeed from './api/v1/feed/getActivityFeed';
 
 type SearchParamProps = {
 	feed: string;
+	network?: string;
 };
 
 export const metadata: Metadata = {
@@ -25,22 +27,9 @@ export const metadata: Metadata = {
 	description: 'Fellowship never felt so good before. - Home'
 };
 
-async function getActivityFeed({ originUrl, feedType }: { feedType: EActivityFeed; originUrl: string }) {
-	const feedRes = await fetch(`${originUrl}/api/v1/feed`, {
-		body: JSON.stringify({ feedType }),
-		method: 'POST'
-	}).catch((e) => {
-		throw new ClientError(`${MESSAGES.API_FETCH_ERROR} - ${e?.message}`, API_ERROR_CODE.API_FETCH_ERROR);
-	});
-
-	const feedItems: PostListingItem[] = await feedRes.json();
-
-	return feedItems;
-}
-
 export default async function Home({ searchParams }: ServerComponentProps<unknown, SearchParamProps>) {
 	// TODO: default should be pending if user is logged in and is a fellow
-	const { feed = EActivityFeed.ALL } = searchParams ?? {};
+	const { feed = EActivityFeed.ALL, network } = searchParams ?? {};
 
 	// validate feed search param
 	if (feed && !Object.values(EActivityFeed).includes(feed as EActivityFeed)) {
@@ -50,7 +39,7 @@ export default async function Home({ searchParams }: ServerComponentProps<unknow
 	const headersList = headers();
 	const originUrl = getOriginUrl(headersList);
 
-	const feedItems = await getActivityFeed({ feedType: feed as EActivityFeed, originUrl });
+	const feedItems = await getActivityFeed({ feedType: feed as EActivityFeed, originUrl, network: network as Network });
 
 	return (
 		<div className='flex w-full flex-col gap-y-8'>

@@ -6,78 +6,43 @@
 
 import '@polkadot/api-augment';
 
-import { ApiPromise, ScProvider, WsProvider } from '@polkadot/api';
+import { ApiPromise, WsProvider } from '@polkadot/api';
 import React, { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
-import { Network } from '@/global/types';
+import { ApiContextType, Network } from '@/global/types';
 import networkConstants from '@/global/networkConstants';
 import queueNotification from '@/utils/queueNotification';
-
-export interface ApiContextType {
-	api: ApiPromise | undefined;
-	apiReady: boolean;
-	relayApi?: ApiPromise;
-	relayApiReady?: boolean;
-	isApiLoading: boolean;
-	wsProvider: string;
-	setWsProvider: React.Dispatch<React.SetStateAction<string>>;
-}
+import getNetwork from '@/utils/getNetwork';
+import getAllFellowAddresses from '@/utils/getAllFellowAddresses';
 
 export const ApiContext: React.Context<ApiContextType> = React.createContext({} as ApiContextType);
 
-export interface ApiContextProviderProps {
-	network?: Network;
+interface ApiContextProviderProps {
 	children?: ReactNode;
 }
 
-export function ApiContextProvider({ network = Network.COLLECTIVES, children }: ApiContextProviderProps): React.ReactElement {
-	const currentNetworkRpcEndpoint = networkConstants[String(network)]?.rpcEndpoints?.[0]?.key || '';
+export function ApiContextProvider({ children }: ApiContextProviderProps): React.ReactElement {
+	const currNetwork = getNetwork();
 
 	const [api, setApi] = useState<ApiPromise>();
 	const [apiReady, setApiReady] = useState(false);
-	const [relayApi, setRelayApi] = useState<ApiPromise>();
-	const [relayApiReady, setRelayApiReady] = useState(false);
 	const [isApiLoading, setIsApiLoading] = useState(false);
-	const [wsProvider, setWsProvider] = useState<string>(currentNetworkRpcEndpoint);
+	const [wsProvider, setWsProvider] = useState<string>(networkConstants[String(currNetwork)]?.rpcEndpoints?.[0]?.key || '');
+	const [network, setNetwork] = useState<Network>(currNetwork);
+	const [fellowAddresses, setFellowAddresses] = useState<string[]>([]);
 
-	const provider = useRef<ScProvider | WsProvider | null>(null);
-
-	useEffect(() => {
-		if (network !== Network.COLLECTIVES) return;
-
-		ApiPromise.create({
-			provider: new WsProvider((networkConstants[String(network)]?.rpcEndpoints || []).map((endpoint) => endpoint.key))
-		})
-			.then((apiLocal) => setRelayApi(apiLocal))
-			// eslint-disable-next-line no-console
-			.catch(console.error);
-	}, [network]);
+	const provider = useRef<WsProvider>();
 
 	useEffect(() => {
-		if (network !== Network.COLLECTIVES || !relayApi) return;
+		if (!network) return;
 
-		relayApi.on('connected', () => setRelayApiReady(true));
-		relayApi.on('disconnected', () => setRelayApiReady(false));
-		relayApi.on('error', () => setRelayApiReady(false));
-		relayApi.isReady
-			.then(() => {
-				setRelayApiReady(true);
-			})
-			.catch(() => {
-				setRelayApiReady(false);
-			});
-	}, [network, relayApi]);
-
-	useEffect(() => {
-		if (!wsProvider && !network) return;
-
-		provider.current = new WsProvider(wsProvider || currentNetworkRpcEndpoint);
+		provider.current = new WsProvider(networkConstants[String(network)]?.rpcEndpoints?.[0]?.key);
 
 		setApiReady(false);
 		setApi(undefined);
 		if (!provider.current) return;
 
 		setApi(new ApiPromise({ provider: provider.current }));
-	}, [currentNetworkRpcEndpoint, network, wsProvider]);
+	}, [network, wsProvider]);
 
 	useEffect(() => {
 		if (!api) return;
@@ -96,7 +61,7 @@ export function ApiContextProvider({ network = Network.COLLECTIVES, children }: 
 
 			localStorage.removeItem('tracks');
 			if (network) {
-				setWsProvider(currentNetworkRpcEndpoint);
+				setWsProvider(networkConstants[String(network)]?.rpcEndpoints?.[0]?.key);
 			}
 		}, 60000);
 
@@ -111,11 +76,11 @@ export function ApiContextProvider({ network = Network.COLLECTIVES, children }: 
 			await api.disconnect();
 			localStorage.removeItem('tracks');
 			if (!network) return;
-			setWsProvider(currentNetworkRpcEndpoint);
+			setWsProvider(networkConstants[String(network)]?.rpcEndpoints?.[0]?.key);
 		});
 
 		api.isReady
-			.then(() => {
+			.then(async () => {
 				clearTimeout(timer);
 				setIsApiLoading(false);
 				setApiReady(true);
@@ -123,10 +88,11 @@ export function ApiContextProvider({ network = Network.COLLECTIVES, children }: 
 				console.log('API ready');
 
 				try {
-					if (network === 'collectives') {
-						const value = api.consts.fellowshipReferenda.tracks.toJSON();
-						localStorage.setItem('tracks', JSON.stringify(value));
-					}
+					const value = api.consts.fellowshipReferenda.tracks.toJSON();
+					localStorage.setItem('tracks', JSON.stringify(value));
+
+					const fellows = await getAllFellowAddresses(api);
+					setFellowAddresses(fellows);
 				} catch (error) {
 					localStorage.removeItem('tracks');
 				}
@@ -144,7 +110,7 @@ export function ApiContextProvider({ network = Network.COLLECTIVES, children }: 
 				console.error(error);
 				localStorage.removeItem('tracks');
 				if (!network) return;
-				setWsProvider(currentNetworkRpcEndpoint);
+				setWsProvider(networkConstants[String(network)]?.rpcEndpoints?.[0]?.key);
 			});
 
 		// eslint-disable-next-line consistent-return
@@ -154,8 +120,8 @@ export function ApiContextProvider({ network = Network.COLLECTIVES, children }: 
 	}, [api]);
 
 	const providerValue = useMemo(
-		() => ({ api, apiReady, isApiLoading, relayApi, relayApiReady, setWsProvider, wsProvider }),
-		[api, apiReady, isApiLoading, relayApi, relayApiReady, setWsProvider, wsProvider]
+		() => ({ api, apiReady, isApiLoading, setWsProvider, wsProvider, network, setNetwork, fellowAddresses }),
+		[api, apiReady, isApiLoading, setWsProvider, wsProvider, network, setNetwork, fellowAddresses]
 	);
 
 	return <ApiContext.Provider value={providerValue}>{children}</ApiContext.Provider>;

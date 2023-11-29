@@ -8,9 +8,11 @@ import { Button } from '@nextui-org/button';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import Image from 'next/image';
+import { useApiContext } from '@/contexts';
 
 function Carousel() {
 	const [isOpen, setIsOpen] = useState(true);
+	const { network } = useApiContext();
 
 	if (!isOpen) return null;
 
@@ -38,7 +40,7 @@ function Carousel() {
 				</h1>
 				<Button
 					color='primary'
-					href='/join-fellowship'
+					href={`/join-fellowship?network=${network}`}
 					as={Link}
 					className='text-sm font-semibold shadow-md'
 					radius='full'

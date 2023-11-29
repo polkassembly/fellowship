@@ -10,7 +10,7 @@ import { PostCommentResponse, ProposalType } from '@/global/types';
 import nextApiClientFetch from '@/utils/nextApiClientFetch';
 import AlertCard from '@/components/Misc/AlertCard';
 import LoadingSpinner from '@/components/Misc/LoadingSpinner';
-import { useCommentsContext } from '@/contexts';
+import { useApiContext, useCommentsContext } from '@/contexts';
 import CommentForm from './CommentForm';
 import CommentListing from './CommentListing';
 
@@ -21,6 +21,7 @@ type Props = {
 
 function CommentsCard({ postId, proposalType }: Props) {
 	const { postComments, setPostComments } = useCommentsContext();
+	const { network } = useApiContext();
 
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState('');
@@ -28,6 +29,7 @@ function CommentsCard({ postId, proposalType }: Props) {
 	useEffect(() => {
 		(async () => {
 			const { data, error: fetchingError } = await nextApiClientFetch<PostCommentResponse[]>({
+				network,
 				url: `/api/v1/${proposalType}/${postId}/comments`,
 				isPolkassemblyAPI: false
 			});
@@ -41,7 +43,7 @@ function CommentsCard({ postId, proposalType }: Props) {
 			setPostComments(data);
 			setLoading(false);
 		})();
-	}, [postId, proposalType, setPostComments]);
+	}, [network, postId, proposalType, setPostComments]);
 
 	return (
 		<Card

@@ -4,10 +4,10 @@
 
 'use client';
 
+import LinkWithNetwork from '@/components/Misc/LinkWithNetwork';
 import { ServerComponentProps } from '@/global/types';
 import { Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/modal';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
@@ -48,12 +48,12 @@ function JoinFellowshipApplicationSuccessModal({ searchParams }: ServerComponent
 							<ModalBody>
 								<p className='p-7 text-center text-sm'>
 									To see the current status of the application request{' '}
-									<Link
+									<LinkWithNetwork
 										className='text-link'
 										href={`/post/${postId}`}
 									>
 										click here
-									</Link>
+									</LinkWithNetwork>
 								</p>
 							</ModalBody>
 						)}

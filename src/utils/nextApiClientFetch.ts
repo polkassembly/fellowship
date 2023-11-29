@@ -5,6 +5,7 @@
 import { getLocalStorageToken } from '@/services/auth.service';
 import MESSAGES from '@/global/messages';
 import POLKASSEMBLY_API_URL from '@/global/polkassemblyApiUrl';
+import { Network } from '@/global/types';
 import getNetwork from './getNetwork';
 
 interface Args {
@@ -12,11 +13,10 @@ interface Args {
 	data?: { [key: string]: unknown };
 	method?: 'GET' | 'POST';
 	isPolkassemblyAPI?: boolean;
+	network: Network;
 }
 
-async function nextApiClientFetch<T>({ url, data, method, isPolkassemblyAPI = true }: Args): Promise<{ data?: T; error?: string }> {
-	const network = getNetwork();
-
+async function nextApiClientFetch<T>({ url, data, method, isPolkassemblyAPI = true, network = getNetwork() }: Args): Promise<{ data?: T; error?: string }> {
 	const currentURL = new URL(window.location.href);
 	const token = currentURL.searchParams.get('token') || getLocalStorageToken();
 
