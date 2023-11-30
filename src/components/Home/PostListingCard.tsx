@@ -53,7 +53,11 @@ function PostListingCard({ feedItem }: Props) {
 						commentCount={feedItem.comments_count}
 					/>
 					<Divider />
-					<PostActionBar />
+					<PostActionBar
+						postId={feedItem.id}
+						postType={feedItem.proposalType}
+						reactions={feedItem.reactions}
+					/>
 				</div>
 				{SHOW_NOT_VOTED && <NotVotedYetCard />}
 			</Card>

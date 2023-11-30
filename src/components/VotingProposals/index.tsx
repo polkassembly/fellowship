@@ -5,25 +5,25 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { PostListingItem, ProposalType, EActivityFeed, Network, PostIdWithReactions } from '@/global/types';
+import { PostListingItem, ProposalType, EActivityFeed, Network } from '@/global/types';
 import { parseAsInteger, useQueryState } from 'next-usequerystate';
-import { useParams, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import getActivityFeed from '@/app/api/v1/feed/getActivityFeed';
 import getOriginUrl from '@/utils/getOriginUrl';
 import { ScrollShadow } from '@nextui-org/scroll-shadow';
 import { useApiContext } from '@/contexts';
 import getPostsReactions from '@/app/api/v1/[proposalType]/reactions/getPostsReactions';
-import PostListingCard from './PostListingCard';
 import LoadingSpinner from '../Misc/LoadingSpinner';
+import PostListingCard from '../Home/PostListingCard';
 
 // import InductionListingCard from './InductionListingCard';
 
 interface Props {
 	items: PostListingItem[];
+	feedType: EActivityFeed;
 }
 
-function ActivityFeed({ items }: Props) {
-	const { feed = EActivityFeed.ALL } = useParams();
+function VotingProposalsFeed({ items, feedType }: Props) {
 	const pathname = usePathname();
 
 	const { network } = useApiContext();
@@ -55,24 +55,22 @@ function ActivityFeed({ items }: Props) {
 						setIsFetching(true);
 						const originUrl = getOriginUrl();
 						const nextPage = page ? page + 1 : 1;
-						let newFeedItems = await getActivityFeed({ feedType: feed as EActivityFeed, originUrl, page: nextPage, network });
-						let reactions: PostIdWithReactions[] = [];
-						if (newFeedItems.length > 0) {
-							reactions = await getPostsReactions({
-								proposalType: ProposalType.FELLOWSHIP_REFERENDUMS,
-								originUrl,
-								network: network as Network,
-								postIds: newFeedItems.map((item) => item.id)
-							});
-						}
+						let newFeedItems = await getActivityFeed({ feedType, originUrl, page: nextPage, network });
+						const reactions = await getPostsReactions({
+							proposalType: ProposalType.FELLOWSHIP_REFERENDUMS,
+							originUrl,
+							network: network as Network,
+							postIds: newFeedItems.map((item) => item.id)
+						});
+
+						newFeedItems = newFeedItems.map((item) => {
+							return {
+								...item,
+								reactions: reactions.find((reaction) => reaction.postId === item.id)?.reactions || []
+							};
+						});
 
 						if (newFeedItems.length) {
-							newFeedItems = newFeedItems.map((item) => {
-								return {
-									...item,
-									reactions: reactions.find((reaction) => reaction.postId === item.id)?.reactions || []
-								};
-							});
 							const feedItemsMap: {
 								[key: string]: PostListingItem;
 							} = {};
@@ -104,7 +102,7 @@ function ActivityFeed({ items }: Props) {
 			}
 		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [feed, observerTarget, page]);
+	}, [observerTarget, page, feedType]);
 
 	if (!feedItems.length) {
 		return <div className='p-6 text-center text-sm'>No feed items found.</div>;
@@ -137,4 +135,4 @@ function ActivityFeed({ items }: Props) {
 	);
 }
 
-export default ActivityFeed;
+export default VotingProposalsFeed;

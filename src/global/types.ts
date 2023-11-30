@@ -53,7 +53,8 @@ export enum EActivityFeed {
 	PENDING = 'pending',
 	ALL = 'all',
 	GENERAL_PROPOSALS = 'general-proposals',
-	RANK_REQUESTS = 'rank-requests'
+	RANK_REQUESTS = 'rank-requests',
+	RFC_PROPOSALS = 'rfc-proposals'
 }
 
 export type ErrorBoundaryPageProps = { error: Error; reset: () => void };
@@ -125,6 +126,11 @@ export type PublicReactionEntry = {
 	updated_at?: Date;
 	user_id: number;
 	id: number;
+};
+
+export type PostIdWithReactions = {
+	postId: string | number;
+	reactions: PublicReactionEntry[];
 };
 
 export enum Role {
@@ -229,6 +235,25 @@ export enum ProposalType {
 	DISCUSSIONS = 'discussions'
 }
 
+export enum SubsquidActivityType {
+	RetentionRequest = 'RetentionRequest',
+	PromotionRequest = 'PromotionRequest',
+	DemotionRequest = 'DemotionRequest',
+	InductionRequest = 'InductionRequest',
+	Promoted = 'Promoted',
+	Retained = 'Retained',
+	Demoted = 'Demoted',
+	GeneralProposal = 'GeneralProposal',
+	Inducted = 'Inducted',
+	Registration = 'Registration',
+	Payout = 'Payout',
+	CycleStarted = 'CycleStarted',
+	OffBoarded = 'OffBoarded',
+	ActivityChanged = 'ActivityChanged',
+	RFC = 'RFC',
+	EvidenceSubmitted = 'EvidenceSubmitted'
+}
+
 export enum SubsquidProposalType {
 	FELLOWSHIP_REFERENDUMS = 'FellowshipReferendum'
 }
@@ -260,6 +285,8 @@ export interface PostListingItem {
 	reactions_count: number;
 	latest_reaction: PublicReactionEntry | null;
 	shares_count: number;
+
+	reactions?: PublicReactionEntry[];
 }
 
 export interface CreatePostResponseType extends MessageType {
@@ -287,6 +314,8 @@ export interface IPost {
 	shares_count: number;
 	views_count: number;
 	inductee_address?: string;
+
+	reactions?: PublicReactionEntry[];
 }
 
 export interface ICommentHistory {

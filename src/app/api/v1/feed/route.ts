@@ -9,7 +9,7 @@ import { API_ERROR_CODE } from '@/global/constants/errorCodes';
 import MESSAGES from '@/global/messages';
 import { LISTING_LIMIT } from '@/global/constants/listingLimit';
 import firebaseAdmin from '@/services/firebaseInit';
-import { OnChainPostInfo, PostListingItem, ProposalStatus, ProposalType, PublicReactionEntry } from '@/global/types';
+import { EActivityFeed, OnChainPostInfo, PostListingItem, ProposalStatus, ProposalType, PublicReactionEntry, SubsquidActivityType } from '@/global/types';
 import DEFAULT_POST_TITLE from '@/global/constants/defaultTitle';
 import getDefaultPostContent from '@/utils/getDefaultPostContent';
 import { NextRequest, NextResponse } from 'next/server';
@@ -45,10 +45,25 @@ async function getFirestoreDocs(onChainProposals: unknown[], network: string) {
 	return { firestoreProposalDocs, firestoreCommentCountDocs, firestoreReactionDocs };
 }
 
+export const getActivityTypes = (feedType: EActivityFeed) => {
+	switch (feedType) {
+		case EActivityFeed.PENDING:
+			return null;
+		case EActivityFeed.ALL:
+			return null;
+		case EActivityFeed.GENERAL_PROPOSALS:
+			return [SubsquidActivityType.GeneralProposal];
+		case EActivityFeed.RFC_PROPOSALS:
+			return [SubsquidActivityType.RFC];
+		case EActivityFeed.RANK_REQUESTS:
+			return [SubsquidActivityType.RetentionRequest, SubsquidActivityType.PromotionRequest, SubsquidActivityType.DemotionRequest, SubsquidActivityType.InductionRequest];
+		default:
+			return null;
+	}
+};
+
 export const POST = withErrorHandling(async (req: NextRequest) => {
-	// TODO: Add feed type
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-	const { feed, page = 1 } = await getReqBody(req);
+	const { feedType, page = 1 } = await getReqBody(req);
 
 	if (!page || isNaN(page) || Number(page) < 1) throw new APIError(`${MESSAGES.REQ_BODY_ERROR}`, 500, API_ERROR_CODE.REQ_BODY_ERROR);
 
@@ -57,16 +72,26 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
 
 	const gqlClient = urqlClient(network);
 
-	const result = await gqlClient
-		.query(GET_FELLOWSHIP_REFERENDUMS, {
-			limit: LISTING_LIMIT,
-			offset: (page - 1) * LISTING_LIMIT
-		})
-		.toPromise();
+	const types = getActivityTypes(feedType);
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const variables: any = {
+		limit: LISTING_LIMIT,
+		offset: (page - 1) * LISTING_LIMIT
+	};
+	if (types) {
+		variables.type_in = types;
+	}
+	const result = await gqlClient.query(GET_FELLOWSHIP_REFERENDUMS, variables).toPromise();
 
 	if (result.error) throw new APIError(`${result.error || MESSAGES.SUBSQUID_FETCH_ERROR}`, 500, API_ERROR_CODE.SUBSQUID_FETCH_ERROR);
 
-	const onChainProposals = result?.data?.proposals || [];
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const onChainProposals = (result?.data?.activities || []).map((item: any) => {
+		return {
+			type: item.type,
+			...item.proposal
+		};
+	});
 
 	const { firestoreProposalDocs, firestoreCommentCountDocs, firestoreReactionDocs } = await getFirestoreDocs(onChainProposals, network);
 

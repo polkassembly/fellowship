@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { ProposalType, PublicReactionEntry } from '@/global/types';
 import AddReactionBtn from './AddReactionBtn';
 import AddViewBtn from './AddViewBtn';
 import AddSubscriptionBtn from './AddSubscriptionBtn';
@@ -10,15 +11,64 @@ import SharePostBtn from './SharePostBtn';
 
 interface Props {
 	className?: string;
+	postId: number | string;
+	postType: ProposalType;
+	reactions?: PublicReactionEntry[];
 }
 
-function PostActionBar({ className }: Props) {
+function PostActionBar(props: Props) {
+	const { className, postId, postType, reactions: prevReactions } = props;
+
+	const [reactions, setReactions] = useState<PublicReactionEntry[]>([]);
+
+	useEffect(() => {
+		if (prevReactions) {
+			setReactions(prevReactions);
+		}
+	}, [prevReactions]);
+
+	const addReaction = (reaction: PublicReactionEntry) => {
+		setReactions((prevReactionsState) => {
+			const newReactions = [...prevReactionsState];
+
+			const reactionIndex = newReactions.findIndex((reactionEntry) => reactionEntry.id === reaction?.id);
+
+			if (reactionIndex === -1) {
+				newReactions.push(reaction);
+			} else {
+				newReactions.splice(reactionIndex, 1, reaction);
+			}
+
+			return newReactions;
+		});
+	};
+
+	const removeReaction = (reaction: PublicReactionEntry) => {
+		setReactions((prevReactionsState) => {
+			const newReactions = [...prevReactionsState];
+
+			const reactionIndex = newReactions.findIndex((reactionEntry) => reactionEntry.id === reaction?.id);
+
+			if (reactionIndex >= 0) {
+				newReactions.splice(reactionIndex, 1);
+			}
+
+			return newReactions;
+		});
+	};
+
 	return (
 		<section className={`${className} flex items-center justify-between`}>
 			<div className='flex items-center gap-0.5'>
-				<AddReactionBtn />
+				<AddReactionBtn
+					postId={postId}
+					postType={postType}
+					reactions={reactions}
+					addReaction={addReaction}
+					removeReaction={removeReaction}
+				/>
 
-				<span className='text-xs'>0</span>
+				<span className='text-xs'>{reactions.length || 0}</span>
 			</div>
 
 			<div className='flex items-center gap-0.5'>
