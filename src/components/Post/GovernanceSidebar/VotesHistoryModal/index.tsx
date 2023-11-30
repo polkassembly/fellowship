@@ -125,7 +125,8 @@ function VotesHistoryModal({ isModalOpen, closeModal }: Props) {
 													key={vote.voter + idx.toString()}
 												>
 													<AddressInline
-														maxCharacters={10}
+														startChars={7}
+														endChars={7}
 														address={vote.voter}
 														className='col-span-4'
 													/>

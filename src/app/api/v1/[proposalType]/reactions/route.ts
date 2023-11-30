@@ -10,9 +10,8 @@ import MESSAGES from '@/global/messages';
 import { isValidProposalType } from '@/utils/isValidProposalType';
 import { headers } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
-import { PostIdWithReactions, PublicReactionEntry } from '@/global/types';
 import getReqBody from '@/app/api/api-utils/getReqBody';
-import { postDocRef } from '../../firestoreRefs';
+import { getPostsReactionsServer } from './utils';
 
 export const POST = withErrorHandling(async (req: NextRequest, { params }) => {
 	const { postIds } = await getReqBody(req);
@@ -22,24 +21,7 @@ export const POST = withErrorHandling(async (req: NextRequest, { params }) => {
 
 	const headersList = headers();
 	const network = getNetworkFromHeaders(headersList);
-
-	const postsReactionsPromises = postIds.map(async (id) => {
-		const reactionsQuery = await postDocRef(network, proposalType, String(id)).collection('post_reactions').get();
-		return {
-			postId: id,
-			reactions: reactionsQuery.docs.map((doc) => {
-				const reactionData = doc.data();
-				return {
-					...reactionData,
-					created_at: reactionData.created_at?.toDate() || new Date(),
-					updated_at: reactionData.updated_at?.toDate() || new Date()
-				} as PublicReactionEntry;
-			})
-		} as PostIdWithReactions;
-	});
-
-	const postsReactionsSettled = await Promise.allSettled(postsReactionsPromises);
-	const postsReactions = postsReactionsSettled.map((item) => (item.status === 'fulfilled' ? item.value : []));
+	const postsReactions = getPostsReactionsServer(postIds, network, proposalType);
 
 	return NextResponse.json(postsReactions);
 });

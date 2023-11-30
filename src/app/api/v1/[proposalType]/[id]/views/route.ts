@@ -10,8 +10,7 @@ import MESSAGES from '@/global/messages';
 import { isValidProposalType } from '@/utils/isValidProposalType';
 import { headers } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
-import { PostView } from '@/global/types';
-import { postDocRef } from '../../../firestoreRefs';
+import { getPostViewsServer } from './utils';
 
 export const GET = withErrorHandling(async (req: NextRequest, { params }) => {
 	const { proposalType = '', id = '' } = params;
@@ -20,13 +19,7 @@ export const GET = withErrorHandling(async (req: NextRequest, { params }) => {
 	const headersList = headers();
 	const network = getNetworkFromHeaders(headersList);
 
-	const viewsQuery = await postDocRef(network, proposalType, String(id)).collection('post_views').get();
-	const views = viewsQuery.docs.map((doc) => {
-		const viewData = doc.data();
-		return {
-			...viewData
-		} as PostView;
-	});
+	const views = getPostViewsServer(id, network, proposalType);
 
 	return NextResponse.json(views);
 });

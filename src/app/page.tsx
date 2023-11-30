@@ -11,13 +11,11 @@ import TrendingProposals from '@/components/Home/TrendingProposals';
 import { API_ERROR_CODE } from '@/global/constants/errorCodes';
 import { ClientError } from '@/global/exceptions';
 import MESSAGES from '@/global/messages';
-import { EActivityFeed, Network, PostListingItem, ProposalType, ServerComponentProps } from '@/global/types';
+import { EActivityFeed, Network, ServerComponentProps } from '@/global/types';
 import { headers } from 'next/headers';
 import { Metadata } from 'next';
 import getOriginUrl from '@/utils/getOriginUrl';
 import getActivityFeed from './api/v1/feed/getActivityFeed';
-import getPostsReactions from './api/v1/[proposalType]/reactions/getPostsReactions';
-import getPostsViews from './api/v1/[proposalType]/views/getPostsViews';
 
 type SearchParamProps = {
 	feed: string;
@@ -42,27 +40,6 @@ export default async function Home({ searchParams }: ServerComponentProps<unknow
 	const originUrl = getOriginUrl(headersList);
 
 	const feedItems = await getActivityFeed({ feedType: feed as EActivityFeed, originUrl, network: network as Network });
-	const reactions = await getPostsReactions({
-		proposalType: ProposalType.FELLOWSHIP_REFERENDUMS,
-		originUrl,
-		network: network as Network,
-		postIds: feedItems?.map((item) => item.id)
-	});
-
-	const views = await getPostsViews({
-		proposalType: ProposalType.FELLOWSHIP_REFERENDUMS,
-		originUrl,
-		network: network as Network,
-		postIds: feedItems?.map((item) => item.id)
-	});
-
-	const newFeedItems = feedItems?.map((item) => {
-		return {
-			...item,
-			views: views?.find((view) => view.postId === item.id)?.views || [],
-			reactions: reactions?.find((reaction) => reaction.postId === item.id)?.reactions || []
-		} as PostListingItem;
-	});
 
 	return (
 		<div className='flex w-full flex-col gap-y-8'>
@@ -71,7 +48,7 @@ export default async function Home({ searchParams }: ServerComponentProps<unknow
 			<div className='flex flex-col items-center gap-8 xl:flex-row xl:items-start'>
 				<div className='flex w-full flex-col gap-y-4'>
 					<ActivitySelectorCard value={feed as EActivityFeed} />
-					<ActivityFeed items={newFeedItems || []} />
+					<ActivityFeed items={feedItems || []} />
 				</div>
 				<div className='flex w-6/12 flex-col gap-y-4 xl:w-4/12'>
 					<Stats />

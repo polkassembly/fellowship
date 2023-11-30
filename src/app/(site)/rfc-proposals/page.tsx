@@ -2,15 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { EActivityFeed, Network, PostListingItem, ProposalType, ServerComponentProps } from '@/global/types';
+import { EActivityFeed, Network, ServerComponentProps } from '@/global/types';
 import { headers } from 'next/headers';
 import { Metadata } from 'next';
 import getOriginUrl from '@/utils/getOriginUrl';
 import getActivityFeed from '@/app/api/v1/feed/getActivityFeed';
 import Image from 'next/image';
 import VotingProposalsFeed from '@/components/VotingProposals';
-import getPostsReactions from '@/app/api/v1/[proposalType]/reactions/getPostsReactions';
-import getPostsViews from '@/app/api/v1/[proposalType]/views/getPostsViews';
 
 type SearchParamProps = {
 	feed: string;
@@ -30,27 +28,6 @@ export default async function RFCProposalsPage({ searchParams }: ServerComponent
 	const originUrl = getOriginUrl(headersList);
 
 	const feedItems = await getActivityFeed({ feedType: EActivityFeed.RFC_PROPOSALS, originUrl, network: network as Network });
-	const reactions = await getPostsReactions({
-		proposalType: ProposalType.FELLOWSHIP_REFERENDUMS,
-		originUrl,
-		network: network as Network,
-		postIds: feedItems.map((item) => item.id)
-	});
-
-	const views = await getPostsViews({
-		proposalType: ProposalType.FELLOWSHIP_REFERENDUMS,
-		originUrl,
-		network: network as Network,
-		postIds: feedItems.map((item) => item.id)
-	});
-
-	const newFeedItems = feedItems.map((item) => {
-		return {
-			...item,
-			views: views.find((view) => view.postId === item.id)?.views || [],
-			reactions: reactions.find((reaction) => reaction.postId === item.id)?.reactions || []
-		} as PostListingItem;
-	});
 
 	return (
 		<div className='flex w-full flex-col gap-y-8'>
@@ -69,7 +46,7 @@ export default async function RFCProposalsPage({ searchParams }: ServerComponent
 
 			<VotingProposalsFeed
 				feedType={EActivityFeed.RFC_PROPOSALS}
-				items={newFeedItems}
+				items={feedItems}
 			/>
 		</div>
 	);

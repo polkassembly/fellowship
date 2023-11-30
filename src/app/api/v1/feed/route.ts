@@ -19,6 +19,8 @@ import getReqBody from '../../api-utils/getReqBody';
 import getNetworkFromHeaders from '../../api-utils/getNetworkFromHeaders';
 import withErrorHandling from '../../api-utils/withErrorHandling';
 import { postCommentsCollRef, postDocRef, postReactionCollRef } from '../firestoreRefs';
+import { getPostsReactionsServer } from '../[proposalType]/reactions/utils';
+import { getPostsViewsServer } from '../[proposalType]/views/utils';
 
 async function getFirestoreDocs(onChainProposals: unknown[], network: string) {
 	const proposalRefs: firebaseAdmin.firestore.DocumentReference<firebaseAdmin.firestore.DocumentData>[] = [];
@@ -62,6 +64,7 @@ const getActivityTypes = (feedType: EActivityFeed) => {
 	}
 };
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export const POST = withErrorHandling(async (req: NextRequest) => {
 	const { feedType, page = 1 } = await getReqBody(req);
 
@@ -97,7 +100,7 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
 
 	// assign proposal data to proposalsData
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const proposalItems: PostListingItem[] = onChainProposals.map((onChainProposalObj: any, index: number) => {
+	let proposalItems: PostListingItem[] = onChainProposals.map((onChainProposalObj: any, index: number) => {
 		const firestoreProposalData = firestoreProposalDocs.find((item) => item.id === onChainProposalObj?.index)?.data() || {};
 		const firestoreCommentCount = firestoreCommentCountDocs.find((item) => item.id === onChainProposalObj?.index)?.data().count || 0;
 		const firestoreReactionDocsData = firestoreReactionDocs[Number(index)]?.docs || [];
@@ -139,6 +142,29 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
 		};
 
 		return postListingItem;
+	});
+
+	const postsReactions = await getPostsReactionsServer(
+		proposalItems.map((item) => item.id),
+		network,
+		ProposalType.FELLOWSHIP_REFERENDUMS
+	);
+
+	const postsViews = await getPostsViewsServer(
+		proposalItems.map((item) => item.id),
+		network,
+		ProposalType.FELLOWSHIP_REFERENDUMS
+	);
+
+	proposalItems = proposalItems.map((item) => {
+		const postReactions = postsReactions.find((post) => post.postId === item.id)?.reactions || [];
+		const postViews = postsViews.find((post) => post.postId === item.id)?.views || [];
+
+		return {
+			...item,
+			views: postViews,
+			reactions: postReactions
+		};
 	});
 
 	return NextResponse.json(proposalItems);

@@ -10,8 +10,7 @@ import MESSAGES from '@/global/messages';
 import { isValidProposalType } from '@/utils/isValidProposalType';
 import { headers } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
-import { PublicReactionEntry } from '@/global/types';
-import { postDocRef } from '../../../firestoreRefs';
+import { getPostReactionsServer } from './utils';
 
 export const GET = withErrorHandling(async (req: NextRequest, { params }) => {
 	const { proposalType = '', id = '' } = params;
@@ -20,15 +19,7 @@ export const GET = withErrorHandling(async (req: NextRequest, { params }) => {
 	const headersList = headers();
 	const network = getNetworkFromHeaders(headersList);
 
-	const reactionsQuery = await postDocRef(network, proposalType, String(id)).collection('post_reactions').get();
-	const reactions = reactionsQuery.docs.map((doc) => {
-		const reactionData = doc.data();
-		return {
-			...reactionData,
-			created_at: reactionData.created_at?.toDate() || new Date(),
-			updated_at: reactionData.updated_at?.toDate() || new Date()
-		} as PublicReactionEntry;
-	});
+	const reactions = getPostReactionsServer(id, network, proposalType);
 
 	return NextResponse.json(reactions);
 });

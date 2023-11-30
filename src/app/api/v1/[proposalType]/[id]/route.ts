@@ -14,6 +14,8 @@ import { IPost, ProposalType } from '@/global/types';
 import getDefaultPostContent from '@/utils/getDefaultPostContent';
 import { getOffChainPostData } from './getOffChainPostData';
 import { getOnChainPostData } from './getOnChainPostData';
+import { getPostReactionsServer } from './reactions/utils';
+import { getPostViewsServer } from './views/utils';
 
 export const GET = withErrorHandling(async (req: NextRequest, { params }) => {
 	const { proposalType = '', id = '' } = params;
@@ -51,6 +53,11 @@ export const GET = withErrorHandling(async (req: NextRequest, { params }) => {
 			}),
 		on_chain_info: onChainPostInfo
 	};
+
+	const reactions = await getPostReactionsServer(id, network, proposalType);
+	const views = await getPostViewsServer(id, network, proposalType);
+	post.views = views;
+	post.reactions = reactions;
 
 	return NextResponse.json(post);
 });

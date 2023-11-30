@@ -10,9 +10,8 @@ import MESSAGES from '@/global/messages';
 import { isValidProposalType } from '@/utils/isValidProposalType';
 import { headers } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
-import { PostIdWithViews, PostView } from '@/global/types';
 import getReqBody from '@/app/api/api-utils/getReqBody';
-import { postDocRef } from '../../firestoreRefs';
+import { getPostsViewsServer } from './utils';
 
 export const POST = withErrorHandling(async (req: NextRequest, { params }) => {
 	const { postIds } = await getReqBody(req);
@@ -23,21 +22,7 @@ export const POST = withErrorHandling(async (req: NextRequest, { params }) => {
 	const headersList = headers();
 	const network = getNetworkFromHeaders(headersList);
 
-	const postsViewsPromises = postIds.map(async (id) => {
-		const viewsQuery = await postDocRef(network, proposalType, String(id)).collection('post_views').get();
-		return {
-			postId: id,
-			views: viewsQuery.docs.map((doc) => {
-				const viewData = doc.data();
-				return {
-					...viewData
-				} as PostView;
-			})
-		} as PostIdWithViews;
-	});
-
-	const postsViewsSettled = await Promise.allSettled(postsViewsPromises);
-	const postsViews = postsViewsSettled.map((item) => (item.status === 'fulfilled' ? item.value : []));
+	const postsViews = getPostsViewsServer(postIds, network, proposalType);
 
 	return NextResponse.json(postsViews);
 });
