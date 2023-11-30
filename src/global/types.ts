@@ -18,6 +18,11 @@ export enum Network {
 	WESTEND_COLLECTIVES = 'westend-collectives'
 }
 
+export interface IFellow {
+	address: string;
+	rank: number;
+}
+
 export interface ApiContextType {
 	api?: ApiPromise;
 	apiReady: boolean;
@@ -26,7 +31,7 @@ export interface ApiContextType {
 	setWsProvider: Dispatch<SetStateAction<string>>;
 	network: Network;
 	setNetwork: Dispatch<SetStateAction<Network>>;
-	fellowAddresses: string[];
+	fellows: IFellow[];
 }
 
 export type NetworkProperties = {
@@ -414,4 +419,11 @@ export interface IPreimage {
 
 export interface IAddPostCommentResponse {
 	id: string;
+}
+
+export interface IFellowDataResponse {
+	[index: string]: {
+		proposalsVotedOn: number;
+		proposalsCreated: number;
+	};
 }

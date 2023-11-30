@@ -8,7 +8,7 @@ import '@polkadot/api-augment';
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import React, { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
-import { ApiContextType, Network } from '@/global/types';
+import { ApiContextType, IFellow, Network } from '@/global/types';
 import networkConstants from '@/global/networkConstants';
 import queueNotification from '@/utils/queueNotification';
 import getNetwork from '@/utils/getNetwork';
@@ -28,7 +28,7 @@ export function ApiContextProvider({ children }: ApiContextProviderProps): React
 	const [isApiLoading, setIsApiLoading] = useState(false);
 	const [wsProvider, setWsProvider] = useState<string>(networkConstants[String(currNetwork)]?.rpcEndpoints?.[0]?.key || '');
 	const [network, setNetwork] = useState<Network>(currNetwork);
-	const [fellowAddresses, setFellowAddresses] = useState<string[]>([]);
+	const [fellows, setFellows] = useState<IFellow[]>([]);
 
 	const provider = useRef<WsProvider>();
 
@@ -91,8 +91,7 @@ export function ApiContextProvider({ children }: ApiContextProviderProps): React
 					const value = api.consts.fellowshipReferenda.tracks.toJSON();
 					localStorage.setItem('tracks', JSON.stringify(value));
 
-					const fellows = await getAllFellowAddresses(api);
-					setFellowAddresses(fellows);
+					setFellows(await getAllFellowAddresses(api));
 				} catch (error) {
 					localStorage.removeItem('tracks');
 				}
@@ -120,8 +119,8 @@ export function ApiContextProvider({ children }: ApiContextProviderProps): React
 	}, [api]);
 
 	const providerValue = useMemo(
-		() => ({ api, apiReady, isApiLoading, setWsProvider, wsProvider, network, setNetwork, fellowAddresses }),
-		[api, apiReady, isApiLoading, setWsProvider, wsProvider, network, setNetwork, fellowAddresses]
+		() => ({ api, apiReady, isApiLoading, setWsProvider, wsProvider, network, setNetwork, fellows }),
+		[api, apiReady, isApiLoading, setWsProvider, wsProvider, network, setNetwork, fellows]
 	);
 
 	return <ApiContext.Provider value={providerValue}>{children}</ApiContext.Provider>;

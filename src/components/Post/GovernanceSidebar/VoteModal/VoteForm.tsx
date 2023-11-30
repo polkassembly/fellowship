@@ -22,7 +22,7 @@ interface Props {
 
 const VoteForm = forwardRef(({ defaultVoteType, onSuccess }: Props, ref) => {
 	const { loginWallet } = useUserDetailsContext();
-	const { api, apiReady, network, fellowAddresses } = useApiContext();
+	const { api, apiReady, network, fellows } = useApiContext();
 	const {
 		postData: { id: postId }
 	} = usePostDataContext();
@@ -134,7 +134,7 @@ const VoteForm = forwardRef(({ defaultVoteType, onSuccess }: Props, ref) => {
 
 			{selectedWallet && (
 				<div className='flex w-full flex-col items-center justify-center gap-6'>
-					{selectedAddress?.address && !fellowAddresses.includes(getSubstrateAddress(selectedAddress.address) ?? '') && (
+					{selectedAddress?.address && !fellows?.find((fellow) => fellow.address === (getSubstrateAddress(selectedAddress?.address || '') || '')) && (
 						<AlertCard
 							className='w-full'
 							type='warning'

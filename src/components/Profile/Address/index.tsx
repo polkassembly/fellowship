@@ -25,7 +25,7 @@ interface AddressInlineProps extends BaseProps {
 
 interface AddressDropdownItemProps extends BaseProps {
 	variant: 'dropdownItem';
-	name: string;
+	name?: string;
 }
 
 type Props = AddressInlineProps | AddressDropdownItemProps;
@@ -52,16 +52,17 @@ function Address(props: Props) {
 				/>
 			);
 		case 'dropdownItem':
+			// TODO: if no name, get and use from onchain identity
 			return (
 				<AddressDropdownItem
 					className={props.className}
-					name={props.name}
+					name={props.name || ''}
 					address={encodedAddress}
 					addressDisplayText={addressDisplayText}
 				/>
 			);
 		default:
-			return <div />;
+			return null;
 	}
 }
 

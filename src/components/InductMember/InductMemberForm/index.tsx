@@ -72,7 +72,7 @@ interface Props {
 // TODO: reduce cognitive complexity
 // eslint-disable-next-line sonarjs/cognitive-complexity
 const InductMemberForm = forwardRef(({ setSetsubmitBtnText, setSuccessDetails }: Props, ref) => {
-	const { api, apiReady, network, fellowAddresses } = useApiContext();
+	const { api, apiReady, network, fellows } = useApiContext();
 	const { loginWallet } = useUserDetailsContext();
 	const {
 		postData: { inductee_address: inducteeAddress = '' }
@@ -229,7 +229,9 @@ const InductMemberForm = forwardRef(({ setSetsubmitBtnText, setSuccessDetails }:
 	}));
 
 	useEffect(() => {
-		if (!api || !apiReady || !selectedAddress || !fellowAddresses.includes(getSubstrateAddress(selectedAddress.address) || '')) return;
+		const isFellow = fellows?.find((fellow) => fellow.address === (getSubstrateAddress(selectedAddress?.address || '') || ''));
+
+		if (!api || !apiReady || !selectedAddress || !isFellow) return;
 
 		(async () => {
 			setLoading(true);
@@ -256,7 +258,7 @@ const InductMemberForm = forwardRef(({ setSetsubmitBtnText, setSuccessDetails }:
 
 			setLoading(false);
 		})();
-	}, [api, apiReady, fellowAddresses, preimage, selectedAddress, substrateInducteeAddress]);
+	}, [api, apiReady, fellows, preimage, selectedAddress, substrateInducteeAddress]);
 
 	if (!substrateInducteeAddress) {
 		return (
@@ -324,7 +326,7 @@ const InductMemberForm = forwardRef(({ setSetsubmitBtnText, setSuccessDetails }:
 
 						{selectedWallet && !preimage && (
 							<div className='flex w-full flex-col items-center justify-center gap-6'>
-								{selectedAddress?.address && !fellowAddresses.includes(getSubstrateAddress(selectedAddress.address) ?? '') && (
+								{selectedAddress?.address && !fellows?.find((fellow) => fellow.address === (getSubstrateAddress(selectedAddress?.address || '') || '')) && (
 									<AlertCard
 										className='w-full'
 										type='warning'
