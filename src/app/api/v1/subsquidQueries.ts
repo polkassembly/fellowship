@@ -44,3 +44,34 @@ export const GET_REFERENDUM = gql`
 		}
 	}
 `;
+
+export const GET_VOTES_COUNT = gql`
+	query GET_VOTES_COUNT($index_eq: Int! = 5, $decision_eq: VoteDecision = yes) {
+		votesConnection(orderBy: id_ASC, where: { proposalIndex_eq: $index_eq, decision_eq: $decision_eq }) {
+			totalCount
+		}
+	}
+`;
+
+export const GET_VOTES = gql`
+	query GET_VOTES($limit: Int = 10, $offset: Int = 0, $index_eq: Int! = 44, $type_eq: VoteType = Fellowship, $decision_eq: VoteDecision = yes) {
+		votes(limit: $limit, offset: $offset, where: { type_eq: $type_eq, proposalIndex_eq: $index_eq, decision_eq: $decision_eq }) {
+			balance {
+				... on StandardVoteBalance {
+					value
+				}
+				... on SplitVoteBalance {
+					aye
+					nay
+					abstain
+				}
+			}
+			blockNumber
+			type
+			voter
+			timestamp
+			proposalIndex
+			decision
+		}
+	}
+`;

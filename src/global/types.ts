@@ -147,6 +147,18 @@ export type PostIdWithReactions = {
 	reactions: PublicReactionEntry[];
 };
 
+export type Vote = {
+	decision: 'yes' | 'no';
+	type: 'Fellowship';
+	voter: string;
+	timestamp: string;
+	proposalIndex: number;
+	blockNumber: number;
+	balance: {
+		value: string;
+	};
+};
+
 export enum Role {
 	ANONYMOUS = 'anonymous',
 	ADMIN = 'admin',
@@ -283,6 +295,10 @@ export interface OnChainPostInfo {
 	};
 	created_at?: Date;
 	updated_at?: Date;
+	total_votes?: {
+		yes: number;
+		no: number;
+	};
 }
 
 export interface PostListingItem {

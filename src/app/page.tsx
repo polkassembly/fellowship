@@ -46,21 +46,21 @@ export default async function Home({ searchParams }: ServerComponentProps<unknow
 		proposalType: ProposalType.FELLOWSHIP_REFERENDUMS,
 		originUrl,
 		network: network as Network,
-		postIds: feedItems.map((item) => item.id)
+		postIds: feedItems?.map((item) => item.id)
 	});
 
 	const views = await getPostsViews({
 		proposalType: ProposalType.FELLOWSHIP_REFERENDUMS,
 		originUrl,
 		network: network as Network,
-		postIds: feedItems.map((item) => item.id)
+		postIds: feedItems?.map((item) => item.id)
 	});
 
-	const newFeedItems = feedItems.map((item) => {
+	const newFeedItems = feedItems?.map((item) => {
 		return {
 			...item,
-			views: views.find((view) => view.postId === item.id)?.views || [],
-			reactions: reactions.find((reaction) => reaction.postId === item.id)?.reactions || []
+			views: views?.find((view) => view.postId === item.id)?.views || [],
+			reactions: reactions?.find((reaction) => reaction.postId === item.id)?.reactions || []
 		} as PostListingItem;
 	});
 
@@ -71,7 +71,7 @@ export default async function Home({ searchParams }: ServerComponentProps<unknow
 			<div className='flex flex-col items-center gap-8 xl:flex-row xl:items-start'>
 				<div className='flex w-full flex-col gap-y-4'>
 					<ActivitySelectorCard value={feed as EActivityFeed} />
-					<ActivityFeed items={newFeedItems} />
+					<ActivityFeed items={newFeedItems || []} />
 				</div>
 				<div className='flex w-6/12 flex-col gap-y-4 xl:w-4/12'>
 					<Stats />
