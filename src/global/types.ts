@@ -379,3 +379,7 @@ export interface IPreimage {
 	preimageLength: number;
 	storageFee: BN;
 }
+
+export interface IAddPostCommentResponse {
+	id: string;
+}

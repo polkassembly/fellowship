@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import 'react-mde/lib/styles/css/react-mde-all.css';
-import React, { LegacyRef, forwardRef, useCallback, useState } from 'react';
+import React, { LegacyRef, forwardRef, useCallback, useEffect, useState } from 'react';
 import ReactMde, { Suggestion } from 'react-mde';
 import { IMG_BB_API_KEY } from '@/global/apiKeys';
 import nextApiClientFetch from '@/utils/nextApiClientFetch';
@@ -123,6 +123,10 @@ const MarkdownEditor = forwardRef(function MarkdownEditor({ className, height, o
 
 		return content;
 	};
+
+	useEffect(() => {
+		setInput(value);
+	}, [value]);
 
 	return (
 		<div className={`${className}`}>

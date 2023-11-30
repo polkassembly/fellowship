@@ -74,7 +74,7 @@ function ContentListingHeader({ className = '', activityType, address, username,
 				</>
 			)}
 
-			{activityType && status === ProposalStatus.Deciding && (
+			{activityType && (
 				<span className='ml-auto'>
 					<ActivityActionTypeChip type={activityType} />
 				</span>

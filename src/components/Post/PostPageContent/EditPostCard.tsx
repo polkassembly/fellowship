@@ -159,7 +159,7 @@ function EditPostCard() {
 						render={({ field }) => (
 							<MarkdownEditor
 								{...field}
-								// disabled={loading}
+								disabled={loading}
 							/>
 						)}
 						rules={{ required: 'The content is required.' }}
@@ -178,6 +178,7 @@ function EditPostCard() {
 					color='primary'
 					variant='flat'
 					type='submit'
+					isLoading={loading}
 				>
 					Save
 				</Button>
