@@ -45,7 +45,7 @@ async function getFirestoreDocs(onChainProposals: unknown[], network: string) {
 	return { firestoreProposalDocs, firestoreCommentCountDocs, firestoreReactionDocs };
 }
 
-export const getActivityTypes = (feedType: EActivityFeed) => {
+const getActivityTypes = (feedType: EActivityFeed) => {
 	switch (feedType) {
 		case EActivityFeed.PENDING:
 			return null;

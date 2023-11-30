@@ -125,7 +125,21 @@ export type PublicReactionEntry = {
 	created_at: Date;
 	updated_at?: Date;
 	user_id: number;
-	id: number;
+	id: number | string;
+};
+
+export type PostView = {
+	id: string;
+	views_count: number;
+	user_id: number;
+	created_at: Date;
+	updated_at?: Date;
+	username?: string;
+};
+
+export type PostIdWithViews = {
+	postId: string | number;
+	views: PostView[];
 };
 
 export type PostIdWithReactions = {
@@ -287,6 +301,7 @@ export interface PostListingItem {
 	shares_count: number;
 
 	reactions?: PublicReactionEntry[];
+	views?: PostView[];
 }
 
 export interface CreatePostResponseType extends MessageType {
@@ -316,6 +331,7 @@ export interface IPost {
 	inductee_address?: string;
 
 	reactions?: PublicReactionEntry[];
+	views?: PostView[];
 }
 
 export interface ICommentHistory {

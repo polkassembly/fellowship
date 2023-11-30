@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { EActivityFeed, Network, ProposalType, ServerComponentProps } from '@/global/types';
+import { EActivityFeed, Network, PostListingItem, ProposalType, ServerComponentProps } from '@/global/types';
 import { headers } from 'next/headers';
 import { Metadata } from 'next';
 import getOriginUrl from '@/utils/getOriginUrl';
@@ -10,6 +10,7 @@ import getActivityFeed from '@/app/api/v1/feed/getActivityFeed';
 import Image from 'next/image';
 import VotingProposalsFeed from '@/components/VotingProposals';
 import getPostsReactions from '@/app/api/v1/[proposalType]/reactions/getPostsReactions';
+import getPostsViews from '@/app/api/v1/[proposalType]/views/getPostsViews';
 
 type SearchParamProps = {
 	feed: string;
@@ -36,11 +37,19 @@ export default async function GeneralProposalsPage({ searchParams }: ServerCompo
 		postIds: feedItems.map((item) => item.id)
 	});
 
+	const views = await getPostsViews({
+		proposalType: ProposalType.FELLOWSHIP_REFERENDUMS,
+		originUrl,
+		network: network as Network,
+		postIds: feedItems.map((item) => item.id)
+	});
+
 	const newFeedItems = feedItems.map((item) => {
 		return {
 			...item,
+			views: views.find((view) => view.postId === item.id)?.views || [],
 			reactions: reactions.find((reaction) => reaction.postId === item.id)?.reactions || []
-		};
+		} as PostListingItem;
 	});
 
 	return (

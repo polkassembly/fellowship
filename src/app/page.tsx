@@ -11,12 +11,13 @@ import TrendingProposals from '@/components/Home/TrendingProposals';
 import { API_ERROR_CODE } from '@/global/constants/errorCodes';
 import { ClientError } from '@/global/exceptions';
 import MESSAGES from '@/global/messages';
-import { EActivityFeed, Network, ProposalType, ServerComponentProps } from '@/global/types';
+import { EActivityFeed, Network, PostListingItem, ProposalType, ServerComponentProps } from '@/global/types';
 import { headers } from 'next/headers';
 import { Metadata } from 'next';
 import getOriginUrl from '@/utils/getOriginUrl';
 import getActivityFeed from './api/v1/feed/getActivityFeed';
 import getPostsReactions from './api/v1/[proposalType]/reactions/getPostsReactions';
+import getPostsViews from './api/v1/[proposalType]/views/getPostsViews';
 
 type SearchParamProps = {
 	feed: string;
@@ -48,11 +49,19 @@ export default async function Home({ searchParams }: ServerComponentProps<unknow
 		postIds: feedItems.map((item) => item.id)
 	});
 
+	const views = await getPostsViews({
+		proposalType: ProposalType.FELLOWSHIP_REFERENDUMS,
+		originUrl,
+		network: network as Network,
+		postIds: feedItems.map((item) => item.id)
+	});
+
 	const newFeedItems = feedItems.map((item) => {
 		return {
 			...item,
+			views: views.find((view) => view.postId === item.id)?.views || [],
 			reactions: reactions.find((reaction) => reaction.postId === item.id)?.reactions || []
-		};
+		} as PostListingItem;
 	});
 
 	return (

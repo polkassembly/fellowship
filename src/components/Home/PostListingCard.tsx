@@ -62,6 +62,7 @@ function PostListingCard({ feedItem }: Props) {
 						postId={feedItem.id}
 						postType={feedItem.proposalType}
 						reactions={feedItem.reactions}
+						views={feedItem.views}
 					/>
 				</div>
 				{SHOW_NOT_VOTED && <NotVotedYetCard />}

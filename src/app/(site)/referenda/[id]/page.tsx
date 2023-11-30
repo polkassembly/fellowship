@@ -4,6 +4,7 @@
 
 import getPost from '@/app/api/v1/[proposalType]/[id]/getPost';
 import getPostReactions from '@/app/api/v1/[proposalType]/[id]/reactions/getPostReactions';
+import getPostViews from '@/app/api/v1/[proposalType]/[id]/views/getPostViews';
 import PostPageContent from '@/components/Post/PostPageContent';
 import { API_ERROR_CODE } from '@/global/constants/errorCodes';
 import { ClientError } from '@/global/exceptions';
@@ -37,12 +38,14 @@ async function PostPage({ params, searchParams }: ServerComponentProps<IParams, 
 
 	const post = await getPost({ id: Number(postID), originUrl, proposalType: ProposalType.FELLOWSHIP_REFERENDUMS, network: network as Network });
 	const postReactions = await getPostReactions({ id: Number(postID), originUrl, proposalType: ProposalType.FELLOWSHIP_REFERENDUMS, network: network as Network });
+	const postViews = await getPostViews({ id: Number(postID), originUrl, proposalType: ProposalType.FELLOWSHIP_REFERENDUMS, network: network as Network });
 	// TODO: generate metadata for post
 
 	return (
 		<PostPageContent
 			post={{
 				...post,
+				views: postViews,
 				reactions: postReactions
 			}}
 		/>

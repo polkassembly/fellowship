@@ -5,7 +5,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { PostListingItem, ProposalType, EActivityFeed, Network, PostIdWithReactions } from '@/global/types';
+import { PostListingItem, ProposalType, EActivityFeed, Network, PostIdWithReactions, PostIdWithViews } from '@/global/types';
 import { parseAsInteger, useQueryState } from 'next-usequerystate';
 import { useParams, usePathname } from 'next/navigation';
 import getActivityFeed from '@/app/api/v1/feed/getActivityFeed';
@@ -13,6 +13,7 @@ import getOriginUrl from '@/utils/getOriginUrl';
 import { ScrollShadow } from '@nextui-org/scroll-shadow';
 import { useApiContext } from '@/contexts';
 import getPostsReactions from '@/app/api/v1/[proposalType]/reactions/getPostsReactions';
+import getPostsViews from '@/app/api/v1/[proposalType]/views/getPostsViews';
 import PostListingCard from './PostListingCard';
 import LoadingSpinner from '../Misc/LoadingSpinner';
 
@@ -47,6 +48,7 @@ function ActivityFeed({ items }: Props) {
 		if (pathname === '/' && (!page || Number(page) < 1)) setPage(1);
 	}, [page, pathname, setPage]);
 
+	// eslint-disable-next-line sonarjs/cognitive-complexity
 	useEffect(() => {
 		const observer = new IntersectionObserver(
 			(entries) => {
@@ -57,8 +59,15 @@ function ActivityFeed({ items }: Props) {
 						const nextPage = page ? page + 1 : 1;
 						let newFeedItems = await getActivityFeed({ feedType: feed as EActivityFeed, originUrl, page: nextPage, network });
 						let reactions: PostIdWithReactions[] = [];
+						let views: PostIdWithViews[] = [];
 						if (newFeedItems.length > 0) {
 							reactions = await getPostsReactions({
+								proposalType: ProposalType.FELLOWSHIP_REFERENDUMS,
+								originUrl,
+								network: network as Network,
+								postIds: newFeedItems.map((item) => item.id)
+							});
+							views = await getPostsViews({
 								proposalType: ProposalType.FELLOWSHIP_REFERENDUMS,
 								originUrl,
 								network: network as Network,
@@ -70,6 +79,7 @@ function ActivityFeed({ items }: Props) {
 							newFeedItems = newFeedItems.map((item) => {
 								return {
 									...item,
+									views: views.find((view) => view.postId === item.id)?.views || [],
 									reactions: reactions.find((reaction) => reaction.postId === item.id)?.reactions || []
 								};
 							});

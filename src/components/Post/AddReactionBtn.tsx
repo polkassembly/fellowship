@@ -179,6 +179,10 @@ function AddReactionBtn({ postId, postType, reactions, addReaction, removeReacti
 						e.preventDefault();
 						setIsOpen(true);
 					}}
+					className={classNames('text-lg', {
+						'bg-transparent': !userReaction,
+						'bg-gray-200 dark:bg-white': !!userReaction
+					})}
 				>
 					<Image
 						src='/icons/post/add-reaction.svg'
