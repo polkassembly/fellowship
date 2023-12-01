@@ -70,12 +70,24 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
 	if (result.error) throw new APIError(`${result.error || MESSAGES.SUBSQUID_FETCH_ERROR}`, 500, API_ERROR_CODE.SUBSQUID_FETCH_ERROR);
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const onChainProposals = (result?.data?.activities || []).map((item: any) => {
+	let onChainProposals = (result?.data?.activities || []).map((item: any) => {
 		return {
 			type: item.type,
 			...item.proposal
 		};
 	});
+
+	// TODO: will remove this map later
+	const proposalMap: {
+		[key: string]: PostListingItem;
+	} = {};
+
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	onChainProposals?.forEach((onChainProposalObj: any) => {
+		proposalMap[onChainProposalObj.index] = onChainProposalObj;
+	});
+
+	onChainProposals = Object.values(proposalMap);
 
 	const { firestoreProposalDocs, firestoreCommentCountDocs, firestoreReactionDocs } = await getFirestoreDocs(onChainProposals, network);
 

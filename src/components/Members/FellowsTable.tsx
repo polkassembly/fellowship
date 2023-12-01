@@ -7,6 +7,8 @@ import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from 
 import { IFellow, IFellowDataResponse } from '@/global/types';
 import Image from 'next/image';
 import RANK_CONSTANTS from '@/global/constants/rankConstants';
+import { useApiContext } from '@/contexts';
+import getEncodedAddress from '@/utils/getEncodedAddress';
 import Address from '../Profile/Address';
 import LinkWithNetwork from '../Misc/LinkWithNetwork';
 
@@ -17,6 +19,7 @@ interface Props {
 }
 
 function FellowsTable({ className, fellows, fellowsDetails }: Props) {
+	const { network } = useApiContext();
 	return (
 		<Table
 			className={`${className} h-[calc(100vh-200px)] overflow-y-auto`}
@@ -39,13 +42,13 @@ function FellowsTable({ className, fellows, fellowsDetails }: Props) {
 					<TableRow
 						key={fellow.address}
 						as={LinkWithNetwork}
-						href={`/address/${fellow.address}`}
+						href={`/address/${fellow.address}?network=${network}`}
 						className='cursor-pointer'
 					>
 						<TableCell>
 							<Address
 								variant='dropdownItem'
-								address={fellow.address}
+								address={getEncodedAddress(fellow?.address || '', network) || ''}
 								truncateCharLen={6}
 							/>
 						</TableCell>
