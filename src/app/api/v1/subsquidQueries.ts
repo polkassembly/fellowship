@@ -89,6 +89,43 @@ export const GET_REFERENDUM = gql`
 				ayes
 				nays
 			}
+			hash
+			preimage {
+				createdAt
+				createdAtBlock
+				deposit
+				extrinsicIndex
+				hash
+				id
+				length
+				method
+				proposer
+				section
+				proposedCall {
+					args
+					description
+					method
+					section
+				}
+				status
+				updatedAt
+				updatedAtBlock
+			}
+			proposalArgumentHash
+			proposalArguments {
+				args
+				description
+				method
+				section
+			}
+			statusHistory(limit: 10) {
+				block
+				id
+				status
+				timestamp
+			}
+			type
+			submittedAtBlock
 		}
 	}
 `;

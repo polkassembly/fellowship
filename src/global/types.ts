@@ -298,6 +298,13 @@ export enum SubsquidProposalType {
 	FELLOWSHIP_REFERENDUMS = 'FellowshipReferendum'
 }
 
+export interface SingleStatus {
+	block: number;
+	id: string;
+	status: ProposalStatus;
+	timestamp: string;
+}
+
 export interface OnChainPostInfo {
 	proposer: string;
 	status: ProposalStatus;
@@ -313,6 +320,25 @@ export interface OnChainPostInfo {
 		yes: number;
 		no: number;
 	};
+	preimage?: {
+		createdAt: string;
+		createdAtBlock: number;
+		deposit: string;
+		hash: string;
+		length: number;
+		method: string;
+		proposer: string;
+		section: string;
+		proposedCall: {
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			args: any;
+			description: string;
+			method: string;
+			section: string;
+		};
+		status: string;
+	};
+	statusHistory?: SingleStatus[];
 }
 
 export interface PostListingItem {
