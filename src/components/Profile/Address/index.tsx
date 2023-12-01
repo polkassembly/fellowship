@@ -32,15 +32,16 @@ type Props = AddressInlineProps | AddressDropdownItemProps;
 
 function Address(props: Props) {
 	const { network } = useApiContext();
+
+	const encodedAddress = getEncodedAddress(props.address, network) || props.address;
+
 	const addressDisplayText = props.truncateCharLen
 		? midTruncateText({
-				text: props.address,
+				text: encodedAddress,
 				startChars: props.truncateCharLen,
 				endChars: props.truncateCharLen
 		  })
-		: props.address;
-
-	const encodedAddress = getEncodedAddress(props.address, network) || props.address;
+		: encodedAddress;
 
 	switch (props.variant) {
 		case 'inline':
