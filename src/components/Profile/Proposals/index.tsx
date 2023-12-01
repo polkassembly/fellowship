@@ -36,7 +36,7 @@ function ProposalListing({ proposals, type }: ProposalListingProps) {
 	}
 	return (
 		<div>
-			{(proposals as PostListingItem[]).map((feedItem, idx) => {
+			{(proposals as PostListingItem[])?.map((feedItem, idx) => {
 				return (
 					<>
 						<PostListingCard
@@ -89,7 +89,9 @@ function ProfileProposals({ address }: Props) {
 					network,
 					page: 1
 				});
-				setProposals(res);
+				if (res && Array.isArray(res)) {
+					setProposals(res);
+				}
 			} catch (error) {
 				//
 			}

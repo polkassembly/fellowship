@@ -85,7 +85,7 @@ export const POST = withErrorHandling(async (req: NextRequest, { params }) => {
 	if (result.error) throw new APIError(`${result.error || MESSAGES.SUBSQUID_FETCH_ERROR}`, 500, API_ERROR_CODE.SUBSQUID_FETCH_ERROR);
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const onChainProposals = (result?.data?.activities || []).map((item: any) => {
+	const onChainProposals = (result?.data?.activities || [])?.map((item: any) => {
 		return {
 			type: item.type,
 			who: item.who,
@@ -97,7 +97,7 @@ export const POST = withErrorHandling(async (req: NextRequest, { params }) => {
 
 	// assign proposal data to proposalsData
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	let proposalItems: PostListingItem[] = onChainProposals.map((onChainProposalObj: any, index: number) => {
+	let proposalItems: PostListingItem[] = onChainProposals?.map((onChainProposalObj: any, index: number) => {
 		const firestoreProposalData = firestoreProposalDocs.find((item) => item.id === onChainProposalObj?.index)?.data() || {};
 		const firestoreCommentCount = firestoreCommentCountDocs.find((item) => item.id === onChainProposalObj?.index)?.data().count || 0;
 		const firestoreReactionDocsData = firestoreReactionDocs[Number(index)]?.docs || [];
