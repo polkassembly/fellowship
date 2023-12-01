@@ -186,6 +186,8 @@ export interface Roles {
 
 export enum Wallet {
 	POLKADOT = 'polkadot-js',
+	TALISMAN = 'talisman',
+	SUBWALLET = 'subwallet-js',
 	OTHER = ''
 }
 
