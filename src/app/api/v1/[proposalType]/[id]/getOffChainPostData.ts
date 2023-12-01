@@ -5,6 +5,7 @@
 import { IPost, Network, ProposalType } from '@/global/types';
 import DEFAULT_POST_TITLE from '@/global/constants/defaultTitle';
 import getSubstrateAddress from '@/utils/getSubstrateAddress';
+import { getSubSquareContentAndTitle } from '@/app/api/api-utils/subsquare-content';
 import { postDocRef, postReactionCollRef } from '../../firestoreRefs';
 
 interface Params {
@@ -16,6 +17,16 @@ interface Params {
 export async function getOffChainPostData({ network, id, proposalType }: Params) {
 	const firestoreProposalData = (await postDocRef(network, proposalType, String(id)).get()).data() || {};
 	const firestoreReactionCountData = (await postReactionCollRef(network, proposalType, String(id)).count().get()).data().count || 0;
+
+	if (!firestoreProposalData?.title || !firestoreProposalData?.content) {
+		const { content, title } = await getSubSquareContentAndTitle(ProposalType.FELLOWSHIP_REFERENDUMS, network, id);
+		if (!firestoreProposalData?.title) {
+			firestoreProposalData.title = title;
+		}
+		if (!firestoreProposalData?.content) {
+			firestoreProposalData.content = content;
+		}
+	}
 
 	return {
 		id,
