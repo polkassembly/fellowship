@@ -59,6 +59,8 @@ export async function getOnChainPostData({ network, id, proposalType }: Params) 
 		total_votes: {
 			yes: subsquidYesVotesCountRes?.votesConnection?.totalCount || 0,
 			no: subsquidNoVotesCountRes?.votesConnection?.totalCount || 0
-		}
+		},
+		preimage: subsquidPost?.preimage,
+		statusHistory: subsquidPost?.statusHistory || []
 	} as OnChainPostInfo;
 }

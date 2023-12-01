@@ -15,6 +15,8 @@ import { ActivityType } from '@/global/types';
 import ContentListingHeader from '../ContentListingHeader';
 import PostTags from '../PostTags';
 import PostActionBar from '../PostActionBar';
+import OnChainInfo from './OnChainInfo';
+import Timeline from './Timeline';
 
 interface Props {
 	className?: string;
@@ -28,7 +30,7 @@ function PostArticleCard({ className, onlyDescriptionTab }: Props) {
 		{
 			id: 'timeline',
 			label: 'Timeline',
-			content: <p>Timeline</p>
+			content: <Timeline statusHistory={postData?.on_chain_info?.statusHistory} />
 		},
 		// {
 		// id: 'audit',
@@ -38,7 +40,7 @@ function PostArticleCard({ className, onlyDescriptionTab }: Props) {
 		{
 			id: 'on-chain-info',
 			label: 'On Chain Info',
-			content: <p>On Chain Info</p>
+			content: <OnChainInfo onChainInfo={postData.on_chain_info} />
 		}
 	];
 
