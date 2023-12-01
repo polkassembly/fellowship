@@ -5,6 +5,8 @@
 import * as React from 'react';
 import ReactJson from 'react-json-view';
 import classNames from 'classnames';
+import { convertAnyHexToASCII } from '@/utils/decodingOnChainInfo';
+import { useApiContext } from '@/contexts';
 
 interface Props {
 	className?: string;
@@ -13,13 +15,15 @@ interface Props {
 }
 
 function ArgumentsTableJSONView({ className, postArguments }: Props) {
+	const { network } = useApiContext();
 	if (postArguments) {
+		const newArgs = convertAnyHexToASCII(postArguments, network);
 		return (
-			<div className={classNames(className, 'mt-8')}>
+			<div className={classNames(className, 'mt-8 max-w-[calc(100vw-700px)] overflow-auto')}>
 				<h5 className='mb-5 text-base font-bold'>Proposed Calls</h5>
 				<div className='json-view'>
 					<ReactJson
-						src={postArguments}
+						src={newArgs}
 						iconStyle='circle'
 						enableClipboard={false}
 						displayDataTypes={false}

@@ -17,9 +17,10 @@ interface Props {
 }
 
 function TopFellowRow({ className, fellow, fellowDetails }: { className?: string; fellow: IFellow; fellowDetails?: IFellowDataResponse }) {
+	const { network } = useApiContext();
 	return (
 		<LinkWithNetwork
-			href={`/address/${fellow.address}`}
+			href={`/address/${fellow.address}?network=${network}`}
 			className={`${className} flex h-[52px] w-full items-center justify-between rounded-full bg-topFellowCardBg px-6 py-[6px] text-foreground`}
 		>
 			<Address

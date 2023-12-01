@@ -12,6 +12,7 @@ import Image from 'next/image';
 import midTruncateText from '@/utils/midTruncateText';
 import { Button } from '@nextui-org/button';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from '@nextui-org/dropdown';
+import getEncodedAddress from '@/utils/getEncodedAddress';
 
 interface Props {
 	address: string;
@@ -19,7 +20,7 @@ interface Props {
 
 function ProfileAddressDetails(props: Props) {
 	const { address } = props;
-	const { fellows } = useApiContext();
+	const { fellows, network } = useApiContext();
 	const [state, setState] = useState('Active');
 
 	const fellow = useMemo(() => {
@@ -65,7 +66,7 @@ function ProfileAddressDetails(props: Props) {
 					<div className='flex items-center gap-x-1'>
 						<p className='text-xs text-gray-500'>
 							{midTruncateText({
-								text: address,
+								text: getEncodedAddress(address, network) || '',
 								startChars: 5,
 								endChars: 5
 							})}
