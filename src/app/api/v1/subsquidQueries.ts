@@ -75,57 +75,61 @@ export const GET_SALARY_PAYOUTS = gql`
 `;
 
 export const GET_REFERENDUM = gql`
-	query GET_REFERENDUM($index_eq: Int!, $type_eq: ProposalType = FellowshipReferendum) {
-		proposals(where: { type_eq: $type_eq, index_eq: $index_eq }) {
-			id
-			description
-			index
-			status
-			trackNumber
-			proposer
-			updatedAt
-			createdAt
-			tally {
-				ayes
-				nays
-			}
-			hash
-			preimage {
-				createdAt
-				createdAtBlock
-				deposit
-				extrinsicIndex
-				hash
+	query GET_FELLOWSHIP_REFERENDUM($index_eq: Int!) {
+		activities(where: { proposal: { index_eq: $index_eq } }, limit: 1, offset: 0, orderBy: proposal_index_DESC) {
+			type
+			proposal {
 				id
-				length
-				method
+				description
+				index
+				status
+				trackNumber
 				proposer
-				section
-				proposedCall {
+				updatedAt
+				createdAt
+				tally {
+					ayes
+					nays
+				}
+				hash
+				preimage {
+					createdAt
+					createdAtBlock
+					deposit
+					extrinsicIndex
+					hash
+					id
+					length
+					method
+					proposer
+					section
+					proposedCall {
+						args
+						description
+						method
+						section
+					}
+					status
+					updatedAt
+					updatedAtBlock
+				}
+				proposalArgumentHash
+				proposalArguments {
 					args
 					description
 					method
 					section
 				}
-				status
-				updatedAt
-				updatedAtBlock
+				statusHistory(limit: 10) {
+					block
+					id
+					status
+					timestamp
+				}
+				type
+				submittedAtBlock
 			}
-			proposalArgumentHash
-			proposalArguments {
-				args
-				description
-				method
-				section
-			}
-			statusHistory(limit: 10) {
-				block
-				id
-				status
-				timestamp
-			}
-			type
-			submittedAtBlock
+			who
 		}
 	}
 `;

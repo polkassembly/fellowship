@@ -20,6 +20,7 @@ import withErrorHandling from '../../api-utils/withErrorHandling';
 import { getPostsReactionsServer } from '../[proposalType]/reactions/utils';
 import { getPostsViewsServer } from '../[proposalType]/views/utils';
 import getFirestoreDocs from './utils';
+import { getSubSquareContentAndTitle } from '../../api-utils/subsquare-content';
 
 const getActivityTypes = (feedType: EActivityFeed) => {
 	const all = [
@@ -72,7 +73,7 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	let onChainProposals = (result?.data?.activities || []).map((item: any) => {
 		return {
-			type: item.type,
+			activityType: item.type,
 			...item.proposal
 		};
 	});
@@ -93,7 +94,7 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
 
 	// assign proposal data to proposalsData
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	let proposalItems: PostListingItem[] = onChainProposals.map((onChainProposalObj: any, index: number) => {
+	const proposalItemsPromises: Promise<PostListingItem>[] = onChainProposals.map(async (onChainProposalObj: any, index: number) => {
 		const firestoreProposalData = firestoreProposalDocs.find((item) => item.id === onChainProposalObj?.index)?.data() || {};
 		const firestoreCommentCount = firestoreCommentCountDocs.find((item) => item.id === onChainProposalObj?.index)?.data().count || 0;
 		const firestoreReactionDocsData = firestoreReactionDocs[Number(index)]?.docs || [];
@@ -108,8 +109,19 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
 			tally: {
 				ayes: String(onChainProposalObj.tally?.ayes ?? 0),
 				nays: String(onChainProposalObj.tally?.nays ?? 0)
-			}
+			},
+			activity_type: onChainProposalObj.activityType
 		};
+
+		if (!firestoreProposalData?.title || !firestoreProposalData?.content) {
+			const { content, title } = await getSubSquareContentAndTitle(ProposalType.FELLOWSHIP_REFERENDUMS, network, onChainProposalObj.index);
+			if (!firestoreProposalData?.title) {
+				firestoreProposalData.title = title;
+			}
+			if (!firestoreProposalData?.content) {
+				firestoreProposalData.content = content;
+			}
+		}
 
 		const postListingItem: PostListingItem = {
 			id: onChainProposalObj.index,
@@ -136,6 +148,9 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
 
 		return postListingItem;
 	});
+
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	let proposalItems = (await Promise.allSettled(proposalItemsPromises)).filter((item) => item.status === 'fulfilled').map((item) => (item as any).value);
 
 	const postsReactions = await getPostsReactionsServer(
 		proposalItems.map((item) => item.id),

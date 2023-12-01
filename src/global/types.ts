@@ -338,6 +338,7 @@ export interface OnChainPostInfo {
 		status: string;
 	};
 	statusHistory?: SingleStatus[];
+	activity_type: SubsquidActivityType;
 }
 
 export interface PostListingItem {

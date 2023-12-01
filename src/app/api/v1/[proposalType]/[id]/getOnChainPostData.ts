@@ -5,24 +5,21 @@
 import { API_ERROR_CODE } from '@/global/constants/errorCodes';
 import { APIError } from '@/global/exceptions';
 import MESSAGES from '@/global/messages';
-import { Network, OnChainPostInfo, ProposalStatus, ProposalType } from '@/global/types';
+import { Network, OnChainPostInfo, ProposalStatus } from '@/global/types';
 import { urqlClient } from '@/services/urqlClient';
-import firestoreToSubsquidProposalType from '@/utils/firestoreToSubsquidProposalType';
 import { GET_REFERENDUM, GET_VOTES_COUNT } from '../../subsquidQueries';
 
 interface Params {
 	network: Network;
 	id: number;
-	proposalType: ProposalType;
 }
 
-export async function getOnChainPostData({ network, id, proposalType }: Params) {
+export async function getOnChainPostData({ network, id }: Params) {
 	const gqlClient = urqlClient(network);
 
 	const { data: subsquidData, error: subsquidErr } = await gqlClient
 		.query(GET_REFERENDUM, {
-			index_eq: Number(id),
-			type_eq: firestoreToSubsquidProposalType(proposalType)
+			index_eq: Number(id)
 		})
 		.toPromise();
 
@@ -40,11 +37,14 @@ export async function getOnChainPostData({ network, id, proposalType }: Params) 
 		})
 		.toPromise();
 
-	const subsquidPost = subsquidData?.proposals?.[0];
+	let subsquidPost = subsquidData?.activities?.[0];
 
-	if (!subsquidPost && Array.isArray(subsquidData?.proposals)) throw new APIError(`${MESSAGES.POST_NOT_FOUND_ERROR}`, 404, API_ERROR_CODE.POST_NOT_FOUND_ERROR);
-	if (!subsquidData || subsquidErr || !subsquidPost) throw new APIError(`${subsquidErr || MESSAGES.SUBSQUID_FETCH_ERROR}`, 500, API_ERROR_CODE.SUBSQUID_FETCH_ERROR);
-
+	if (!subsquidPost?.proposal && Array.isArray(subsquidData?.activities)) throw new APIError(`${MESSAGES.POST_NOT_FOUND_ERROR}`, 404, API_ERROR_CODE.POST_NOT_FOUND_ERROR);
+	if (!subsquidData || subsquidErr || !subsquidPost?.proposal) throw new APIError(`${subsquidErr || MESSAGES.SUBSQUID_FETCH_ERROR}`, 500, API_ERROR_CODE.SUBSQUID_FETCH_ERROR);
+	subsquidPost = {
+		...subsquidPost?.proposal,
+		activityType: subsquidPost?.type
+	};
 	return {
 		created_at: subsquidPost.updatedAt,
 		updated_at: subsquidPost.createdAt,
@@ -52,6 +52,7 @@ export async function getOnChainPostData({ network, id, proposalType }: Params) 
 		proposer: subsquidPost.proposer,
 		status: subsquidPost.status as ProposalStatus,
 		track_number: subsquidPost.trackNumber,
+		activity_type: subsquidPost?.activityType,
 		tally: {
 			ayes: String(subsquidPost.tally?.ayes ?? 0),
 			nays: String(subsquidPost.tally?.nays ?? 0)

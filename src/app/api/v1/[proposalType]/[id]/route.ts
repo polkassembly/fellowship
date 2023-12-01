@@ -37,7 +37,7 @@ export const GET = withErrorHandling(async (req: NextRequest, { params }) => {
 	}
 
 	// if is on-chain post
-	const onChainPostInfo = await getOnChainPostData({ network, id: Number(id), proposalType: proposalType as ProposalType });
+	const onChainPostInfo = await getOnChainPostData({ network, id: Number(id) });
 
 	const post: IPost = {
 		...offChainPostData,
