@@ -74,7 +74,9 @@ export const POST = withErrorHandling(async (req: NextRequest, { params }) => {
 			return {
 				type: item.type,
 				who: item.who,
-				...item.payout
+				...item.payout,
+				otherActions: item.otherActions,
+				salaryCycle: item.salaryCycle
 			};
 		});
 		return NextResponse.json(payouts);

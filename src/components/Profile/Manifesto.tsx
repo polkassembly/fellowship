@@ -126,7 +126,7 @@ function Manifesto({ manifesto: prevManifesto, address }: Props) {
 					/>
 				</div>
 			) : (
-				<p className='flex max-h-[146px] items-center justify-center text-sm font-normal leading-[21px] tracking-[0.14px] text-secondary'>Please add your manifesto</p>
+				<p className='flex h-full max-h-[146px] items-center justify-center text-sm font-normal leading-[21px] tracking-[0.14px] text-secondary'>Please add your manifesto</p>
 			)}
 		</article>
 	);

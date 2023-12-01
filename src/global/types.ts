@@ -353,6 +353,11 @@ export interface PayoutListingItem {
 		totalRegistrations: string;
 		totalUnregisteredPaid: string;
 	};
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	otherActions: any;
+	salaryCycle?: {
+		cycleIndex: number;
+	};
 }
 
 export interface CreatePostResponseType extends MessageType {

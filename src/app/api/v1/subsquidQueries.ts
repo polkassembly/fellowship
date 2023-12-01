@@ -50,6 +50,25 @@ export const GET_SALARY_PAYOUTS = gql`
 					totalRegistrations
 					totalUnregisteredPaid
 				}
+				rank
+			}
+			otherActions {
+				wish
+				who
+				showClaimButton
+				toRank
+				rank
+				isActive
+				id
+				extrinsicIndex
+				evidenceJudged
+				evidence
+				createdAtBlock
+				createdAt
+				amount
+			}
+			salaryCycle {
+				cycleIndex
 			}
 		}
 	}
