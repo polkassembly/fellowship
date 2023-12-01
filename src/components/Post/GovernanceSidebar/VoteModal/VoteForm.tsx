@@ -41,7 +41,7 @@ const VoteForm = forwardRef(({ defaultVoteType, onSuccess }: Props, ref) => {
 	const handleSubmitVote = async () => {
 		if (!api || !apiReady || loading) return;
 
-		if (!selectedAddress?.address) {
+		if (!selectedAddress?.address || !fellows?.find((fellow) => fellow.address === (getSubstrateAddress(selectedAddress?.address || '') || ''))) {
 			setError('Please select a fellow address.');
 			return;
 		}
