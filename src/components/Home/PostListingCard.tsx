@@ -39,6 +39,7 @@ function PostListingCard({ feedItem, cardClassName, isDividerDisabled }: Props) 
 				{/* Need this wrapper div because isPressable breaks styles */}
 				<div className={`flex flex-col gap-3 px-6 py-4 text-left ${SHOW_NOT_VOTED && 'pb-[35px]'}`}>
 					<ContentListingHeader
+						postId={String(feedItem.id)}
 						activityType={
 							feedItem.proposalType === ProposalType.FELLOWSHIP_REFERENDUMS && feedItem.on_chain_info?.status && VOTABLE_STATUSES.includes(feedItem.on_chain_info?.status)
 								? ActivityType.GENERAL_PROPOSAL

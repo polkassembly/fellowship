@@ -25,9 +25,10 @@ interface Props {
 	};
 	status?: ProposalStatus;
 	decidingEnds?: Date;
+	postId?: string;
 }
 
-function ContentListingHeader({ className = '', activityType, address, username, createdAt, votesTally, status, decidingEnds }: Props) {
+function ContentListingHeader({ className = '', postId, activityType, address, username, createdAt, votesTally, status, decidingEnds }: Props) {
 	return (
 		<div className={`flex h-[26px] items-center gap-2.5 text-sm ${className}`}>
 			{(address || username) && (
@@ -76,7 +77,10 @@ function ContentListingHeader({ className = '', activityType, address, username,
 
 			{activityType && (
 				<span className='ml-auto'>
-					<ActivityActionTypeChip type={activityType} />
+					<ActivityActionTypeChip
+						postId={postId}
+						type={activityType}
+					/>
 				</span>
 			)}
 		</div>

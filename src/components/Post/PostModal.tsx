@@ -6,13 +6,13 @@
 
 import { Divider } from '@nextui-org/divider';
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from '@nextui-org/modal';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import PostDataContextProvider from '@/contexts/PostDataContext';
 import { VoteDecisionType, IPost, ProposalType, ActivityType } from '@/global/types';
 import { Button } from '@nextui-org/button';
 import Image from 'next/image';
 import VoteButton from '@/components/Post/GovernanceSidebar/VoteButton';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import VOTABLE_STATUSES from '@/global/constants/votableStatuses';
 import ContentListingHeader from './ContentListingHeader';
 import PostTags from './PostTags';
@@ -26,6 +26,7 @@ interface Props {
 
 function PostModal({ post }: Props) {
 	const router = useRouter();
+	const searchParams = useSearchParams();
 
 	const [voteModalType, setVoteModalType] = useState<VoteDecisionType | null>(null);
 
@@ -39,6 +40,12 @@ function PostModal({ post }: Props) {
 	};
 
 	const canVote = post.on_chain_info?.status && VOTABLE_STATUSES.includes(post.on_chain_info?.status);
+
+	useEffect(() => {
+		const vote = searchParams.get('vote');
+		if (vote !== 'true') return;
+		setVoteModalType(VoteDecisionType.AYE);
+	}, [router, searchParams]);
 
 	return (
 		<PostDataContextProvider postItem={post}>

@@ -9,13 +9,17 @@ import { ActivityType } from '@/global/types';
 import { Chip } from '@nextui-org/chip';
 import React from 'react';
 
-function ActivityActionTypeChip({ type }: { type: ActivityType }) {
+function ActivityActionTypeChip({ type, postId }: { type: ActivityType; postId?: string }) {
 	const activityActionTextStr = ACTIVITY_ACTION_TEXT[type as keyof typeof ACTIVITY_ACTION_TEXT];
 	const { postData } = usePostDataContext();
 
+	const postIdStr = postId || postData?.id;
+
 	let link = '';
 	if (type === ActivityType.INDUCTION) {
-		link = `/induct-member/${postData.id}`;
+		link = `/induct-member/${postIdStr}`;
+	} else if (type === ActivityType.GENERAL_PROPOSAL) {
+		link = `/referenda/${postIdStr}?vote=true`;
 	}
 
 	return (
@@ -28,6 +32,7 @@ function ActivityActionTypeChip({ type }: { type: ActivityType }) {
 				size='sm'
 				radius='sm'
 				color='primary'
+				hasParams={type === ActivityType.GENERAL_PROPOSAL}
 			>
 				<p className='text-xs font-medium capitalize'>{activityActionTextStr}</p>
 			</Chip>
