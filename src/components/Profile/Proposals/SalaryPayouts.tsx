@@ -35,8 +35,8 @@ function SalaryPayouts({ payouts, className }: Props) {
 				{payouts.map((payout) => (
 					<TableRow key={payout.id}>
 						<TableCell>{payout?.salaryCycle?.cycleIndex !== undefined && payout?.salaryCycle?.cycleIndex !== null ? payout?.salaryCycle?.cycleIndex : -1}</TableCell>
-						<TableCell>{payout?.otherActions?.rank}</TableCell>
-						<TableCell>{payout?.amount || '--'}</TableCell>
+						<TableCell>{payout?.type === 'Payout' ? payout?.rank : payout?.otherActions?.rank}</TableCell>
+						<TableCell>{payout?.type === 'Payout' ? payout?.amount : '--'}</TableCell>
 						<TableCell>{payout?.type === 'Payout' ? dayjs(payout?.otherActions?.createdAtBlock).format('DD MMM YYYY') : '--'}</TableCell>
 						<TableCell>
 							<Claim showClaimButton={payout?.otherActions?.showClaimButton} />

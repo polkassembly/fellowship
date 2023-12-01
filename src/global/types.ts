@@ -353,6 +353,7 @@ export interface PayoutListingItem {
 		totalRegistrations: string;
 		totalUnregisteredPaid: string;
 	};
+	rank: number;
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	otherActions: any;
 	salaryCycle?: {
