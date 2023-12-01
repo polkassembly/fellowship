@@ -53,6 +53,17 @@ function Carousel() {
 					/>
 					Join Fellowship
 				</Button>
+
+				<Button
+					color='primary'
+					href='/address/5EZX2urgRBbSFk1oCJ3PdkFB35nbB8rXhnTTqWDwhsyvLC2j/create-rank-request'
+					as={LinkWithNetwork}
+					className='text-sm font-semibold shadow-md'
+					radius='full'
+					size='md'
+				>
+					Create Rank Request
+				</Button>
 			</div>
 		</div>
 	);

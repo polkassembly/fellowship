@@ -21,6 +21,7 @@ import { Divider } from '@nextui-org/divider';
 import { InjectedAccount } from '@polkadot/extension-inject/types';
 import { BN, BN_HUNDRED, BN_ZERO, formatBalance } from '@polkadot/util';
 import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
+import saveNewProposal from '@/utils/saveNewProposal';
 import PreimageDetails from './PreimageDetails';
 
 const accordionItemClassNames = (step: number, selectedKeys: Set<string>) => ({
@@ -73,9 +74,9 @@ interface Props {
 // eslint-disable-next-line sonarjs/cognitive-complexity
 const InductMemberForm = forwardRef(({ setSetsubmitBtnText, setSuccessDetails }: Props, ref) => {
 	const { api, apiReady, network, fellows } = useApiContext();
-	const { loginWallet } = useUserDetailsContext();
+	const { loginWallet, id } = useUserDetailsContext();
 	const {
-		postData: { inductee_address: inducteeAddress = '' }
+		postData: { inductee_address: inducteeAddress = '', title, content }
 	} = usePostDataContext();
 
 	const [loading, setLoading] = useState(false);
@@ -153,7 +154,7 @@ const InductMemberForm = forwardRef(({ setSetsubmitBtnText, setSuccessDetails }:
 	};
 
 	const handleSubmitProposal = async () => {
-		if (!api || !apiReady || !selectedAddress || !preimage || !substrateInducteeAddress) return;
+		if (!id || !api || !apiReady || !selectedAddress || !preimage || !substrateInducteeAddress) return;
 
 		const proposalOrigin = { FellowshipOrigins: 'FellowshipCandidates' };
 
@@ -169,14 +170,29 @@ const InductMemberForm = forwardRef(({ setSetsubmitBtnText, setSuccessDetails }:
 		};
 
 		const onSuccess = async () => {
-			setLoading(false);
+			const postId = Number(await api.query.fellowshipReferenda.referendumCount());
+
+			saveNewProposal({
+				postId,
+				content,
+				proposerAddress: selectedAddress.address,
+				title,
+				userId: id,
+				network,
+				onError: (err) => {
+					// eslint-disable-next-line no-console
+					console.error('Error while saving proposal description: ', postId, err);
+				}
+			});
+
 			queueNotification({
 				header: 'Transaction Successful!',
 				message: 'Proposal submitted successfully.',
 				status: 'success'
 			});
 
-			const postId = Number(await api.query.fellowshipReferenda.referendumCount());
+			setLoading(false);
+
 			setSuccessDetails({
 				proposer: selectedAddress.address,
 				inductee: substrateInducteeAddress,

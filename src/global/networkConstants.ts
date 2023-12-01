@@ -8,7 +8,7 @@ const networkConstants: NetworkConstants = {
 	[Network.COLLECTIVES]: {
 		key: Network.COLLECTIVES,
 		name: 'Collectives',
-		preImageBaseDeposit: '400000000000',
+		preImageBaseDeposit: '40000000000',
 		blockTime: 12000,
 		category: 'polkadot',
 		logoUrl: '/parachain-logos/polkadot-logo.svg',
