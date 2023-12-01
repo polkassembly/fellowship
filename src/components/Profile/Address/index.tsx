@@ -50,11 +50,19 @@ function Address(props: Props) {
 
 	const addressDisplayText = props.truncateCharLen
 		? midTruncateText({
-				text: onChainUsername || encodedAddress,
+				text: encodedAddress,
 				startChars: props.truncateCharLen,
 				endChars: props.truncateCharLen
 		  })
 		: encodedAddress;
+
+	const truncatedUsername = props.truncateCharLen
+		? midTruncateText({
+				text: onChainUsername,
+				startChars: 10,
+				endChars: 10
+		  })
+		: onChainUsername;
 
 	switch (props.variant) {
 		case 'inline':
@@ -62,7 +70,7 @@ function Address(props: Props) {
 				<AddressInline
 					className={props.className}
 					address={encodedAddress}
-					addressDisplayText={addressDisplayText}
+					addressDisplayText={truncatedUsername || addressDisplayText}
 				/>
 			);
 		case 'dropdownItem':
