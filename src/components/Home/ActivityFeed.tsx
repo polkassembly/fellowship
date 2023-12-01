@@ -65,7 +65,7 @@ function ActivityFeed({ items }: Props) {
 							allItems.forEach((item) => {
 								feedItemsMap[item.id] = item;
 							});
-							setFeedItems(Object.values(feedItemsMap));
+							setFeedItems(Object.values(feedItemsMap).reverse());
 							setPage(nextPage);
 						} else {
 							setIsLastPage(true);

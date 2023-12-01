@@ -88,7 +88,7 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
 		proposalMap[onChainProposalObj.index] = onChainProposalObj;
 	});
 
-	onChainProposals = Object.values(proposalMap);
+	onChainProposals = Object.values(proposalMap).reverse();
 
 	const { firestoreProposalDocs, firestoreCommentCountDocs, firestoreReactionDocs } = await getFirestoreDocs(onChainProposals, network);
 
