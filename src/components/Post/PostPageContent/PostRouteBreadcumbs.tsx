@@ -6,24 +6,54 @@
 
 import LinkWithNetwork from '@/components/Misc/LinkWithNetwork';
 import { usePostDataContext } from '@/contexts';
-import { ActivityType, ProposalType } from '@/global/types';
+import { SubsquidActivityType } from '@/global/types';
 import midTruncateText from '@/utils/midTruncateText';
 import React from 'react';
 
+const getLinkAndLabel = (type: SubsquidActivityType) => {
+	switch (type) {
+		case SubsquidActivityType.GeneralProposal:
+			return {
+				href: 'general-proposals',
+				label: 'General Proposals'
+			};
+		case SubsquidActivityType.RFC:
+			return {
+				href: 'rfc-proposals',
+				label: 'RFC Proposals'
+			};
+		case SubsquidActivityType.RetentionRequest:
+		case SubsquidActivityType.PromotionRequest:
+		case SubsquidActivityType.DemotionRequest:
+		case SubsquidActivityType.InductionRequest:
+			return {
+				href: 'rank-requests',
+				label: 'Rank Proposals'
+			};
+		default: {
+			return {
+				href: '',
+				label: 'Home'
+			};
+		}
+	}
+};
+
 function PostRouteBreadcumbs() {
 	const {
-		postData: { title, proposalType }
+		postData: { title, on_chain_info: onChainInfo }
 	} = usePostDataContext();
 
-	const listingView = [ProposalType.DISCUSSIONS, ProposalType.FELLOWSHIP_REFERENDUMS].includes(proposalType) ? ActivityType.GENERAL_PROPOSAL : '';
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const linkAndLabel = getLinkAndLabel(onChainInfo?.activity_type as any);
 
 	return (
 		<div className='flex gap-3 text-xs'>
 			<LinkWithNetwork
-				href={`/${listingView}s`}
+				href={`/${linkAndLabel?.href}`}
 				className='capitalize text-link'
 			>
-				{listingView.replaceAll('-', ' ')}
+				{linkAndLabel?.label}
 			</LinkWithNetwork>
 
 			<span>&gt;</span>

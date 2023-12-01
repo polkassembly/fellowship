@@ -14,6 +14,7 @@ import { MessageType } from '@/global/types';
 import queueNotification from '@/utils/queueNotification';
 import getErrorString from '@/utils/getErrorString';
 import getSubstrateAddress from '@/utils/getSubstrateAddress';
+import { Card } from '@nextui-org/card';
 import Markdown from '../TextEditor/Markdown';
 
 interface Props {
@@ -69,7 +70,7 @@ function Manifesto({ manifesto: prevManifesto, address }: Props) {
 	}, [address, userDetails]);
 
 	return (
-		<article className='h-[223px] rounded-[20px] border border-primary_border bg-white px-4 py-6'>
+		<Card className='min-h-[223px] rounded-[20px] border border-primary_border px-4 py-6'>
 			<div className='flex items-center gap-x-2'>
 				<h4 className='text-base font-semibold leading-6'>Manifesto</h4>
 				{isLoggedInUserProfile ? (
@@ -97,7 +98,7 @@ function Manifesto({ manifesto: prevManifesto, address }: Props) {
 					/>
 					<div className='flex justify-end gap-x-2'>
 						<Button
-							className='border border-primary bg-white text-primary'
+							className='border border-primary bg-transparent text-primary'
 							size='sm'
 							onClick={() => {
 								setIsEdit(false);
@@ -128,7 +129,7 @@ function Manifesto({ manifesto: prevManifesto, address }: Props) {
 			) : (
 				<p className='flex h-full max-h-[146px] items-center justify-center text-sm font-normal leading-[21px] tracking-[0.14px] text-secondary'>Please add your manifesto</p>
 			)}
-		</article>
+		</Card>
 	);
 }
 

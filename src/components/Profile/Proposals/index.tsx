@@ -9,6 +9,7 @@ import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from '@nextui-o
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { EProfileProposals, PayoutListingItem, PostListingItem } from '@/global/types';
+import { Card } from '@nextui-org/card';
 import getProfileProposals from '@/app/api/v1/address/[address]/proposals/getProfileProposals';
 import getOriginUrl from '@/utils/getOriginUrl';
 import { useApiContext } from '@/contexts';
@@ -100,7 +101,7 @@ function ProfileProposals({ address }: Props) {
 	}, [type, address, network]);
 
 	return (
-		<div className='rounded-[20px] border border-primary_border bg-white'>
+		<Card className='rounded-[20px] border border-primary_border'>
 			<div className='border-b px-4 py-6'>
 				<Dropdown>
 					<DropdownTrigger>
@@ -146,7 +147,7 @@ function ProfileProposals({ address }: Props) {
 					/>
 				)}
 			</div>
-		</div>
+		</Card>
 	);
 }
 
