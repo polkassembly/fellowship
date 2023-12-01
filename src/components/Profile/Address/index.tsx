@@ -5,7 +5,7 @@
 
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import midTruncateText from '@/utils/midTruncateText';
 import getEncodedAddress from '@/utils/getEncodedAddress';
 import { useApiContext } from '@/contexts';
@@ -31,13 +31,26 @@ interface AddressDropdownItemProps extends BaseProps {
 type Props = AddressInlineProps | AddressDropdownItemProps;
 
 function Address(props: Props) {
-	const { network } = useApiContext();
+	const { network, relayApi, relayApiReady } = useApiContext();
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const [onChainIdentity, setOnChainIdentity] = useState<any>();
 
 	const encodedAddress = getEncodedAddress(props.address, network) || props.address;
+	const onChainUsername = onChainIdentity?.identity?.displayParent || onChainIdentity?.identity?.display || '';
+
+	useEffect(() => {
+		if (!relayApi || !relayApiReady) return;
+
+		(async () => {
+			const identity = await relayApi.derive.accounts.info(encodedAddress);
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			setOnChainIdentity(identity as any);
+		})();
+	}, [encodedAddress, relayApi, relayApiReady]);
 
 	const addressDisplayText = props.truncateCharLen
 		? midTruncateText({
-				text: encodedAddress,
+				text: onChainUsername || encodedAddress,
 				startChars: props.truncateCharLen,
 				endChars: props.truncateCharLen
 		  })
@@ -53,11 +66,10 @@ function Address(props: Props) {
 				/>
 			);
 		case 'dropdownItem':
-			// TODO: if no name, get and use from onchain identity
 			return (
 				<AddressDropdownItem
 					className={props.className}
-					name={props.name || ''}
+					name={props.name || onChainUsername || ''}
 					address={encodedAddress}
 					addressDisplayText={addressDisplayText}
 				/>
