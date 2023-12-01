@@ -25,16 +25,20 @@ const networkConstants: NetworkConstants = {
 		],
 		relayRpcEndpoints: [
 			{
+				key: 'wss://polkadot-rpc.dwellir.com',
+				label: 'Dwellir'
+			},
+			{
+				key: 'wss://polkadot.api.onfinality.io/public-ws',
+				label: 'OnFinality'
+			},
+			{
 				key: 'wss://1rpc.io/dot',
 				label: 'Automata 1RPC'
 			},
 			{
 				key: 'wss://polkadot-public-rpc.blockops.network/ws',
 				label: 'BlockOps'
-			},
-			{
-				key: 'wss://polkadot-rpc.dwellir.com',
-				label: 'Dwellir'
 			},
 			{
 				key: 'wss://polkadot-rpc-tn.dwellir.com',
@@ -53,10 +57,6 @@ const networkConstants: NetworkConstants = {
 				label: 'LuckyFriday'
 			},
 			{
-				key: 'wss://polkadot.api.onfinality.io/public-ws',
-				label: 'OnFinality'
-			},
-			{
 				key: 'wss://rpc.polkadot.io',
 				label: 'Parity'
 			},
@@ -73,7 +73,7 @@ const networkConstants: NetworkConstants = {
 	[Network.WESTEND_COLLECTIVES]: {
 		key: Network.WESTEND_COLLECTIVES,
 		name: 'Westend Collectives',
-		preImageBaseDeposit: '400000000000',
+		preImageBaseDeposit: '40000000000',
 		blockTime: 6000,
 		category: 'solo',
 		logoUrl: '/parachain-logos/westend-logo.svg',
@@ -90,6 +90,52 @@ const networkConstants: NetworkConstants = {
 			{
 				label: 'via IBP',
 				key: 'wss://sys.ibp.network/collectives-westend'
+			}
+		],
+		relayRpcEndpoints: [
+			{
+				key: 'wss://polkadot-rpc.dwellir.com',
+				label: 'Dwellir'
+			},
+			{
+				key: 'wss://polkadot.api.onfinality.io/public-ws',
+				label: 'OnFinality'
+			},
+			{
+				key: 'wss://1rpc.io/dot',
+				label: 'Automata 1RPC'
+			},
+			{
+				key: 'wss://polkadot-public-rpc.blockops.network/ws',
+				label: 'BlockOps'
+			},
+			{
+				key: 'wss://polkadot-rpc-tn.dwellir.com',
+				label: 'Dwellir Tunisia'
+			},
+			{
+				key: 'wss://rpc.ibp.network/polkadot',
+				label: 'IBP-GeoDNS1'
+			},
+			{
+				key: 'wss://rpc.dotters.network/polkadot',
+				label: 'IBP-GeoDNS2'
+			},
+			{
+				key: 'wss://rpc-polkadot.luckyfriday.io',
+				label: 'LuckyFriday'
+			},
+			{
+				key: 'wss://rpc.polkadot.io',
+				label: 'Parity'
+			},
+			{
+				key: 'wss://polkadot.public.curie.radiumblock.co/ws',
+				label: 'RadiumBlock'
+			},
+			{
+				key: 'wss://dot-rpc.stakeworld.io',
+				label: 'Stakeworld'
 			}
 		]
 	}

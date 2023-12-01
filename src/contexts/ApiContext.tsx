@@ -25,12 +25,17 @@ export function ApiContextProvider({ children }: ApiContextProviderProps): React
 
 	const [api, setApi] = useState<ApiPromise>();
 	const [apiReady, setApiReady] = useState(false);
-	const [isApiLoading, setIsApiLoading] = useState(false);
 	const [wsProvider, setWsProvider] = useState<string>(networkConstants[String(currNetwork)]?.rpcEndpoints?.[0]?.key || '');
+
+	const [relayApi, setRelayApi] = useState<ApiPromise>();
+	const [relayApiReady, setRelayApiReady] = useState(false);
+	const [relayWsProvider, setRelayWsProvider] = useState<string>(networkConstants[String(currNetwork)]?.relayRpcEndpoints?.[0]?.key || '');
+
 	const [network, setNetwork] = useState<Network>(currNetwork);
 	const [fellows, setFellows] = useState<IFellow[]>([]);
 
 	const provider = useRef<WsProvider>();
+	const relayProvider = useRef<WsProvider>();
 
 	useEffect(() => {
 		if (!network) return;
@@ -47,8 +52,6 @@ export function ApiContextProvider({ children }: ApiContextProviderProps): React
 	useEffect(() => {
 		if (!api) return;
 
-		setIsApiLoading(true);
-
 		const timer = setTimeout(async () => {
 			queueNotification({
 				header: 'Error!',
@@ -56,7 +59,6 @@ export function ApiContextProvider({ children }: ApiContextProviderProps): React
 				status: 'error'
 			});
 
-			setIsApiLoading(false);
 			await api.disconnect();
 
 			localStorage.removeItem('tracks');
@@ -72,7 +74,6 @@ export function ApiContextProvider({ children }: ApiContextProviderProps): React
 				message: 'RPC is not responding, please change RPC.',
 				status: 'error'
 			});
-			setIsApiLoading(false);
 			await api.disconnect();
 			localStorage.removeItem('tracks');
 			if (!network) return;
@@ -82,7 +83,6 @@ export function ApiContextProvider({ children }: ApiContextProviderProps): React
 		api.isReady
 			.then(async () => {
 				clearTimeout(timer);
-				setIsApiLoading(false);
 				setApiReady(true);
 				// eslint-disable-next-line no-console
 				console.log('API ready');
@@ -103,7 +103,6 @@ export function ApiContextProvider({ children }: ApiContextProviderProps): React
 					message: 'RPC connection error.',
 					status: 'error'
 				});
-				setIsApiLoading(false);
 				await api.disconnect();
 				// eslint-disable-next-line no-console
 				console.error(error);
@@ -118,9 +117,76 @@ export function ApiContextProvider({ children }: ApiContextProviderProps): React
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [api]);
 
+	useEffect(() => {
+		if (!network) return;
+
+		relayProvider.current = new WsProvider(networkConstants[String(network)]?.relayRpcEndpoints?.[0]?.key);
+
+		setRelayApiReady(false);
+		setRelayApi(undefined);
+		if (!relayProvider.current) return;
+
+		setRelayApi(new ApiPromise({ provider: relayProvider.current }));
+	}, [network, relayWsProvider]);
+
+	useEffect(() => {
+		if (!relayApi) return;
+
+		const timer = setTimeout(async () => {
+			queueNotification({
+				header: 'Error!',
+				message: 'Relay RPC connection Timeout.',
+				status: 'error'
+			});
+
+			await relayApi.disconnect();
+
+			if (!network) return;
+			setRelayWsProvider(networkConstants[String(network)]?.relayRpcEndpoints?.[0]?.key);
+		}, 60000);
+
+		relayApi.on('error', async () => {
+			clearTimeout(timer);
+			queueNotification({
+				header: 'Error!',
+				message: 'Relay RPC is not responding, please change RPC.',
+				status: 'error'
+			});
+			await relayApi.disconnect();
+			if (!network) return;
+			setRelayWsProvider(networkConstants[String(network)]?.relayRpcEndpoints?.[1]?.key);
+		});
+
+		relayApi.isReady
+			.then(async () => {
+				clearTimeout(timer);
+				setRelayApiReady(true);
+				// eslint-disable-next-line no-console
+				console.log('Relay API ready');
+			})
+			.catch(async (error) => {
+				clearTimeout(timer);
+				queueNotification({
+					header: 'Error!',
+					message: 'Relay RPC connection error.',
+					status: 'error'
+				});
+				await relayApi.disconnect();
+				// eslint-disable-next-line no-console
+				console.error('Relay API error: ', error);
+				if (!network) return;
+				setRelayWsProvider(networkConstants[String(network)]?.relayRpcEndpoints?.[1]?.key);
+			});
+
+		// eslint-disable-next-line consistent-return
+		return () => clearTimeout(timer);
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [relayApi]);
+
 	const providerValue = useMemo(
-		() => ({ api, apiReady, isApiLoading, setWsProvider, wsProvider, network, setNetwork, fellows }),
-		[api, apiReady, isApiLoading, setWsProvider, wsProvider, network, setNetwork, fellows]
+		() => ({ api, apiReady, relayApi, relayApiReady, network, setNetwork, fellows }),
+		[api, apiReady, network, relayApi, relayApiReady, setNetwork, fellows]
 	);
 
 	return <ApiContext.Provider value={providerValue}>{children}</ApiContext.Provider>;

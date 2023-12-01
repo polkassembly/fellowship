@@ -26,9 +26,8 @@ export interface IFellow {
 export interface ApiContextType {
 	api?: ApiPromise;
 	apiReady: boolean;
-	isApiLoading: boolean;
-	wsProvider: string;
-	setWsProvider: Dispatch<SetStateAction<string>>;
+	relayApi?: ApiPromise;
+	relayApiReady: boolean;
 	network: Network;
 	setNetwork: Dispatch<SetStateAction<Network>>;
 	fellows: IFellow[];
@@ -45,7 +44,7 @@ export type NetworkProperties = {
 	subsquidUrl: string;
 	subscanBaseUrl: string;
 	rpcEndpoints: TRPCEndpoint[];
-	relayRpcEndpoints?: TRPCEndpoint[];
+	relayRpcEndpoints: TRPCEndpoint[];
 	name: string; // to store alphabetical case
 	preImageBaseDeposit?: string;
 };
