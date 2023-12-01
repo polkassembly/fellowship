@@ -7,6 +7,11 @@ import { firestoreDB } from '@/services/firebaseInit';
 
 export const networkDocRef = (networkName: string) => firestoreDB.collection('networks').doc(networkName);
 
+export const usersCollRef = () => firestoreDB.collection('users');
+export const userDocRef = (userId: number) => usersCollRef().doc(String(userId));
+
+export const addressesCollRef = () => firestoreDB.collection('addresses');
+export const addressDocRef = (address: string) => addressesCollRef().doc(address);
 export const postsCollRef = (networkName: string, proposalType: ProposalType) => networkDocRef(networkName).collection('post_types').doc(String(proposalType)).collection('posts');
 
 export const postDocRef = (networkName: string, proposalType: ProposalType, postId: string) => postsCollRef(networkName, proposalType).doc(postId);

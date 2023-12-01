@@ -8,46 +8,41 @@ import { urqlClient } from '@/services/urqlClient';
 import { API_ERROR_CODE } from '@/global/constants/errorCodes';
 import MESSAGES from '@/global/messages';
 import { LISTING_LIMIT } from '@/global/constants/listingLimit';
-import { EActivityFeed, OnChainPostInfo, PostListingItem, ProposalStatus, ProposalType, PublicReactionEntry, SubsquidActivityType } from '@/global/types';
+import { EProfileProposals, OnChainPostInfo, PostListingItem, ProposalStatus, ProposalType, PublicReactionEntry, SubsquidActivityType } from '@/global/types';
 import DEFAULT_POST_TITLE from '@/global/constants/defaultTitle';
 import getDefaultPostContent from '@/utils/getDefaultPostContent';
 import { NextRequest, NextResponse } from 'next/server';
 import dayjs from '@/services/dayjs-init';
-import { GET_FELLOWSHIP_REFERENDUMS } from '../subsquidQueries';
-import getReqBody from '../../api-utils/getReqBody';
-import getNetworkFromHeaders from '../../api-utils/getNetworkFromHeaders';
-import withErrorHandling from '../../api-utils/withErrorHandling';
-import { getPostsReactionsServer } from '../[proposalType]/reactions/utils';
-import { getPostsViewsServer } from '../[proposalType]/views/utils';
-import getFirestoreDocs from './utils';
+import withErrorHandling from '@/app/api/api-utils/withErrorHandling';
+import getReqBody from '@/app/api/api-utils/getReqBody';
+import getNetworkFromHeaders from '@/app/api/api-utils/getNetworkFromHeaders';
+import getEncodedAddress from '@/utils/getEncodedAddress';
+import { GET_FELLOWSHIP_REFERENDUMS, GET_SALARY_PAYOUTS } from '../../../subsquidQueries';
+import { getPostsReactionsServer } from '../../../[proposalType]/reactions/utils';
+import { getPostsViewsServer } from '../../../[proposalType]/views/utils';
+import getFirestoreDocs from '../../../feed/utils';
 
-const getActivityTypes = (feedType: EActivityFeed) => {
-	const all = [
-		SubsquidActivityType.RetentionRequest,
-		SubsquidActivityType.PromotionRequest,
-		SubsquidActivityType.DemotionRequest,
-		SubsquidActivityType.InductionRequest,
-		SubsquidActivityType.RFC,
-		SubsquidActivityType.GeneralProposal
-	];
-	switch (feedType) {
-		case EActivityFeed.PENDING:
-		case EActivityFeed.ALL:
-			return all;
-		case EActivityFeed.GENERAL_PROPOSALS:
+const getActivityTypes = (profileProposalsType: EProfileProposals) => {
+	switch (profileProposalsType) {
+		case EProfileProposals.GENERAL_PROPOSALS:
 			return [SubsquidActivityType.GeneralProposal];
-		case EActivityFeed.RFC_PROPOSALS:
-			return [SubsquidActivityType.RFC];
-		case EActivityFeed.RANK_REQUESTS:
+		case EProfileProposals.SALARY_REQUESTS:
+			return [SubsquidActivityType.SalaryInduction, SubsquidActivityType.Payout, SubsquidActivityType.Registration];
+		case EProfileProposals.RANK_REQUESTS:
 			return [SubsquidActivityType.RetentionRequest, SubsquidActivityType.PromotionRequest, SubsquidActivityType.DemotionRequest, SubsquidActivityType.InductionRequest];
 		default:
-			return all;
+			return [SubsquidActivityType.GeneralProposal];
 	}
 };
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
-export const POST = withErrorHandling(async (req: NextRequest) => {
-	const { feedType, page = 1 } = await getReqBody(req);
+export const POST = withErrorHandling(async (req: NextRequest, { params }) => {
+	const { profileProposalsType, page = 1 } = await getReqBody(req);
+	const { address = '' } = params;
+
+	if (!address) {
+		throw new APIError(`${MESSAGES.INVALID_PARAMS_ERROR}`, 500, API_ERROR_CODE.INVALID_PARAMS_ERROR);
+	}
 
 	if (!page || isNaN(page) || Number(page) < 1) throw new APIError(`${MESSAGES.REQ_BODY_ERROR}`, 500, API_ERROR_CODE.REQ_BODY_ERROR);
 
@@ -56,23 +51,42 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
 
 	const gqlClient = urqlClient(network);
 
-	const types = getActivityTypes(feedType);
+	const types = getActivityTypes(profileProposalsType);
+	const encodedAddress = getEncodedAddress(address, network);
+
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const variables: any = {
 		limit: LISTING_LIMIT,
-		offset: (page - 1) * LISTING_LIMIT
+		offset: (page - 1) * LISTING_LIMIT,
+		who_eq: encodedAddress
 	};
 	if (types) {
 		variables.type_in = types;
 	}
-	const result = await gqlClient.query(GET_FELLOWSHIP_REFERENDUMS, variables).toPromise();
 
+	if (profileProposalsType === EProfileProposals.SALARY_REQUESTS) {
+		const result = await gqlClient.query(GET_SALARY_PAYOUTS, variables).toPromise();
+
+		if (result.error) throw new APIError(`${result.error || MESSAGES.SUBSQUID_FETCH_ERROR}`, 500, API_ERROR_CODE.SUBSQUID_FETCH_ERROR);
+
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		const payouts = (result?.data?.activities || []).map((item: any) => {
+			return {
+				type: item.type,
+				who: item.who,
+				...item.payout
+			};
+		});
+		return NextResponse.json(payouts);
+	}
+	const result = await gqlClient.query(GET_FELLOWSHIP_REFERENDUMS, variables).toPromise();
 	if (result.error) throw new APIError(`${result.error || MESSAGES.SUBSQUID_FETCH_ERROR}`, 500, API_ERROR_CODE.SUBSQUID_FETCH_ERROR);
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const onChainProposals = (result?.data?.activities || []).map((item: any) => {
 		return {
 			type: item.type,
+			who: item.who,
 			...item.proposal
 		};
 	});

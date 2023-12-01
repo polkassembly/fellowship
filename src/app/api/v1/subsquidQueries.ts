@@ -5,8 +5,8 @@
 import { gql } from '@urql/core';
 
 export const GET_FELLOWSHIP_REFERENDUMS = gql`
-	query GET_FELLOWSHIP_REFERENDUMS($limit: Int = 10, $offset: Int = 0, $type_in: [ActivityType!]) {
-		activities(where: { type_in: $type_in }, limit: $limit, offset: $offset, orderBy: proposal_createdAt_DESC) {
+	query GET_FELLOWSHIP_REFERENDUMS($limit: Int = 10, $offset: Int = 0, $type_in: [ActivityType!], $who_eq: String) {
+		activities(where: { type_in: $type_in, who_eq: $who_eq }, limit: $limit, offset: $offset, orderBy: proposal_createdAt_DESC) {
 			type
 			proposal {
 				id
@@ -20,6 +20,35 @@ export const GET_FELLOWSHIP_REFERENDUMS = gql`
 				tally {
 					ayes
 					nays
+				}
+			}
+			who
+		}
+	}
+`;
+
+export const GET_SALARY_PAYOUTS = gql`
+	query GET_SALARY_PAYOUTS($limit: Int = 10, $offset: Int = 0, $type_in: [ActivityType!], $who_eq: String) {
+		activities(where: { type_in: $type_in, who_eq: $who_eq }, limit: $limit, offset: $offset, orderBy: proposal_createdAt_DESC) {
+			type
+			who
+			payout {
+				amount
+				beneficiary
+				createdAt
+				createdAtBlock
+				id
+				extrinsicIndex
+				who
+				cycleIndex {
+					budget
+					cycleIndex
+					cycleStart
+					cycleStartDatetime
+					extrinsicIndex
+					id
+					totalRegistrations
+					totalUnregisteredPaid
 				}
 			}
 		}
