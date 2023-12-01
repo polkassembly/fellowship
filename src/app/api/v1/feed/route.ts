@@ -72,7 +72,7 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	let onChainProposals = (result?.data?.activities || []).map((item: any) => {
 		return {
-			type: item.type,
+			activityType: item.type,
 			...item.proposal
 		};
 	});
@@ -108,7 +108,8 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
 			tally: {
 				ayes: String(onChainProposalObj.tally?.ayes ?? 0),
 				nays: String(onChainProposalObj.tally?.nays ?? 0)
-			}
+			},
+			activity_type: onChainProposalObj.activityType
 		};
 
 		const postListingItem: PostListingItem = {
