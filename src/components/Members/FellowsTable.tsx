@@ -27,7 +27,7 @@ function FellowsTable({ className, fellows, fellowsDetails }: Props) {
 			<TableHeader>
 				<TableColumn>Members</TableColumn>
 				<TableColumn>Class</TableColumn>
-				<TableColumn>Since</TableColumn>
+				{/* <TableColumn>Since</TableColumn> */}
 				<TableColumn>Proposals Created</TableColumn>
 				<TableColumn>Proposals Voted</TableColumn>
 				<TableColumn>Github Contributions</TableColumn>
@@ -59,9 +59,9 @@ function FellowsTable({ className, fellows, fellowsDetails }: Props) {
 							/>
 						</TableCell>
 
-						<TableCell>
-							{/* TODO: Add since */}
-							{/* <div className='flex items-center whitespace-nowrap text-xs'>
+						{/* TODO: Add since */}
+						{/* <TableCell>
+							<div className='flex items-center whitespace-nowrap text-xs'>
 								<Image
 									alt='icon'
 									src='/icons/clock.svg'
@@ -69,9 +69,8 @@ function FellowsTable({ className, fellows, fellowsDetails }: Props) {
 									height={12}
 								/>
 								&nbsp;Since 26th Jul 23
-							</div> */}
-							-
-						</TableCell>
+							</div>
+						</TableCell> */}
 
 						<TableCell className='font-semibold'>{fellowsDetails?.[fellow.address].proposalsCreated ?? '-'}</TableCell>
 						<TableCell className='font-semibold'>{fellowsDetails?.[fellow.address].proposalsVotedOn ?? '-'}</TableCell>
