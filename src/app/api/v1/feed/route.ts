@@ -31,7 +31,7 @@ const getActivityTypes = (feedType: EActivityFeed) => {
 		SubsquidActivityType.GeneralProposal
 	];
 	switch (feedType) {
-		case EActivityFeed.PENDING:
+		// case EActivityFeed.PENDING:
 		case EActivityFeed.ALL:
 			return all;
 		case EActivityFeed.GENERAL_PROPOSALS:

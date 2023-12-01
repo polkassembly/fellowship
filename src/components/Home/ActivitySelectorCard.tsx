@@ -42,8 +42,6 @@ function ActivitySelectorCard({ value = EActivityFeed.ALL }: { value?: EActivity
 						classNames={{
 							label: 'flex items-center'
 						}}
-						disabled={feedType !== EActivityFeed.ALL}
-						isDisabled={feedType !== EActivityFeed.ALL}
 					>
 						<span className='text-xs capitalize'>{feedType.replaceAll('-', ' ')}</span>
 					</Radio>
