@@ -16,6 +16,7 @@ import { useApiContext } from '@/contexts';
 import LoadingSpinner from '@/components/Misc/LoadingSpinner';
 import PostListingCard from '@/components/Home/PostListingCard';
 import { Divider } from '@nextui-org/divider';
+import LinkWithNetwork from '@/components/Misc/LinkWithNetwork';
 import SalaryPayouts from './SalaryPayouts';
 
 interface Props {
@@ -102,7 +103,7 @@ function ProfileProposals({ address }: Props) {
 
 	return (
 		<Card className='rounded-[20px] border border-primary_border'>
-			<div className='border-b px-4 py-6'>
+			<div className='flex items-center justify-between border-b border-primary_border px-4 py-6'>
 				<Dropdown>
 					<DropdownTrigger>
 						<Button
@@ -132,6 +133,12 @@ function ProfileProposals({ address }: Props) {
 						))}
 					</DropdownMenu>
 				</Dropdown>
+				<LinkWithNetwork
+					href={`/address/${address}/create-rank-request`}
+					className='rounded-[39px] border border-primary px-3 py-1 text-sm font-medium leading-[21px] tracking-[0.21px] text-primary'
+				>
+					Create Rank Request
+				</LinkWithNetwork>
 			</div>
 			<div className='overflow-hidden'>
 				{loading ? (
