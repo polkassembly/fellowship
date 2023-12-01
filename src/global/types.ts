@@ -55,11 +55,17 @@ export type NetworkConstants = {
 };
 
 export enum EActivityFeed {
-	PENDING = 'pending',
+	// PENDING = 'pending',
 	ALL = 'all',
 	GENERAL_PROPOSALS = 'general-proposals',
 	RANK_REQUESTS = 'rank-requests',
 	RFC_PROPOSALS = 'rfc-proposals'
+}
+
+export enum EProfileProposals {
+	GENERAL_PROPOSALS = 'general-proposals',
+	RANK_REQUESTS = 'rank-requests',
+	SALARY_REQUESTS = 'salary-requests'
 }
 
 export type ErrorBoundaryPageProps = { error: Error; reset: () => void };
@@ -280,6 +286,7 @@ export enum SubsquidActivityType {
 	Inducted = 'Inducted',
 	Registration = 'Registration',
 	Payout = 'Payout',
+	SalaryInduction = 'SalaryInduction',
 	CycleStarted = 'CycleStarted',
 	OffBoarded = 'OffBoarded',
 	ActivityChanged = 'ActivityChanged',
@@ -325,6 +332,33 @@ export interface PostListingItem {
 
 	reactions?: PublicReactionEntry[];
 	views?: PostView[];
+}
+
+export interface PayoutListingItem {
+	id: number;
+	amount: string;
+	beneficiary: string;
+	createdAt: string;
+	createdAtBlock: string;
+	extrinsicIndex: string;
+	who: string;
+	type: string;
+	cycleIndex: {
+		budget: string;
+		cycleIndex: string;
+		cycleStart: string;
+		cycleStartDatetime: string;
+		extrinsicIndex: string;
+		id: string;
+		totalRegistrations: string;
+		totalUnregisteredPaid: string;
+	};
+	rank: number;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	otherActions: any;
+	salaryCycle?: {
+		cycleIndex: number;
+	};
 }
 
 export interface CreatePostResponseType extends MessageType {
@@ -428,4 +462,10 @@ export interface IFellowDataResponse {
 		proposalsVotedOn: number;
 		proposalsCreated: number;
 	};
+}
+
+export interface IProfile {
+	user_id: number;
+	manifesto: string;
+	address: string;
 }

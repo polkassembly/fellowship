@@ -8,6 +8,7 @@ import { Divider } from '@nextui-org/divider';
 import { ActivityType, PostListingItem, ProposalType } from '@/global/types';
 import { getSinglePostLinkFromProposalType } from '@/utils/getSinglePostLinkFromProposalType';
 import VOTABLE_STATUSES from '@/global/constants/votableStatuses';
+import classNames from 'classnames';
 import PostActionBar from '../Post/PostActionBar';
 import PostReactionInfoBar from '../Post/PostReactionInfoBar';
 import ContentListingHeader from '../Post/ContentListingHeader';
@@ -20,14 +21,16 @@ const SHOW_NOT_VOTED = false;
 
 interface Props {
 	feedItem: PostListingItem;
+	cardClassName?: string;
+	isDividerDisabled?: boolean;
 }
 
-function PostListingCard({ feedItem }: Props) {
+function PostListingCard({ feedItem, cardClassName, isDividerDisabled }: Props) {
 	return (
 		<article>
 			<Card
 				shadow='none'
-				className='border border-primary_border'
+				className={classNames('border border-primary_border', cardClassName)}
 				isHoverable
 				isPressable
 				as={LinkWithNetwork}
@@ -57,7 +60,8 @@ function PostListingCard({ feedItem }: Props) {
 						totalReactions={feedItem.reactions_count}
 						commentCount={feedItem.comments_count}
 					/>
-					<Divider />
+					{isDividerDisabled ? null : <Divider />}
+
 					<PostActionBar
 						postId={feedItem.id}
 						postType={feedItem.proposalType}
