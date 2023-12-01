@@ -58,7 +58,8 @@ export enum EActivityFeed {
 	PENDING = 'pending',
 	ALL = 'all',
 	GENERAL_PROPOSALS = 'general-proposals',
-	RANK_REQUESTS = 'rank-requests'
+	RANK_REQUESTS = 'rank-requests',
+	RFC_PROPOSALS = 'rfc-proposals'
 }
 
 export type ErrorBoundaryPageProps = { error: Error; reset: () => void };
@@ -129,7 +130,38 @@ export type PublicReactionEntry = {
 	created_at: Date;
 	updated_at?: Date;
 	user_id: number;
-	id: number;
+	id: number | string;
+};
+
+export type PostView = {
+	id: string;
+	views_count: number;
+	user_id: number;
+	created_at: Date;
+	updated_at?: Date;
+	username?: string;
+};
+
+export type PostIdWithViews = {
+	postId: string | number;
+	views: PostView[];
+};
+
+export type PostIdWithReactions = {
+	postId: string | number;
+	reactions: PublicReactionEntry[];
+};
+
+export type Vote = {
+	decision: 'yes' | 'no';
+	type: 'Fellowship';
+	voter: string;
+	timestamp: string;
+	proposalIndex: number;
+	blockNumber: number;
+	balance: {
+		value: string;
+	};
 };
 
 export enum Role {
@@ -236,6 +268,25 @@ export enum ProposalType {
 	DISCUSSIONS = 'discussions'
 }
 
+export enum SubsquidActivityType {
+	RetentionRequest = 'RetentionRequest',
+	PromotionRequest = 'PromotionRequest',
+	DemotionRequest = 'DemotionRequest',
+	InductionRequest = 'InductionRequest',
+	Promoted = 'Promoted',
+	Retained = 'Retained',
+	Demoted = 'Demoted',
+	GeneralProposal = 'GeneralProposal',
+	Inducted = 'Inducted',
+	Registration = 'Registration',
+	Payout = 'Payout',
+	CycleStarted = 'CycleStarted',
+	OffBoarded = 'OffBoarded',
+	ActivityChanged = 'ActivityChanged',
+	RFC = 'RFC',
+	EvidenceSubmitted = 'EvidenceSubmitted'
+}
+
 export enum SubsquidProposalType {
 	FELLOWSHIP_REFERENDUMS = 'FellowshipReferendum'
 }
@@ -251,6 +302,10 @@ export interface OnChainPostInfo {
 	};
 	created_at?: Date;
 	updated_at?: Date;
+	total_votes?: {
+		yes: number;
+		no: number;
+	};
 }
 
 export interface PostListingItem {
@@ -267,6 +322,9 @@ export interface PostListingItem {
 	reactions_count: number;
 	latest_reaction: PublicReactionEntry | null;
 	shares_count: number;
+
+	reactions?: PublicReactionEntry[];
+	views?: PostView[];
 }
 
 export interface CreatePostResponseType extends MessageType {
@@ -294,6 +352,9 @@ export interface IPost {
 	shares_count: number;
 	views_count: number;
 	inductee_address?: string;
+
+	reactions?: PublicReactionEntry[];
+	views?: PostView[];
 }
 
 export interface ICommentHistory {

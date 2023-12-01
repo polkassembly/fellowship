@@ -13,7 +13,6 @@ import { useRouter } from 'next/navigation';
 import networkConstants from '@/global/networkConstants';
 import { Network, NetworkProperties } from '@/global/types';
 import { useApiContext } from '@/contexts';
-import LinkWithNetwork from '../Misc/LinkWithNetwork';
 
 function NetworkDropdown() {
 	const router = useRouter();
@@ -68,7 +67,7 @@ function NetworkDropdown() {
 							/>
 						}
 					>
-						<LinkWithNetwork href='/'>{networkObj.name}</LinkWithNetwork>
+						{networkObj.name}
 					</DropdownItem>
 				))}
 			</DropdownMenu>

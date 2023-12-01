@@ -48,7 +48,7 @@ export default async function Home({ searchParams }: ServerComponentProps<unknow
 			<div className='flex flex-col items-center gap-8 xl:flex-row xl:items-start'>
 				<div className='flex w-full flex-col gap-y-4'>
 					<ActivitySelectorCard value={feed as EActivityFeed} />
-					<ActivityFeed items={feedItems} />
+					<ActivityFeed items={feedItems || []} />
 				</div>
 				<div className='flex w-6/12 flex-col gap-y-4 xl:w-4/12'>
 					<Stats />

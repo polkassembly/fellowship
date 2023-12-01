@@ -20,14 +20,14 @@ export const metadata: Metadata = {
 	description: 'Fellowship never felt so good before. - Home'
 };
 
-export default async function GeneralProposalsPage({ searchParams }: ServerComponentProps<unknown, SearchParamProps>) {
+export default async function RFCProposalsPage({ searchParams }: ServerComponentProps<unknown, SearchParamProps>) {
 	// TODO: default should be pending if user is logged in and is a fellow
 	const { network } = searchParams ?? {};
 
 	const headersList = headers();
 	const originUrl = getOriginUrl(headersList);
 
-	const feedItems = await getActivityFeed({ feedType: EActivityFeed.GENERAL_PROPOSALS, originUrl, network: network as Network });
+	const feedItems = await getActivityFeed({ feedType: EActivityFeed.RFC_PROPOSALS, originUrl, network: network as Network });
 
 	return (
 		<div className='flex w-full flex-col gap-y-8'>
@@ -40,12 +40,12 @@ export default async function GeneralProposalsPage({ searchParams }: ServerCompo
 					className='mr-2'
 				/>
 				<div>
-					<h3 className='text-xl font-semibold leading-6'>General Proposals</h3>
+					<h3 className='text-xl font-semibold leading-6'>RFC Proposals</h3>
 				</div>
 			</div>
 
 			<VotingProposalsFeed
-				feedType={EActivityFeed.GENERAL_PROPOSALS}
+				feedType={EActivityFeed.RFC_PROPOSALS}
 				items={feedItems}
 			/>
 		</div>

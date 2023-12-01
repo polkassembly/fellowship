@@ -7,22 +7,22 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { PostListingItem, ProposalType, EActivityFeed } from '@/global/types';
 import { parseAsInteger, useQueryState } from 'next-usequerystate';
-import { useParams, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import getActivityFeed from '@/app/api/v1/feed/getActivityFeed';
 import getOriginUrl from '@/utils/getOriginUrl';
 import { ScrollShadow } from '@nextui-org/scroll-shadow';
 import { useApiContext } from '@/contexts';
-import PostListingCard from './PostListingCard';
 import LoadingSpinner from '../Misc/LoadingSpinner';
+import PostListingCard from '../Home/PostListingCard';
 
 // import InductionListingCard from './InductionListingCard';
 
 interface Props {
 	items: PostListingItem[];
+	feedType: EActivityFeed;
 }
 
-function ActivityFeed({ items }: Props) {
-	const { feed = EActivityFeed.ALL } = useParams();
+function VotingProposalsFeed({ items, feedType }: Props) {
 	const pathname = usePathname();
 
 	const { network } = useApiContext();
@@ -55,7 +55,7 @@ function ActivityFeed({ items }: Props) {
 						setIsFetching(true);
 						const originUrl = getOriginUrl();
 						const nextPage = page ? page + 1 : 1;
-						const newFeedItems = await getActivityFeed({ feedType: feed as EActivityFeed, originUrl, page: nextPage, network });
+						const newFeedItems = await getActivityFeed({ feedType, originUrl, page: nextPage, network });
 
 						if (newFeedItems.length) {
 							const feedItemsMap: {
@@ -89,7 +89,7 @@ function ActivityFeed({ items }: Props) {
 			}
 		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [feed, observerTarget, page]);
+	}, [observerTarget, page, feedType]);
 
 	if (!feedItems.length) {
 		return <div className='p-6 text-center text-sm'>No feed items found.</div>;
@@ -122,4 +122,4 @@ function ActivityFeed({ items }: Props) {
 	);
 }
 
-export default ActivityFeed;
+export default VotingProposalsFeed;

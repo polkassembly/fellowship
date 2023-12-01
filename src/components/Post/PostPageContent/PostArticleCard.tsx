@@ -107,7 +107,13 @@ function PostArticleCard({ className, onlyDescriptionTab }: Props) {
 
 				<Divider />
 
-				<PostActionBar className='px-6 pr-9' />
+				<PostActionBar
+					postId={postData.id}
+					postType={postData.proposalType}
+					className='px-6 pr-9'
+					reactions={postData?.reactions}
+					views={postData?.views}
+				/>
 			</Card>
 		</article>
 	);

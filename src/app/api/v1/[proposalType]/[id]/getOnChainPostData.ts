@@ -8,7 +8,7 @@ import MESSAGES from '@/global/messages';
 import { Network, OnChainPostInfo, ProposalStatus, ProposalType } from '@/global/types';
 import { urqlClient } from '@/services/urqlClient';
 import firestoreToSubsquidProposalType from '@/utils/firestoreToSubsquidProposalType';
-import { GET_REFERENDUM } from '../../subsquidQueries';
+import { GET_REFERENDUM, GET_VOTES_COUNT } from '../../subsquidQueries';
 
 interface Params {
 	network: Network;
@@ -23,6 +23,20 @@ export async function getOnChainPostData({ network, id, proposalType }: Params) 
 		.query(GET_REFERENDUM, {
 			index_eq: Number(id),
 			type_eq: firestoreToSubsquidProposalType(proposalType)
+		})
+		.toPromise();
+
+	const { data: subsquidYesVotesCountRes } = await gqlClient
+		.query(GET_VOTES_COUNT, {
+			index_eq: Number(id),
+			decision_eq: 'yes'
+		})
+		.toPromise();
+
+	const { data: subsquidNoVotesCountRes } = await gqlClient
+		.query(GET_VOTES_COUNT, {
+			index_eq: Number(id),
+			decision_eq: 'no'
 		})
 		.toPromise();
 
@@ -41,6 +55,10 @@ export async function getOnChainPostData({ network, id, proposalType }: Params) 
 		tally: {
 			ayes: String(subsquidPost.tally?.ayes ?? 0),
 			nays: String(subsquidPost.tally?.nays ?? 0)
+		},
+		total_votes: {
+			yes: subsquidYesVotesCountRes?.votesConnection?.totalCount || 0,
+			no: subsquidNoVotesCountRes?.votesConnection?.totalCount || 0
 		}
 	} as OnChainPostInfo;
 }

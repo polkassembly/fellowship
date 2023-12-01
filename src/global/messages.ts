@@ -11,6 +11,7 @@ const MESSAGES = {
 	[API_ERROR_CODE.SUBSQUID_FETCH_ERROR]: 'Something went wrong while fetching onchain data. Please try again later.',
 	[API_ERROR_CODE.REQ_BODY_ERROR]: 'Something went wrong while parsing the request body.',
 	[API_ERROR_CODE.CLIENT_ERROR]: 'Something went wrong while fetching data on the client. Please try again later.',
+	[API_ERROR_CODE.REACTION_ACTION_ERROR]: 'Something went wrong while doing reaction action. Please try again later.',
 	[API_ERROR_CODE.POST_NOT_FOUND_ERROR]: 'Post not found.'
 };
 

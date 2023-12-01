@@ -5,19 +5,22 @@
 import { gql } from '@urql/core';
 
 export const GET_FELLOWSHIP_REFERENDUMS = gql`
-	query GET_FELLOWSHIP_REFERENDUMS($limit: Int = 10, $offset: Int = 0) {
-		proposals(where: { type_eq: FellowshipReferendum }, limit: $limit, offset: $offset, orderBy: createdAt_DESC) {
-			id
-			description
-			index
-			status
-			trackNumber
-			proposer
-			updatedAt
-			createdAt
-			tally {
-				ayes
-				nays
+	query GET_FELLOWSHIP_REFERENDUMS($limit: Int = 10, $offset: Int = 0, $type_in: [ActivityType!]) {
+		activities(where: { type_in: $type_in }, limit: $limit, offset: $offset, orderBy: proposal_createdAt_DESC) {
+			type
+			proposal {
+				id
+				description
+				index
+				status
+				trackNumber
+				proposer
+				updatedAt
+				createdAt
+				tally {
+					ayes
+					nays
+				}
 			}
 		}
 	}
@@ -38,6 +41,37 @@ export const GET_REFERENDUM = gql`
 				ayes
 				nays
 			}
+		}
+	}
+`;
+
+export const GET_VOTES_COUNT = gql`
+	query GET_VOTES_COUNT($index_eq: Int! = 5, $decision_eq: VoteDecision = yes) {
+		votesConnection(orderBy: id_ASC, where: { proposalIndex_eq: $index_eq, decision_eq: $decision_eq }) {
+			totalCount
+		}
+	}
+`;
+
+export const GET_VOTES = gql`
+	query GET_VOTES($limit: Int = 10, $offset: Int = 0, $index_eq: Int! = 44, $type_eq: VoteType = Fellowship, $decision_eq: VoteDecision = yes) {
+		votes(limit: $limit, offset: $offset, where: { type_eq: $type_eq, proposalIndex_eq: $index_eq, decision_eq: $decision_eq }) {
+			balance {
+				... on StandardVoteBalance {
+					value
+				}
+				... on SplitVoteBalance {
+					aye
+					nay
+					abstain
+				}
+			}
+			blockNumber
+			type
+			voter
+			timestamp
+			proposalIndex
+			decision
 		}
 	}
 `;

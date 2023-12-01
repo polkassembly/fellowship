@@ -6,7 +6,7 @@ import { Card } from '@nextui-org/card';
 import React from 'react';
 import { Divider } from '@nextui-org/divider';
 // import { ActivityType } from '@/global/types';
-import PostActionBar from '../Post/PostActionBar';
+// import PostActionBar from '../Post/PostActionBar';
 // import PostReactionInfoBar from '../Post/PostReactionInfoBar';
 // import PostListingHeader from '../Post/PostListingHeader';
 
@@ -23,7 +23,8 @@ function InductionListingCard() {
 				/> */}
 				{/* <PostReactionInfoBar /> */}
 				<Divider />
-				<PostActionBar />
+				{/* TODO: postId, proposalType props */}
+				{/* <PostActionBar /> */}
 			</Card>
 		</article>
 	);

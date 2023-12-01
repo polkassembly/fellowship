@@ -77,6 +77,11 @@ const navItems: NavItem[] = [
 		subItem: true
 	},
 	{
+		label: 'RFC Proposals',
+		url: '/rfc-proposals',
+		subItem: true
+	},
+	{
 		label: 'Members',
 		icon: 'users',
 		url: '/members'
