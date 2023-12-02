@@ -5,6 +5,7 @@
 
 'use client';
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
 import midTruncateText from '@/utils/midTruncateText';
 import getEncodedAddress from '@/utils/getEncodedAddress';
@@ -17,6 +18,7 @@ interface BaseProps {
 	variant: 'inline' | 'dropdownItem';
 	address: string;
 	truncateCharLen?: number;
+	iconSize?: number;
 }
 
 interface AddressInlineProps extends BaseProps {
@@ -31,6 +33,8 @@ interface AddressDropdownItemProps extends BaseProps {
 type Props = AddressInlineProps | AddressDropdownItemProps;
 
 function Address(props: Props) {
+	const iconSize = props.iconSize || 20;
+
 	const { network, relayApi, relayApiReady } = useApiContext();
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const [onChainIdentity, setOnChainIdentity] = useState<any>();
@@ -68,18 +72,22 @@ function Address(props: Props) {
 		case 'inline':
 			return (
 				<AddressInline
+					onChainIdentity={onChainIdentity}
 					className={props.className}
 					address={encodedAddress}
 					addressDisplayText={truncatedUsername || addressDisplayText}
+					iconSize={iconSize}
 				/>
 			);
 		case 'dropdownItem':
 			return (
 				<AddressDropdownItem
+					onChainIdentity={onChainIdentity}
 					className={props.className}
 					name={props.name || onChainUsername || ''}
 					address={encodedAddress}
 					addressDisplayText={addressDisplayText}
+					iconSize={iconSize}
 				/>
 			);
 		default:

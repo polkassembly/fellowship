@@ -170,7 +170,10 @@ const InductMemberForm = forwardRef(({ setSetsubmitBtnText, setSuccessDetails }:
 		};
 
 		const onSuccess = async () => {
-			const postId = Number(await api.query.fellowshipReferenda.referendumCount());
+			let postId = Number(await api.query.fellowshipReferenda.referendumCount()) - 1;
+			if (postId < 0) {
+				postId = 0;
+			}
 
 			saveNewProposal({
 				postId,

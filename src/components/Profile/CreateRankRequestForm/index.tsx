@@ -139,7 +139,11 @@ function CreateRankRequestForm({ address, formRef, setSubmitBtnText }: Props) {
 		};
 
 		const onSuccess = async () => {
-			const postId = Number(await api.query.fellowshipReferenda.referendumCount());
+			let postId = Number(await api.query.fellowshipReferenda.referendumCount()) - 1;
+
+			if (postId < 0) {
+				postId = 0;
+			}
 
 			const { title, description } = getValues();
 

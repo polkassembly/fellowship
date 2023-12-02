@@ -5,6 +5,7 @@
 import midTruncateText from '@/utils/midTruncateText';
 import Identicon from '@polkadot/react-identicon';
 import React from 'react';
+import IdentityBadge from './IdentityBadge';
 
 interface Props {
 	address: string;
@@ -12,9 +13,12 @@ interface Props {
 	addressDisplayText?: string;
 	startChars?: number;
 	endChars?: number;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	onChainIdentity?: any;
+	iconSize?: number;
 }
 
-function AddressInline({ address, addressDisplayText, className, startChars, endChars }: Props) {
+function AddressInline({ address, addressDisplayText, className, startChars, endChars, onChainIdentity, iconSize = 20 }: Props) {
 	return (
 		<div
 			className={`${className} flex flex-row items-center gap-1.5`}
@@ -23,8 +27,13 @@ function AddressInline({ address, addressDisplayText, className, startChars, end
 			<Identicon
 				className='image identicon'
 				value={address}
-				size={20}
+				size={iconSize}
 				theme='polkadot'
+			/>
+
+			<IdentityBadge
+				onChainIdentity={onChainIdentity}
+				iconSize={iconSize}
 			/>
 
 			<p className='text-xs'>

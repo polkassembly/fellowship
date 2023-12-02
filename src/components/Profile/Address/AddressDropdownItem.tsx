@@ -4,15 +4,19 @@
 
 import Identicon from '@polkadot/react-identicon';
 import React from 'react';
+import IdentityBadge from './IdentityBadge';
 
 interface Props {
 	name: string;
 	address: string;
 	className?: string;
 	addressDisplayText?: string;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	onChainIdentity?: any;
+	iconSize?: number;
 }
 
-function AddressDropdownItem({ name, address, addressDisplayText, className }: Props) {
+function AddressDropdownItem({ name, address, addressDisplayText, className, onChainIdentity, iconSize = 24 }: Props) {
 	return (
 		<div
 			className={`${className} flex flex-row items-center gap-3`}
@@ -21,8 +25,13 @@ function AddressDropdownItem({ name, address, addressDisplayText, className }: P
 			<Identicon
 				className='image identicon'
 				value={address}
-				size={24}
+				size={iconSize}
 				theme='polkadot'
+			/>
+
+			<IdentityBadge
+				onChainIdentity={onChainIdentity}
+				iconSize={iconSize}
 			/>
 
 			<span className='text-start'>
