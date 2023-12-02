@@ -128,6 +128,19 @@ export const GET_REFERENDUM = gql`
 				}
 				type
 				submittedAtBlock
+				deciding {
+					confirming
+					since
+				}
+				decisionDeposit {
+					amount
+					who
+				}
+				submissionDeposit {
+					amount
+					who
+				}
+				deposit
 			}
 			who
 		}

@@ -62,6 +62,11 @@ export async function getOnChainPostData({ network, id }: Params) {
 			no: subsquidNoVotesCountRes?.votesConnection?.totalCount || 0
 		},
 		preimage: subsquidPost?.preimage,
+		proposal_arguments: subsquidPost?.proposalArguments,
+		deciding: subsquidPost?.deciding,
+		decision_deposit: subsquidPost?.decisionDeposit,
+		submission_deposit: subsquidPost?.submissionDeposit,
+		deposit: subsquidPost?.deposit,
 		statusHistory: subsquidPost?.statusHistory || []
 	} as OnChainPostInfo;
 }

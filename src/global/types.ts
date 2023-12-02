@@ -339,6 +339,26 @@ export interface OnChainPostInfo {
 	};
 	statusHistory?: SingleStatus[];
 	activity_type: SubsquidActivityType;
+	proposal_arguments?: {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		args: any;
+		description: string;
+		method: string;
+		section: string;
+	};
+	deciding?: {
+		confirming: number;
+		since: number;
+	} | null;
+	decision_deposit?: {
+		amount: number;
+		who: string;
+	} | null;
+	submission_deposit?: {
+		amount: number;
+		who: string;
+	} | null;
+	deposit?: number;
 }
 
 export interface PostListingItem {
