@@ -69,54 +69,8 @@ function CreateRankRequestForm({ address, formRef, setSubmitBtnText }: Props) {
 		preimageLength: 0,
 		postId: 0
 	});
-	const [evidenceSubmitted, setEvidenceSubmitted] = useState(false);
 
 	const currentRank = fellows.find((fellow) => fellow.address === address)?.rank;
-
-	const handleSubmitEvidence = async (evidence: string) => {
-		if (!api || !apiReady || !selectedAddress) return;
-
-		const wish = rankRequestType === RankRequestType.PROMOTE ? 'Promotion' : 'Retention';
-
-		const tx = api.tx?.fellowshipCore.submitEvidence(wish, evidence);
-
-		const onFailed = (message: string) => {
-			setLoading(false);
-			setTxStatus('');
-			setSubmitBtnText?.('Submit Evidence');
-			queueNotification({
-				header: 'Submit Evidence Transaction Failed!',
-				message,
-				status: 'error'
-			});
-		};
-
-		const onSuccess = () => {
-			setEvidenceSubmitted(true);
-			setSubmitBtnText?.('Submit Proposal 2/2');
-			setLoading(false);
-			setTxStatus('');
-			queueNotification({
-				header: 'Transaction Successful!',
-				message: 'Preimage created successfully.',
-				status: 'success'
-			});
-		};
-
-		setLoading(true);
-
-		await executeTx({
-			address: selectedAddress.address,
-			api,
-			apiReady,
-			errorMessageFallback: 'Error while executing transaction. Please try again.',
-			network,
-			onFailed,
-			onSuccess,
-			tx,
-			setStatus: (status: string) => setTxStatus(status)
-		});
-	};
 
 	const handleSubmitProposal = async (preimage: IPreimage) => {
 		if (!id || !api || !apiReady || !selectedAddress || !preimage || !preimage.notePreimageTx || !address) return;
@@ -125,7 +79,17 @@ function CreateRankRequestForm({ address, formRef, setSubmitBtnText }: Props) {
 
 		const proposalTx = api.tx.fellowshipReferenda.submit(proposalOrigin, { Lookup: { hash: preimage.preimageHash, len: String(preimage.preimageLength) } }, { After: BN_HUNDRED });
 
-		const tx = api.tx.utility.batchAll([preimage.notePreimageTx, proposalTx]);
+		const txArr = [preimage.notePreimageTx, proposalTx];
+
+		const { evidence } = getValues();
+
+		if (evidence) {
+			const wish = rankRequestType === RankRequestType.PROMOTE ? 'Promotion' : 'Retention';
+			const evidenceTx = api.tx?.fellowshipCore.submitEvidence(wish, evidence);
+			txArr.unshift(evidenceTx);
+		}
+
+		const tx = api.tx.utility.batchAll(txArr);
 
 		const onFailed = (message: string) => {
 			setLoading(false);
@@ -168,6 +132,8 @@ function CreateRankRequestForm({ address, formRef, setSubmitBtnText }: Props) {
 
 			setLoading(false);
 
+			setSubmitBtnText?.('Proposal Submitted');
+
 			setSuccessDetails({
 				proposer: selectedAddress.address,
 				address,
@@ -178,6 +144,7 @@ function CreateRankRequestForm({ address, formRef, setSubmitBtnText }: Props) {
 		};
 
 		setLoading(true);
+		setSubmitBtnText?.('Submitting Proposal...');
 
 		await executeTx({
 			address: selectedAddress.address,
@@ -192,7 +159,7 @@ function CreateRankRequestForm({ address, formRef, setSubmitBtnText }: Props) {
 		});
 	};
 
-	const submitForm = async ({ title, description, evidence }: { title: string; description: string; evidence: string }) => {
+	const submitForm = async ({ title, description }: { title: string; description: string }) => {
 		if (!selectedAddress?.address || !fellows?.find((fellow) => fellow.address === (getSubstrateAddress(selectedAddress?.address || '') || ''))) {
 			setError('Please select a fellow address.');
 			return;
@@ -207,14 +174,6 @@ function CreateRankRequestForm({ address, formRef, setSubmitBtnText }: Props) {
 
 		setLoading(true);
 		setError('');
-
-		if (evidence && !evidenceSubmitted) {
-			setSubmitBtnText?.('Submitting Evidence 1/2');
-			await handleSubmitEvidence(evidence);
-			return;
-		}
-
-		setSubmitBtnText?.(evidenceSubmitted ? 'Submitting Proposal 2/2' : 'Submitting Proposal...');
 
 		let preimageTx;
 
@@ -236,7 +195,7 @@ function CreateRankRequestForm({ address, formRef, setSubmitBtnText }: Props) {
 	}
 
 	if (successDetails.proposer) {
-		<CreateRankRequestSuccessModalForm successDetails={successDetails} />;
+		return <CreateRankRequestSuccessModalForm successDetails={successDetails} />;
 	}
 
 	if (!currentRank) {
