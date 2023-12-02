@@ -22,12 +22,14 @@ function TopFellowRow({ className, fellow, fellowDetails }: { className?: string
 			href={`/address/${fellow.address}`}
 			className={`${className} flex h-[52px] w-full items-center justify-between rounded-full bg-topFellowCardBg px-6 py-[6px] text-foreground`}
 		>
-			<Address
-				className='font-semibold'
-				variant='dropdownItem'
-				address={fellow.address}
-				truncateCharLen={4}
-			/>
+			<div className='w-[80px]'>
+				<Address
+					className='font-semibold'
+					variant='dropdownItem'
+					address={fellow.address}
+					truncateCharLen={4}
+				/>
+			</div>
 
 			<Image
 				alt='icon'
