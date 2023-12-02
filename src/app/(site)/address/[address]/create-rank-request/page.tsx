@@ -34,6 +34,16 @@ function CreateRankRequestPage({ params }: ServerComponentProps<IParams, unknown
 	const routeSubstrateAddress = getSubstrateAddress(address || '');
 	if (!routeSubstrateAddress) return <div>Invalid address in route.</div>;
 
+	if (!fellows.find((fellow) => fellow.address === routeSubstrateAddress)) {
+		return (
+			<div className='rounded-2xl border border-primary_border p-6'>
+				<h3 className='font-semibold'>Create Rank Request</h3>
+
+				<div className='p-6 text-center'>This address is not a fellow of this network.</div>
+			</div>
+		);
+	}
+
 	return (
 		<div className='rounded-2xl border border-primary_border p-6'>
 			<h3 className='font-semibold'>Create Rank Request</h3>
