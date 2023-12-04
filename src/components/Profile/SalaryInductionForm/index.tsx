@@ -68,7 +68,8 @@ function SalaryInductionForm({ address, formRef, setSubmitBtnText, isRegistratio
 		const isRegistrationPeriod = cycleStart.add(registrationPeriodDuration).lte(currentBlockNumber);
 
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		const isInducted = ((await api.query.fellowshipSalary?.claimant(address))?.toJSON?.() as any)?.status !== 'Nothing' || false;
+		const claimant: any = (await api.query.fellowshipSalary?.claimant(address))?.toJSON?.();
+		const isInducted = claimant?.status !== 'Nothing' || false;
 
 		const txArr = [];
 
@@ -92,7 +93,7 @@ function SalaryInductionForm({ address, formRef, setSubmitBtnText, isRegistratio
 			});
 		}
 
-		if (!txArr.length) {
+		if (!txArr.length || claimant?.status === 'Registered') {
 			setLoading(false);
 			queueNotification({
 				header: 'Salary Induction Transaction Failed!',
