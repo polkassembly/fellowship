@@ -38,6 +38,8 @@ interface Props {
 	setSubmitBtnText?: React.Dispatch<React.SetStateAction<string>>;
 }
 
+// TODO: add validation for promotion period
+
 function CreateRankRequestForm({ address, formRef, setSubmitBtnText }: Props) {
 	const { loginWallet, id } = useUserDetailsContext();
 	const { api, apiReady, network, fellows } = useApiContext();
