@@ -77,8 +77,8 @@ function NoGeneralProposals() {
 			<Image
 				alt='empty general-proposals icon'
 				src='/icons/empty-states/general-proposals.svg'
-				width={156}
-				height={168}
+				width={160}
+				height={156}
 			/>
 			<p className='m-0 mb-2 mt-[14px] p-0 text-base font-medium leading-6 tracking-[0.08px]'>No General Proposals Available</p>
 			<p className='m-0 p-0 text-sm font-normal leading-[21px] tracking-[0.14px]'>Proposals created by you will be visible here</p>
