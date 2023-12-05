@@ -10,6 +10,8 @@ export default function useCurrentBlock() {
 	const [currentBlock, setCurrentBlock] = useState<BN | undefined>(undefined);
 	const { api, apiReady } = useApiContext();
 
+	// TODO: use getCurrentBlock from utils
+
 	useEffect(() => {
 		let unsubscribe: () => void;
 

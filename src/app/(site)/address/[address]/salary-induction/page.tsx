@@ -9,21 +9,26 @@ import { ServerComponentProps } from '@/global/types';
 import getSubstrateAddress from '@/utils/getSubstrateAddress';
 import React, { useRef, useState } from 'react';
 import LoadingSpinner from '@/components/Misc/LoadingSpinner';
-import CreateRankRequestForm from '@/components/Profile/CreateRankRequestForm';
 import LinkWithNetwork from '@/components/Misc/LinkWithNetwork';
 import { Button } from '@nextui-org/button';
+import SalaryInductionForm from '@/components/Profile/SalaryInductionForm';
 
 interface IParams {
 	address: string;
 }
 
-function CreateRankRequestPage({ params }: ServerComponentProps<IParams, unknown>) {
+interface ISearchParams {
+	isRegister: string;
+}
+
+function SalaryInductPage({ params, searchParams }: ServerComponentProps<IParams, ISearchParams>) {
 	const address = params?.address;
+	const isRegistration = searchParams?.isRegister === 'true';
 
 	const { id } = useUserDetailsContext();
 	const { api, apiReady, fellows } = useApiContext();
 
-	const [submitBtnText, setSubmitBtnText] = useState('Create Rank Request');
+	const [submitBtnText, setSubmitBtnText] = useState('Submit Transaction');
 
 	const formRef = useRef<HTMLFormElement>(null);
 
@@ -34,10 +39,17 @@ function CreateRankRequestPage({ params }: ServerComponentProps<IParams, unknown
 	const routeSubstrateAddress = getSubstrateAddress(address || '');
 	if (!routeSubstrateAddress) return <div>Invalid address in route.</div>;
 
+	if (!fellows || !fellows.length)
+		return (
+			<div className='flex h-[50vh] items-center justify-center'>
+				<LoadingSpinner />
+			</div>
+		);
+
 	if (!fellows.find((fellow) => fellow.address === routeSubstrateAddress)) {
 		return (
 			<div className='rounded-2xl border border-primary_border p-6'>
-				<h3 className='font-semibold'>Create Rank Request</h3>
+				<h3 className='font-semibold'>Salary {isRegistration ? 'Registration' : 'Induction'}</h3>
 
 				<div className='p-6 text-center'>This address is not a fellow of this network.</div>
 			</div>
@@ -46,7 +58,7 @@ function CreateRankRequestPage({ params }: ServerComponentProps<IParams, unknown
 
 	return (
 		<div className='rounded-2xl border border-primary_border p-6'>
-			<h3 className='font-semibold'>Create Rank Request</h3>
+			<h3 className='font-semibold'>Salary {isRegistration ? 'Registration' : 'Induction'}</h3>
 
 			<div>
 				{!id ? (
@@ -58,13 +70,14 @@ function CreateRankRequestPage({ params }: ServerComponentProps<IParams, unknown
 						>
 							login
 						</LinkWithNetwork>
-						&nbsp;to create an application request for fellowship
+						&nbsp;to get {isRegistration ? 'registered' : 'inducted'} for salary.
 					</div>
 				) : !api || !apiReady || !fellows || !fellows.length ? (
 					<LoadingSpinner />
 				) : (
 					<div className='flex flex-col gap-6'>
-						<CreateRankRequestForm
+						<SalaryInductionForm
+							isRegistration={isRegistration}
 							setSubmitBtnText={setSubmitBtnText}
 							formRef={formRef}
 							address={routeSubstrateAddress}
@@ -84,4 +97,4 @@ function CreateRankRequestPage({ params }: ServerComponentProps<IParams, unknown
 	);
 }
 
-export default CreateRankRequestPage;
+export default SalaryInductPage;

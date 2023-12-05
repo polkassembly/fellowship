@@ -11,23 +11,28 @@ import React, { useRef, useState } from 'react';
 import { Divider } from '@nextui-org/divider';
 import { useApiContext, useUserDetailsContext } from '@/contexts';
 import LinkWithNetwork from '@/components/Misc/LinkWithNetwork';
-import CreateRankRequestForm from '@/components/Profile/CreateRankRequestForm';
 import { ServerComponentProps } from '@/global/types';
 import getSubstrateAddress from '@/utils/getSubstrateAddress';
 import LoadingSpinner from '@/components/Misc/LoadingSpinner';
+import SalaryInductionForm from '@/components/Profile/SalaryInductionForm';
 
 interface IParams {
 	address: string;
 }
 
-function CreateRankRequestModal({ params }: ServerComponentProps<IParams, unknown>) {
+interface ISearchParams {
+	isRegister: string;
+}
+
+function SalaryInductModalPage({ params, searchParams }: ServerComponentProps<IParams, ISearchParams>) {
 	const address = params?.address;
+	const isRegistration = searchParams?.isRegister === 'true';
 
 	const router = useRouter();
 	const { id } = useUserDetailsContext();
 	const { api, apiReady, fellows } = useApiContext();
 
-	const [submitBtnText, setSubmitBtnText] = useState('Create Rank Request');
+	const [submitBtnText, setSubmitBtnText] = useState('Submit Transaction');
 
 	const formRef = useRef<HTMLFormElement>(null);
 
@@ -40,12 +45,12 @@ function CreateRankRequestModal({ params }: ServerComponentProps<IParams, unknow
 	};
 
 	const routeSubstrateAddress = getSubstrateAddress(address || '');
-	if (!routeSubstrateAddress) return <div>Invalid fellow address in route.</div>;
+	if (!routeSubstrateAddress) return <div>Invalid address in route.</div>;
 
 	if (!fellows.find((fellow) => fellow.address === routeSubstrateAddress)) {
 		return (
 			<div className='rounded-2xl border border-primary_border p-6'>
-				<h3 className='font-semibold'>Create Rank Request</h3>
+				<h3 className='font-semibold'>Salary Induction</h3>
 
 				<div className='p-6 text-center'>This address is not a fellow of this network.</div>
 			</div>
@@ -65,7 +70,7 @@ function CreateRankRequestModal({ params }: ServerComponentProps<IParams, unknow
 					id ? (
 						<>
 							<ModalHeader className='flex items-center gap-2 text-sm'>
-								<h3 className='font-semibold'>Create Rank Request</h3>
+								<h3 className='font-semibold'>Salary {isRegistration ? 'Registration' : 'Induction'}</h3>
 							</ModalHeader>
 							<Divider />
 
@@ -73,7 +78,8 @@ function CreateRankRequestModal({ params }: ServerComponentProps<IParams, unknow
 								{!api || !apiReady || !fellows || !fellows.length ? (
 									<LoadingSpinner />
 								) : (
-									<CreateRankRequestForm
+									<SalaryInductionForm
+										isRegistration={isRegistration}
 										setSubmitBtnText={setSubmitBtnText}
 										formRef={formRef}
 										address={routeSubstrateAddress}
@@ -102,7 +108,7 @@ function CreateRankRequestModal({ params }: ServerComponentProps<IParams, unknow
 							>
 								login
 							</LinkWithNetwork>
-							&nbsp;to create a rank request.
+							&nbsp;to get {isRegistration ? 'registered' : 'inducted'} for salary.
 						</div>
 					)
 				}
@@ -111,4 +117,4 @@ function CreateRankRequestModal({ params }: ServerComponentProps<IParams, unknow
 	);
 }
 
-export default CreateRankRequestModal;
+export default SalaryInductModalPage;

@@ -42,6 +42,8 @@ export const GET = withErrorHandling(async (req: NextRequest, { params }) => {
 
 	const activities = await getUserActivityFeedServer(address, 1);
 
+	// TODO: use substrate address and check in all implementations
+
 	const profile: IProfile = {
 		user_id: user?.id,
 		manifesto: user?.manifesto || '',

@@ -2,81 +2,67 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-'use client';
-
-import { Button } from '@nextui-org/button';
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from '@nextui-org/modal';
-import { useRouter } from 'next/navigation';
-import React, { useRef, useState } from 'react';
-import { Divider } from '@nextui-org/divider';
-import { useApiContext, useUserDetailsContext } from '@/contexts';
-import LinkWithNetwork from '@/components/Misc/LinkWithNetwork';
-import CreateRankRequestForm from '@/components/Profile/CreateRankRequestForm';
-import { ServerComponentProps } from '@/global/types';
-import getSubstrateAddress from '@/utils/getSubstrateAddress';
 import LoadingSpinner from '@/components/Misc/LoadingSpinner';
+import { useApiContext, useUserDetailsContext } from '@/contexts';
+import { Divider } from '@nextui-org/divider';
+import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@nextui-org/modal';
+import React, { useRef, useState } from 'react';
+import { Button } from '@nextui-org/button';
+import LinkWithNetwork from '@/components/Misc/LinkWithNetwork';
+import getSubstrateAddress from '@/utils/getSubstrateAddress';
+import ActivityStatusForm from './ActivityStatusForm';
 
-interface IParams {
+interface Props {
+	isOpen: boolean;
+	onClose?: () => void;
 	address: string;
+	isActive: boolean;
+	onSuccess: (isActive: boolean) => void;
 }
 
-function CreateRankRequestModal({ params }: ServerComponentProps<IParams, unknown>) {
-	const address = params?.address;
+function ActivityStatusModal({ isOpen, address, isActive, onClose, onSuccess }: Props) {
+	const substrateAddress = getSubstrateAddress(address);
 
-	const router = useRouter();
 	const { id } = useUserDetailsContext();
 	const { api, apiReady, fellows } = useApiContext();
 
-	const [submitBtnText, setSubmitBtnText] = useState('Create Rank Request');
+	const [submitBtnText, setSubmitBtnText] = useState('Submit Transaction');
 
 	const formRef = useRef<HTMLFormElement>(null);
-
-	const handleOnClose = () => {
-		router.back();
-	};
 
 	const handleSubmit = () => {
 		formRef?.current?.requestSubmit(); // Call the submit function from the child component
 	};
 
-	const routeSubstrateAddress = getSubstrateAddress(address || '');
-	if (!routeSubstrateAddress) return <div>Invalid fellow address in route.</div>;
-
-	if (!fellows.find((fellow) => fellow.address === routeSubstrateAddress)) {
-		return (
-			<div className='rounded-2xl border border-primary_border p-6'>
-				<h3 className='font-semibold'>Create Rank Request</h3>
-
-				<div className='p-6 text-center'>This address is not a fellow of this network.</div>
-			</div>
-		);
-	}
-
 	return (
 		<Modal
-			isOpen
-			onClose={handleOnClose}
+			isOpen={isOpen}
 			size='4xl'
 			scrollBehavior='inside'
 			shouldBlockScroll
+			onClose={() => onClose?.()}
 		>
 			<ModalContent>
 				{() =>
 					id ? (
 						<>
 							<ModalHeader className='flex items-center gap-2 text-sm'>
-								<h3 className='font-semibold'>Create Rank Request</h3>
+								<h3 className='font-semibold'>Set Active Status</h3>
 							</ModalHeader>
 							<Divider />
 
 							<ModalBody>
 								{!api || !apiReady || !fellows || !fellows.length ? (
 									<LoadingSpinner />
+								) : !substrateAddress ? (
+									<div className='flex items-center justify-center'>Invalid address passed in url.</div>
 								) : (
-									<CreateRankRequestForm
-										setSubmitBtnText={setSubmitBtnText}
+									<ActivityStatusForm
 										formRef={formRef}
-										address={routeSubstrateAddress}
+										setSubmitBtnText={setSubmitBtnText}
+										address={substrateAddress}
+										isActive={isActive}
+										onSuccess={onSuccess}
 									/>
 								)}
 							</ModalBody>
@@ -102,7 +88,7 @@ function CreateRankRequestModal({ params }: ServerComponentProps<IParams, unknow
 							>
 								login
 							</LinkWithNetwork>
-							&nbsp;to create a rank request.
+							&nbsp;to change activity status.
 						</div>
 					)
 				}
@@ -111,4 +97,4 @@ function CreateRankRequestModal({ params }: ServerComponentProps<IParams, unknow
 	);
 }
 
-export default CreateRankRequestModal;
+export default ActivityStatusModal;
