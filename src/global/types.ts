@@ -67,6 +67,12 @@ export enum EProfileProposals {
 	SALARY_REQUESTS = 'salary-requests'
 }
 
+export enum EUserActivityType {
+	ALL = 'all',
+	VOTES = 'votes',
+	REFERENDUMS = 'referendums'
+}
+
 export type ErrorBoundaryPageProps = { error: Error; reset: () => void };
 
 export type ServerComponentProps<T, U> = {
@@ -290,7 +296,9 @@ export enum SubsquidActivityType {
 	OffBoarded = 'OffBoarded',
 	ActivityChanged = 'ActivityChanged',
 	RFC = 'RFC',
-	EvidenceSubmitted = 'EvidenceSubmitted'
+	EvidenceSubmitted = 'EvidenceSubmitted',
+	Voted = 'Voted',
+	Imported = 'Imported'
 }
 
 export enum SubsquidProposalType {
@@ -378,6 +386,48 @@ export interface PostListingItem {
 
 	reactions?: PublicReactionEntry[];
 	views?: PostView[];
+}
+
+export interface UserActivityListingItem {
+	who: string | null;
+	activityType: SubsquidActivityType;
+	payout: {
+		amount: number;
+		beneficiary: string;
+		createdAt: string;
+		createdAtBlock: number;
+		who: string | null;
+		rank: number | null;
+	} | null;
+	otherActions: {
+		wish: string | null;
+		who: string;
+		showClaimButton: boolean | null;
+		toRank: number | null;
+		rank: number | null;
+		evidenceJudged: boolean | null;
+		evidence: string | null;
+		createdAtBlock: number;
+		createdAt: string;
+		amount: number | null;
+		isActive: boolean | null;
+	} | null;
+	vote: {
+		blockNumber: number;
+		decision: string;
+		proposalIndex: number;
+		timestamp: string;
+		type: string;
+		voter: string;
+	} | null;
+	proposal: {
+		index?: number;
+		proposer?: string;
+		createdAt?: string;
+		createdAtBlock?: number;
+		title?: string;
+		content?: string;
+	} | null;
 }
 
 export interface PayoutListingItem {
@@ -514,4 +564,5 @@ export interface IProfile {
 	user_id: number;
 	manifesto: string;
 	address: string;
+	activities: UserActivityListingItem[];
 }

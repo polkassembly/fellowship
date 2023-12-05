@@ -17,6 +17,7 @@ import withErrorHandling from '@/app/api/api-utils/withErrorHandling';
 import getReqBody from '@/app/api/api-utils/getReqBody';
 import getNetworkFromHeaders from '@/app/api/api-utils/getNetworkFromHeaders';
 import getEncodedAddress from '@/utils/getEncodedAddress';
+import { getSubSquareContentAndTitle } from '@/app/api/api-utils/subsquare-content';
 import { GET_FELLOWSHIP_REFERENDUMS, GET_SALARY_PAYOUTS } from '../../../subsquidQueries';
 import { getPostsReactionsServer } from '../../../[proposalType]/reactions/utils';
 import { getPostsViewsServer } from '../../../[proposalType]/views/utils';
@@ -97,7 +98,7 @@ export const POST = withErrorHandling(async (req: NextRequest, { params }) => {
 
 	// assign proposal data to proposalsData
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	let proposalItems: PostListingItem[] = onChainProposals?.map((onChainProposalObj: any, index: number) => {
+	const proposalItemsPromises: Promise<PostListingItem>[] = onChainProposals?.map(async (onChainProposalObj: any, index: number) => {
 		const firestoreProposalData = firestoreProposalDocs.find((item) => item.id === onChainProposalObj?.index)?.data() || {};
 		const firestoreCommentCount = firestoreCommentCountDocs.find((item) => item.id === onChainProposalObj?.index)?.data().count || 0;
 		const firestoreReactionDocsData = firestoreReactionDocs[Number(index)]?.docs || [];
@@ -115,6 +116,16 @@ export const POST = withErrorHandling(async (req: NextRequest, { params }) => {
 			},
 			activity_type: onChainProposalObj.activityType
 		};
+
+		if (!firestoreProposalData?.title || !firestoreProposalData?.content) {
+			const { content, title } = await getSubSquareContentAndTitle(ProposalType.FELLOWSHIP_REFERENDUMS, network, onChainProposalObj.index);
+			if (!firestoreProposalData?.title && title) {
+				firestoreProposalData.title = title;
+			}
+			if (!firestoreProposalData?.content && content) {
+				firestoreProposalData.content = content;
+			}
+		}
 
 		const postListingItem: PostListingItem = {
 			id: onChainProposalObj.index,
@@ -141,6 +152,9 @@ export const POST = withErrorHandling(async (req: NextRequest, { params }) => {
 
 		return postListingItem;
 	});
+
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	let proposalItems = (await Promise.allSettled(proposalItemsPromises)).filter((item) => item.status === 'fulfilled').map((item) => (item as any).value);
 
 	const postsReactions = await getPostsReactionsServer(
 		proposalItems.map((item) => item.id),

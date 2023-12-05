@@ -31,13 +31,13 @@ interface ProposalListingProps {
 function ProposalListing({ proposals, type }: ProposalListingProps) {
 	if (type === EProfileProposals.SALARY_REQUESTS) {
 		return (
-			<div>
+			<div className='w-full flex-1'>
 				<SalaryPayouts payouts={proposals as PayoutListingItem[]} />
 			</div>
 		);
 	}
 	return (
-		<div>
+		<div className='w-full flex-1'>
 			{(proposals as PostListingItem[])?.map((feedItem, idx) => {
 				return (
 					<>
@@ -52,6 +52,53 @@ function ProposalListing({ proposals, type }: ProposalListingProps) {
 					</>
 				);
 			})}
+		</div>
+	);
+}
+
+function NoRankRequests() {
+	return (
+		<div className='flex h-full flex-1 flex-col items-center justify-center py-10 text-sm font-normal leading-[21px] tracking-[0.14px] text-secondary'>
+			<Image
+				alt='empty rank-requests icon'
+				src='/icons/empty-states/rank-requests.svg'
+				width={156}
+				height={168}
+			/>
+			<p className='m-0 mb-2 mt-[14px] p-0 text-base font-medium leading-6 tracking-[0.08px]'>No Rank Requests Available</p>
+			<p className='m-0 p-0 text-sm font-normal leading-[21px] tracking-[0.14px]'>Requests created by you will be visible here</p>
+		</div>
+	);
+}
+
+function NoGeneralProposals() {
+	return (
+		<div className='flex h-full flex-1 flex-col items-center justify-center py-10 text-sm font-normal leading-[21px] tracking-[0.14px] text-secondary'>
+			<Image
+				alt='empty general-proposals icon'
+				src='/icons/empty-states/general-proposals.svg'
+				width={156}
+				height={168}
+			/>
+			<p className='m-0 mb-2 mt-[14px] p-0 text-base font-medium leading-6 tracking-[0.08px]'>No General Proposals Available</p>
+			<p className='m-0 p-0 text-sm font-normal leading-[21px] tracking-[0.14px]'>Proposals created by you will be visible here</p>
+		</div>
+	);
+}
+
+function NoSalaryDetails() {
+	return (
+		<div className='flex h-full flex-1 flex-col items-center justify-center py-10 text-sm font-normal leading-[21px] tracking-[0.14px] text-secondary'>
+			<Image
+				alt='empty salary-details icon'
+				src='/icons/empty-states/salary-details.svg'
+				width={156}
+				height={168}
+			/>
+			<p className='m-0 mb-2 mt-[14px] p-0 text-base font-medium leading-6 tracking-[0.08px]'>No Salary Details Available</p>
+			<p className='m-0 max-w-[338px] p-0 text-center text-sm font-normal leading-[21px] tracking-[0.14px]'>
+				Please Induct yourself as a fellowship member to claim rank based salary
+			</p>
 		</div>
 	);
 }
@@ -102,7 +149,7 @@ function ProfileProposals({ address }: Props) {
 	}, [type, address, network]);
 
 	return (
-		<Card className='rounded-[20px] border border-primary_border'>
+		<Card className='h-full rounded-[20px] border border-primary_border'>
 			<div className='flex items-center justify-between border-b border-primary_border px-4 py-6'>
 				<Dropdown>
 					<DropdownTrigger>
@@ -133,20 +180,37 @@ function ProfileProposals({ address }: Props) {
 						))}
 					</DropdownMenu>
 				</Dropdown>
-				<LinkWithNetwork
-					href={`/address/${address}/create-rank-request`}
-					className='rounded-[39px] border border-primary px-3 py-1 text-sm font-medium leading-[21px] tracking-[0.21px] text-primary'
-				>
-					Create Rank Request
-				</LinkWithNetwork>
+				{type !== EProfileProposals.GENERAL_PROPOSALS ? (
+					<LinkWithNetwork
+						href={`/address/${address}/create-rank-request`}
+						className='flex items-center gap-x-[6px] rounded-[39px] border border-primary bg-primary px-3 py-1 text-sm font-medium leading-[21px] tracking-[0.21px] text-white'
+					>
+						{type === EProfileProposals.SALARY_REQUESTS ? (
+							'Induct'
+						) : (
+							<>
+								<Image
+									alt='btn icon'
+									src='/icons/medal-fill.svg'
+									width={16}
+									height={16}
+									className='cursor-pointer'
+								/>
+								Create Rank Request
+							</>
+						)}
+					</LinkWithNetwork>
+				) : null}
 			</div>
-			<div className='overflow-hidden'>
+			<div className='flex h-full flex-1 justify-center overflow-hidden'>
 				{loading ? (
-					<div className='flex min-h-[200px] items-center justify-center text-base font-medium'>
+					<div className='flex h-full min-h-[218px] items-center justify-center'>
 						<LoadingSpinner message='Fetching proposals...' />
 					</div>
 				) : proposals.length === 0 ? (
-					<p className='flex min-h-[200px] items-center justify-center'>No {type === EProfileProposals.SALARY_REQUESTS ? 'Payouts' : 'Proposals'} found</p>
+					<div className='flex h-full min-h-[218px] items-center justify-center'>
+						{type === EProfileProposals.RANK_REQUESTS ? <NoRankRequests /> : type === EProfileProposals.GENERAL_PROPOSALS ? <NoGeneralProposals /> : <NoSalaryDetails />}
+					</div>
 				) : (
 					<ProposalListing
 						proposals={proposals}

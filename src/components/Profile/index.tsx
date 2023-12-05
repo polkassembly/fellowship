@@ -8,6 +8,7 @@ import ProfileSocials from './Socials';
 import ProfileAddressDetails from './AddressDetails';
 import Manifesto from './Manifesto';
 import ProfileProposals from './Proposals';
+import UserActivity from './Activity';
 
 interface Props {
 	profile: IProfile;
@@ -33,6 +34,12 @@ function Profile(props: Props) {
 				<section className='col-span-6'>
 					<ProfileProposals address={address} />
 				</section>
+			</div>
+			<div className='mt-4 pb-4'>
+				<UserActivity
+					activities={profile.activities}
+					address={address}
+				/>
 			</div>
 		</section>
 	);
