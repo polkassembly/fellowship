@@ -7,7 +7,7 @@ import { PublicReactionEntry } from '@/global/types';
 import ReactionSummary from './ReactionSummary';
 
 interface Props {
-	commentCount: number;
+	commentCount: number | null;
 	latestReaction?: PublicReactionEntry;
 	totalReactions?: number;
 }
@@ -19,9 +19,11 @@ function PostReactionInfoBar({ commentCount = 0, latestReaction, totalReactions 
 				latestReaction={latestReaction}
 				totalReactions={totalReactions}
 			/>
-			<div className='flex gap-2'>
-				<span>{commentCount} comments</span>
-			</div>
+			{commentCount !== null && (
+				<div className='flex gap-2'>
+					<span>{commentCount} comments</span>
+				</div>
+			)}
 		</section>
 	);
 }

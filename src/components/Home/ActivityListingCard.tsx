@@ -247,7 +247,7 @@ function ActivityListingCard({ feedItem }: Props) {
 					<div>{getActivityText()}</div>
 				</div>
 				<PostReactionInfoBar
-					commentCount={0}
+					commentCount={null}
 					latestReaction={feedItem.reactions?.[0]}
 					totalReactions={feedItem.reactions?.length}
 				/>
