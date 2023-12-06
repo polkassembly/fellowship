@@ -17,7 +17,7 @@ import classNames from 'classnames';
 
 interface Props {
 	postId: number | string;
-	postType: ProposalType;
+	postType?: ProposalType;
 	onView: (user_id: number) => void;
 	views: PostView[];
 }
@@ -52,7 +52,7 @@ function AddViewBtn({ postId, postType, onView, views }: Props) {
 				data: {
 					userId: currentUser?.id,
 					postId,
-					postType
+					postType: postType || null
 				}
 			});
 			if (data) {

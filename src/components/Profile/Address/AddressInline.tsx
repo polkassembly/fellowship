@@ -36,7 +36,7 @@ function AddressInline({ address, addressDisplayText, className, startChars, end
 				iconSize={iconSize}
 			/>
 
-			<p className='text-xs'>
+			<p>
 				{addressDisplayText ||
 					(startChars && endChars
 						? midTruncateText({

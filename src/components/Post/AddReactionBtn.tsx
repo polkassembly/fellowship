@@ -52,7 +52,7 @@ function ReactionsList({ userReaction, onReaction }: ReactionsListProps) {
 
 interface Props {
 	postId: number | string;
-	postType: ProposalType;
+	postType?: ProposalType;
 	reactions: PublicReactionEntry[];
 	addReaction: (reaction: PublicReactionEntry) => void;
 	removeReaction: (reaction: PublicReactionEntry) => void;
@@ -67,6 +67,7 @@ function AddReactionBtn({ postId, postType, reactions, addReaction, removeReacti
 		return reactions.find((reaction) => reaction.user_id === currentUser.id) || null;
 	}, [currentUser.id, reactions]);
 
+	// eslint-disable-next-line sonarjs/cognitive-complexity
 	const onReaction = async (reaction: string) => {
 		setIsOpen(false);
 		if (!(currentUser.id || currentUser.id === 0)) {
@@ -95,7 +96,7 @@ function AddReactionBtn({ postId, postType, reactions, addReaction, removeReacti
 						userId: currentUser?.id,
 						postId,
 						reaction,
-						postType
+						postType: postType || null // needed for activity reactions
 					}
 				});
 				if (data) {
@@ -140,7 +141,7 @@ function AddReactionBtn({ postId, postType, reactions, addReaction, removeReacti
 						userId: currentUser?.id,
 						postId,
 						reaction,
-						postType
+						postType: postType || null
 					}
 				});
 				if (data) {

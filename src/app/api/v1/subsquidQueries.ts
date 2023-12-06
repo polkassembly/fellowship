@@ -4,6 +4,48 @@
 
 import { gql } from '@urql/core';
 
+export const GET_ALL_ACTIVITIES = gql`
+	query GET_ALL_ACTIVITIES($limit: Int = 30, $offset: Int = 0) {
+		activities(limit: $limit, offset: $offset, orderBy: createdAt_DESC) {
+			id
+			type
+			who
+			createdAt
+			proposal {
+				id
+				description
+				index
+				status
+				trackNumber
+				proposer
+				updatedAt
+				createdAt
+				tally {
+					ayes
+					nays
+				}
+			}
+			otherActions {
+				isActive
+				evidence
+				rank
+			}
+			salaryCycle {
+				cycleStartDatetime
+			}
+			vote {
+				proposalIndex
+				balance {
+					... on StandardVoteBalance {
+						value
+					}
+				}
+				decision
+			}
+		}
+	}
+`;
+
 export const GET_FELLOWSHIP_REFERENDUMS = gql`
 	query GET_FELLOWSHIP_REFERENDUMS($limit: Int = 10, $offset: Int = 0, $type_in: [ActivityType!], $who_eq: String) {
 		activities(where: { type_in: $type_in, who_eq: $who_eq }, limit: $limit, offset: $offset, orderBy: proposal_createdAt_DESC) {
