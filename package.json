@@ -48,7 +48,7 @@
     "firebase-admin": "^11.11.0",
     "framer-motion": "^10.16.4",
     "lodash.debounce": "^4.0.8",
-    "next": "^14.0.1",
+    "next": "^14.0.3",
     "next-themes": "^0.2.1",
     "next-usequerystate": "^1.10.2",
     "react": "^18",
