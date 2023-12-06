@@ -9,7 +9,7 @@ import React from 'react';
 import Image from 'next/image';
 import { Listbox, ListboxItem } from '@nextui-org/listbox';
 import { usePathname, useRouter } from 'next/navigation';
-import { useApiContext } from '@/contexts';
+import { useApiContext, useUserDetailsContext } from '@/contexts';
 import dynamic from 'next/dynamic';
 import styles from './Header.module.scss';
 import LinkWithNetwork from '../Misc/LinkWithNetwork';
@@ -94,7 +94,7 @@ const navItems: NavItem[] = [
 	{
 		label: 'Profile',
 		icon: 'shield-user',
-		url: '/profile'
+		url: '/address'
 	},
 	{
 		label: 'Polkadot Github',
@@ -107,6 +107,7 @@ function AppSidebar() {
 	const pathname = usePathname();
 	const router = useRouter();
 	const { network } = useApiContext();
+	const { id, loginAddress, addresses } = useUserDetailsContext();
 
 	return (
 		<nav className={styles.appSidebar}>
@@ -120,6 +121,14 @@ function AppSidebar() {
 					selectedKeys={[pathname]}
 					onAction={(key) => {
 						if (key.toString().startsWith('#')) return;
+						if (key.toString().startsWith('/address')) {
+							if (!id) {
+								router.push('/login');
+								return;
+							}
+							router.push(`${key.toString()}/${loginAddress || addresses?.[0]}`);
+							return;
+						}
 						router.push(`${key.toString().toLowerCase()}?network=${network}`);
 					}}
 				>
@@ -153,7 +162,7 @@ function AppSidebar() {
 								) : (
 									<LinkWithNetwork
 										className={`${navItem.subItem && !isCurrentRoute && 'ml-16'} ${isCurrentRoute && navItem.subItem && 'ml-14'}`}
-										href={navItem.url}
+										href={navItem.url === '/address' ? `${navItem.url}/${loginAddress || addresses?.[0]}` : navItem.url}
 									>
 										{navItem.label}
 									</LinkWithNetwork>
