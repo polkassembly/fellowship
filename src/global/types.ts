@@ -428,6 +428,9 @@ export interface UserActivityListingItem {
 		title?: string;
 		content?: string;
 	} | null;
+	salaryCycle: {
+		cycleIndex: number;
+	} | null;
 }
 
 export interface PayoutListingItem {

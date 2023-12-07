@@ -44,6 +44,9 @@ export const GER_USER_ACTIVITY = gql`
 				createdAt
 				createdAtBlock
 			}
+			salaryCycle {
+				cycleIndex
+			}
 		}
 	}
 `;

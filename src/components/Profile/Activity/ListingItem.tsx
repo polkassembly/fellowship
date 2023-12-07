@@ -8,12 +8,16 @@ import dayjs from '@/services/dayjs-init';
 import { Divider } from '@nextui-org/divider';
 import classNames from 'classnames';
 import DEFAULT_POST_TITLE from '@/global/constants/defaultTitle';
-import { iconTypes, getActivityType, getCreatedAtDate } from './utils';
+import LinkWithNetwork from '@/components/Misc/LinkWithNetwork';
+import { getActivityIconSrc, getCreatedAtDate, getProposalTitle } from './utils';
 import AddressInline from '../Address/AddressInline';
 
-function ActivityIcon({ iconType }: { iconType: string }) {
-	// eslint-disable-next-line security/detect-object-injection
-	const src = iconTypes[iconType];
+interface Props {
+	feedItem: UserActivityListingItem;
+}
+
+function ActivityIcon({ feedItem }: Props) {
+	const src = getActivityIconSrc(feedItem);
 	if (!src) {
 		return null;
 	}
@@ -28,12 +32,9 @@ function ActivityIcon({ iconType }: { iconType: string }) {
 	);
 }
 
-interface ActivityTextProps {
-	feedItem: UserActivityListingItem;
-}
-
-function ActivityText({ feedItem }: ActivityTextProps) {
-	switch (feedItem.activityType) {
+function ActivityText({ feedItem }: Props) {
+	const { activityType } = feedItem;
+	switch (activityType) {
 		case SubsquidActivityType.RetentionRequest:
 		case SubsquidActivityType.PromotionRequest:
 		case SubsquidActivityType.DemotionRequest:
@@ -42,10 +43,8 @@ function ActivityText({ feedItem }: ActivityTextProps) {
 		case SubsquidActivityType.RFC:
 			return (
 				<div className='flex items-center gap-x-2 text-sm'>
-					<span>Created proposal - </span>
-					<p className='text-sm font-semibold leading-4 tracking-[0.21px]'>
-						{feedItem?.proposal?.title === DEFAULT_POST_TITLE ? 'a Fellowship Proposal.' : feedItem?.proposal?.title}
-					</p>
+					<span>Created {getProposalTitle(feedItem)}</span>
+					<p className='text-sm font-semibold leading-4 tracking-[0.21px]'>{feedItem?.proposal?.title === DEFAULT_POST_TITLE ? '' : feedItem?.proposal?.title}</p>
 				</div>
 			);
 		case SubsquidActivityType.EvidenceSubmitted:
@@ -57,7 +56,7 @@ function ActivityText({ feedItem }: ActivityTextProps) {
 						startChars={5}
 					/>
 					<p>
-						Submitted an evidence onchain for <span className=' text-sm font-semibold leading-4 tracking-[0.21px]'>{feedItem?.otherActions?.wish || ''}</span>
+						submitted an evidence onchain for <span className=' text-sm font-semibold leading-4 tracking-[0.21px]'>{feedItem?.otherActions?.wish || ''}</span>
 					</p>
 				</div>
 			);
@@ -69,7 +68,10 @@ function ActivityText({ feedItem }: ActivityTextProps) {
 						endChars={5}
 						startChars={5}
 					/>
-					<p>was inducted into payout system</p>
+					<p>
+						inducted themselves into payout system for salary of cycle{' '}
+						<span className=' text-sm font-semibold leading-4 tracking-[0.21px]'>{feedItem?.salaryCycle?.cycleIndex || ''}</span>
+					</p>
 				</div>
 			);
 		case SubsquidActivityType.Voted:
@@ -83,10 +85,8 @@ function ActivityText({ feedItem }: ActivityTextProps) {
 					>
 						Voted {feedItem?.vote?.decision === 'yes' ? 'Aye' : 'Nay'}
 					</span>
-					<span>on</span>
-					<p className='text-sm font-semibold leading-4 tracking-[0.21px]'>
-						{feedItem?.proposal?.title === DEFAULT_POST_TITLE ? 'a Fellowship Proposal.' : feedItem?.proposal?.title}
-					</p>
+					<span>on {getProposalTitle(feedItem)}</span>
+					<p className='text-sm font-semibold leading-4 tracking-[0.21px]'>{feedItem?.proposal?.title === DEFAULT_POST_TITLE ? '' : feedItem?.proposal?.title}</p>
 				</div>
 			);
 		case SubsquidActivityType.Imported:
@@ -98,7 +98,48 @@ function ActivityText({ feedItem }: ActivityTextProps) {
 						startChars={5}
 					/>
 					<p>
-						was imported into fellowship at <span className=' text-sm font-semibold leading-4 tracking-[0.21px]'>Rank {feedItem?.otherActions?.rank || ''}</span>
+						was imported into the technical fellowship at <span className=' text-sm font-semibold leading-4 tracking-[0.21px]'>Rank {feedItem?.otherActions?.rank || ''}</span>
+					</p>
+				</div>
+			);
+		case SubsquidActivityType.Promoted:
+			return (
+				<div className='flex items-center gap-x-2 text-sm'>
+					<AddressInline
+						address={feedItem.who || ''}
+						endChars={5}
+						startChars={5}
+					/>
+					<p>
+						was promoted from rank <span className=' text-sm font-semibold leading-4 tracking-[0.21px]'>{feedItem?.otherActions?.rank || ''}</span>
+						to rank <span className=' text-sm font-semibold leading-4 tracking-[0.21px]'>{feedItem?.otherActions?.toRank || ''}</span>
+					</p>
+				</div>
+			);
+		case SubsquidActivityType.Retained:
+			return (
+				<div className='flex items-center gap-x-2 text-sm'>
+					<AddressInline
+						address={feedItem.who || ''}
+						endChars={5}
+						startChars={5}
+					/>
+					<p>
+						was retained at rank <span className=' text-sm font-semibold leading-4 tracking-[0.21px]'>{feedItem?.otherActions?.rank || ''}</span>
+					</p>
+				</div>
+			);
+		case SubsquidActivityType.Registration:
+			return (
+				<div className='flex items-center gap-x-2 text-sm'>
+					<AddressInline
+						address={feedItem.who || ''}
+						endChars={5}
+						startChars={5}
+					/>
+					<p>
+						registered themselves into payout system for salary of cycle{' '}
+						<span className=' text-sm font-semibold leading-4 tracking-[0.21px]'>{feedItem?.salaryCycle?.cycleIndex || ''}</span>
 					</p>
 				</div>
 			);
@@ -111,8 +152,34 @@ function ActivityText({ feedItem }: ActivityTextProps) {
 						startChars={5}
 					/>
 					<p>
-						marked itself <span className=' text-sm font-semibold leading-4 tracking-[0.21px]'>{feedItem?.otherActions?.isActive ? 'Active' : 'Inactive'}</span>
+						set themselves <span className=' text-sm font-semibold leading-4 tracking-[0.21px]'>{feedItem?.otherActions?.isActive ? 'Active' : 'Inactive'}</span>
 					</p>
+				</div>
+			);
+		case SubsquidActivityType.Payout:
+			return (
+				<div className='flex items-center gap-x-2 text-sm'>
+					<AddressInline
+						address={feedItem.who || ''}
+						endChars={5}
+						startChars={5}
+					/>
+					<p>
+						recieved payout of <span className=' text-sm font-semibold leading-4 tracking-[0.21px]'>{feedItem?.payout?.amount}$</span> at rank{' '}
+						<span className=' text-sm font-semibold leading-4 tracking-[0.21px]'>{feedItem?.payout?.rank}$</span> for salary of cycle{' '}
+						<span className=' text-sm font-semibold leading-4 tracking-[0.21px]'>{feedItem?.salaryCycle?.cycleIndex}$</span>
+					</p>
+				</div>
+			);
+		case SubsquidActivityType.OffBoarded:
+			return (
+				<div className='flex items-center gap-x-2 text-sm'>
+					<AddressInline
+						address={feedItem.who || ''}
+						endChars={5}
+						startChars={5}
+					/>
+					<p>was off boarded from the technical fellowship.</p>
 				</div>
 			);
 		default:
@@ -125,12 +192,30 @@ interface ListingItemProps {
 	isLastItem: boolean;
 }
 
+interface LinkWrapperProps {
+	children: React.ReactNode;
+	index?: number;
+}
+
+function LinkWrapper({ children, index }: LinkWrapperProps) {
+	if (index || index === 0) {
+		return (
+			<LinkWithNetwork
+				href={`/referenda/${index}`}
+				className='flex'
+			>
+				{children}
+			</LinkWithNetwork>
+		);
+	}
+	return <article className='flex'>{children}</article>;
+}
+
 function ListingItem({ feedItem, isLastItem }: ListingItemProps) {
-	const activityType = getActivityType(feedItem);
 	return (
-		<article className='flex'>
+		<LinkWrapper index={feedItem?.proposal?.index}>
 			<div className='relative'>
-				<ActivityIcon iconType={activityType} />
+				<ActivityIcon feedItem={feedItem} />
 				{!isLastItem ? <div className='absolute left-4 top-9 h-[calc(100%-36px)] w-[1px] bg-primary_border' /> : null}
 			</div>
 			<div className='flex-1 pl-4'>
@@ -147,7 +232,7 @@ function ListingItem({ feedItem, isLastItem }: ListingItemProps) {
 				</article>
 				{!isLastItem ? <Divider className='my-4' /> : null}
 			</div>
-		</article>
+		</LinkWrapper>
 	);
 }
 
