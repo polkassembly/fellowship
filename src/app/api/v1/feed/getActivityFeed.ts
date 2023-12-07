@@ -22,6 +22,7 @@ export default async function getActivityFeed({ feedType, originUrl, page = 1, n
 		body: JSON.stringify({ feedType, page }),
 		method: 'POST'
 	}).catch((e) => {
+		console.log('SERVER_ERROR_API_TEST', e);
 		throw new ClientError(`${MESSAGES.API_FETCH_ERROR} - ${e?.message}`, API_ERROR_CODE.API_FETCH_ERROR);
 	});
 
