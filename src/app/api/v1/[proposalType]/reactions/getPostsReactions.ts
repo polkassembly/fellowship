@@ -6,6 +6,9 @@ import { API_ERROR_CODE } from '@/global/constants/errorCodes';
 import { ClientError } from '@/global/exceptions';
 import MESSAGES from '@/global/messages';
 import { Network, PostIdWithReactions, ProposalType } from '@/global/types';
+import fetchPonyfill from 'fetch-ponyfill';
+
+const { fetch: fetchPF } = fetchPonyfill();
 
 interface Args {
 	originUrl: string;
@@ -15,7 +18,7 @@ interface Args {
 }
 
 export default async function getPostsReactions({ originUrl, network, postIds, proposalType }: Args) {
-	const feedRes = await fetch(`${originUrl}/api/v1/${proposalType.toString()}/reactions`, {
+	const feedRes = await fetchPF(`${originUrl}/api/v1/${proposalType.toString()}/reactions`, {
 		headers: {
 			'x-network': network || ''
 		},
