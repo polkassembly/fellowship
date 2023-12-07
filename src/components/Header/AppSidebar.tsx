@@ -94,7 +94,7 @@ const navItems: NavItem[] = [
 	{
 		label: 'Profile',
 		icon: 'shield-user',
-		url: '/profile'
+		url: '/address'
 	},
 	{
 		label: 'Polkadot Github',
@@ -107,18 +107,7 @@ function AppSidebar() {
 	const pathname = usePathname();
 	const router = useRouter();
 	const { network } = useApiContext();
-	const user = useUserDetailsContext();
-
-	const isNavItemInvisible = (navItem: NavItem) => {
-		return !!(navItem.url.includes('/profile') && !(user?.id || user?.id === 0));
-	};
-
-	const changeUrl = (url: string) => {
-		if (url.includes('/profile') && user?.addresses?.length) {
-			return `/address/${user?.addresses?.[0]}`;
-		}
-		return url;
-	};
+	const { id, loginAddress, addresses } = useUserDetailsContext();
 
 	return (
 		<nav className={styles.appSidebar}>
@@ -132,49 +121,55 @@ function AppSidebar() {
 					selectedKeys={[pathname]}
 					onAction={(key) => {
 						if (key.toString().startsWith('#')) return;
-						router.push(`${key.toString()}?network=${network}`);
+						if (key.toString().startsWith('/address')) {
+							if (!id) {
+								router.push('/login');
+								return;
+							}
+							router.push(`${key.toString()}/${loginAddress || addresses?.[0]}`);
+							return;
+						}
+						router.push(`${key.toString().toLowerCase()}?network=${network}`);
 					}}
 				>
-					{navItems
-						.filter((navItem) => !isNavItemInvisible(navItem))
-						.map((navItem) => {
-							const isParentItem = Boolean(navItem.childUrls?.length);
+					{navItems.map((navItem) => {
+						const isParentItem = Boolean(navItem.childUrls?.length);
 
-							const pathnameLower = pathname.toLowerCase();
-							let isCurrentRoute = pathnameLower === navItem.url;
-							if (navItem.childUrls?.includes(pathnameLower)) {
-								isCurrentRoute = true;
-							}
+						const pathnameLower = pathname.toLowerCase();
+						let isCurrentRoute = pathnameLower === navItem.url;
+						if (navItem.childUrls?.includes(pathnameLower)) {
+							isCurrentRoute = true;
+						}
 
-							return (
-								<ListboxItem
-									id='nav-listbox-item'
-									className={`mb-3 h-[40px] rounded-none hover:bg-transparent ${navItem.subItem && '-mt-3'} ${isParentItem && isCurrentRoute && 'text-primary'} ${
-										isCurrentRoute && !isParentItem && styles.navListboxItemHover
-									}`}
-									key={changeUrl(navItem.url)}
-									textValue={navItem.label}
-									startContent={
-										<ListboxItemStartContent
-											isParentItem={isParentItem}
-											isCurrentRoute={isCurrentRoute}
-											icon={navItem.icon}
-										/>
-									}
-								>
-									{navItem.url.startsWith('#') ? (
-										<span>{navItem.label}</span>
-									) : (
-										<LinkWithNetwork
-											className={`${navItem.subItem && !isCurrentRoute && 'ml-16'} ${isCurrentRoute && navItem.subItem && 'ml-14'}`}
-											href={changeUrl(navItem.url)}
-										>
-											{navItem.label}
-										</LinkWithNetwork>
-									)}
-								</ListboxItem>
-							);
-						})}
+						return (
+							<ListboxItem
+								id='nav-listbox-item'
+								className={`mb-3 h-[40px] rounded-none hover:bg-transparent ${navItem.subItem && '-mt-3'} ${isParentItem && isCurrentRoute && 'text-primary'} ${
+									isCurrentRoute && !isParentItem && styles.navListboxItemHover
+								}`}
+								key={navItem.url}
+								textValue={navItem.label}
+								startContent={
+									<ListboxItemStartContent
+										isParentItem={isParentItem}
+										isCurrentRoute={isCurrentRoute}
+										icon={navItem.icon}
+									/>
+								}
+							>
+								{navItem.url.startsWith('#') ? (
+									<span>{navItem.label}</span>
+								) : (
+									<LinkWithNetwork
+										className={`${navItem.subItem && !isCurrentRoute && 'ml-16'} ${isCurrentRoute && navItem.subItem && 'ml-14'}`}
+										href={navItem.url === '/address' ? `${navItem.url}/${loginAddress || addresses?.[0]}` : navItem.url}
+									>
+										{navItem.label}
+									</LinkWithNetwork>
+								)}
+							</ListboxItem>
+						);
+					})}
 				</Listbox>
 			</div>
 
