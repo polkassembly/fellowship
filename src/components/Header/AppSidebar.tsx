@@ -123,10 +123,10 @@ function AppSidebar() {
 						if (key.toString().startsWith('#')) return;
 						if (key.toString().startsWith('/address')) {
 							if (!id) {
-								router.push('/login');
+								router.push(`/login?network=${network}`);
 								return;
 							}
-							router.push(`${key.toString()}/${loginAddress || addresses?.[0]}`);
+							router.push(`${key.toString()}/${loginAddress || addresses?.[0]}?network=${network}`);
 							return;
 						}
 						router.push(`${key.toString().toLowerCase()}?network=${network}`);
