@@ -62,7 +62,7 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
 			rank: activityObj.otherActions?.rank ?? 0,
 			vote: {
 				balance: activityObj.vote?.balance?.value ?? '0',
-				decision: activityObj.vote?.decision ?? '',
+				decision: activityObj.vote?.decision === 'yes' ? 'aye' : 'nay',
 				proposalIndex: Number(activityObj.vote?.proposalIndex) ?? 0
 			}
 		};

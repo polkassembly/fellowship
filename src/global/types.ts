@@ -515,7 +515,7 @@ export interface ActivityFeedItem {
 	evidence?: string;
 	rank?: number;
 	vote?: {
-		decision: 'yes' | 'no';
+		decision: 'aye' | 'nay';
 		proposalIndex: number;
 		balance: string;
 	};

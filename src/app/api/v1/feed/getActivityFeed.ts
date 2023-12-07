@@ -6,6 +6,9 @@ import { API_ERROR_CODE } from '@/global/constants/errorCodes';
 import { ClientError } from '@/global/exceptions';
 import MESSAGES from '@/global/messages';
 import { ActivityFeedItem, EActivityFeed, Network, PostListingItem } from '@/global/types';
+import fetchPonyfill from 'fetch-ponyfill';
+
+const { fetch: fetchPF } = fetchPonyfill();
 
 interface Args {
 	feedType: EActivityFeed;
@@ -15,7 +18,7 @@ interface Args {
 }
 
 export default async function getActivityFeed({ feedType, originUrl, page = 1, network }: Args) {
-	const feedRes = await fetch(`${originUrl}/api/v1/feed${feedType === EActivityFeed.ALL ? '/all/' : '/'}`, {
+	const feedRes = await fetchPF(`${originUrl}/api/v1/feed${feedType === EActivityFeed.ALL ? '/all/' : '/'}`, {
 		headers: {
 			'x-network': network || ''
 		},
