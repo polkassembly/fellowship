@@ -389,6 +389,7 @@ export interface PostListingItem {
 }
 
 export interface UserActivityListingItem {
+	id: string | number;
 	who: string | null;
 	activityType: SubsquidActivityType;
 	payout: {

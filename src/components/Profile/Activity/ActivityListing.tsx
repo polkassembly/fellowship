@@ -2,13 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 import getUserActivityFeed from '@/app/api/v1/address/[address]/activity/getUserActivityFeed';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import LoadingSpinner from '@/components/Misc/LoadingSpinner';
 import { useApiContext } from '@/contexts';
 import getOriginUrl from '@/utils/getOriginUrl';
 import { ScrollShadow } from '@nextui-org/scroll-shadow';
 import { UserActivityListingItem } from '@/global/types';
 import Image from 'next/image';
+import { Button } from '@nextui-org/button';
 import ListingItem from './ListingItem';
 
 interface ActivityListingProps {
@@ -18,8 +19,6 @@ interface ActivityListingProps {
 
 function ActivityListing({ address, items }: ActivityListingProps) {
 	const { network } = useApiContext();
-
-	const observerTarget = useRef(null);
 
 	const [page, setPage] = useState(1);
 	const [feedItems, setFeedItems] = useState<UserActivityListingItem[]>([]);
@@ -34,44 +33,22 @@ function ActivityListing({ address, items }: ActivityListingProps) {
 		setIsLastPage(false);
 	}, [network]);
 
-	// eslint-disable-next-line sonarjs/cognitive-complexity
-	useEffect(() => {
-		const observer = new IntersectionObserver(
-			(entries) => {
-				if (feedItems.length && entries[0].isIntersecting) {
-					(async () => {
-						setIsFetching(true);
-						const originUrl = getOriginUrl();
-						const nextPage = page ? page + 1 : 1;
-						const newFeedItems = await getUserActivityFeed({ address, originUrl, page: nextPage, network });
+	const handleLoadMore = async () => {
+		setIsFetching(true);
+		const originUrl = getOriginUrl();
+		const nextPage = page ? page + 1 : 1;
+		const newFeedItems = await getUserActivityFeed({ address, originUrl, page: nextPage, network });
 
-						if (newFeedItems.length) {
-							const allItems = [...feedItems, ...newFeedItems];
-							setFeedItems(allItems);
-							setPage(nextPage);
-						} else {
-							setIsLastPage(true);
-						}
-
-						setIsFetching(false);
-					})();
-				}
-			},
-			{ threshold: 1 }
-		);
-
-		if (observerTarget.current) {
-			observer.observe(observerTarget.current);
+		if (newFeedItems.length) {
+			const allItems = [...feedItems, ...newFeedItems];
+			setFeedItems(allItems);
+			setPage(nextPage);
+		} else {
+			setIsLastPage(true);
 		}
 
-		return () => {
-			if (observerTarget.current) {
-				// eslint-disable-next-line react-hooks/exhaustive-deps
-				observer.unobserve(observerTarget.current);
-			}
-		};
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [observerTarget, page]);
+		setIsFetching(false);
+	};
 
 	if (!feedItems.length) {
 		return (
@@ -92,13 +69,24 @@ function ActivityListing({ address, items }: ActivityListingProps) {
 	return (
 		<ScrollShadow className='flex max-h-screen w-full flex-col overflow-auto px-6 py-4'>
 			{feedItems.map((feedItem, idx) => (
-				<ListingItem
-					feedItem={feedItem}
-					isLastItem={idx === feedItems.length - 1}
-				/>
+				<>
+					{feedItem.id}
+					<ListingItem
+						key={feedItem.id}
+						feedItem={feedItem}
+						isLastItem={idx === feedItems.length - 1}
+					/>
+				</>
 			))}
 
-			{!isFetching && !isLastPage && <div ref={observerTarget} />}
+			{!isFetching && !isLastPage && (
+				<Button
+					className='mt-4 min-h-[40px]'
+					onClick={handleLoadMore}
+				>
+					Load More
+				</Button>
+			)}
 
 			{isFetching && !isLastPage && (
 				<div className='mb-6 mt-2'>

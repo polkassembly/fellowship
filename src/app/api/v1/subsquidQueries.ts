@@ -7,6 +7,7 @@ import { gql } from '@urql/core';
 export const GER_USER_ACTIVITY = gql`
 	query GET_USER_ACTIVITY($limit: Int = 10, $offset: Int = 0, $who_eq: String) {
 		activities(where: { who_eq: $who_eq }, limit: $limit, offset: $offset, orderBy: createdAt_DESC) {
+			id
 			type
 			who
 			payout {

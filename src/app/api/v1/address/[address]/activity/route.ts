@@ -21,6 +21,7 @@ export const POST = withErrorHandling(async (req: NextRequest, { params }) => {
 
 	if (!page || isNaN(page) || Number(page) < 1) throw new APIError(`${MESSAGES.REQ_BODY_ERROR}`, 500, API_ERROR_CODE.REQ_BODY_ERROR);
 
-	const activities = getUserActivityFeedServer(address, page);
+	const activities = await getUserActivityFeedServer(address, page);
+
 	return NextResponse.json(activities || []);
 });
