@@ -181,8 +181,9 @@ function ProfileProposals({ address }: Props) {
 					</DropdownMenu>
 				</Dropdown>
 				{type !== EProfileProposals.GENERAL_PROPOSALS ? (
+					// TODO: route with register=true if inducted and not registered
 					<LinkWithNetwork
-						href={`/address/${address}/create-rank-request`}
+						href={type === EProfileProposals.SALARY_REQUESTS ? `/address/${address}/salary-induction` : `/address/${address}/create-rank-request`}
 						className='flex items-center gap-x-[6px] rounded-[39px] border border-primary bg-primary px-3 py-1 text-sm font-medium leading-[21px] tracking-[0.21px] text-white'
 					>
 						{type === EProfileProposals.SALARY_REQUESTS ? (
