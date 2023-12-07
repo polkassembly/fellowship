@@ -35,8 +35,8 @@ function AddressDropdownItem({ name, address, addressDisplayText, className, onC
 			/>
 
 			<span className='text-start'>
-				<h6 className='font-medium'>{name || 'Untitled'}</h6>
-				<p className='text-xs'>{addressDisplayText || address}</p>
+				<h6 className='font-medium'>{name || addressDisplayText || address}</h6>
+				{name && <p className='text-xs'>{addressDisplayText || address}</p>}
 			</span>
 		</div>
 	);
