@@ -11,10 +11,11 @@ import TrendingProposals from '@/components/Home/TrendingProposals';
 import { API_ERROR_CODE } from '@/global/constants/errorCodes';
 import { ClientError } from '@/global/exceptions';
 import MESSAGES from '@/global/messages';
-import { EActivityFeed, Network, ServerComponentProps } from '@/global/types';
+import { ActivityFeedItem, EActivityFeed, Network, PostListingItem, ServerComponentProps } from '@/global/types';
 import { headers } from 'next/headers';
 import { Metadata } from 'next';
 import getOriginUrl from '@/utils/getOriginUrl';
+import PostFeed from '@/components/Home/PostFeed';
 import getActivityFeed from './api/v1/feed/getActivityFeed';
 
 type SearchParamProps = {
@@ -48,7 +49,7 @@ export default async function Home({ searchParams }: ServerComponentProps<unknow
 			<div className='flex flex-col items-center gap-8 xl:flex-row xl:items-start'>
 				<div className='flex w-full flex-col gap-y-4'>
 					<ActivitySelectorCard value={feed as EActivityFeed} />
-					<ActivityFeed items={feedItems || []} />
+					{feed === EActivityFeed.ALL ? <ActivityFeed items={(feedItems || []) as ActivityFeedItem[]} /> : <PostFeed items={(feedItems || []) as PostListingItem[]} />}
 				</div>
 				<div className='flex w-6/12 flex-col gap-y-4 xl:w-4/12'>
 					<Stats />

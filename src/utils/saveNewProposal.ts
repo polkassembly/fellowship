@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { CreatePostResponseType, Network } from '@/global/types';
+import { CreatePostResponseType, Network, ProposalType } from '@/global/types';
 import nextApiClientFetch from './nextApiClientFetch';
 
 interface Params {
@@ -30,7 +30,8 @@ export default async function saveNewProposal({ postId, content, discussionId, p
 			proposerAddress,
 			tags,
 			title,
-			userId
+			userId,
+			proposalType: ProposalType.FELLOWSHIP_REFERENDUMS
 		}
 	});
 

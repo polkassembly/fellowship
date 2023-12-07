@@ -7,22 +7,24 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { PostListingItem, ProposalType, EActivityFeed } from '@/global/types';
 import { parseAsInteger, useQueryState } from 'next-usequerystate';
-import { usePathname } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import getActivityFeed from '@/app/api/v1/feed/getActivityFeed';
 import getOriginUrl from '@/utils/getOriginUrl';
 import { ScrollShadow } from '@nextui-org/scroll-shadow';
 import { useApiContext } from '@/contexts';
+import PostListingCard from './PostListingCard';
 import LoadingSpinner from '../Misc/LoadingSpinner';
-import PostListingCard from '../Home/PostListingCard';
 
 // import InductionListingCard from './InductionListingCard';
 
 interface Props {
 	items: PostListingItem[];
-	feedType: EActivityFeed;
 }
 
-function VotingProposalsFeed({ items, feedType }: Props) {
+// TODO : Optimize and use activity feed instead
+
+function PostFeed({ items }: Props) {
+	const { feed = EActivityFeed.ALL } = useParams();
 	const pathname = usePathname();
 
 	const { network } = useApiContext();
@@ -55,7 +57,7 @@ function VotingProposalsFeed({ items, feedType }: Props) {
 						setIsFetching(true);
 						const originUrl = getOriginUrl();
 						const nextPage = page ? page + 1 : 1;
-						const newFeedItems = (await getActivityFeed({ feedType, originUrl, page: nextPage, network })) as PostListingItem[];
+						const newFeedItems = (await getActivityFeed({ feedType: feed as EActivityFeed, originUrl, page: nextPage, network })) as PostListingItem[];
 
 						if (newFeedItems.length) {
 							const feedItemsMap: {
@@ -89,7 +91,7 @@ function VotingProposalsFeed({ items, feedType }: Props) {
 			}
 		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [observerTarget, page, feedType]);
+	}, [feed, observerTarget, page]);
 
 	if (!feedItems.length) {
 		return <div className='p-6 text-center text-sm'>No feed items found.</div>;
@@ -122,4 +124,4 @@ function VotingProposalsFeed({ items, feedType }: Props) {
 	);
 }
 
-export default VotingProposalsFeed;
+export default PostFeed;

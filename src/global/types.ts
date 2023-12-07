@@ -298,7 +298,8 @@ export enum SubsquidActivityType {
 	RFC = 'RFC',
 	EvidenceSubmitted = 'EvidenceSubmitted',
 	Voted = 'Voted',
-	Imported = 'Imported'
+	Imported = 'Imported',
+	EvidenceJudged = 'EvidenceJudged'
 }
 
 export enum SubsquidProposalType {
@@ -380,10 +381,10 @@ export interface PostListingItem {
 	on_chain_info?: OnChainPostInfo;
 	proposalType: ProposalType;
 	comments_count: number;
-	reactions_count: number;
-	latest_reaction: PublicReactionEntry | null;
-	shares_count: number;
-
+	reactions_count: number; // TODO: remove this
+	latest_reaction: PublicReactionEntry | null; // TODO: remove this use from reactions instead
+	shares_count: number; // TODO: remove
+	views_count?: number; // TODO: remove
 	reactions?: PublicReactionEntry[];
 	views?: PostView[];
 }
@@ -569,4 +570,26 @@ export interface IProfile {
 	manifesto: string;
 	address: string;
 	activities: UserActivityListingItem[];
+}
+
+// TODO: make a base interface for BaseFeedItem and extend it
+
+export interface ActivityFeedItem {
+	id: string;
+	type: SubsquidActivityType;
+	created_at: Date;
+	who: string;
+	comments_count?: number;
+	views?: PostView[];
+	reactions?: PublicReactionEntry[];
+	postListingItem?: PostListingItem;
+	isActive?: boolean;
+	cycleStartDatetime?: Date;
+	evidence?: string;
+	rank?: number;
+	vote?: {
+		decision: 'aye' | 'nay';
+		proposalIndex: number;
+		balance: string;
+	};
 }

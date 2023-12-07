@@ -49,6 +49,7 @@ function ProfileAddressDetails(props: Props) {
 	}, [address, fellows]);
 
 	const handleActiveStatusChange = (value: ActiveStatus) => {
+		if (value === activeStatus) return;
 		setIsActiveFormModalOpen(true);
 		setStatusToSet(value);
 	};

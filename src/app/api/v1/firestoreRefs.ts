@@ -12,16 +12,19 @@ export const userDocRef = (userId: number) => usersCollRef().doc(String(userId))
 
 export const addressesCollRef = () => firestoreDB.collection('addresses');
 export const addressDocRef = (address: string) => addressesCollRef().doc(address);
+
 export const postsCollRef = (networkName: string, proposalType: ProposalType) => networkDocRef(networkName).collection('post_types').doc(String(proposalType)).collection('posts');
-
 export const postDocRef = (networkName: string, proposalType: ProposalType, postId: string) => postsCollRef(networkName, proposalType).doc(postId);
-
 export const postReactionCollRef = (networkName: string, proposalType: ProposalType, postId: string) => postDocRef(networkName, proposalType, postId).collection('post_reactions');
+export const postViewsCollRef = (networkName: string, proposalType: ProposalType, postId: string) => postDocRef(networkName, proposalType, postId).collection('post_views');
 
 export const postCommentsCollRef = (networkName: string, proposalType: ProposalType, postId: string) => postDocRef(networkName, proposalType, postId).collection('comments');
-
 export const commentReactionCollRef = (networkName: string, proposalType: ProposalType, postId: string, commentId: string) =>
 	postCommentsCollRef(networkName, proposalType, postId).doc(commentId).collection('reactions');
-
 export const commentRepliesCollRef = (networkName: string, proposalType: ProposalType, postId: string, commentId: string) =>
 	postCommentsCollRef(networkName, proposalType, postId).doc(commentId).collection('replies');
+
+export const activityCollRef = (networkName: string) => networkDocRef(networkName).collection('activities');
+export const activityDocRef = (networkName: string, activityId: string) => activityCollRef(networkName).doc(activityId);
+export const activityReactionCollRef = (networkName: string, activityId: string) => activityDocRef(networkName, activityId).collection('reactions');
+export const activityViewsCollRef = (networkName: string, activityId: string) => activityDocRef(networkName, activityId).collection('views');

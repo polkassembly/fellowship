@@ -6,6 +6,9 @@ import { API_ERROR_CODE } from '@/global/constants/errorCodes';
 import { ClientError } from '@/global/exceptions';
 import MESSAGES from '@/global/messages';
 import { ProposalType, Network, Vote } from '@/global/types';
+import fetchPonyfill from 'fetch-ponyfill';
+
+const { fetch: fetchPF } = fetchPonyfill();
 
 interface Params {
 	originUrl: string;
@@ -16,7 +19,7 @@ interface Params {
 }
 
 export default async function getPostVotes({ originUrl, id, proposalType, network, page }: Params) {
-	const votesRes = await fetch(`${originUrl}/api/v1/${proposalType.toString()}/${id}/votes`, {
+	const votesRes = await fetchPF(`${originUrl}/api/v1/${proposalType.toString()}/${id}/votes`, {
 		method: 'POST',
 		body: JSON.stringify({ page }),
 		headers: {

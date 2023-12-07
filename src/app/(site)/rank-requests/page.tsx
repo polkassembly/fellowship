@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { EActivityFeed, Network, ServerComponentProps } from '@/global/types';
+import { EActivityFeed, Network, PostListingItem, ServerComponentProps } from '@/global/types';
 import { headers } from 'next/headers';
 import { Metadata } from 'next';
 import getOriginUrl from '@/utils/getOriginUrl';
@@ -27,7 +27,7 @@ export default async function RankRequestsPage({ searchParams }: ServerComponent
 	const headersList = headers();
 	const originUrl = getOriginUrl(headersList);
 
-	const feedItems = await getActivityFeed({ feedType: EActivityFeed.RANK_REQUESTS, originUrl, network: network as Network });
+	const feedItems = (await getActivityFeed({ feedType: EActivityFeed.RANK_REQUESTS, originUrl, network: network as Network })) as PostListingItem[];
 
 	return (
 		<div className='flex w-full flex-col gap-y-8'>

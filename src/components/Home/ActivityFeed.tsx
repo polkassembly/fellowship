@@ -5,20 +5,21 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { PostListingItem, ProposalType, EActivityFeed } from '@/global/types';
+import { EActivityFeed, ActivityFeedItem } from '@/global/types';
 import { parseAsInteger, useQueryState } from 'next-usequerystate';
 import { useParams, usePathname } from 'next/navigation';
 import getActivityFeed from '@/app/api/v1/feed/getActivityFeed';
 import getOriginUrl from '@/utils/getOriginUrl';
 import { ScrollShadow } from '@nextui-org/scroll-shadow';
 import { useApiContext } from '@/contexts';
-import PostListingCard from './PostListingCard';
 import LoadingSpinner from '../Misc/LoadingSpinner';
+import PostListingCard from './PostListingCard';
+import ActivityListingCard from './ActivityListingCard';
 
 // import InductionListingCard from './InductionListingCard';
 
 interface Props {
-	items: PostListingItem[];
+	items: ActivityFeedItem[];
 }
 
 function ActivityFeed({ items }: Props) {
@@ -30,7 +31,7 @@ function ActivityFeed({ items }: Props) {
 	const observerTarget = useRef(null);
 
 	const [page, setPage] = useQueryState('page', parseAsInteger);
-	const [feedItems, setFeedItems] = useState<PostListingItem[]>(items || []);
+	const [feedItems, setFeedItems] = useState<ActivityFeedItem[]>(items || []);
 	const [isFetching, setIsFetching] = useState(false);
 	const [isLastPage, setIsLastPage] = useState(false);
 
@@ -55,11 +56,11 @@ function ActivityFeed({ items }: Props) {
 						setIsFetching(true);
 						const originUrl = getOriginUrl();
 						const nextPage = page ? page + 1 : 1;
-						const newFeedItems = await getActivityFeed({ feedType: feed as EActivityFeed, originUrl, page: nextPage, network });
+						const newFeedItems = (await getActivityFeed({ feedType: feed as EActivityFeed, originUrl, page: nextPage, network })) as ActivityFeedItem[];
 
 						if (newFeedItems.length) {
 							const feedItemsMap: {
-								[key: string]: PostListingItem;
+								[key: string]: ActivityFeedItem;
 							} = {};
 							const allItems = [...feedItems, ...newFeedItems];
 							allItems.forEach((item) => {
@@ -97,15 +98,9 @@ function ActivityFeed({ items }: Props) {
 
 	return (
 		<ScrollShadow className='flex max-h-screen w-full flex-col gap-y-4 overflow-auto'>
-			{feedItems.map(
-				(feedItem) =>
-					feedItem.proposalType === ProposalType.FELLOWSHIP_REFERENDUMS && (
-						<PostListingCard
-							key={`${feedItem.proposalType}_${feedItem.id}`}
-							feedItem={feedItem}
-						/>
-					)
-			)}
+			{feedItems.map((feedItem) => (
+				<div key={feedItem.id}>{feedItem.postListingItem ? <PostListingCard feedItem={feedItem.postListingItem} /> : <ActivityListingCard feedItem={feedItem} />}</div>
+			))}
 
 			{!isFetching && !isLastPage && <div ref={observerTarget} />}
 
@@ -116,8 +111,6 @@ function ActivityFeed({ items }: Props) {
 			)}
 
 			{isLastPage && <div className='mb-6 mt-4 flex justify-center text-sm'>Yay! You have reached the end of the feed.</div>}
-
-			{/* <InductionListingCard /> */}
 		</ScrollShadow>
 	);
 }

@@ -13,7 +13,7 @@ import SharePostBtn from './SharePostBtn';
 interface Props {
 	className?: string;
 	postId: number | string;
-	postType: ProposalType;
+	postType?: ProposalType;
 	reactions?: PublicReactionEntry[];
 	views?: PostView[];
 }
@@ -110,17 +110,9 @@ function PostActionBar(props: Props) {
 				<span className='text-xs'>{views.length || 0}</span>
 			</div>
 
-			<div className='flex items-center gap-0.5'>
-				<AddSubscriptionBtn />
+			<AddSubscriptionBtn />
 
-				<span className='text-xs'>0</span>
-			</div>
-
-			<div className='flex items-center gap-0.5'>
-				<SharePostBtn />
-
-				<span className='text-xs'>0</span>
-			</div>
+			<SharePostBtn />
 		</section>
 	);
 }
