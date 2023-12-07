@@ -6,6 +6,9 @@ import { API_ERROR_CODE } from '@/global/constants/errorCodes';
 import { ClientError } from '@/global/exceptions';
 import MESSAGES from '@/global/messages';
 import { Network, IProfile } from '@/global/types';
+import fetchPonyfill from 'fetch-ponyfill';
+
+const { fetch: fetchPF } = fetchPonyfill();
 
 interface Args {
 	originUrl: string;
@@ -14,7 +17,7 @@ interface Args {
 }
 
 export default async function getProfile({ originUrl, address, network }: Args) {
-	const addressRes = await fetch(`${originUrl}/api/v1/address/${address}`, {
+	const addressRes = await fetchPF(`${originUrl}/api/v1/address/${address}`, {
 		headers: {
 			'x-network': network || ''
 		},

@@ -7,6 +7,10 @@ import { ClientError } from '@/global/exceptions';
 import MESSAGES from '@/global/messages';
 import { Network, PostIdWithViews, ProposalType } from '@/global/types';
 
+import fetchPonyfill from 'fetch-ponyfill';
+
+const { fetch: fetchPF } = fetchPonyfill();
+
 interface Args {
 	originUrl: string;
 	network?: Network;
@@ -15,7 +19,7 @@ interface Args {
 }
 
 export default async function getPostsViews({ originUrl, network, postIds, proposalType }: Args) {
-	const feedRes = await fetch(`${originUrl}/api/v1/${proposalType.toString()}/views`, {
+	const feedRes = await fetchPF(`${originUrl}/api/v1/${proposalType.toString()}/views`, {
 		headers: {
 			'x-network': network || ''
 		},

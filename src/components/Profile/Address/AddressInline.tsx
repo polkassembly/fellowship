@@ -36,7 +36,7 @@ function AddressInline({ address, addressDisplayText, className, startChars, end
 				iconSize={iconSize}
 			/>
 
-			<p>
+			<p className='flex flex-nowrap whitespace-nowrap'>
 				{addressDisplayText ||
 					(startChars && endChars
 						? midTruncateText({

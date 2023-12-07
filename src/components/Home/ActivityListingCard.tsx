@@ -112,7 +112,7 @@ function ActivityListingCard({ feedItem }: Props) {
 							address={feedItem.who}
 							truncateCharLen={5}
 						/>
-						&nbsp;was inducted
+						&nbsp;was inducted to fellowship
 						{feedItem.created_at && (
 							<>
 								&nbsp;on&nbsp;
@@ -196,7 +196,7 @@ function ActivityListingCard({ feedItem }: Props) {
 							address={feedItem.who}
 							truncateCharLen={5}
 						/>
-						&nbsp;voted&nbsp;{feedItem.vote?.decision} on&nbsp;{' '}
+						&nbsp;voted&nbsp;{feedItem.vote?.decision} with a weight of {feedItem.vote?.balance} votes on&nbsp;{' '}
 						<LinkWithNetwork
 							className='text-link'
 							href={`/referenda/${feedItem.vote?.proposalIndex}`}
@@ -243,7 +243,7 @@ function ActivityListingCard({ feedItem }: Props) {
 				shadow='none'
 				className='flex flex-col gap-3 border border-primary_border px-6 py-4'
 			>
-				<div className='flex gap-3 text-sm'>
+				<div className='flex gap-3 pb-3 text-sm'>
 					<div>{getActivityText()}</div>
 				</div>
 				<PostReactionInfoBar

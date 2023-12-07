@@ -6,6 +6,9 @@ import { API_ERROR_CODE } from '@/global/constants/errorCodes';
 import { ClientError } from '@/global/exceptions';
 import MESSAGES from '@/global/messages';
 import { EProfileProposals, Network, PayoutListingItem, PostListingItem } from '@/global/types';
+import fetchPonyfill from 'fetch-ponyfill';
+
+const { fetch: fetchPF } = fetchPonyfill();
 
 interface Args {
 	profileProposalsType: EProfileProposals;
@@ -16,7 +19,7 @@ interface Args {
 }
 
 export default async function getProfileProposals({ profileProposalsType, originUrl, page = 1, network, address }: Args) {
-	const feedRes = await fetch(`${originUrl}/api/v1/address/${address}/proposals`, {
+	const feedRes = await fetchPF(`${originUrl}/api/v1/address/${address}/proposals`, {
 		headers: {
 			'x-network': network || ''
 		},
