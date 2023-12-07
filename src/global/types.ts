@@ -67,6 +67,12 @@ export enum EProfileProposals {
 	SALARY_REQUESTS = 'salary-requests'
 }
 
+export enum EUserActivityType {
+	ALL = 'all',
+	VOTES = 'votes',
+	REFERENDUMS = 'referendums'
+}
+
 export type ErrorBoundaryPageProps = { error: Error; reset: () => void };
 
 export type ServerComponentProps<T, U> = {
@@ -342,6 +348,26 @@ export interface OnChainPostInfo {
 	};
 	statusHistory?: SingleStatus[];
 	activity_type: SubsquidActivityType;
+	proposal_arguments?: {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		args: any;
+		description: string;
+		method: string;
+		section: string;
+	};
+	deciding?: {
+		confirming: number;
+		since: number;
+	} | null;
+	decision_deposit?: {
+		amount: number;
+		who: string;
+	} | null;
+	submission_deposit?: {
+		amount: number;
+		who: string;
+	} | null;
+	deposit?: number;
 }
 
 export interface PostListingItem {
@@ -361,6 +387,52 @@ export interface PostListingItem {
 	views_count?: number; // TODO: remove
 	reactions?: PublicReactionEntry[];
 	views?: PostView[];
+}
+
+export interface UserActivityListingItem {
+	id: string | number;
+	who: string | null;
+	activityType: SubsquidActivityType;
+	payout: {
+		amount: number;
+		beneficiary: string;
+		createdAt: string;
+		createdAtBlock: number;
+		who: string | null;
+		rank: number | null;
+	} | null;
+	otherActions: {
+		wish: string | null;
+		who: string;
+		showClaimButton: boolean | null;
+		toRank: number | null;
+		rank: number | null;
+		evidenceJudged: boolean | null;
+		evidence: string | null;
+		createdAtBlock: number;
+		createdAt: string;
+		amount: number | null;
+		isActive: boolean | null;
+	} | null;
+	vote: {
+		blockNumber: number;
+		decision: string;
+		proposalIndex: number;
+		timestamp: string;
+		type: string;
+		voter: string;
+	} | null;
+	proposal: {
+		index?: number;
+		proposer?: string;
+		createdAt?: string;
+		createdAtBlock?: number;
+		title?: string;
+		content?: string;
+	} | null;
+	salaryCycle: {
+		cycleIndex: number;
+	} | null;
 }
 
 export interface PayoutListingItem {
@@ -497,6 +569,7 @@ export interface IProfile {
 	user_id: number;
 	manifesto: string;
 	address: string;
+	activities: UserActivityListingItem[];
 }
 
 // TODO: make a base interface for BaseFeedItem and extend it

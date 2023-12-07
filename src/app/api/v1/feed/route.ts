@@ -115,10 +115,10 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
 
 		if (!firestoreProposalData?.title || !firestoreProposalData?.content) {
 			const { content, title } = await getSubSquareContentAndTitle(ProposalType.FELLOWSHIP_REFERENDUMS, network, onChainProposalObj.index);
-			if (!firestoreProposalData?.title) {
+			if (!firestoreProposalData?.title && title) {
 				firestoreProposalData.title = title;
 			}
-			if (!firestoreProposalData?.content) {
+			if (!firestoreProposalData?.content && content) {
 				firestoreProposalData.content = content;
 			}
 		}

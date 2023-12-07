@@ -6,7 +6,11 @@ import { OnChainPostInfo } from '@/global/types';
 import { Divider } from '@nextui-org/divider';
 import { Tooltip } from '@nextui-org/tooltip';
 import dayjs from 'dayjs';
-import React from 'react';
+import React, { useMemo } from 'react';
+import useCurrentBlock from '@/hooks/useCurrentBlock';
+import { useApiContext } from '@/contexts';
+import formattedBlockToTime from '@/utils/formattedBlockToTime';
+import formatBnBalance from '@/utils/formatBnBalance';
 import ArgumentsTableJSONView from './ArgumentsTableJSONView';
 
 interface Props {
@@ -23,10 +27,7 @@ const getMetadataArray = (onChainInfo: OnChainPostInfo) => {
 	}[] = [];
 
 	if (preimage) {
-		const { deposit, length, createdAt, createdAtBlock, hash, method, proposer, section, status } = preimage;
-		if (deposit) {
-			metadataArray.push({ value: deposit, label: 'Deposit', cmp: <p>{deposit}</p> });
-		}
+		const { length, createdAt, createdAtBlock, hash, method, proposer, section, status } = preimage;
 
 		if (length) {
 			metadataArray.push({ value: length, label: 'Length', cmp: <p>{length}</p> });
@@ -49,7 +50,17 @@ const getMetadataArray = (onChainInfo: OnChainPostInfo) => {
 		}
 
 		if (proposer) {
-			metadataArray.push({ value: proposer, label: 'Proposer', cmp: <AddressInline address={proposer} /> });
+			metadataArray.push({
+				value: proposer,
+				label: 'Proposer',
+				cmp: (
+					<AddressInline
+						address={proposer}
+						endChars={5}
+						startChars={5}
+					/>
+				)
+			});
 		}
 
 		if (section) {
@@ -73,9 +84,84 @@ const getMetadataArray = (onChainInfo: OnChainPostInfo) => {
 };
 
 function OnChainInfo({ onChainInfo }: Props) {
+	const currentBlock = useCurrentBlock();
+	const { network } = useApiContext();
+
+	const metadataArray = useMemo(() => {
+		if (!onChainInfo)
+			return [] as {
+				value: string | number | undefined;
+				label: string;
+				cmp: React.JSX.Element;
+			}[];
+		const mdArray = getMetadataArray(onChainInfo);
+		const { deciding, submission_deposit: submissionDeposit, decision_deposit: decisionDeposit, preimage } = onChainInfo;
+
+		if (preimage?.deposit) {
+			mdArray.push({
+				value: preimage?.deposit,
+				label: 'Deposit',
+				cmp: <p>{formatBnBalance(String(preimage?.deposit), { numberAfterComma: 2, withUnit: true }, network)}</p>
+			});
+		}
+
+		if (deciding?.since) {
+			mdArray.push({ value: deciding?.since, label: 'Deciding Since', cmp: <p>{formattedBlockToTime(Number(deciding.since), network, currentBlock)}</p> });
+		}
+
+		if (deciding?.confirming) {
+			mdArray.push({ value: deciding?.confirming, label: 'Confirm Started', cmp: <p>{formattedBlockToTime(Number(deciding.confirming), network, currentBlock)}</p> });
+		}
+
+		if (decisionDeposit?.amount) {
+			mdArray.push({
+				value: decisionDeposit?.amount,
+				label: 'Decision Deposit',
+				cmp: <p>{formatBnBalance(String(decisionDeposit?.amount), { numberAfterComma: 2, withUnit: true }, network)}</p>
+			});
+		}
+
+		if (decisionDeposit?.who) {
+			mdArray.push({
+				value: decisionDeposit?.who,
+				label: 'Decision Deposited By',
+				cmp: (
+					<AddressInline
+						address={decisionDeposit?.who}
+						endChars={5}
+						startChars={5}
+					/>
+				)
+			});
+		}
+
+		if (submissionDeposit?.amount) {
+			mdArray.push({
+				value: submissionDeposit?.amount,
+				label: 'Submission Deposit',
+				cmp: <p>{formatBnBalance(String(submissionDeposit?.amount), { numberAfterComma: 2, withUnit: true }, network)}</p>
+			});
+		}
+
+		if (submissionDeposit?.who) {
+			mdArray.push({
+				value: submissionDeposit?.who,
+				label: 'Submission Deposited By',
+				cmp: (
+					<AddressInline
+						address={submissionDeposit?.who}
+						endChars={5}
+						startChars={5}
+					/>
+				)
+			});
+		}
+
+		return mdArray;
+	}, [onChainInfo, network, currentBlock]);
+
 	if (!onChainInfo) return null;
 
-	const metadataArray = getMetadataArray(onChainInfo);
 	return (
 		<div>
 			<h5 className='mb-5 text-base font-bold'>Metadata</h5>
@@ -95,7 +181,7 @@ function OnChainInfo({ onChainInfo }: Props) {
 					);
 				})}
 			</ul>
-			<ArgumentsTableJSONView postArguments={onChainInfo?.preimage?.proposedCall} />
+			<ArgumentsTableJSONView postArguments={onChainInfo?.preimage?.proposedCall || onChainInfo?.proposal_arguments} />
 		</div>
 	);
 }

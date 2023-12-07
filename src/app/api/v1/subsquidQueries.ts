@@ -46,6 +46,54 @@ export const GET_ALL_ACTIVITIES = gql`
 	}
 `;
 
+export const GER_USER_ACTIVITY = gql`
+	query GET_USER_ACTIVITY($limit: Int = 10, $offset: Int = 0, $who_eq: String) {
+		activities(where: { who_eq: $who_eq }, limit: $limit, offset: $offset, orderBy: createdAt_DESC) {
+			id
+			type
+			who
+			payout {
+				amount
+				beneficiary
+				createdAt
+				createdAtBlock
+				who
+				rank
+			}
+			otherActions {
+				wish
+				who
+				showClaimButton
+				toRank
+				rank
+				evidenceJudged
+				evidence
+				createdAtBlock
+				createdAt
+				amount
+				isActive
+			}
+			vote {
+				blockNumber
+				decision
+				proposalIndex
+				timestamp
+				type
+				voter
+			}
+			proposal {
+				index
+				proposer
+				createdAt
+				createdAtBlock
+			}
+			salaryCycle {
+				cycleIndex
+			}
+		}
+	}
+`;
+
 export const GET_FELLOWSHIP_REFERENDUMS = gql`
 	query GET_FELLOWSHIP_REFERENDUMS($limit: Int = 10, $offset: Int = 0, $type_in: [ActivityType!], $who_eq: String) {
 		activities(where: { type_in: $type_in, who_eq: $who_eq }, limit: $limit, offset: $offset, orderBy: proposal_createdAt_DESC) {
@@ -170,6 +218,19 @@ export const GET_REFERENDUM = gql`
 				}
 				type
 				submittedAtBlock
+				deciding {
+					confirming
+					since
+				}
+				decisionDeposit {
+					amount
+					who
+				}
+				submissionDeposit {
+					amount
+					who
+				}
+				deposit
 			}
 			who
 		}
