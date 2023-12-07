@@ -61,7 +61,7 @@ function ProfileAddressDetails(props: Props) {
 
 		(async () => {
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			const { isActive } = (await api.query.fellowshipCore.member(substrateAddress)).toJSON() as any;
+			const { isActive = false } = ((await api.query.fellowshipCore.member(substrateAddress)).toJSON() || {}) as any;
 
 			setActiveStatus(isActive ? ActiveStatus.ACTIVE : ActiveStatus.INACTIVE);
 		})();
