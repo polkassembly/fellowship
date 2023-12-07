@@ -70,7 +70,7 @@ function Manifesto({ manifesto: prevManifesto, address }: Props) {
 	}, [address, userDetails]);
 
 	return (
-		<Card className='min-h-[223px] rounded-[20px] border border-primary_border px-4 py-6'>
+		<Card className='h-full min-h-[301px] rounded-[20px] border border-primary_border px-4 py-6'>
 			<div className='flex items-center gap-x-2'>
 				<h4 className='text-base font-semibold leading-6'>Manifesto</h4>
 				{isLoggedInUserProfile ? (
@@ -127,7 +127,15 @@ function Manifesto({ manifesto: prevManifesto, address }: Props) {
 					/>
 				</div>
 			) : (
-				<p className='flex h-full max-h-[146px] items-center justify-center text-sm font-normal leading-[21px] tracking-[0.14px] text-secondary'>Please add your manifesto</p>
+				<div className='flex h-full flex-1 flex-col items-center justify-center gap-y-[14px] text-sm font-normal leading-[21px] tracking-[0.14px] text-secondary'>
+					<Image
+						alt='empty manifesto icon'
+						src='/icons/empty-states/manifesto.svg'
+						width={184}
+						height={155.5}
+					/>
+					<p className='m-0 p-0 text-sm font-normal leading-[21px] tracking-[0.14px]'>Introduce yourself to other members</p>
+				</div>
 			)}
 		</Card>
 	);

@@ -13,6 +13,7 @@ import { API_ERROR_CODE } from '@/global/constants/errorCodes';
 import { IProfile } from '@/global/types';
 import getSubstrateAddress from '@/utils/getSubstrateAddress';
 import { addressDocRef, userDocRef } from '../../firestoreRefs';
+import { getUserActivityFeedServer } from './activity/utils';
 
 export const GET = withErrorHandling(async (req: NextRequest, { params }) => {
 	const { address = '' } = params;
@@ -39,12 +40,15 @@ export const GET = withErrorHandling(async (req: NextRequest, { params }) => {
 
 	const user = userDocSnapshot.data();
 
+	const activities = await getUserActivityFeedServer(address, 1);
+
 	// TODO: use substrate address and check in all implementations
 
 	const profile: IProfile = {
 		user_id: user?.id,
 		manifesto: user?.manifesto || '',
-		address: data?.address || ''
+		address: data?.address || '',
+		activities: activities || []
 	};
 
 	return NextResponse.json(profile);
