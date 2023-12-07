@@ -6,6 +6,9 @@ import { API_ERROR_CODE } from '@/global/constants/errorCodes';
 import { ClientError } from '@/global/exceptions';
 import MESSAGES from '@/global/messages';
 import { Network, UserActivityListingItem } from '@/global/types';
+import fetchPonyfill from 'fetch-ponyfill';
+
+const { fetch: fetchPF } = fetchPonyfill();
 
 interface Args {
 	originUrl: string;
@@ -15,7 +18,7 @@ interface Args {
 }
 
 export default async function getUserActivityFeed({ originUrl, page = 1, network, address }: Args) {
-	const feedRes = await fetch(`${originUrl}/api/v1/address/${address}/activity`, {
+	const feedRes = await fetchPF(`${originUrl}/api/v1/address/${address}/activity`, {
 		headers: {
 			'x-network': network || ''
 		},
