@@ -9,6 +9,7 @@ import Image from 'next/image';
 import RANK_CONSTANTS from '@/global/constants/rankConstants';
 import { useApiContext } from '@/contexts';
 import getEncodedAddress from '@/utils/getEncodedAddress';
+import { Tooltip } from '@nextui-org/tooltip';
 import Address from '../Profile/Address';
 import LinkWithNetwork from '../Misc/LinkWithNetwork';
 
@@ -54,12 +55,19 @@ function FellowsTable({ className, fellows, fellowsDetails }: Props) {
 						</TableCell>
 
 						<TableCell>
-							<Image
-								alt='rank icon'
-								src={RANK_CONSTANTS[fellow.rank].icon}
-								width={24}
-								height={24}
-							/>
+							<div className='text-xs'>
+								<Tooltip content={`Rank: ${String(RANK_CONSTANTS[fellow.rank].rank)}`}>
+									<div className='flex gap-2'>
+										{RANK_CONSTANTS[fellow.rank].displayName}
+										<Image
+											alt='rank icon'
+											src={RANK_CONSTANTS[fellow.rank].icon}
+											width={24}
+											height={24}
+										/>
+									</div>
+								</Tooltip>
+							</div>
 						</TableCell>
 
 						{/* TODO: Add since */}
