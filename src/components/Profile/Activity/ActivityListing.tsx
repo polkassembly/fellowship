@@ -69,14 +69,11 @@ function ActivityListing({ address, items }: ActivityListingProps) {
 	return (
 		<ScrollShadow className='flex max-h-screen w-full flex-col overflow-auto px-6 py-4'>
 			{feedItems.map((feedItem, idx) => (
-				<>
-					{feedItem.id}
-					<ListingItem
-						key={feedItem.id}
-						feedItem={feedItem}
-						isLastItem={idx === feedItems.length - 1}
-					/>
-				</>
+				<ListingItem
+					key={feedItem.id}
+					feedItem={feedItem}
+					isLastItem={idx === feedItems.length - 1}
+				/>
 			))}
 
 			{!isFetching && !isLastPage && (
