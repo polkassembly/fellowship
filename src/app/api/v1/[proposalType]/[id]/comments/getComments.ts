@@ -6,6 +6,9 @@ import { API_ERROR_CODE } from '@/global/constants/errorCodes';
 import { ClientError } from '@/global/exceptions';
 import MESSAGES from '@/global/messages';
 import { Network, PostCommentResponse, ProposalType } from '@/global/types';
+import fetchPonyfill from 'fetch-ponyfill';
+
+const { fetch: fetchPF } = fetchPonyfill();
 
 interface Params {
 	originUrl: string;
@@ -15,7 +18,7 @@ interface Params {
 }
 
 export default async function getComments({ originUrl, id, proposalType, network }: Params) {
-	const feedRes = await fetch(`${originUrl}/api/v1/${proposalType.toString()}/${id}/comments`, {
+	const feedRes = await fetchPF(`${originUrl}/api/v1/${proposalType.toString()}/${id}/comments`, {
 		method: 'GET',
 		headers: {
 			'x-network': network || ''

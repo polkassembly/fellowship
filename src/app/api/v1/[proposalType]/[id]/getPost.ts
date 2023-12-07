@@ -6,6 +6,9 @@ import { API_ERROR_CODE } from '@/global/constants/errorCodes';
 import { ClientError } from '@/global/exceptions';
 import MESSAGES from '@/global/messages';
 import { ProposalType, IPost, Network } from '@/global/types';
+import fetchPonyfill from 'fetch-ponyfill';
+
+const { fetch: fetchPF } = fetchPonyfill();
 
 interface Params {
 	originUrl: string;
@@ -14,8 +17,10 @@ interface Params {
 	network?: Network;
 }
 
+// TODO: make a common function for fetchPF
+
 export default async function getPost({ originUrl, id, proposalType, network }: Params) {
-	const feedRes = await fetch(`${originUrl}/api/v1/${proposalType.toString()}/${id}`, {
+	const feedRes = await fetchPF(`${originUrl}/api/v1/${proposalType.toString()}/${id}`, {
 		method: 'GET',
 		headers: {
 			'x-network': network || ''

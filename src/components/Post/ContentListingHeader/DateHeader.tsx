@@ -10,7 +10,7 @@ function DateHeader({ date = new Date(), format = 'D MMM YYYY' }: { date: Date |
 	const formattedDateString = dayjs(date).format(format);
 
 	return (
-		<div className='flex gap-1'>
+		<div className='flex flex-nowrap gap-1 whitespace-nowrap'>
 			<Image
 				src='/icons/clock.svg'
 				width={16}
