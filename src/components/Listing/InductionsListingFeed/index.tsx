@@ -5,7 +5,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { PostListingItem, ProposalType } from '@/global/types';
+import { PostListingItem } from '@/global/types';
 import { parseAsInteger, useQueryState } from 'next-usequerystate';
 import { usePathname } from 'next/navigation';
 import getOriginUrl from '@/utils/getOriginUrl';
@@ -96,15 +96,12 @@ function InductionsListingFeed({ items }: Props) {
 
 	return (
 		<ScrollShadow className='flex max-h-screen w-full flex-col gap-y-4 overflow-auto'>
-			{feedItems.map(
-				(feedItem) =>
-					feedItem.proposalType === ProposalType.DISCUSSIONS && (
-						<PostListingCard
-							key={feedItem.id}
-							feedItem={feedItem}
-						/>
-					)
-			)}
+			{feedItems.map((feedItem) => (
+				<PostListingCard
+					key={feedItem.id}
+					feedItem={feedItem}
+				/>
+			))}
 
 			{!isFetching && !isLastPage && <div ref={observerTarget} />}
 

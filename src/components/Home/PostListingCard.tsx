@@ -43,6 +43,8 @@ function PostListingCard({ feedItem, cardClassName, isDividerDisabled }: Props) 
 						activityType={
 							feedItem.proposalType === ProposalType.FELLOWSHIP_REFERENDUMS && feedItem.on_chain_info?.status && VOTABLE_STATUSES.includes(feedItem.on_chain_info?.status)
 								? ActivityType.GENERAL_PROPOSAL
+								: feedItem.proposalType === ProposalType.DISCUSSIONS
+								? ActivityType.INDUCTION
 								: undefined
 						}
 						address={feedItem.on_chain_info?.proposer}
