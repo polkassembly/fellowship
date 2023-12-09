@@ -149,7 +149,7 @@ function ProfileProposals({ address }: Props) {
 	}, [type, address, network]);
 
 	return (
-		<Card className='h-full rounded-[20px] border border-primary_border'>
+		<Card className='rounded-[20px] border border-primary_border'>
 			<div className='flex items-center justify-between border-b border-primary_border px-4 py-6'>
 				<Dropdown>
 					<DropdownTrigger>
@@ -203,7 +203,7 @@ function ProfileProposals({ address }: Props) {
 					</LinkWithNetwork>
 				) : null}
 			</div>
-			<div className='flex h-full flex-1 justify-center overflow-hidden'>
+			<div className='flex max-h-[50vh] flex-1 justify-center overflow-y-auto'>
 				{loading ? (
 					<div className='flex h-full min-h-[218px] items-center justify-center'>
 						<LoadingSpinner message='Fetching proposals...' />

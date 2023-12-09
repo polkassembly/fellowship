@@ -26,17 +26,9 @@ export const GET = withErrorHandling(async (req: NextRequest, { params }) => {
 	// convert addresses to network format
 	const docSnapshot = await addressDocRef(substrateAddress).get();
 
-	if (!docSnapshot.exists) {
-		throw new APIError(`${MESSAGES.ADDRESS_NOT_FOUND_ERROR}`, 404, API_ERROR_CODE.ADDRESS_NOT_FOUND_ERROR);
-	}
-
 	const data = docSnapshot.data();
 
 	const userDocSnapshot = await userDocRef(data?.user_id).get();
-
-	if (!userDocSnapshot.exists) {
-		throw new APIError(`${MESSAGES.ADDRESS_NOT_FOUND_ERROR}`, 404, API_ERROR_CODE.ADDRESS_NOT_FOUND_ERROR);
-	}
 
 	const user = userDocSnapshot.data();
 
