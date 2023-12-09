@@ -16,6 +16,7 @@ import getEncodedAddress from '@/utils/getEncodedAddress';
 import { Card } from '@nextui-org/card';
 import getSubstrateAddress from '@/utils/getSubstrateAddress';
 import ActivityStatusModal from './ActivityStatusModal';
+import IdentityBadge from '../Address/IdentityBadge';
 
 interface Props {
 	address: string;
@@ -39,10 +40,26 @@ const activeStates = [
 
 function ProfileAddressDetails(props: Props) {
 	const { address } = props;
-	const { fellows, network, api, apiReady } = useApiContext();
+	const { fellows, network, api, apiReady, relayApiReady, relayApi } = useApiContext();
 	const [activeStatus, setActiveStatus] = useState<ActiveStatus | null>(null);
 	const [isActiveFormModalOpen, setIsActiveFormModalOpen] = useState(false);
 	const [statusToSet, setStatusToSet] = useState<ActiveStatus>(ActiveStatus.ACTIVE);
+
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const [onChainIdentity, setOnChainIdentity] = useState<any>();
+
+	const encodedAddress = getEncodedAddress(address, network) || address;
+	const onChainUsername = onChainIdentity?.identity?.displayParent || onChainIdentity?.identity?.display || '';
+
+	useEffect(() => {
+		if (!relayApi || !relayApiReady) return;
+
+		(async () => {
+			const identity = await relayApi.derive.accounts.info(encodedAddress);
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			setOnChainIdentity(identity as any);
+		})();
+	}, [encodedAddress, relayApi, relayApiReady]);
 
 	const fellow = useMemo(() => {
 		return fellows.find((f) => f.address === address);
@@ -80,10 +97,22 @@ function ProfileAddressDetails(props: Props) {
 						/>
 					</Card>
 				</section>
+				{/* TODO: make and use a 'profile' variant of Address/index.tsx instead */}
 				<Card className='relative flex h-[68px] min-w-[324px] gap-x-3 rounded-[20px] border border-primary_border  pl-[98px]'>
 					<section className='flex w-full flex-col justify-between py-2 pr-4'>
 						<article className='flex w-full items-center justify-between'>
-							<h6 className='text-xl font-semibold leading-6'>Untitled</h6>
+							<h6 className='flex items-center gap-2 text-xl font-semibold leading-6'>
+								{onChainUsername ||
+									midTruncateText({
+										text: getEncodedAddress(address, network) || '',
+										startChars: 5,
+										endChars: 5
+									})}
+								<IdentityBadge
+									onChainIdentity={onChainIdentity}
+									iconSize={20}
+								/>
+							</h6>
 							{fellow ? (
 								<Image
 									alt='rank icon'
