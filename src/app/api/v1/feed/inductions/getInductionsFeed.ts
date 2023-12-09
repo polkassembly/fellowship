@@ -5,30 +5,27 @@
 import { API_ERROR_CODE } from '@/global/constants/errorCodes';
 import { ClientError } from '@/global/exceptions';
 import MESSAGES from '@/global/messages';
-import { ActivityFeedItem, EActivityFeed, Network, PostListingItem } from '@/global/types';
+import { Network, PostListingItem } from '@/global/types';
 import fetchPonyfill from 'fetch-ponyfill';
 
 const { fetch: fetchPF } = fetchPonyfill();
 
 interface Args {
-	feedType: EActivityFeed;
 	originUrl: string;
 	page?: number;
 	network?: Network;
 }
 
-export default async function getActivityFeed({ feedType, originUrl, page = 1, network }: Args) {
-	const feedRes = await fetchPF(`${originUrl}/api/v1/feed${feedType === EActivityFeed.ALL ? '/all/' : '/'}`, {
+export default async function getInductionsFeed({ originUrl, page = 1, network }: Args) {
+	const feedRes = await fetchPF(`${originUrl}/api/v1/feed/inductions`, {
 		headers: {
 			'x-network': network || ''
 		},
-		body: JSON.stringify({ feedType, page }),
+		body: JSON.stringify({ page }),
 		method: 'POST'
 	}).catch((e) => {
 		throw new ClientError(`${MESSAGES.API_FETCH_ERROR} - ${e}`, API_ERROR_CODE.API_FETCH_ERROR);
 	});
-
-	if (feedType === EActivityFeed.ALL) return (await feedRes.json()) as ActivityFeedItem[];
 
 	return (await feedRes.json()) as PostListingItem[];
 }
