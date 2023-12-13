@@ -11,6 +11,9 @@ import DEFAULT_POST_TITLE from '@/global/constants/defaultTitle';
 import LinkWithNetwork from '@/components/Misc/LinkWithNetwork';
 import { getActivityIconSrc, getCreatedAtDate, getProposalTitle } from './utils';
 import AddressInline from '../Address/AddressInline';
+import Link from 'next/link';
+import { useApiContext } from '@/contexts';
+import Address from '../Address';
 
 interface Props {
 	feedItem: UserActivityListingItem;
@@ -34,6 +37,7 @@ function ActivityIcon({ feedItem }: Props) {
 
 function ActivityText({ feedItem }: Props) {
 	const { activityType } = feedItem;
+	const { network } = useApiContext();
 	switch (activityType) {
 		case SubsquidActivityType.RetentionRequest:
 		case SubsquidActivityType.PromotionRequest:
@@ -50,10 +54,10 @@ function ActivityText({ feedItem }: Props) {
 		case SubsquidActivityType.EvidenceSubmitted:
 			return (
 				<div className='flex items-center gap-x-2 text-sm'>
-					<AddressInline
+					<Address
+						variant='inline'
 						address={feedItem.who || ''}
-						endChars={5}
-						startChars={5}
+						truncateCharLen={4}
 					/>
 					<p>
 						submitted an evidence onchain for <span className=' text-sm font-semibold leading-4 tracking-[0.21px]'>{feedItem?.otherActions?.wish || ''}</span>
@@ -63,10 +67,10 @@ function ActivityText({ feedItem }: Props) {
 		case SubsquidActivityType.SalaryInduction:
 			return (
 				<div className='flex items-center gap-x-2 text-sm'>
-					<AddressInline
+					<Address
+						variant='inline'
 						address={feedItem.who || ''}
-						endChars={5}
-						startChars={5}
+						truncateCharLen={4}
 					/>
 					<p>
 						inducted themselves into payout system for salary of cycle{' '}
@@ -76,26 +80,31 @@ function ActivityText({ feedItem }: Props) {
 			);
 		case SubsquidActivityType.Voted:
 			return (
-				<div className='flex items-center gap-x-1 text-sm'>
-					<span
-						className={classNames('', {
-							'text-voteAye': feedItem?.vote?.decision === 'yes',
-							'text-voteNay': !(feedItem?.vote?.decision === 'yes')
-						})}
-					>
-						Voted {feedItem?.vote?.decision === 'yes' ? 'Aye' : 'Nay'}
-					</span>
-					<span>on {getProposalTitle(feedItem)}</span>
-					<p className='text-sm font-semibold leading-4 tracking-[0.21px]'>{feedItem?.proposal?.title === DEFAULT_POST_TITLE ? '' : feedItem?.proposal?.title}</p>
-				</div>
+				<Link
+					href={`/referenda/${feedItem?.proposal?.index || feedItem?.vote?.proposalIndex || ''}?network=${network}`}
+					target='_blank'
+				>
+					<div className='flex items-center gap-x-1 text-sm'>
+						<span
+							className={classNames('', {
+								'text-voteAye': feedItem?.vote?.decision === 'yes',
+								'text-voteNay': !(feedItem?.vote?.decision === 'yes')
+							})}
+						>
+							Voted {feedItem?.vote?.decision === 'yes' ? 'Aye' : 'Nay'}
+						</span>
+						<span>on {getProposalTitle(feedItem)}</span>
+						<p className='text-sm font-semibold leading-4 tracking-[0.21px]'>{feedItem?.proposal?.title === DEFAULT_POST_TITLE ? '' : feedItem?.proposal?.title}</p>
+					</div>
+				</Link>
 			);
 		case SubsquidActivityType.Imported:
 			return (
 				<div className='flex items-center gap-x-2 text-sm'>
-					<AddressInline
+					<Address
+						variant='inline'
 						address={feedItem.who || ''}
-						endChars={5}
-						startChars={5}
+						truncateCharLen={4}
 					/>
 					<p>
 						was imported into the technical fellowship at <span className=' text-sm font-semibold leading-4 tracking-[0.21px]'>Rank {feedItem?.otherActions?.rank || ''}</span>
@@ -105,10 +114,10 @@ function ActivityText({ feedItem }: Props) {
 		case SubsquidActivityType.Promoted:
 			return (
 				<div className='flex items-center gap-x-2 text-sm'>
-					<AddressInline
+					<Address
+						variant='inline'
 						address={feedItem.who || ''}
-						endChars={5}
-						startChars={5}
+						truncateCharLen={4}
 					/>
 					<p>
 						was promoted from rank <span className=' text-sm font-semibold leading-4 tracking-[0.21px]'>{feedItem?.otherActions?.rank || ''}</span>
@@ -119,10 +128,10 @@ function ActivityText({ feedItem }: Props) {
 		case SubsquidActivityType.Retained:
 			return (
 				<div className='flex items-center gap-x-2 text-sm'>
-					<AddressInline
+					<Address
+						variant='inline'
 						address={feedItem.who || ''}
-						endChars={5}
-						startChars={5}
+						truncateCharLen={4}
 					/>
 					<p>
 						was retained at rank <span className=' text-sm font-semibold leading-4 tracking-[0.21px]'>{feedItem?.otherActions?.rank || ''}</span>
@@ -132,10 +141,10 @@ function ActivityText({ feedItem }: Props) {
 		case SubsquidActivityType.Registration:
 			return (
 				<div className='flex items-center gap-x-2 text-sm'>
-					<AddressInline
+					<Address
+						variant='inline'
 						address={feedItem.who || ''}
-						endChars={5}
-						startChars={5}
+						truncateCharLen={4}
 					/>
 					<p>
 						registered themselves into payout system for salary of cycle{' '}
@@ -144,12 +153,13 @@ function ActivityText({ feedItem }: Props) {
 				</div>
 			);
 		case SubsquidActivityType.ActivityChanged:
+			console.log(feedItem.who);
 			return (
 				<div className='flex items-center gap-x-2 text-sm'>
-					<AddressInline
+					<Address
+						variant='inline'
 						address={feedItem.who || ''}
-						endChars={5}
-						startChars={5}
+						truncateCharLen={4}
 					/>
 					<p>
 						set themselves <span className=' text-sm font-semibold leading-4 tracking-[0.21px]'>{feedItem?.otherActions?.isActive ? 'Active' : 'Inactive'}</span>
@@ -198,14 +208,16 @@ interface LinkWrapperProps {
 }
 
 function LinkWrapper({ children, index }: LinkWrapperProps) {
+	const { network } = useApiContext();
 	if (index || index === 0) {
 		return (
-			<LinkWithNetwork
-				href={`/referenda/${index}`}
+			<Link
+				href={`/referenda/${index}?network=${network}`}
 				className='flex'
+				target='_blank'
 			>
 				{children}
-			</LinkWithNetwork>
+			</Link>
 		);
 	}
 	return <article className='flex'>{children}</article>;

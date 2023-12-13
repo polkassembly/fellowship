@@ -6,6 +6,8 @@ import midTruncateText from '@/utils/midTruncateText';
 import Identicon from '@polkadot/react-identicon';
 import React from 'react';
 import IdentityBadge from './IdentityBadge';
+import Link from 'next/link';
+import { useApiContext } from '@/contexts';
 
 interface Props {
 	address: string;
@@ -19,34 +21,40 @@ interface Props {
 }
 
 function AddressInline({ address, addressDisplayText, className, startChars, endChars, onChainIdentity, iconSize = 20 }: Props) {
+	const { network } = useApiContext();
 	return (
-		<div
-			className={`${className} flex flex-row items-center gap-1.5`}
-			title={address}
+		<Link
+			target='_blank'
+			href={`/address/${address}?network=${network}`}
 		>
-			<Identicon
-				className='image identicon'
-				value={address}
-				size={iconSize}
-				theme='polkadot'
-			/>
+			<div
+				className={`${className} flex flex-row items-center gap-1.5`}
+				title={address}
+			>
+				<Identicon
+					className='image identicon'
+					value={address}
+					size={iconSize}
+					theme='polkadot'
+				/>
 
-			<IdentityBadge
-				onChainIdentity={onChainIdentity}
-				iconSize={iconSize}
-			/>
+				<IdentityBadge
+					onChainIdentity={onChainIdentity}
+					iconSize={iconSize}
+				/>
 
-			<p className='flex flex-nowrap whitespace-nowrap'>
-				{addressDisplayText ||
-					(startChars && endChars
-						? midTruncateText({
-								text: address,
-								startChars,
-								endChars
-						  })
-						: address)}
-			</p>
-		</div>
+				<p className='flex flex-nowrap whitespace-nowrap font-semibold'>
+					{addressDisplayText ||
+						(startChars && endChars
+							? midTruncateText({
+									text: address,
+									startChars,
+									endChars
+							  })
+							: address)}
+				</p>
+			</div>
+		</Link>
 	);
 }
 

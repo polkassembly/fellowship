@@ -20,7 +20,6 @@ interface Props {
 
 function LinkWithNetwork({ className, href, children, replace = false, target = '_self', rel, hasParams = false }: Props) {
 	const { network } = useApiContext();
-
 	return (
 		<Link
 			replace={replace}
