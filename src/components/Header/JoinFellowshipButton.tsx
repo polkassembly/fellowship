@@ -8,28 +8,48 @@ import React from 'react';
 import { Button } from '@nextui-org/button';
 import UserAvatar from '../Profile/UserAvatar';
 import LinkWithNetwork from '../Misc/LinkWithNetwork';
+import Image from 'next/image';
+import { useApiContext, useUserDetailsContext } from '@/contexts';
 
 function JoinFellowshipButton({ className = '' }: { className?: string }) {
+	const { fellows } = useApiContext();
+	const { loginAddress } = useUserDetailsContext();
 	return (
-		<div className={`flex items-center ${className}`}>
-			<div className='min-w-max'>
-				<UserAvatar />
+		<>
+			<div className={`flex items-center ${className}`}>
+				<div className='min-w-max'>
+					<UserAvatar />
+				</div>
+				<div className='ml-3 flex flex-col gap-y-1.5'>
+					<small className='text-xs'>Not a member yet ?</small>
+					<Button
+						href='/join-fellowship'
+						as={LinkWithNetwork}
+						color='primary'
+						size='sm'
+						variant='bordered'
+						className='h-unit-7 text-xs'
+						suppressHydrationWarning
+					>
+						Join Fellowship
+					</Button>
+				</div>
 			</div>
-			<div className='ml-3 flex flex-col gap-y-1.5'>
-				<small className='text-xs'>Not a member yet ?</small>
-				<Button
-					href='/join-fellowship'
-					as={LinkWithNetwork}
-					color='primary'
-					size='sm'
-					variant='bordered'
-					className='h-unit-7 text-xs'
-					suppressHydrationWarning
+			{loginAddress && fellows.map((fellow) => fellow.address).includes(loginAddress) && (
+				<LinkWithNetwork
+					className='flex cursor-pointer gap-1 rounded-3xl bg-[#407BFF] px-3 py-2 text-sm font-medium leading-[21px]'
+					href={`/address/${loginAddress}/create-rank-request`}
 				>
-					Join Fellowship
-				</Button>
-			</div>
-		</div>
+					<Image
+						alt='btn icon'
+						src='/icons/medal-fill.svg'
+						width={16}
+						height={16}
+					/>
+					Create Rank Request
+				</LinkWithNetwork>
+			)}
+		</>
 	);
 }
 

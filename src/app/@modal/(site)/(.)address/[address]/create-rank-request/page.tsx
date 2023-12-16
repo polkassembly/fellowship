@@ -42,15 +42,15 @@ function CreateRankRequestModal({ params }: ServerComponentProps<IParams, unknow
 	const routeSubstrateAddress = getSubstrateAddress(address || '');
 	if (!routeSubstrateAddress) return <div>Invalid fellow address in route.</div>;
 
-	if (!fellows.find((fellow) => fellow.address === routeSubstrateAddress)) {
-		return (
-			<div className='rounded-2xl border border-primary_border p-6'>
-				<h3 className='font-semibold'>Create Rank Request</h3>
+	// if (!fellows.find((fellow) => fellow.address === routeSubstrateAddress)) {
+	// 	return (
+	// 		<div className='rounded-2xl border border-primary_border p-6'>
+	// 			<h3 className='font-semibold'>Create Rank Request</h3>
 
-				<div className='p-6 text-center'>This address is not a fellow of this network.</div>
-			</div>
-		);
-	}
+	// 			<div className='p-6 text-center'>This address is not a fellow of this network.</div>
+	// 		</div>
+	// 	);
+	// }
 
 	return (
 		<Modal
@@ -72,6 +72,8 @@ function CreateRankRequestModal({ params }: ServerComponentProps<IParams, unknow
 							<ModalBody>
 								{!api || !apiReady || !fellows || !fellows.length ? (
 									<LoadingSpinner />
+								) : !fellows.find((fellow) => fellow.address === routeSubstrateAddress) ? (
+									<div className='p-6 text-center'>This address is not a fellow of this network.</div>
 								) : (
 									<CreateRankRequestForm
 										setSubmitBtnText={setSubmitBtnText}
@@ -84,13 +86,15 @@ function CreateRankRequestModal({ params }: ServerComponentProps<IParams, unknow
 							<Divider />
 
 							<ModalFooter>
-								<Button
-									color='primary'
-									onPress={() => handleSubmit()}
-									className='flex flex-1 text-sm'
-								>
-									{submitBtnText}
-								</Button>
+								{fellows.find((fellow) => fellow.address === routeSubstrateAddress) && (
+									<Button
+										color='primary'
+										onPress={() => handleSubmit()}
+										className='flex flex-1 text-sm'
+									>
+										{submitBtnText}
+									</Button>
+								)}
 							</ModalFooter>
 						</>
 					) : (

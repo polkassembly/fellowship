@@ -13,6 +13,7 @@ import { useApiContext, useUserDetailsContext } from '@/contexts';
 import dynamic from 'next/dynamic';
 import styles from './Header.module.scss';
 import LinkWithNetwork from '../Misc/LinkWithNetwork';
+import { Button } from '@nextui-org/button';
 
 const JoinFellowshipButton = dynamic(() => import('./JoinFellowshipButton'), { ssr: false });
 

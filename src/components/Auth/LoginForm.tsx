@@ -385,7 +385,7 @@ function LoginForm({ onClose }: { onClose?: () => void }) {
 				</div>
 			) : (
 				<>
-					<form
+					{/* <form
 						onSubmit={handleSubmit(onSubmit)}
 						className='flex flex-col gap-3'
 					>
@@ -445,9 +445,9 @@ function LoginForm({ onClose }: { onClose?: () => void }) {
 								Login
 							</Button>
 						</div>
-					</form>
+					</form> */}
 
-					<div className='mt-4 text-center text-gray-500'>Or login with</div>
+					<div className='mt-4 text-center text-gray-500'>login with wallet</div>
 
 					<WalletButtonsRow
 						disabled={loading}

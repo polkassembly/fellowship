@@ -18,6 +18,7 @@ import PostListingCard from '@/components/Home/PostListingCard';
 import { Divider } from '@nextui-org/divider';
 import LinkWithNetwork from '@/components/Misc/LinkWithNetwork';
 import SalaryPayouts from './SalaryPayouts';
+import getSubstrateAddress from '@/utils/getSubstrateAddress';
 
 interface Props {
 	address: string;
@@ -108,7 +109,9 @@ function ProfileProposals({ address }: Props) {
 	const [loading, setLoading] = useState(false);
 	const [proposals, setProposals] = useState<(PostListingItem | PayoutListingItem)[]>([]);
 
-	const { network } = useApiContext();
+	const { network, fellows } = useApiContext();
+
+	const routeSubstrateAddress = getSubstrateAddress(address || '');
 
 	const types = [
 		{
@@ -182,25 +185,33 @@ function ProfileProposals({ address }: Props) {
 				</Dropdown>
 				{type !== EProfileProposals.GENERAL_PROPOSALS ? (
 					// TODO: route with register=true if inducted and not registered
-					<LinkWithNetwork
-						href={type === EProfileProposals.SALARY_REQUESTS ? `/address/${address}/salary-induction` : `/address/${address}/create-rank-request`}
-						className='flex items-center gap-x-[6px] rounded-[39px] border border-primary bg-primary px-3 py-1 text-sm font-medium leading-[21px] tracking-[0.21px] text-white'
-					>
-						{type === EProfileProposals.SALARY_REQUESTS ? (
-							'Induct'
-						) : (
-							<>
-								<Image
-									alt='btn icon'
-									src='/icons/medal-fill.svg'
-									width={16}
-									height={16}
-									className='cursor-pointer'
-								/>
-								Create Rank Request
-							</>
+					<>
+						{type === EProfileProposals.SALARY_REQUESTS && fellows.find((fellow) => fellow.address === routeSubstrateAddress) && (
+							<LinkWithNetwork
+								href={`/address/${address}/salary-induction`}
+								className='flex items-center gap-x-[6px] rounded-[39px] border border-primary bg-primary px-3 py-1 text-sm font-medium leading-[21px] tracking-[0.21px] text-white'
+							>
+								Induct
+							</LinkWithNetwork>
 						)}
-					</LinkWithNetwork>
+						{type === EProfileProposals.RANK_REQUESTS && (
+							<LinkWithNetwork
+								href={`/address/${address}/create-rank-request`}
+								className='flex items-center gap-x-[6px] rounded-[39px] border border-primary bg-primary px-3 py-1 text-sm font-medium leading-[21px] tracking-[0.21px] text-white'
+							>
+								<>
+									<Image
+										alt='btn icon'
+										src='/icons/medal-fill.svg'
+										width={16}
+										height={16}
+										className='cursor-pointer'
+									/>
+									Create Rank Request
+								</>
+							</LinkWithNetwork>
+						)}
+					</>
 				) : null}
 			</div>
 			<div className='flex max-h-[50vh] flex-1 justify-center overflow-y-auto'>
