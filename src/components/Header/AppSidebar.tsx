@@ -92,6 +92,11 @@ const navItems: NavItem[] = [
 		url: '/inductions'
 	},
 	{
+		label: 'RFC Pull Requests',
+		icon: 'git-branch',
+		url: '/rfc-pull-requests'
+	},
+	{
 		label: 'Profile',
 		icon: 'shield-user',
 		url: '/address'
