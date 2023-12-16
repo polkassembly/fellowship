@@ -20,6 +20,8 @@ function ActivityActionTypeChip({ type, postId }: { type: ActivityType; postId?:
 		link = `/induct-member/${postIdStr}`;
 	} else if (type === ActivityType.GENERAL_PROPOSAL) {
 		link = `/referenda/${postIdStr}?vote=true`;
+	} else if (type === ActivityType.RFC_PULL_REQUEST) {
+		link = `/create-rfc-proposal/${postIdStr}`;
 	}
 
 	return (

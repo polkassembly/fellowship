@@ -125,7 +125,8 @@ export enum ActivityType {
 	GENERAL_PROPOSAL = 'general-proposal',
 	RANK_REQUEST = 'rank-request',
 	FELLOWSHIP_RULE = 'fellowship-rule',
-	INDUCTION = 'induction'
+	INDUCTION = 'induction',
+	RFC_PULL_REQUEST = 'rfc-pull-request'
 }
 
 export enum Reaction {
@@ -592,4 +593,13 @@ export interface ActivityFeedItem {
 		proposalIndex: number;
 		balance: string;
 	};
+}
+
+export interface RFCPullRequestItem {
+	id: number;
+	title: string;
+	url: string;
+	created_at: Date;
+	username: string;
+	cursor: string;
 }

@@ -14,5 +14,6 @@ export const ACTIVITY_TYPE_DESC = {
 export const ACTIVITY_ACTION_TEXT = {
 	[ActivityType.GENERAL_PROPOSAL]: 'cast vote',
 	[ActivityType.RANK_REQUEST]: 'cast vote',
-	[ActivityType.INDUCTION]: 'induct to fellowship'
+	[ActivityType.INDUCTION]: 'induct to fellowship',
+	[ActivityType.RFC_PULL_REQUEST]: 'Create RFC Proposal'
 };

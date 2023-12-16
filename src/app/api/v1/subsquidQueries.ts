@@ -276,6 +276,27 @@ export const GET_FELLOW_DATA = gql`
 	}
 `;
 
+export const GET_FELLOWSHIP_PULL_REQUESTS = gql`
+	query ($limit: Int!, $cursor: String) {
+		repository(owner: "polkadot-fellows", name: "RFCs") {
+			pullRequests(first: $limit, after: $cursor, states: [OPEN], orderBy: { field: CREATED_AT, direction: DESC }) {
+				edges {
+					cursor
+					node {
+						number
+						title
+						url
+						createdAt
+						author {
+							login
+						}
+					}
+				}
+			}
+		}
+	}
+`;
+
 // takes multiple addresses and loops through them to return one single query, get proposals created, proposols voted on
 export const getFellowsData = (addresses: string[]) => {
 	return gql`

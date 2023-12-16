@@ -14,7 +14,8 @@ const MESSAGES = {
 	[API_ERROR_CODE.REACTION_ACTION_ERROR]: 'Something went wrong while doing reaction action. Please try again later.',
 	[API_ERROR_CODE.POST_NOT_FOUND_ERROR]: 'Post not found.',
 	[API_ERROR_CODE.ADDRESS_NOT_FOUND_ERROR]: 'Address not found.',
-	[API_ERROR_CODE.USER_NOT_FOUND_ERROR]: 'User not found.'
+	[API_ERROR_CODE.USER_NOT_FOUND_ERROR]: 'User not found.',
+	[API_ERROR_CODE.GITHUB_FETCH_ERROR]: 'Something went wrong while fetching data from github. Please try again later.'
 };
 
 export default MESSAGES;
