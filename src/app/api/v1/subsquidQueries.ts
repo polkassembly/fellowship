@@ -297,6 +297,22 @@ export const GET_FELLOWSHIP_PULL_REQUESTS = gql`
 	}
 `;
 
+export const GET_FELLOWSHIP_PULL_REQUEST_BY_NUMBER = gql`
+	query ($prNumber: Int!) {
+		repository(owner: "polkadot-fellows", name: "RFCs") {
+			pullRequest(number: $prNumber) {
+				number
+				title
+				url
+				createdAt
+				author {
+					login
+				}
+			}
+		}
+	}
+`;
+
 // takes multiple addresses and loops through them to return one single query, get proposals created, proposols voted on
 export const getFellowsData = (addresses: string[]) => {
 	return gql`
