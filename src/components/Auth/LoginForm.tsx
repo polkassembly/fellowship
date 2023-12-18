@@ -8,7 +8,7 @@ import { Button } from '@nextui-org/button';
 import { Input } from '@nextui-org/input';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { PASSWORD_RULES, TFA_CODE_RULES, USERNAME_RULES } from '@/global/validationRules';
+import { TFA_CODE_RULES } from '@/global/validationRules';
 import { ChallengeMessage, IAuthResponse, TokenType, Wallet } from '@/global/types';
 import nextApiClientFetch from '@/utils/nextApiClientFetch';
 import { handleTokenChange } from '@/services/auth.service';
@@ -30,17 +30,6 @@ const INPUT_WRAPPER_CLASSNAMES = 'border-primary_border border-1';
 
 function LoginForm({ onClose }: { onClose?: () => void }) {
 	const {
-		register,
-		formState: { errors },
-		handleSubmit
-	} = useForm({
-		defaultValues: {
-			usernameOrEmail: '',
-			password: ''
-		}
-	});
-
-	const {
 		register: registerTFAForm,
 		formState: { errors: errorsTFAForm },
 		handleSubmit: handleSubmitTFAForm
@@ -60,42 +49,6 @@ function LoginForm({ onClose }: { onClose?: () => void }) {
 	const [selectedWallet, setSelectedWallet] = useState<Wallet | null>(null);
 	const [selectedAddress, setSelectedAddress] = useState<InjectedAccount | null>(null);
 	const [isSignup, setIsSignup] = useState<boolean>(false);
-
-	const onSubmit = async ({ usernameOrEmail, password }: { usernameOrEmail: string; password: string }) => {
-		if (!usernameOrEmail || !password || loading) return;
-
-		setLoading(true);
-		setError('');
-
-		const { data, error: loginError } = await nextApiClientFetch<IAuthResponse>({
-			network,
-			url: 'api/v1/auth/actions/login',
-			isPolkassemblyAPI: true,
-			data: {
-				username: usernameOrEmail,
-				password
-			}
-		});
-
-		if (loginError || !data) {
-			setError(loginError || 'Login failed. Please try again later.');
-			setLoading(false);
-			return;
-		}
-
-		if (data?.token) {
-			handleTokenChange(data.token, currentUser);
-			router.back();
-		} else if (data?.isTFAEnabled) {
-			if (!data?.tfa_token) {
-				setError(error || 'TFA token missing. Please try again.');
-				setLoading(false);
-				return;
-			}
-			setAuthResponse(data);
-			setLoading(false);
-		}
-	};
 
 	const onTFASubmit = async ({ authCode }: { authCode: string }) => {
 		if (isNaN(Number(authCode))) return;
@@ -385,69 +338,7 @@ function LoginForm({ onClose }: { onClose?: () => void }) {
 				</div>
 			) : (
 				<>
-					<form
-						onSubmit={handleSubmit(onSubmit)}
-						className='flex flex-col gap-3'
-					>
-						<div>
-							<Input
-								label='Username or Email'
-								placeholder='Type here'
-								labelPlacement='outside'
-								variant='bordered'
-								radius='sm'
-								classNames={{
-									label: INPUT_LABEL_CLASSNAMES,
-									inputWrapper: INPUT_WRAPPER_CLASSNAMES
-								}}
-								isInvalid={Boolean(errors.usernameOrEmail)}
-								disabled={loading}
-								{...register('usernameOrEmail', { required: true, minLength: USERNAME_RULES.minLength })}
-							/>
-							{Boolean(errors.usernameOrEmail) && <small className='text-danger'>Please input a vaild username or email.</small>}
-						</div>
-
-						<div>
-							<Input
-								label='Password'
-								type='password'
-								placeholder='Type here'
-								labelPlacement='outside'
-								variant='bordered'
-								radius='sm'
-								classNames={{
-									label: INPUT_LABEL_CLASSNAMES,
-									inputWrapper: INPUT_WRAPPER_CLASSNAMES
-								}}
-								isInvalid={Boolean(errors.password)}
-								disabled={loading}
-								{...register('password', { required: true, minLength: PASSWORD_RULES.minLength })}
-							/>
-							{Boolean(errors.password) && <small className='text-danger'>Please input a vaild password.</small>}
-
-							<div className='mt-1.5 flex w-full justify-end'>
-								<LinkWithNetwork
-									href='/forgot-password'
-									className='text-xs text-primary'
-								>
-									Forgot Password?
-								</LinkWithNetwork>
-							</div>
-						</div>
-
-						<div className='flex justify-center'>
-							<Button
-								color='primary'
-								className='w-3/6'
-								type='submit'
-								isLoading={loading}
-							>
-								Login
-							</Button>
-						</div>
-					</form>
-
-					<div className='mt-4 text-center text-gray-500'>Or login with</div>
+					<div className='mt-4 text-center text-gray-500'>login with wallet</div>
 
 					<WalletButtonsRow
 						disabled={loading}

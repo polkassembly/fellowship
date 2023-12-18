@@ -111,13 +111,29 @@ const navItems: NavItem[] = [
 function AppSidebar() {
 	const pathname = usePathname();
 	const router = useRouter();
-	const { network } = useApiContext();
+	const { network, fellows } = useApiContext();
 	const { id, loginAddress, addresses } = useUserDetailsContext();
 
 	return (
 		<nav className={styles.appSidebar}>
 			<div>
-				<JoinFellowshipButton className='mb-7' />
+				<JoinFellowshipButton className='mb-5' />
+
+				{loginAddress && fellows.map((fellow) => fellow.address).includes(loginAddress) && (
+					<LinkWithNetwork
+						className='mb-5 flex cursor-pointer gap-1 rounded-3xl bg-[#407BFF] px-3 py-2 text-sm font-medium leading-[21px]'
+						href={`/address/${loginAddress}/create-rank-request`}
+					>
+						<Image
+							alt='btn icon'
+							src='/icons/medal-fill.svg'
+							width={16}
+							height={16}
+						/>
+						Create Rank Request
+					</LinkWithNetwork>
+				)}
+
 				<Listbox
 					className='-ml-9 w-[272px] text-sm'
 					variant='flat'
@@ -186,7 +202,10 @@ function AppSidebar() {
 					height='55'
 				/>
 				<div className='ml-2 flex max-w-[150px] items-center justify-between gap-x-4'>
-					<LinkWithNetwork href='/'>
+					<LinkWithNetwork
+						href='https://twitter.com/polk_gov/'
+						target='_black'
+					>
 						<Image
 							alt='Tiwtter Logo'
 							src='/brand/twitter-grey.svg'
@@ -195,7 +214,10 @@ function AppSidebar() {
 						/>
 					</LinkWithNetwork>
 
-					<LinkWithNetwork href='/'>
+					<LinkWithNetwork
+						href='https://discord.com/invite/CYmYWHgPha/'
+						target='_black'
+					>
 						<Image
 							alt='Discord Logo'
 							src='/brand/discord-grey.svg'
@@ -204,7 +226,10 @@ function AppSidebar() {
 						/>
 					</LinkWithNetwork>
 
-					<LinkWithNetwork href='/'>
+					<LinkWithNetwork
+						href='https://t.me/+6WQDzi6RuIw3YzY1/'
+						target='_black'
+					>
 						<Image
 							alt='Telegram Logo'
 							src='/brand/telegram-grey.svg'
@@ -213,7 +238,10 @@ function AppSidebar() {
 						/>
 					</LinkWithNetwork>
 
-					<LinkWithNetwork href='/'>
+					<LinkWithNetwork
+						href='https://polkassembly.medium.com/'
+						target='_black'
+					>
 						<Image
 							alt='Web Logo'
 							src='/icons/web-grey.svg'

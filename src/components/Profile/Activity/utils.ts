@@ -11,7 +11,7 @@ const getCreatedAtDate = (feedItem: UserActivityListingItem) => {
 const getProposalTitle = (feedItem: UserActivityListingItem) => {
 	const { activityType } = feedItem;
 	return `${activityType === SubsquidActivityType.RFC ? 'RFC' : activityType === SubsquidActivityType.GeneralProposal ? 'General' : 'Rank request'} Proposal #${
-		feedItem?.proposal?.index || ''
+		feedItem?.proposal?.index || feedItem?.vote?.proposalIndex || ''
 	}`;
 };
 
