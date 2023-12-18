@@ -40,9 +40,9 @@ function PostPageContent({ post }: Props) {
 		if (!post.on_chain_info?.proposer) return;
 
 		const proposerAddress = getSubstrateAddress(post.on_chain_info?.proposer);
+		const loginAddressSubstr = getSubstrateAddress(loginAddress);
 
-		const userAddresses = (addresses || []).concat([loginAddress]).map((address) => getSubstrateAddress(address));
-		setCanEdit(userAddresses.includes(proposerAddress));
+		setCanEdit(proposerAddress === loginAddressSubstr);
 	}, [addresses, id, loginAddress, post.on_chain_info?.proposer, post.user_id]);
 
 	return (
