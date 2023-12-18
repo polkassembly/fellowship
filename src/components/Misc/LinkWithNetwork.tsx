@@ -18,7 +18,7 @@ interface Props {
 	hasParams?: boolean;
 }
 
-function LinkWithNetwork({ className, href, children, replace = false, target = '_self', rel, hasParams = false }: Props) {
+function LinkWithNetwork({ className, href, children, replace = false, target = '_self', rel = 'noopener noreferer', hasParams = false }: Props) {
 	const { network } = useApiContext();
 
 	return (

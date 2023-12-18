@@ -74,7 +74,10 @@ function Address(props: Props) {
 	switch (props.variant) {
 		case 'inline':
 			return (
-				<LinkWithNetwork href={`/address/${substrateAddress}`}>
+				<LinkWithNetwork
+					href={`/address/${substrateAddress}`}
+					target='_blank'
+				>
 					<AddressInline
 						onChainIdentity={onChainIdentity}
 						className={props.className}
