@@ -32,9 +32,54 @@ function FellowsTable({ className, fellows, fellowsDetails }: Props) {
 				<TableColumn>Members</TableColumn>
 				<TableColumn>Class</TableColumn>
 				{/* <TableColumn>Since</TableColumn> */}
-				<TableColumn>Proposals Created</TableColumn>
-				<TableColumn>Proposals Voted</TableColumn>
-				<TableColumn>Github Contributions</TableColumn>
+				<TableColumn>
+					<div className='flex items-center'>
+						<Image
+							alt='Login Icon'
+							src='/icons/table/proposal.svg'
+							width={16}
+							height={16}
+							className='ml-[-8px] mr-2'
+						/>{' '}
+						Proposals
+					</div>
+				</TableColumn>
+				<TableColumn>
+					<div className='flex items-center'>
+						<Image
+							alt='Login Icon'
+							src='/icons/table/votes.svg'
+							width={16}
+							height={16}
+							className='ml-[-8px] mr-2'
+						/>{' '}
+						Voted
+					</div>
+				</TableColumn>
+				<TableColumn>
+					<div className='flex items-center'>
+						<Image
+							alt='Login Icon'
+							src='/icons/table/contribution.svg'
+							width={16}
+							height={16}
+							className='ml-[-8px] mr-2'
+						/>{' '}
+						Contributions
+					</div>
+				</TableColumn>
+				<TableColumn>
+					<div className='flex items-center'>
+						<Image
+							alt='Login Icon'
+							src='/icons/table/salary.svg'
+							width={16}
+							height={16}
+							className='ml-[-8px] mr-2'
+						/>{' '}
+						Salary
+					</div>
+				</TableColumn>
 				<TableColumn>&nbsp;</TableColumn>
 			</TableHeader>
 
@@ -86,7 +131,7 @@ function FellowsTable({ className, fellows, fellowsDetails }: Props) {
 						<TableCell className='font-semibold'>{fellowsDetails?.[fellow.address].proposalsCreated ?? '-'}</TableCell>
 						<TableCell className='font-semibold'>{fellowsDetails?.[fellow.address].proposalsVotedOn ?? '-'}</TableCell>
 						<TableCell className='font-semibold'>-</TableCell>
-
+						<TableCell className='font-semibold'>{fellow.salary ?? '-'}</TableCell>
 						<TableCell>
 							<Image
 								alt='icon'

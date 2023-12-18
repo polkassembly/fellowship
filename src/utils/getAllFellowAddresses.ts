@@ -12,8 +12,9 @@ export default async function getAllFellowAddresses(api: ApiPromise): Promise<IF
 	return new Promise((resolve, reject) => {
 		api.query.fellowshipCollective.members
 			.entries()
-			.then((entries: any) => {
+			.then(async (entries: any) => {
 				const members: IFellow[] = [];
+				const { activeSalary }: any = (await api.query.fellowshipCore.params()).toJSON();
 
 				for (let i = 0; i < entries.length; i += 1) {
 					// key split into args part to extract
@@ -27,7 +28,8 @@ export default async function getAllFellowAddresses(api: ApiPromise): Promise<IF
 					if (optInfo.isSome) {
 						members.push({
 							address: getSubstrateAddress(accountId.toString()) || accountId.toString() || '',
-							rank: optInfo.toJSON()?.rank || 0
+							rank: optInfo.toJSON()?.rank || 0,
+							salary: activeSalary?.[optInfo.toJSON()?.rank || 0]
 						});
 					}
 				}

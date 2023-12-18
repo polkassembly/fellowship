@@ -115,7 +115,14 @@ function AppSidebar() {
 	const { id, loginAddress, addresses } = useUserDetailsContext();
 
 	return (
-		<nav className={styles.appSidebar}>
+		<nav className={`${styles.appSidebar} overflow-y-auto overflow-x-hidden`}>
+			<Image
+				alt='Login Icon'
+				src='/icons/beta.svg'
+				width={80}
+				height={80}
+				className='absolute left-0 top-0'
+			/>
 			<div>
 				<JoinFellowshipButton className='mb-5' />
 
@@ -202,7 +209,10 @@ function AppSidebar() {
 					height='55'
 				/>
 				<div className='ml-2 flex max-w-[150px] items-center justify-between gap-x-4'>
-					<LinkWithNetwork href='/'>
+					<LinkWithNetwork
+						href='https://twitter.com/polk_gov/'
+						target='_black'
+					>
 						<Image
 							alt='Tiwtter Logo'
 							src='/brand/twitter-grey.svg'
@@ -211,7 +221,10 @@ function AppSidebar() {
 						/>
 					</LinkWithNetwork>
 
-					<LinkWithNetwork href='/'>
+					<LinkWithNetwork
+						href='https://discord.com/invite/CYmYWHgPha/'
+						target='_black'
+					>
 						<Image
 							alt='Discord Logo'
 							src='/brand/discord-grey.svg'
@@ -220,7 +233,10 @@ function AppSidebar() {
 						/>
 					</LinkWithNetwork>
 
-					<LinkWithNetwork href='/'>
+					<LinkWithNetwork
+						href='https://t.me/+6WQDzi6RuIw3YzY1/'
+						target='_black'
+					>
 						<Image
 							alt='Telegram Logo'
 							src='/brand/telegram-grey.svg'
@@ -229,7 +245,10 @@ function AppSidebar() {
 						/>
 					</LinkWithNetwork>
 
-					<LinkWithNetwork href='/'>
+					<LinkWithNetwork
+						href='https://polkassembly.medium.com/'
+						target='_black'
+					>
 						<Image
 							alt='Web Logo'
 							src='/icons/web-grey.svg'
