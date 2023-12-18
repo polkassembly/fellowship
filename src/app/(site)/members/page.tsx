@@ -54,6 +54,7 @@ function MembersPage() {
 	}
 
 	const filteredFellows = selectedRankGroup ? fellows.filter((fellow) => RANK_CONSTANTS[fellow.rank].group === selectedRankGroup) : fellows;
+
 	return (
 		<div className='flex flex-col'>
 			<div className='flex items-center gap-2 text-xl font-semibold'>
