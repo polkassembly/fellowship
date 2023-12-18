@@ -8,7 +8,7 @@ import { Button } from '@nextui-org/button';
 import { Input } from '@nextui-org/input';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { PASSWORD_RULES, TFA_CODE_RULES, USERNAME_RULES } from '@/global/validationRules';
+import { TFA_CODE_RULES } from '@/global/validationRules';
 import { ChallengeMessage, IAuthResponse, TokenType, Wallet } from '@/global/types';
 import nextApiClientFetch from '@/utils/nextApiClientFetch';
 import { handleTokenChange } from '@/services/auth.service';

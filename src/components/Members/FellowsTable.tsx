@@ -32,10 +32,55 @@ function FellowsTable({ className, fellows, fellowsDetails }: Props) {
 				<TableColumn>Members</TableColumn>
 				<TableColumn>Class</TableColumn>
 				{/* <TableColumn>Since</TableColumn> */}
-				<TableColumn>Proposals Created</TableColumn>
-				<TableColumn>Proposals Voted</TableColumn>
-				<TableColumn>Github Contributions</TableColumn>
-				<TableColumn>&nbsp;</TableColumn>
+				<TableColumn>
+					<div className='flex items-center'>
+						<Image
+							alt='Login Icon'
+							src='/icons/table/proposal.svg'
+							width={24}
+							height={24}
+							className='ml-[-8px] mr-2'
+						/>{' '}
+						Proposals
+					</div>
+				</TableColumn>
+				<TableColumn>
+					<div className='flex items-center'>
+						<Image
+							alt='Login Icon'
+							src='/icons/table/votes.svg'
+							width={24}
+							height={24}
+							className='ml-[-8px] mr-2'
+						/>{' '}
+						Voted
+					</div>
+				</TableColumn>
+				<TableColumn>
+					<div className='flex items-center'>
+						<Image
+							alt='Login Icon'
+							src='/icons/table/contribution.svg'
+							width={24}
+							height={24}
+							className='ml-[-8px] mr-2'
+						/>{' '}
+						Contributions
+					</div>
+				</TableColumn>
+				<TableColumn>
+					<div className='flex items-center'>
+						<Image
+							alt='Login Icon'
+							src='/icons/table/salary.svg'
+							width={24}
+							height={24}
+							className='ml-[-8px] mr-2'
+						/>{' '}
+						Salary
+					</div>
+				</TableColumn>
+				{/* <TableColumn>&nbsp;</TableColumn> */}
 			</TableHeader>
 
 			<TableBody>
