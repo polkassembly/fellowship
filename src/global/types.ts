@@ -21,6 +21,7 @@ export enum Network {
 export interface IFellow {
 	address: string;
 	rank: number;
+	salary?: string;
 }
 
 export interface ApiContextType {

@@ -11,7 +11,6 @@ import { Listbox, ListboxItem } from '@nextui-org/listbox';
 import { usePathname, useRouter } from 'next/navigation';
 import { useApiContext, useUserDetailsContext } from '@/contexts';
 import dynamic from 'next/dynamic';
-import { Button } from '@nextui-org/button';
 import styles from './Header.module.scss';
 import LinkWithNetwork from '../Misc/LinkWithNetwork';
 

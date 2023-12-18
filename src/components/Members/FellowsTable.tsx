@@ -37,8 +37,8 @@ function FellowsTable({ className, fellows, fellowsDetails }: Props) {
 						<Image
 							alt='Login Icon'
 							src='/icons/table/proposal.svg'
-							width={24}
-							height={24}
+							width={16}
+							height={16}
 							className='ml-[-8px] mr-2'
 						/>{' '}
 						Proposals
@@ -49,8 +49,8 @@ function FellowsTable({ className, fellows, fellowsDetails }: Props) {
 						<Image
 							alt='Login Icon'
 							src='/icons/table/votes.svg'
-							width={24}
-							height={24}
+							width={16}
+							height={16}
 							className='ml-[-8px] mr-2'
 						/>{' '}
 						Voted
@@ -61,8 +61,8 @@ function FellowsTable({ className, fellows, fellowsDetails }: Props) {
 						<Image
 							alt='Login Icon'
 							src='/icons/table/contribution.svg'
-							width={24}
-							height={24}
+							width={16}
+							height={16}
 							className='ml-[-8px] mr-2'
 						/>{' '}
 						Contributions
@@ -73,14 +73,14 @@ function FellowsTable({ className, fellows, fellowsDetails }: Props) {
 						<Image
 							alt='Login Icon'
 							src='/icons/table/salary.svg'
-							width={24}
-							height={24}
+							width={16}
+							height={16}
 							className='ml-[-8px] mr-2'
 						/>{' '}
 						Salary
 					</div>
 				</TableColumn>
-				{/* <TableColumn>&nbsp;</TableColumn> */}
+				<TableColumn>&nbsp;</TableColumn>
 			</TableHeader>
 
 			<TableBody>
@@ -131,7 +131,7 @@ function FellowsTable({ className, fellows, fellowsDetails }: Props) {
 						<TableCell className='font-semibold'>{fellowsDetails?.[fellow.address].proposalsCreated ?? '-'}</TableCell>
 						<TableCell className='font-semibold'>{fellowsDetails?.[fellow.address].proposalsVotedOn ?? '-'}</TableCell>
 						<TableCell className='font-semibold'>-</TableCell>
-
+						<TableCell className='font-semibold'>{fellow.salary ?? '-'}</TableCell>
 						<TableCell>
 							<Image
 								alt='icon'

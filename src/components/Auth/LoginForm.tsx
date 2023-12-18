@@ -30,17 +30,6 @@ const INPUT_WRAPPER_CLASSNAMES = 'border-primary_border border-1';
 
 function LoginForm({ onClose }: { onClose?: () => void }) {
 	const {
-		register,
-		formState: { errors },
-		handleSubmit
-	} = useForm({
-		defaultValues: {
-			usernameOrEmail: '',
-			password: ''
-		}
-	});
-
-	const {
 		register: registerTFAForm,
 		formState: { errors: errorsTFAForm },
 		handleSubmit: handleSubmitTFAForm
@@ -60,42 +49,6 @@ function LoginForm({ onClose }: { onClose?: () => void }) {
 	const [selectedWallet, setSelectedWallet] = useState<Wallet | null>(null);
 	const [selectedAddress, setSelectedAddress] = useState<InjectedAccount | null>(null);
 	const [isSignup, setIsSignup] = useState<boolean>(false);
-
-	const onSubmit = async ({ usernameOrEmail, password }: { usernameOrEmail: string; password: string }) => {
-		if (!usernameOrEmail || !password || loading) return;
-
-		setLoading(true);
-		setError('');
-
-		const { data, error: loginError } = await nextApiClientFetch<IAuthResponse>({
-			network,
-			url: 'api/v1/auth/actions/login',
-			isPolkassemblyAPI: true,
-			data: {
-				username: usernameOrEmail,
-				password
-			}
-		});
-
-		if (loginError || !data) {
-			setError(loginError || 'Login failed. Please try again later.');
-			setLoading(false);
-			return;
-		}
-
-		if (data?.token) {
-			handleTokenChange(data.token, currentUser);
-			router.back();
-		} else if (data?.isTFAEnabled) {
-			if (!data?.tfa_token) {
-				setError(error || 'TFA token missing. Please try again.');
-				setLoading(false);
-				return;
-			}
-			setAuthResponse(data);
-			setLoading(false);
-		}
-	};
 
 	const onTFASubmit = async ({ authCode }: { authCode: string }) => {
 		if (isNaN(Number(authCode))) return;
