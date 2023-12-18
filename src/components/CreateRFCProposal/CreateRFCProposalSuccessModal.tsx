@@ -64,8 +64,9 @@ function CreateRFCProposalSuccessModal({ successDetails }: Props) {
 										<a
 											href={successDetails.prItem.url}
 											rel='noopener noreferrer'
+											className='text-link underline'
 										>
-											{successDetails.prItem.id}
+											#{successDetails.prItem.id}
 										</a>
 									</div>
 								</div>
