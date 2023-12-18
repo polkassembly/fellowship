@@ -121,14 +121,14 @@ function AppSidebar() {
 				src='/icons/beta.svg'
 				width={80}
 				height={80}
-				className='top-0 left-0 absolute'
+				className='absolute left-0 top-0'
 			/>
 			<div>
 				<JoinFellowshipButton className='mb-5' />
 
 				{loginAddress && fellows.map((fellow) => fellow.address).includes(loginAddress) && (
 					<LinkWithNetwork
-						className='mb-5 flex cursor-pointer gap-1 rounded-3xl bg-[#407BFF] px-3 py-2 text-sm font-medium leading-[21px]'
+						className='bg-rankRequestBtn mb-5 flex cursor-pointer items-center justify-center gap-1 rounded-3xl px-3 py-2 text-xs font-medium leading-[21px]'
 						href={`/address/${loginAddress}/create-rank-request`}
 					>
 						<Image

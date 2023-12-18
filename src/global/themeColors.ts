@@ -16,7 +16,8 @@ const THEME_COLORS = {
 		graphBg: '#D2D8E0',
 		successModalHeaderBg: '#51D36E',
 		inductionAccordionHeaderBg: '#191042',
-		topFellowCardBg: '#FDEFFF'
+		topFellowCardBg: '#FDEFFF',
+		rankRequestBtn: '#407BFF'
 	},
 	dark: {
 		primary_border: '#3F3F46',
@@ -31,7 +32,8 @@ const THEME_COLORS = {
 		graphBg: '#666666',
 		successModalHeaderBg: '#51D36E',
 		inductionAccordionHeaderBg: '#191042',
-		topFellowCardBg: '#3F3F46'
+		topFellowCardBg: '#3F3F46',
+		rankRequestBtn: '#407BFF'
 	}
 };
 
