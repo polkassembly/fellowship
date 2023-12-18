@@ -12,7 +12,7 @@ function SearchBar({ className = '' }: { className?: string }) {
 			size='sm'
 			type='text'
 			variant='bordered'
-			placeholder='Search'
+			placeholder='Search (Coming Soon)'
 			startContent={
 				<Image
 					alt='search icon'
@@ -21,6 +21,8 @@ function SearchBar({ className = '' }: { className?: string }) {
 					height={12}
 				/>
 			}
+			disabled
+			isDisabled
 			className={className}
 			classNames={{
 				inputWrapper: ['border-1', 'border-primary_border']
