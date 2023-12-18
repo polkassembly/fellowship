@@ -9,10 +9,10 @@ import { Divider } from '@nextui-org/divider';
 import classNames from 'classnames';
 import DEFAULT_POST_TITLE from '@/global/constants/defaultTitle';
 import LinkWithNetwork from '@/components/Misc/LinkWithNetwork';
-import { getActivityIconSrc, getCreatedAtDate, getProposalTitle } from './utils';
-import AddressInline from '../Address/AddressInline';
 import Link from 'next/link';
 import { useApiContext } from '@/contexts';
+import { getActivityIconSrc, getCreatedAtDate, getProposalTitle } from './utils';
+import AddressInline from '../Address/AddressInline';
 import Address from '../Address';
 
 interface Props {

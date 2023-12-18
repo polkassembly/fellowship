@@ -385,68 +385,6 @@ function LoginForm({ onClose }: { onClose?: () => void }) {
 				</div>
 			) : (
 				<>
-					{/* <form
-						onSubmit={handleSubmit(onSubmit)}
-						className='flex flex-col gap-3'
-					>
-						<div>
-							<Input
-								label='Username or Email'
-								placeholder='Type here'
-								labelPlacement='outside'
-								variant='bordered'
-								radius='sm'
-								classNames={{
-									label: INPUT_LABEL_CLASSNAMES,
-									inputWrapper: INPUT_WRAPPER_CLASSNAMES
-								}}
-								isInvalid={Boolean(errors.usernameOrEmail)}
-								disabled={loading}
-								{...register('usernameOrEmail', { required: true, minLength: USERNAME_RULES.minLength })}
-							/>
-							{Boolean(errors.usernameOrEmail) && <small className='text-danger'>Please input a vaild username or email.</small>}
-						</div>
-
-						<div>
-							<Input
-								label='Password'
-								type='password'
-								placeholder='Type here'
-								labelPlacement='outside'
-								variant='bordered'
-								radius='sm'
-								classNames={{
-									label: INPUT_LABEL_CLASSNAMES,
-									inputWrapper: INPUT_WRAPPER_CLASSNAMES
-								}}
-								isInvalid={Boolean(errors.password)}
-								disabled={loading}
-								{...register('password', { required: true, minLength: PASSWORD_RULES.minLength })}
-							/>
-							{Boolean(errors.password) && <small className='text-danger'>Please input a vaild password.</small>}
-
-							<div className='mt-1.5 flex w-full justify-end'>
-								<LinkWithNetwork
-									href='/forgot-password'
-									className='text-xs text-primary'
-								>
-									Forgot Password?
-								</LinkWithNetwork>
-							</div>
-						</div>
-
-						<div className='flex justify-center'>
-							<Button
-								color='primary'
-								className='w-3/6'
-								type='submit'
-								isLoading={loading}
-							>
-								Login
-							</Button>
-						</div>
-					</form> */}
-
 					<div className='mt-4 text-center text-gray-500'>login with wallet</div>
 
 					<WalletButtonsRow

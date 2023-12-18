@@ -17,8 +17,8 @@ import LoadingSpinner from '@/components/Misc/LoadingSpinner';
 import PostListingCard from '@/components/Home/PostListingCard';
 import { Divider } from '@nextui-org/divider';
 import LinkWithNetwork from '@/components/Misc/LinkWithNetwork';
-import SalaryPayouts from './SalaryPayouts';
 import getSubstrateAddress from '@/utils/getSubstrateAddress';
+import SalaryPayouts from './SalaryPayouts';
 
 interface Props {
 	address: string;

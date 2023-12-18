@@ -5,9 +5,9 @@
 import midTruncateText from '@/utils/midTruncateText';
 import Identicon from '@polkadot/react-identicon';
 import React from 'react';
-import IdentityBadge from './IdentityBadge';
 import Link from 'next/link';
 import { useApiContext } from '@/contexts';
+import IdentityBadge from './IdentityBadge';
 
 interface Props {
 	address: string;

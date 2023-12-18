@@ -6,10 +6,10 @@
 
 import React from 'react';
 import { Button } from '@nextui-org/button';
-import UserAvatar from '../Profile/UserAvatar';
-import LinkWithNetwork from '../Misc/LinkWithNetwork';
 import Image from 'next/image';
 import { useApiContext, useUserDetailsContext } from '@/contexts';
+import UserAvatar from '../Profile/UserAvatar';
+import LinkWithNetwork from '../Misc/LinkWithNetwork';
 
 function JoinFellowshipButton({ className = '' }: { className?: string }) {
 	const { fellows } = useApiContext();
