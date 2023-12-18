@@ -76,15 +76,15 @@ function CreateRankRequestModal({ params }: ServerComponentProps<IParams, unknow
 							<Divider />
 
 							<ModalFooter>
-								{fellows.find((fellow) => fellow.address === routeSubstrateAddress) && (
-									<Button
-										color='primary'
-										onPress={() => handleSubmit()}
-										className='flex flex-1 text-sm'
-									>
-										{submitBtnText}
-									</Button>
-								)}
+								<Button
+									color='primary'
+									onPress={() => handleSubmit()}
+									className='flex flex-1 text-sm'
+									disabled={Boolean(fellows.find((fellow) => fellow.address === routeSubstrateAddress))}
+									isDisabled={Boolean(fellows.find((fellow) => fellow.address === routeSubstrateAddress))}
+								>
+									{submitBtnText}
+								</Button>
 							</ModalFooter>
 						</>
 					) : (

@@ -106,13 +106,29 @@ const navItems: NavItem[] = [
 function AppSidebar() {
 	const pathname = usePathname();
 	const router = useRouter();
-	const { network } = useApiContext();
+	const { network, fellows } = useApiContext();
 	const { id, loginAddress, addresses } = useUserDetailsContext();
 
 	return (
 		<nav className={styles.appSidebar}>
 			<div>
-				<JoinFellowshipButton className='mb-7' />
+				<JoinFellowshipButton />
+
+				{loginAddress && fellows.map((fellow) => fellow.address).includes(loginAddress) && (
+					<LinkWithNetwork
+						className='my-5 flex cursor-pointer gap-1 rounded-3xl bg-[#407BFF] px-3 py-2 text-sm font-medium leading-[21px]'
+						href={`/address/${loginAddress}/create-rank-request`}
+					>
+						<Image
+							alt='btn icon'
+							src='/icons/medal-fill.svg'
+							width={16}
+							height={16}
+						/>
+						Create Rank Request
+					</LinkWithNetwork>
+				)}
+
 				<Listbox
 					className='-ml-9 w-[272px] text-sm'
 					variant='flat'
