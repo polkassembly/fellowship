@@ -30,9 +30,10 @@ enum RfcRequestType {
 interface Props {
 	prItem: RFCPullRequestItem;
 	formRef: RefObject<HTMLFormElement>;
+	onSuccess?: () => void;
 }
 
-function CreateRFCProposalForm({ prItem, formRef }: Props) {
+function CreateRFCProposalForm({ prItem, formRef, onSuccess: onFormSuccess }: Props) {
 	const { loginWallet, id } = useUserDetailsContext();
 	const { api, apiReady, network, fellows } = useApiContext();
 
@@ -135,6 +136,8 @@ function CreateRFCProposalForm({ prItem, formRef }: Props) {
 				message: 'Proposal created successfully.',
 				status: 'success'
 			});
+
+			onFormSuccess?.();
 
 			setSuccessDetails({
 				proposer: selectedAddress.address,

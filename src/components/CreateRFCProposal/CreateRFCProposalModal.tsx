@@ -7,7 +7,7 @@
 import { Button } from '@nextui-org/button';
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from '@nextui-org/modal';
 import { useRouter } from 'next/navigation';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import Image from 'next/image';
 import { Divider } from '@nextui-org/divider';
 import { useUserDetailsContext } from '@/contexts';
@@ -25,6 +25,8 @@ export default function CreateRFCProposalModal({ prItem }: Props) {
 
 	const formRef = useRef<HTMLFormElement>(null);
 
+	const [isOpen, setIsOpen] = useState(true);
+
 	const handleOnClose = () => {
 		router.back();
 	};
@@ -38,6 +40,7 @@ export default function CreateRFCProposalModal({ prItem }: Props) {
 	return (
 		<Modal
 			isOpen
+			className={`${!isOpen ? 'hidden' : ''}`}
 			onClose={handleOnClose}
 			size='4xl'
 			scrollBehavior='inside'
@@ -65,6 +68,7 @@ export default function CreateRFCProposalModal({ prItem }: Props) {
 								<CreateRFCProposalForm
 									formRef={formRef}
 									prItem={prItem}
+									onSuccess={() => setIsOpen(false)}
 								/>
 							</ModalBody>
 
