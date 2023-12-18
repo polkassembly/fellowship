@@ -8,8 +8,7 @@ import dayjs from '@/services/dayjs-init';
 import { Divider } from '@nextui-org/divider';
 import classNames from 'classnames';
 import DEFAULT_POST_TITLE from '@/global/constants/defaultTitle';
-import Link from 'next/link';
-import { useApiContext } from '@/contexts';
+import LinkWithNetwork from '@/components/Misc/LinkWithNetwork';
 import { getActivityIconSrc, getCreatedAtDate, getProposalTitle } from './utils';
 import AddressInline from '../Address/AddressInline';
 import Address from '../Address';
@@ -36,7 +35,7 @@ function ActivityIcon({ feedItem }: Props) {
 
 function ActivityText({ feedItem }: Props) {
 	const { activityType } = feedItem;
-	const { network } = useApiContext();
+
 	switch (activityType) {
 		case SubsquidActivityType.RetentionRequest:
 		case SubsquidActivityType.PromotionRequest:
@@ -79,8 +78,8 @@ function ActivityText({ feedItem }: Props) {
 			);
 		case SubsquidActivityType.Voted:
 			return (
-				<Link
-					href={`/referenda/${feedItem?.proposal?.index || feedItem?.vote?.proposalIndex || ''}?network=${network}`}
+				<LinkWithNetwork
+					href={`/referenda/${feedItem?.proposal?.index || feedItem?.vote?.proposalIndex || ''}`}
 					target='_blank'
 				>
 					<div className='flex items-center gap-x-1 text-sm'>
@@ -95,7 +94,7 @@ function ActivityText({ feedItem }: Props) {
 						<span>on {getProposalTitle(feedItem)}</span>
 						<p className='text-sm font-semibold leading-4 tracking-[0.21px]'>{feedItem?.proposal?.title === DEFAULT_POST_TITLE ? '' : feedItem?.proposal?.title}</p>
 					</div>
-				</Link>
+				</LinkWithNetwork>
 			);
 		case SubsquidActivityType.Imported:
 			return (
@@ -205,17 +204,18 @@ interface LinkWrapperProps {
 	index?: number;
 }
 
+// TODO: remove link wrapper
+
 function LinkWrapper({ children, index }: LinkWrapperProps) {
-	const { network } = useApiContext();
 	if (index || index === 0) {
 		return (
-			<Link
-				href={`/referenda/${index}?network=${network}`}
+			<LinkWithNetwork
+				href={`/referenda/${index}`}
 				className='flex'
 				target='_blank'
 			>
 				{children}
-			</Link>
+			</LinkWithNetwork>
 		);
 	}
 	return <article className='flex'>{children}</article>;
