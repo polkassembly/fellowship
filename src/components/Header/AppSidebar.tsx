@@ -112,11 +112,11 @@ function AppSidebar() {
 	return (
 		<nav className={styles.appSidebar}>
 			<div>
-				<JoinFellowshipButton />
+				<JoinFellowshipButton className='mb-5' />
 
 				{loginAddress && fellows.map((fellow) => fellow.address).includes(loginAddress) && (
 					<LinkWithNetwork
-						className='my-5 flex cursor-pointer gap-1 rounded-3xl bg-[#407BFF] px-3 py-2 text-sm font-medium leading-[21px]'
+						className='mb-5 flex cursor-pointer gap-1 rounded-3xl bg-[#407BFF] px-3 py-2 text-sm font-medium leading-[21px]'
 						href={`/address/${loginAddress}/create-rank-request`}
 					>
 						<Image
