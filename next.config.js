@@ -7,9 +7,9 @@ const nextConfig = {
     async redirects() {
         return [
             {
-            source: '/member-referenda',
-            destination: '/referenda',
-            permanent: true,
+                source: '/member-referenda/:slug',
+                destination: '/referenda/:slug',
+                permanent: true,
             },
         ]
     },
