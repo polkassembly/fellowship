@@ -19,6 +19,8 @@ function AddSubscriptionBtn() {
 				aria-label='Add Subscription'
 				radius='full'
 				className='text-lg'
+				disabled
+				isDisabled
 			>
 				<Image
 					src='/icons/post/subscribe.svg'

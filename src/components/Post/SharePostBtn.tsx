@@ -19,6 +19,8 @@ function SharePostBtn() {
 				aria-label='Share Post'
 				radius='full'
 				className='text-lg'
+				disabled
+				isDisabled
 			>
 				<Image
 					src='/icons/post/share.svg'
