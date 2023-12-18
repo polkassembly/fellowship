@@ -3,6 +3,16 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {	
+    async redirects() {
+        return [
+            {
+                source: '/member-referenda/:slug',
+                destination: '/referenda/:slug',
+                permanent: true,
+            },
+        ]
+    },
+};
 
 module.exports = nextConfig;
