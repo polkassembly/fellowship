@@ -8,7 +8,6 @@ import dayjs from '@/services/dayjs-init';
 import { Divider } from '@nextui-org/divider';
 import classNames from 'classnames';
 import DEFAULT_POST_TITLE from '@/global/constants/defaultTitle';
-import LinkWithNetwork from '@/components/Misc/LinkWithNetwork';
 import Link from 'next/link';
 import { useApiContext } from '@/contexts';
 import { getActivityIconSrc, getCreatedAtDate, getProposalTitle } from './utils';
@@ -153,7 +152,6 @@ function ActivityText({ feedItem }: Props) {
 				</div>
 			);
 		case SubsquidActivityType.ActivityChanged:
-			console.log(feedItem.who);
 			return (
 				<div className='flex items-center gap-x-2 text-sm'>
 					<Address
