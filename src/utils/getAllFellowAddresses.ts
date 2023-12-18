@@ -14,7 +14,7 @@ export default async function getAllFellowAddresses(api: ApiPromise): Promise<IF
 			.entries()
 			.then(async (entries: any) => {
 				const members: IFellow[] = [];
-				const { activeSalary }: any = (await api.query.fellowshipCore.params()).toHuman();
+				const { activeSalary }: any = (await api.query.fellowshipCore.params()).toJSON();
 
 				for (let i = 0; i < entries.length; i += 1) {
 					// key split into args part to extract
