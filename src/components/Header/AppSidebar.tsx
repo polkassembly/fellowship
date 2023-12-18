@@ -115,7 +115,7 @@ function AppSidebar() {
 	const { id, loginAddress, addresses } = useUserDetailsContext();
 
 	return (
-		<nav className={`${styles.appSidebar}`}>
+		<nav className={`${styles.appSidebar} overflow-y-auto overflow-x-hidden`}>
 			<Image
 				alt='Login Icon'
 				src='/icons/beta.svg'
