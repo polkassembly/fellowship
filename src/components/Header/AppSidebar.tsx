@@ -115,7 +115,14 @@ function AppSidebar() {
 	const { id, loginAddress, addresses } = useUserDetailsContext();
 
 	return (
-		<nav className={styles.appSidebar}>
+		<nav className={`${styles.appSidebar}`}>
+			<Image
+				alt='Login Icon'
+				src='/icons/beta.svg'
+				width={80}
+				height={80}
+				className='top-0 left-0 absolute'
+			/>
 			<div>
 				<JoinFellowshipButton className='mb-7' />
 				<Listbox
