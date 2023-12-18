@@ -77,6 +77,7 @@ function Address(props: Props) {
 				<LinkWithNetwork
 					href={`/address/${substrateAddress}`}
 					target='_blank'
+					className='hover:underline'
 				>
 					<AddressInline
 						onChainIdentity={onChainIdentity}
