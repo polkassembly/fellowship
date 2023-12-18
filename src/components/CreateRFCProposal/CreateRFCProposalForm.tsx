@@ -96,8 +96,7 @@ function CreateRFCProposalForm({ prItem, formRef }: Props) {
 		const proposalOrigin = { FellowshipOrigins: 'Fellows' };
 
 		const paddedPrNumber = `0000${prItem.id}`.slice(-4);
-		const inlineBytes = api.tx.system.remarkWithEvent(`RFC_${rfcRequestType}(${paddedPrNumber}, ${blake2AsHex(description)})`).hash;
-		// TODO: confirm if it'll be inlineBytes.hash or not
+		const inlineBytes = api.tx.system.remarkWithEvent(`RFC_${rfcRequestType}(${paddedPrNumber}, ${blake2AsHex(description)})`).method.toHex();
 
 		const tx = api.tx.fellowshipReferenda.submit(proposalOrigin, { Inline: inlineBytes }, { After: BN_HUNDRED });
 
