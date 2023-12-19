@@ -23,7 +23,6 @@ import { SignerResult } from '@polkadot/api/types';
 import WalletButtonsRow from './WalletButtonsRow';
 import AlertCard from '../Misc/AlertCard';
 import AddressDropdown from './AddressDropdown';
-import LinkWithNetwork from '../Misc/LinkWithNetwork';
 
 const INPUT_LABEL_CLASSNAMES = 'text-sm font-normal';
 const INPUT_WRAPPER_CLASSNAMES = 'border-primary_border border-1';
@@ -338,23 +337,12 @@ function LoginForm({ onClose }: { onClose?: () => void }) {
 				</div>
 			) : (
 				<>
-					<div className='mt-4 text-center text-gray-500'>login with wallet</div>
+					<div className='text-center text-gray-500'>Login with web-3 wallet: </div>
 
 					<WalletButtonsRow
 						disabled={loading}
 						onWalletClick={onWalletClick}
 					/>
-
-					<div className='w-full text-center font-semibold'>
-						Don&apos;t have an account?{' '}
-						<LinkWithNetwork
-							href='/signup'
-							className='text-sm text-primary'
-							replace
-						>
-							Sign Up
-						</LinkWithNetwork>
-					</div>
 				</>
 			)}
 		</div>
