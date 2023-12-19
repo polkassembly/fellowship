@@ -31,10 +31,7 @@ function InductMemberModal({ post }: Props) {
 	const [setsubmitBtnText, setSetsubmitBtnText] = useState('Next Step');
 	const [successDetails, setSuccessDetails] = useState({
 		proposer: '',
-		inductee: '',
-		preimageHash: '',
-		preimageLength: 0,
-		postId: 0
+		inductee: ''
 	});
 
 	const handleOnClose = () => {

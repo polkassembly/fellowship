@@ -9,20 +9,14 @@ import WalletButtonsRow from '@/components/Auth/WalletButtonsRow';
 import AlertCard from '@/components/Misc/AlertCard';
 import PostArticleCard from '@/components/Post/PostPageContent/PostArticleCard';
 import { useApiContext, usePostDataContext, useUserDetailsContext } from '@/contexts';
-import networkConstants from '@/global/networkConstants';
-import { IPreimage, Wallet } from '@/global/types';
+import { Wallet } from '@/global/types';
 import executeTx from '@/utils/executeTx';
-import getPreimage from '@/utils/getPreimage';
 import getSubstrateAddress from '@/utils/getSubstrateAddress';
-import getTxFee from '@/utils/getTxFee';
 import queueNotification from '@/utils/queueNotification';
 import { Accordion, AccordionItem } from '@nextui-org/accordion';
 import { Divider } from '@nextui-org/divider';
 import { InjectedAccount } from '@polkadot/extension-inject/types';
-import { BN, BN_HUNDRED, BN_ZERO, formatBalance } from '@polkadot/util';
-import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
-import saveNewProposal from '@/utils/saveNewProposal';
-import PreimageDetails from './PreimageDetails';
+import React, { forwardRef, useImperativeHandle, useState } from 'react';
 
 const accordionItemClassNames = (step: number, selectedKeys: Set<string>) => ({
 	base: 'group-[.is-splitted]:px-0 group-[.is-splitted]:rounded-t-2xl',
@@ -63,9 +57,6 @@ interface Props {
 		React.SetStateAction<{
 			proposer: string;
 			inductee: string;
-			preimageHash: string;
-			preimageLength: number;
-			postId: number;
 		}>
 	>;
 }
@@ -76,121 +67,44 @@ const InductMemberForm = forwardRef(({ setSetsubmitBtnText, setSuccessDetails }:
 	const { api, apiReady, network, fellows } = useApiContext();
 	const { loginWallet, id } = useUserDetailsContext();
 	const {
-		postData: { inductee_address: inducteeAddress = '', title, content }
+		postData: { inductee_address: inducteeAddress = '' }
 	} = usePostDataContext();
 
 	const [loading, setLoading] = useState(false);
 	const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set(['1']));
 	const [selectedWallet, setSelectedWallet] = useState<Wallet | null>(loginWallet);
 	const [selectedAddress, setSelectedAddress] = useState<InjectedAccount | null>(null);
-	const [preimage, setPreimage] = useState<IPreimage>();
-	const [preimageGasFee, setPreimageGasFee] = useState(BN_ZERO);
-	const [proposalGasFee, setProposalGasFee] = useState(BN_ZERO);
 
 	const substrateInducteeAddress = getSubstrateAddress(inducteeAddress);
-
-	const networkProps = networkConstants[String(network)];
-	const baseDeposit = new BN(`${networkConstants[String(network)]?.preImageBaseDeposit}` || 0);
-
-	const formatBalanceOptions = { withUnit: false, withSi: false, forceUnit: networkProps.tokenSymbol };
-
-	formatBalance.setDefaults({
-		decimals: networkProps.tokenDecimals,
-		unit: networkProps.tokenSymbol
-	});
 
 	const handleSelectionChange = (keys: Set<string>) => {
 		if (Number(Array.from(keys)[0]) === 1) {
 			setSetsubmitBtnText('Next Step');
 		} else if (Number(Array.from(keys)[0]) === 2) {
-			if (preimage) {
-				setSetsubmitBtnText('Next Step');
-			} else {
-				setSetsubmitBtnText('Create Preimage');
-			}
+			setSetsubmitBtnText('Submit Transaction');
 		}
 
 		setSelectedKeys(keys as Set<string>);
 	};
 
-	const handleCreatePreImage = async () => {
-		if (!api || !apiReady || !selectedAddress) return;
+	const handleSubmit = async () => {
+		if (!id || !api || !apiReady || !selectedAddress || !substrateInducteeAddress) return;
 
-		const tx = api.tx.fellowshipCollective.addMember(selectedAddress.address);
-		const preimageLocal = getPreimage(api, tx);
-
-		if (!preimageLocal.notePreimageTx) return;
+		const tx = api.tx.fellowshipCore.induct(substrateInducteeAddress);
 
 		const onFailed = (message: string) => {
 			setLoading(false);
 			queueNotification({
-				header: 'Create Preimage transaction Failed!',
-				message,
-				status: 'error'
-			});
-		};
-
-		const onSuccess = () => {
-			setLoading(false);
-			setPreimage(preimageLocal);
-			queueNotification({
-				header: 'Transaction Successful!',
-				message: 'Preimage created successfully.',
-				status: 'success'
-			});
-			setSetsubmitBtnText('Next Step');
-		};
-
-		await executeTx({
-			address: selectedAddress.address,
-			api,
-			apiReady,
-			errorMessageFallback: 'Error while executing transaction. Please try again.',
-			network,
-			onFailed,
-			onSuccess,
-			tx: preimageLocal?.notePreimageTx
-		});
-	};
-
-	const handleSubmitProposal = async () => {
-		if (!id || !api || !apiReady || !selectedAddress || !preimage || !substrateInducteeAddress) return;
-
-		const proposalOrigin = { FellowshipOrigins: 'FellowshipCandidates' };
-
-		const proposalTx = api.tx.fellowshipReferenda.submit(proposalOrigin, { Lookup: { hash: preimage.preimageHash, len: String(preimage.preimageLength) } }, { After: BN_HUNDRED });
-
-		const onFailed = (message: string) => {
-			setLoading(false);
-			queueNotification({
-				header: 'Create proposal transaction Failed!',
+				header: 'Induct transaction Failed!',
 				message,
 				status: 'error'
 			});
 		};
 
 		const onSuccess = async () => {
-			let postId = Number(await api.query.fellowshipReferenda.referendumCount()) - 1;
-			if (postId < 0) {
-				postId = 0;
-			}
-
-			saveNewProposal({
-				postId,
-				content,
-				proposerAddress: selectedAddress.address,
-				title,
-				userId: id,
-				network,
-				onError: (err) => {
-					// eslint-disable-next-line no-console
-					console.error('Error while saving proposal description: ', postId, err);
-				}
-			});
-
 			queueNotification({
 				header: 'Transaction Successful!',
-				message: 'Proposal submitted successfully.',
+				message: 'Induct successful.',
 				status: 'success'
 			});
 
@@ -198,10 +112,7 @@ const InductMemberForm = forwardRef(({ setSetsubmitBtnText, setSuccessDetails }:
 
 			setSuccessDetails({
 				proposer: selectedAddress.address,
-				inductee: substrateInducteeAddress,
-				preimageHash: preimage.preimageHash,
-				preimageLength: preimage.preimageLength,
-				postId
+				inductee: substrateInducteeAddress
 			});
 		};
 
@@ -215,7 +126,7 @@ const InductMemberForm = forwardRef(({ setSetsubmitBtnText, setSuccessDetails }:
 			network,
 			onFailed,
 			onSuccess,
-			tx: proposalTx
+			tx
 		});
 	};
 
@@ -226,18 +137,10 @@ const InductMemberForm = forwardRef(({ setSetsubmitBtnText, setSuccessDetails }:
 		switch (currKey) {
 			case 1:
 				setSelectedKeys(new Set(['2']));
-				setSetsubmitBtnText('Create Preimage');
+				setSetsubmitBtnText('Submit Transaction');
 				break;
 			case 2:
-				if (!preimage) {
-					await handleCreatePreImage();
-				} else {
-					setSelectedKeys(new Set(['3']));
-					setSetsubmitBtnText('Submit Proposal');
-				}
-				break;
-			case 3:
-				await handleSubmitProposal();
+				await handleSubmit();
 				break;
 			default:
 		}
@@ -246,38 +149,6 @@ const InductMemberForm = forwardRef(({ setSetsubmitBtnText, setSuccessDetails }:
 	useImperativeHandle(ref, () => ({
 		nextStep
 	}));
-
-	useEffect(() => {
-		const isFellow = fellows?.find((fellow) => fellow.address === (getSubstrateAddress(selectedAddress?.address || '') || ''));
-
-		if (!api || !apiReady || !selectedAddress || !isFellow) return;
-
-		(async () => {
-			setLoading(true);
-			const preImageTxArr = [api.tx.fellowshipCollective.addMember(substrateInducteeAddress)];
-			const txFee = await getTxFee(api, preImageTxArr, selectedAddress.address);
-			setPreimageGasFee(txFee);
-
-			if (!preimage) {
-				setLoading(false);
-				return;
-			}
-
-			const proposalOrigin = { FellowshipOrigins: 'FellowshipCandidates' };
-
-			const proposalTx = api.tx.fellowshipReferenda.submit(
-				proposalOrigin,
-				{ Lookup: { hash: preimage.preimageHash, len: String(preimage.preimageLength) } },
-				{ After: BN_HUNDRED }
-			);
-
-			const proposalTxArr = [proposalTx];
-			const proposalTxFee = await getTxFee(api, proposalTxArr, selectedAddress.address);
-			setProposalGasFee(proposalTxFee);
-
-			setLoading(false);
-		})();
-	}, [api, apiReady, fellows, preimage, selectedAddress, substrateInducteeAddress]);
 
 	if (!substrateInducteeAddress) {
 		return (
@@ -323,13 +194,13 @@ const InductMemberForm = forwardRef(({ setSetsubmitBtnText, setSuccessDetails }:
 
 				<AccordionItem
 					key='2'
-					aria-label='Create Preimage'
+					aria-label='Submit Transaction'
 					classNames={accordionItemClassNames(2, selectedKeys)}
-					isDisabled={!['2', '3'].includes(Array.from(selectedKeys)[0])}
+					isDisabled={Array.from(selectedKeys)[0] !== '2'}
 					title={
 						<AccordionTitle
 							step={2}
-							title='Create Preimage'
+							title='Submit Transaction'
 							selectedKeys={selectedKeys}
 						/>
 					}
@@ -343,7 +214,7 @@ const InductMemberForm = forwardRef(({ setSetsubmitBtnText, setSuccessDetails }:
 							/>
 						</div>
 
-						{selectedWallet && !preimage && (
+						{selectedWallet && (
 							<div className='flex w-full flex-col items-center justify-center gap-6'>
 								{selectedAddress?.address && !fellows?.find((fellow) => fellow.address === (getSubstrateAddress(selectedAddress?.address || '') || '')) && (
 									<AlertCard
@@ -363,86 +234,8 @@ const InductMemberForm = forwardRef(({ setSetsubmitBtnText, setSuccessDetails }:
 										onAddressSelect={setSelectedAddress}
 									/>
 								</div>
-
-								<div className='flex h-12 w-full items-center justify-between rounded-2xl border-1 border-primary_border p-3 font-normal'>
-									<span>Gas Fees</span>
-									<span>
-										{formatBalance(preimageGasFee.toString(), formatBalanceOptions)} {networkProps.tokenSymbol}
-									</span>
-								</div>
 							</div>
 						)}
-
-						{preimage && (
-							<>
-								<AlertCard
-									className='mb-3 w-full'
-									type='success'
-									message='Preimage created successfully.'
-								/>
-
-								<PreimageDetails
-									className='w-full text-left text-sm'
-									preimage={preimage}
-									proposerAddress={selectedAddress?.address || ''}
-								/>
-							</>
-						)}
-					</div>
-				</AccordionItem>
-
-				<AccordionItem
-					key='3'
-					aria-label='Submit Proposal'
-					classNames={accordionItemClassNames(3, selectedKeys)}
-					isDisabled={Array.from(selectedKeys)[0] !== '3'}
-					title={
-						<AccordionTitle
-							step={3}
-							title='Submit Proposal'
-							selectedKeys={selectedKeys}
-						/>
-					}
-				>
-					<div className='flex flex-col gap-6 text-sm font-normal'>
-						<div className='flex flex-col'>
-							<div>
-								Preimage Hash <span className='text-rose-500'>*</span>
-							</div>
-							<div className='flex w-full items-center justify-between rounded-2xl border-1 border-primary_border p-3'>{preimage?.preimageHash}</div>
-						</div>
-
-						<div className='flex flex-col'>
-							<div>
-								Preimage Length <span className='text-rose-500'>*</span>
-							</div>
-							<div className='flex w-full items-center justify-between rounded-2xl border-1 border-primary_border p-3'>{preimage?.preimageLength}</div>
-						</div>
-
-						<div className='flex flex-col rounded-2xl border-1 border-primary_border p-3'>
-							<div className='flex items-center justify-between'>
-								<span>Total Amount Required to Submit Proposal</span>
-								<span className='text-base font-semibold'>
-									{formatBalance(proposalGasFee.add(baseDeposit).toString(), formatBalanceOptions)} {networkProps.tokenSymbol}
-								</span>
-							</div>
-
-							<Divider className='my-3' />
-
-							<div className='flex items-center justify-between'>
-								<span>Deposit Amount</span>
-								<span className='text-base font-semibold'>
-									{formatBalance(baseDeposit.toString(), formatBalanceOptions)} {networkProps.tokenSymbol}
-								</span>
-							</div>
-
-							<div className='flex items-center justify-between'>
-								<span>Gas Fees</span>
-								<span className='text-base font-semibold'>
-									{formatBalance(proposalGasFee.toString(), formatBalanceOptions)} {networkProps.tokenSymbol}
-								</span>
-							</div>
-						</div>
 					</div>
 				</AccordionItem>
 			</Accordion>
