@@ -8,12 +8,10 @@ import { Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/modal';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import Image from 'next/image';
-import midTruncateText from '@/utils/midTruncateText';
 import Address from '../Profile/Address';
-import LinkWithNetwork from '../Misc/LinkWithNetwork';
 
 interface Props {
-	successDetails: { proposer: string; inductee: string; preimageHash: string; preimageLength: string | number; postId: string | number };
+	successDetails: { proposer: string; inductee: string };
 }
 
 function InductMemberSuccessModal({ successDetails }: Props) {
@@ -41,7 +39,7 @@ function InductMemberSuccessModal({ successDetails }: Props) {
 									height={8}
 								/>
 							</div>
-							<span className='text-xl font-semibold text-white'>Proposal Submitted Successfully</span>
+							<span className='text-xl font-semibold text-white'>Induct Transaction Submitted Successfully</span>
 						</ModalHeader>
 
 						<ModalBody>
@@ -64,30 +62,6 @@ function InductMemberSuccessModal({ successDetails }: Props) {
 											truncateCharLen={4}
 										/>
 									</div>
-
-									<div>Preimage Hash:</div>
-									<div className='font-medium'>
-										{midTruncateText({
-											text: successDetails.preimageHash,
-											startChars: 6,
-											endChars: 6
-										})}
-									</div>
-
-									<div>Inductee Address:</div>
-									<div className='font-medium'>{successDetails.preimageLength}</div>
-								</div>
-
-								<div className='flex items-center justify-center'>
-									To see the proposal submitted click&nbsp;
-									<LinkWithNetwork
-										className='text-link underline'
-										href={`/referenda/${successDetails.postId}`}
-										target='_blank'
-										rel='noopener noreferrer'
-									>
-										here
-									</LinkWithNetwork>
 								</div>
 
 								{/* TODO: Add Social Icons */}
