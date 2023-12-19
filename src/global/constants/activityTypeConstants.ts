@@ -5,10 +5,10 @@
 import { ActivityType } from '@/global/types';
 
 export const ACTIVITY_TYPE_DESC = {
-	[ActivityType.GENERAL_PROPOSAL]: 'lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua 1',
-	[ActivityType.RANK_REQUEST]: 'lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua 2',
-	[ActivityType.FELLOWSHIP_RULE]: 'lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua 3',
-	[ActivityType.INDUCTION]: 'lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua 4'
+	[ActivityType.GENERAL_PROPOSAL]: 'General Proposal',
+	[ActivityType.RANK_REQUEST]: 'Rank Request',
+	[ActivityType.FELLOWSHIP_RULE]: 'Fellowship Rule',
+	[ActivityType.INDUCTION]: 'Induction'
 };
 
 export const ACTIVITY_ACTION_TEXT = {
