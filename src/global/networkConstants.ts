@@ -25,6 +25,10 @@ const networkConstants: NetworkConstants = {
 		],
 		relayRpcEndpoints: [
 			{
+				key: 'wss://rpc.ibp.network/polkadot',
+				label: 'IBP-GeoDNS1'
+			},
+			{
 				key: 'wss://polkadot-rpc.dwellir.com',
 				label: 'Dwellir'
 			},
@@ -43,10 +47,6 @@ const networkConstants: NetworkConstants = {
 			{
 				key: 'wss://polkadot-rpc-tn.dwellir.com',
 				label: 'Dwellir Tunisia'
-			},
-			{
-				key: 'wss://rpc.ibp.network/polkadot',
-				label: 'IBP-GeoDNS1'
 			},
 			{
 				key: 'wss://rpc.dotters.network/polkadot',
