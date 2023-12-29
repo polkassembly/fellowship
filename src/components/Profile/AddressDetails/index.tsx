@@ -6,7 +6,7 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 import Identicon from '@polkadot/react-identicon';
-import { useApiContext } from '@/contexts';
+import { useApiContext, useUserDetailsContext } from '@/contexts';
 import RANK_CONSTANTS from '@/global/constants/rankConstants';
 import Image from 'next/image';
 import midTruncateText from '@/utils/midTruncateText';
@@ -44,6 +44,8 @@ function ProfileAddressDetails(props: Props) {
 	const [activeStatus, setActiveStatus] = useState<ActiveStatus | null>(null);
 	const [isActiveFormModalOpen, setIsActiveFormModalOpen] = useState(false);
 	const [statusToSet, setStatusToSet] = useState<ActiveStatus>(ActiveStatus.ACTIVE);
+	const { loginAddress } = useUserDetailsContext();
+	const routeSubstrateAddress = getSubstrateAddress(address || '');
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const [onChainIdentity, setOnChainIdentity] = useState<any>();
@@ -142,37 +144,39 @@ function ProfileAddressDetails(props: Props) {
 									}}
 								/>
 							</div>
-							<div>
-								{activeStatus !== null && (
-									<Dropdown>
-										<DropdownTrigger>
-											<Button
-												variant='solid'
-												className='flex h-auto items-center justify-between border-none bg-primary p-0 px-2 py-0.5 text-white'
-											>
-												<span className='text-xs font-normal leading-[18px] tracking-[0.33px]'>{activeStatus}</span>
-												<Image
-													alt='down chevron'
-													src='/icons/chevron-white.svg'
-													width={12}
-													height={12}
-													className='rounded-full'
-												/>
-											</Button>
-										</DropdownTrigger>
+							{fellows.find((fellow) => fellow.address === routeSubstrateAddress) && loginAddress === routeSubstrateAddress && (
+								<div>
+									{activeStatus !== null && (
+										<Dropdown>
+											<DropdownTrigger>
+												<Button
+													variant='solid'
+													className='flex h-auto items-center justify-between border-none bg-primary p-0 px-2 py-0.5 text-white'
+												>
+													<span className='text-xs font-normal leading-[18px] tracking-[0.33px]'>{activeStatus}</span>
+													<Image
+														alt='down chevron'
+														src='/icons/chevron-white.svg'
+														width={12}
+														height={12}
+														className='rounded-full'
+													/>
+												</Button>
+											</DropdownTrigger>
 
-										<DropdownMenu
-											variant='bordered'
-											aria-label='Network selection dropdown'
-											onAction={(key) => handleActiveStatusChange(key as ActiveStatus)}
-										>
-											{activeStates.map((s) => (
-												<DropdownItem key={s.key}>{s.name}</DropdownItem>
-											))}
-										</DropdownMenu>
-									</Dropdown>
-								)}
-							</div>
+											<DropdownMenu
+												variant='bordered'
+												aria-label='Network selection dropdown'
+												onAction={(key) => handleActiveStatusChange(key as ActiveStatus)}
+											>
+												{activeStates.map((s) => (
+													<DropdownItem key={s.key}>{s.name}</DropdownItem>
+												))}
+											</DropdownMenu>
+										</Dropdown>
+									)}
+								</div>
+							)}
 						</article>
 					</section>
 				</Card>
