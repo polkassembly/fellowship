@@ -6,8 +6,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { EActivityFeed, ActivityFeedItem } from '@/global/types';
-import { parseAsInteger, useQueryState } from 'next-usequerystate';
-import { useParams, usePathname } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import getActivityFeed from '@/app/api/v1/feed/getActivityFeed';
 import getOriginUrl from '@/utils/getOriginUrl';
 import { ScrollShadow } from '@nextui-org/scroll-shadow';
@@ -24,13 +23,12 @@ interface Props {
 
 function ActivityFeed({ items }: Props) {
 	const { feed = EActivityFeed.ALL } = useParams();
-	const pathname = usePathname();
 
 	const { network } = useApiContext();
 
 	const observerTarget = useRef(null);
 
-	const [page, setPage] = useQueryState('page', parseAsInteger);
+	const [page, setPage] = useState<number>(1);
 	const [feedItems, setFeedItems] = useState<ActivityFeedItem[]>(items || []);
 	const [isFetching, setIsFetching] = useState(false);
 	const [isLastPage, setIsLastPage] = useState(false);
@@ -43,38 +41,36 @@ function ActivityFeed({ items }: Props) {
 		setIsLastPage(false);
 	}, [network]);
 
-	useEffect(() => {
-		if (pathname === '/' && (!page || Number(page) < 1)) setPage(1);
-	}, [page, pathname, setPage]);
-
 	// eslint-disable-next-line sonarjs/cognitive-complexity
 	useEffect(() => {
 		const observer = new IntersectionObserver(
 			(entries) => {
-				if (feedItems.length && entries[0].isIntersecting) {
-					(async () => {
-						setIsFetching(true);
-						const originUrl = getOriginUrl();
-						const nextPage = page ? page + 1 : 1;
-						const newFeedItems = (await getActivityFeed({ feedType: feed as EActivityFeed, originUrl, page: nextPage, network })) as ActivityFeedItem[];
+				if (!(feedItems.length && entries[0].isIntersecting)) return;
 
-						if (newFeedItems.length) {
-							const feedItemsMap: {
-								[key: string]: ActivityFeedItem;
-							} = {};
-							const allItems = [...feedItems, ...newFeedItems];
-							allItems.forEach((item) => {
-								feedItemsMap[item.id] = item;
-							});
-							setFeedItems(Object.values(feedItemsMap).reverse());
-							setPage(nextPage);
-						} else {
-							setIsLastPage(true);
-						}
+				(async () => {
+					setIsFetching(true);
+					const originUrl = getOriginUrl();
+					const nextPage = page + 1;
+					const newFeedItems = (await getActivityFeed({ feedType: feed as EActivityFeed, originUrl, page: nextPage, network })) as ActivityFeedItem[];
 
+					if (!newFeedItems?.length) {
+						setIsLastPage(true);
 						setIsFetching(false);
-					})();
-				}
+						return;
+					}
+
+					const feedItemsMap: {
+						[key: string]: ActivityFeedItem;
+					} = {};
+					const allItems = [...feedItems, ...newFeedItems];
+					allItems.forEach((item) => {
+						feedItemsMap[item.id] = item;
+					});
+					setFeedItems(Object.values(feedItemsMap));
+					setPage(nextPage);
+
+					setIsFetching(false);
+				})();
 			},
 			{ threshold: 1 }
 		);
