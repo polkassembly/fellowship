@@ -47,6 +47,8 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
 
 	const allActivities = result?.data?.activities || [];
 
+	const activityWithProposalKeys: string[] = [];
+
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const feedItemPromises: Promise<ActivityFeedItem>[] = allActivities.map(async (activityObj: any) => {
 		const feedItem: ActivityFeedItem = {
@@ -76,6 +78,15 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
 
 			return feedItem;
 		}
+
+		// if feedItem.type and activityObj.proposal.index already exist in activityKeys array, skip
+		const activityWithProposalKey = `${feedItem.type}-${activityObj.proposal.index}`;
+
+		if (activityWithProposalKeys.includes(activityWithProposalKey)) {
+			return null;
+		}
+
+		activityWithProposalKeys.push(activityWithProposalKey);
 
 		const onChainProposalObj = activityObj.proposal;
 
@@ -146,7 +157,9 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
 	});
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const feedItems: ActivityFeedItem[] = (await Promise.allSettled(feedItemPromises)).filter((item) => item.status === 'fulfilled').map((item) => (item as any).value);
+	let feedItems: ActivityFeedItem[] = (await Promise.allSettled(feedItemPromises)).filter((item) => item.status === 'fulfilled').map((item) => (item as any).value);
+
+	feedItems = feedItems.filter((item) => item !== null);
 
 	return NextResponse.json(feedItems);
 });
