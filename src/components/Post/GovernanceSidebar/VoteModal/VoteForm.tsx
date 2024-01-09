@@ -18,9 +18,10 @@ import VoteSelect from './VoteSelect';
 interface Props {
 	defaultVoteType?: VoteDecisionType;
 	onSuccess?: () => void;
+	setDisableConfirm?: (disable: boolean) => void;
 }
 
-const VoteForm = forwardRef(({ defaultVoteType, onSuccess }: Props, ref) => {
+const VoteForm = forwardRef(({ defaultVoteType, onSuccess, setDisableConfirm }: Props, ref) => {
 	const { loginWallet } = useUserDetailsContext();
 	const { api, apiReady, network, fellows } = useApiContext();
 	const {
@@ -97,6 +98,8 @@ const VoteForm = forwardRef(({ defaultVoteType, onSuccess }: Props, ref) => {
 			handleSubmitVote();
 		}
 	}));
+
+	setDisableConfirm?.(loading || !selectedAddress?.address || !fellows?.find((fellow) => fellow.address === (getSubstrateAddress(selectedAddress?.address || '') || '')));
 
 	return (
 		<section className='flex flex-col gap-6'>
