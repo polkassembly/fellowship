@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@nextui-org/modal';
-import React, { useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import Image from 'next/image';
 import { Divider } from '@nextui-org/divider';
 import { Button } from '@nextui-org/button';
@@ -19,6 +19,8 @@ interface Props {
 function VoteModal({ isModalOpen, defaultVoteType, closeModal }: Props) {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const formRef = useRef<any>(null);
+
+	const [disableConfirm, setDisableConfirm] = useState(true);
 
 	const handleConfirm = () => {
 		formRef?.current?.submitVote?.();
@@ -53,6 +55,7 @@ function VoteModal({ isModalOpen, defaultVoteType, closeModal }: Props) {
 								defaultVoteType={defaultVoteType}
 								ref={formRef}
 								onSuccess={closeModal}
+								setDisableConfirm={setDisableConfirm}
 							/>
 						</ModalBody>
 
@@ -63,6 +66,7 @@ function VoteModal({ isModalOpen, defaultVoteType, closeModal }: Props) {
 								className='flex w-min text-sm'
 								size='sm'
 								onPress={handleConfirm}
+								isDisabled={disableConfirm}
 							>
 								Confirm
 							</Button>
