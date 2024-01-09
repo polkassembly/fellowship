@@ -138,7 +138,7 @@ const VoteForm = forwardRef(({ defaultVoteType, onSuccess }: Props, ref) => {
 						<AlertCard
 							className='w-full'
 							type='warning'
-							message='This address is not a fellow. Please select a fellow address.'
+							message='Please connect an address which is part of the fellowship to cast your vote'
 						/>
 					)}
 
