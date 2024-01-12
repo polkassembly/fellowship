@@ -18,9 +18,10 @@ import VoteSelect from './VoteSelect';
 interface Props {
 	defaultVoteType?: VoteDecisionType;
 	onSuccess?: () => void;
+	setDisableConfirm?: (disable: boolean) => void;
 }
 
-const VoteForm = forwardRef(({ defaultVoteType, onSuccess }: Props, ref) => {
+const VoteForm = forwardRef(({ defaultVoteType, onSuccess, setDisableConfirm }: Props, ref) => {
 	const { loginWallet } = useUserDetailsContext();
 	const { api, apiReady, network, fellows } = useApiContext();
 	const {
@@ -98,6 +99,8 @@ const VoteForm = forwardRef(({ defaultVoteType, onSuccess }: Props, ref) => {
 		}
 	}));
 
+	setDisableConfirm?.(loading || !selectedAddress?.address || !fellows?.find((fellow) => fellow.address === (getSubstrateAddress(selectedAddress?.address || '') || '')));
+
 	return (
 		<section className='flex flex-col gap-6'>
 			<div className='flex flex-col items-center justify-center gap-2 text-center text-xs'>
@@ -138,7 +141,7 @@ const VoteForm = forwardRef(({ defaultVoteType, onSuccess }: Props, ref) => {
 						<AlertCard
 							className='w-full'
 							type='warning'
-							message='This address is not a fellow. Please select a fellow address.'
+							message='Please connect an address which is part of the fellowship to cast your vote'
 						/>
 					)}
 
