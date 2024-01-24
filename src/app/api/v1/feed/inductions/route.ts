@@ -50,6 +50,8 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
 			created_at: dayjs(postObj.created_at?.toDate?.() ?? new Date()).toDate(),
 			updated_at: dayjs(postObj.updated_at?.toDate?.() ?? new Date()).toDate(),
 			tags: postObj.tags || [],
+			proposer_address: postObj.proposer_address || '',
+			username: postObj.username || '',
 			proposalType: ProposalType.DISCUSSIONS,
 			comments_count: commentsCount,
 			reactions_count: reactions?.length || 0,

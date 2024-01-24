@@ -381,6 +381,8 @@ export interface PostListingItem {
 	updated_at: Date;
 	tags: string[];
 	on_chain_info?: OnChainPostInfo;
+	proposer_address?: string;
+	username?: string;
 	proposalType: ProposalType;
 	comments_count: number;
 	reactions_count: number; // TODO: remove this

@@ -47,7 +47,8 @@ function PostListingCard({ feedItem, cardClassName, isDividerDisabled }: Props) 
 								? ActivityType.INDUCTION
 								: undefined
 						}
-						address={feedItem.on_chain_info?.proposer}
+						address={feedItem.proposer_address}
+						username={feedItem.username}
 						createdAt={feedItem.created_at}
 						votesTally={feedItem.on_chain_info?.tally}
 						status={feedItem.on_chain_info?.status}
