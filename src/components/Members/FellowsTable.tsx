@@ -131,7 +131,7 @@ function FellowsTable({ className, fellows, fellowsDetails }: Props) {
 						<TableCell className='font-semibold'>{fellowsDetails?.[fellow.address].proposalsCreated ?? '-'}</TableCell>
 						<TableCell className='font-semibold'>{fellowsDetails?.[fellow.address].proposalsVotedOn ?? '-'}</TableCell>
 						<TableCell className='font-semibold'>-</TableCell>
-						<TableCell className='font-semibold'>{fellow.salary ?? '-'}</TableCell>
+						<TableCell className='font-semibold'>{(Math.ceil(parseInt(fellow.salary as string, 10) / 6) ?? '-').toLocaleString()} USDT</TableCell>
 						<TableCell>
 							<Image
 								alt='icon'
