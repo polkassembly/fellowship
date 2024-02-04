@@ -43,6 +43,7 @@
     "@polkadot/util-crypto": "^12.5.1",
     "@urql/core": "^4.1.4",
     "@urql/exchange-graphcache": "^6.3.3",
+    "antd": "^5.14.0",
     "classnames": "^2.3.2",
     "dayjs": "^1.11.10",
     "fetch-ponyfill": "^7.1.0",
