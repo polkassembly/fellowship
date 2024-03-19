@@ -12,6 +12,7 @@ import SwitchThemeBtn from './SwitchThemeBtn';
 
 const ConnectWalletButton = dynamic(() => import('./ConnectWalletButton'), { ssr: false });
 const NetworkDropdown = dynamic(() => import('./NetworkDropdown'), { ssr: false });
+const RPCDropdown = dynamic(() => import('./RPCDropdown'), { ssr: false });
 
 function AppNavbar() {
 	return (
@@ -21,6 +22,7 @@ function AppNavbar() {
 		>
 			<SearchBar className='w-[70%]' />
 			<NetworkDropdown />
+			<RPCDropdown />
 			<ConnectWalletButton />
 			<SwitchThemeBtn />
 		</nav>
