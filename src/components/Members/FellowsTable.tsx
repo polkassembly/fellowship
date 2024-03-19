@@ -19,8 +19,26 @@ interface Props {
 	fellowsDetails?: IFellowDataResponse;
 }
 
+function formatSalary(salary: string) {
+	const salaryNumber = Math.abs(Number(salary));
+	let formattedSalary = '';
+
+	if (salaryNumber >= 1.0e9) {
+		formattedSalary = `${(salaryNumber / 1.0e9).toFixed(2)}K`;
+	} else if (salaryNumber >= 1.0e6) {
+		formattedSalary = (salaryNumber / 1.0e6).toFixed(2);
+	} else if (salaryNumber >= 1.0e3) {
+		formattedSalary = (salaryNumber / 1.0e3).toFixed(2);
+	} else {
+		formattedSalary = salary;
+	}
+
+	return `${formattedSalary.toString()} USDT`;
+}
+
 function FellowsTable({ className, fellows, fellowsDetails }: Props) {
 	const { network } = useApiContext();
+
 	return (
 		<Table
 			className={`${className} h-[calc(100vh-200px)] overflow-y-auto`}
@@ -131,7 +149,7 @@ function FellowsTable({ className, fellows, fellowsDetails }: Props) {
 						<TableCell className='font-semibold'>{fellowsDetails?.[fellow.address].proposalsCreated ?? '-'}</TableCell>
 						<TableCell className='font-semibold'>{fellowsDetails?.[fellow.address].proposalsVotedOn ?? '-'}</TableCell>
 						<TableCell className='font-semibold'>-</TableCell>
-						<TableCell className='font-semibold'>{(Math.ceil(parseInt(fellow.salary as string, 10) / 6) ?? '-').toLocaleString()} USDT</TableCell>
+						<TableCell className='font-semibold'>{formatSalary(`${fellow.salary}`)}</TableCell>
 						<TableCell>
 							<Image
 								alt='icon'
