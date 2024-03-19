@@ -32,6 +32,8 @@ export interface ApiContextType {
 	network: Network;
 	setNetwork: Dispatch<SetStateAction<Network>>;
 	fellows: IFellow[];
+	wsProvider: string;
+	setWsProvider: Dispatch<SetStateAction<string>>;
 }
 
 export type NetworkProperties = {
@@ -52,6 +54,11 @@ export type NetworkProperties = {
 
 export type NetworkConstants = {
 	[index: string]: NetworkProperties;
+};
+
+export type RPCEndpoint = {
+	key: string;
+	label: string;
 };
 
 export enum EActivityFeed {

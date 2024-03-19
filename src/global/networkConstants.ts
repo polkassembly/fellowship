@@ -21,6 +21,34 @@ const networkConstants: NetworkConstants = {
 			{
 				label: 'via Dotters',
 				key: 'wss://sys.dotters.network/collectives-polkadot'
+			},
+			{
+				label: 'via Dwellir Tunisia',
+				key: 'wss://polkadot-collectives-rpc-tn.dwellir.com'
+			},
+			{
+				label: 'via IBP-GeoDNS1',
+				key: 'wss://sys.ibp.network/collectives-polkadot'
+			},
+			{
+				label: 'via LuckyFriday',
+				key: 'wss://rpc-collectives-polkadot.luckyfriday.io'
+			},
+			{
+				label: 'via OnFinality',
+				key: 'wss://collectives.api.onfinality.io/public-ws'
+			},
+			{
+				label: 'via Parity',
+				key: 'wss://polkadot-collectives-rpc.polkadot.io'
+			},
+			{
+				label: 'via RadiumBlock',
+				key: 'wss://collectives.public.curie.radiumblock.co/ws'
+			},
+			{
+				label: 'via Stakeworld',
+				key: 'wss://dot-rpc.stakeworld.io/collectives'
 			}
 		],
 		relayRpcEndpoints: [
@@ -88,8 +116,20 @@ const networkConstants: NetworkConstants = {
 				key: 'wss://westend-collectives-rpc.dwellir.com'
 			},
 			{
-				label: 'via IBP',
+				label: 'via Dwellir Tunisia',
+				key: 'wss://westend-collectives-rpc-tn.dwellir.com'
+			},
+			{
+				label: 'via IBP-GeoDNS1',
 				key: 'wss://sys.ibp.network/collectives-westend'
+			},
+			{
+				label: 'via IBP-GeoDNS2',
+				key: 'wss://sys.dotters.network/collectives-westend'
+			},
+			{
+				label: 'via Parity',
+				key: 'wss://westend-collectives-rpc.polkadot.io'
 			}
 		],
 		relayRpcEndpoints: [
