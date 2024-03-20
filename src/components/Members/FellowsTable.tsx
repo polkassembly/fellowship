@@ -10,6 +10,7 @@ import RANK_CONSTANTS from '@/global/constants/rankConstants';
 import { useApiContext } from '@/contexts';
 import getEncodedAddress from '@/utils/getEncodedAddress';
 import { Tooltip } from '@nextui-org/tooltip';
+import formatSalary from '@/utils/formatSalary';
 import Address from '../Profile/Address';
 import LinkWithNetwork from '../Misc/LinkWithNetwork';
 
@@ -17,23 +18,6 @@ interface Props {
 	className?: string;
 	fellows: IFellow[];
 	fellowsDetails?: IFellowDataResponse;
-}
-
-function formatSalary(salary: string) {
-	const salaryNumber = Math.abs(Number(salary));
-	let formattedSalary = '';
-
-	if (salaryNumber >= 1.0e9) {
-		formattedSalary = `${(salaryNumber / 1.0e9).toFixed(2)}K`;
-	} else if (salaryNumber >= 1.0e6) {
-		formattedSalary = (salaryNumber / 1.0e6).toFixed(2);
-	} else if (salaryNumber >= 1.0e3) {
-		formattedSalary = (salaryNumber / 1.0e3).toFixed(2);
-	} else {
-		formattedSalary = salary;
-	}
-
-	return `${formattedSalary.toString()} USDT`;
 }
 
 function FellowsTable({ className, fellows, fellowsDetails }: Props) {
