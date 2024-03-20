@@ -5,10 +5,11 @@
 import { ActivityType } from '@/global/types';
 
 export const ACTIVITY_TYPE_DESC = {
-	[ActivityType.GENERAL_PROPOSAL]: 'General Proposal',
-	[ActivityType.RANK_REQUEST]: 'Rank Request',
-	[ActivityType.FELLOWSHIP_RULE]: 'Fellowship Rule',
-	[ActivityType.INDUCTION]: 'Induction'
+	[ActivityType.GENERAL_PROPOSAL]: 'Whitelisted proposals by the fellowship to fast track their decision timeline',
+	[ActivityType.RANK_REQUEST]: 'Proposing a change in rank of fellowship members via approval, promotion or demotion',
+	[ActivityType.FELLOWSHIP_RULE]: 'Proposing a change to existing fellowship rules',
+	[ActivityType.INDUCTION]:
+		'Users who aspire to be fellows can create an induction request with details of their proof of works. Fellows may comment or choose to create a proposal for these requests.'
 };
 
 export const ACTIVITY_ACTION_TEXT = {
