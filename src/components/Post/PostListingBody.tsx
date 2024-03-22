@@ -25,12 +25,14 @@ function PostListingBody({ className = '', index = 0, title = '', content = '', 
 				{content && (
 					<>
 						<p className='line-clamp-2 text-sm'>{content}</p>
-						<LinkWithNetwork
-							className='mb-0.5 text-xs text-link'
-							href={`/referenda/${index}`}
-						>
-							Read more
-						</LinkWithNetwork>
+						{content.length > 200 && (
+							<LinkWithNetwork
+								className='mb-0.5 text-xs text-link'
+								href={`/referenda/${index}`}
+							>
+								Read more
+							</LinkWithNetwork>
+						)}
 					</>
 				)}
 				{tags.length > 0 && <PostTags tags={tags} />}
