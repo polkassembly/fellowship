@@ -36,14 +36,23 @@ function RPCDropdown() {
 	return (
 		<Dropdown>
 			<DropdownTrigger>
-				<Button variant='bordered'>
-					<span>{rpcLabel}</span>
+				<Button
+					variant='bordered'
+					className='flex h-unit-10 gap-2 border-1 border-primary_border px-5 text-sm font-medium md:h-unit-8 md:px-0'
+				>
+					<Image
+						alt='signal icon'
+						src='/icons/signal-icon.svg'
+						width={15}
+						height={15}
+					/>
+					<span className='md:hidden'>{rpcLabel}</span>
 					<Image
 						alt='down chevron'
 						src='/icons/chevron.svg'
 						width={12}
 						height={12}
-						className='rounded-full'
+						className='ml-auto rounded-full md:hidden'
 					/>
 				</Button>
 			</DropdownTrigger>
