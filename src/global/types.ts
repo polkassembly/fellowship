@@ -56,11 +56,6 @@ export type NetworkConstants = {
 	[index: string]: NetworkProperties;
 };
 
-export type RPCEndpoint = {
-	key: string;
-	label: string;
-};
-
 export enum EActivityFeed {
 	// PENDING = 'pending',
 	ALL = 'all',

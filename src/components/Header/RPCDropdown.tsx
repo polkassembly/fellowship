@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from '@nextui-org/dropdown';
 import { Button } from '@nextui-org/button';
 import Image from 'next/image';
 import { useApiContext } from '@/contexts';
-import { RPCEndpoint } from '@/global/types';
+import { TRPCEndpoint } from '@/global/types';
 import networkConstants from '@/global/networkConstants';
 
 function RPCDropdown() {
@@ -15,18 +15,9 @@ function RPCDropdown() {
 
 	const { wsProvider, setWsProvider } = useApiContext();
 
-	const [rpcLabel, setRpcLabel] = useState<string>('');
+	const rpcEndpoints = networkConstants[String(network)]?.rpcEndpoints;
 
-	const [rpcEndpoints, setRPCEndpoints] = useState<RPCEndpoint[]>([]);
-
-	useEffect(() => {
-		setRPCEndpoints(networkConstants[String(network)]?.rpcEndpoints);
-	}, [network]);
-
-	useEffect(() => {
-		const currentRPC = rpcEndpoints.find((rpc: RPCEndpoint) => rpc.key === wsProvider);
-		if (currentRPC) setRpcLabel(currentRPC.label);
-	}, [rpcEndpoints, wsProvider]);
+	const currentRPC = rpcEndpoints.find((rpc: TRPCEndpoint) => rpc.key === wsProvider) || rpcEndpoints[0];
 
 	const handleEndpointChange = (key: string) => {
 		if (wsProvider === key) return;
@@ -46,7 +37,7 @@ function RPCDropdown() {
 						width={15}
 						height={15}
 					/>
-					<span className='md:hidden'>{rpcLabel}</span>
+					<span className='md:hidden'>{currentRPC.label}</span>
 					<Image
 						alt='down chevron'
 						src='/icons/chevron.svg'
@@ -60,10 +51,10 @@ function RPCDropdown() {
 				aria-label='RPC Endpoint selection dropdown'
 				onAction={(key) => handleEndpointChange(key as string)}
 			>
-				{rpcEndpoints.map((item: RPCEndpoint) => (
+				{rpcEndpoints.map((item: TRPCEndpoint) => (
 					<DropdownItem
 						key={item.key}
-						className={wsProvider === item.key ? 'bg-primary/10 text-primary dark:bg-primary dark:text-white' : ''}
+						className={currentRPC.key === item.key ? 'bg-primary/10 text-primary dark:bg-primary dark:text-white' : ''}
 					>
 						{item.label}
 					</DropdownItem>
