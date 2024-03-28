@@ -26,7 +26,7 @@ function NetworkDropdown() {
 			<DropdownTrigger>
 				<Button
 					variant='bordered'
-					className='flex h-unit-8 justify-between border-1 border-primary_border px-5 text-sm font-medium'
+					className='flex h-unit-10 gap-2 rounded-lg border-1 border-primary_border px-5 text-sm font-medium md:h-unit-8'
 				>
 					<Image
 						alt={`${currentNetworkProperties.name} Logo`}
@@ -41,7 +41,7 @@ function NetworkDropdown() {
 						src='/icons/chevron.svg'
 						width={12}
 						height={12}
-						className='rounded-full'
+						className='ml-auto rounded-full'
 					/>
 				</Button>
 			</DropdownTrigger>
