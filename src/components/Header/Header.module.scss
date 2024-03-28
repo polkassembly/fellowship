@@ -8,5 +8,20 @@
 }
 
 .appNavbar {
+	@apply mb-6 hidden h-[52px] w-full items-center justify-between gap-x-4 rounded-[14px] border border-primary_border px-4 py-2.5 md:flex;
+}
+
+.appNavMobile {
+	@apply mb-6 flex w-full flex-col md:hidden;
+}
+
+.navMobileHeader {
 	@apply mb-6 flex h-[52px] w-full items-center justify-between gap-x-4 rounded-[14px] border border-primary_border px-4 py-2.5;
+}
+.appMenu {
+	@apply flex h-screen w-full flex-col gap-6;
+}
+
+.menuCategory {
+	@apply flex w-full flex-col gap-2 text-sm;
 }
