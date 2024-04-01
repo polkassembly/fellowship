@@ -10,6 +10,7 @@ import AppSidebar from '@/components/Header/AppSidebar';
 import AppNavbar from '@/components/Header/AppNavbar';
 import AppNavMobile from '@/components/Header/Mobile/AppNavMobile';
 import NotificationsContainer from '@/components/Misc/NotificationsContainer';
+import FooterNavMobile from '@/components/Header/Mobile/FooterNavMobile';
 import { poppinsFont } from '@/utils/fonts';
 import { Providers } from '../global/providers';
 
@@ -24,7 +25,7 @@ export default function RootLayout({ children, modal }: { children: ReactNode; m
 			<body className={`${poppinsFont.className}`}>
 				<Providers>
 					<section id='root-section'>
-						<section className='hidden h-[96vh] md:fixed md:block'>
+						<section className='fixed h-[96vh] md:block'>
 							<AppSidebar />
 						</section>
 						<section id='main-section'>
@@ -32,6 +33,7 @@ export default function RootLayout({ children, modal }: { children: ReactNode; m
 							<AppNavMobile />
 							<main>{children}</main>
 						</section>
+						<FooterNavMobile />
 					</section>
 					<NotificationsContainer />
 					{modal}
