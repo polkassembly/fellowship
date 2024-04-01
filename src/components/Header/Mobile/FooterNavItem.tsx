@@ -33,7 +33,7 @@ function FooterNavItem({ isParentItem = false, isCurrentRoute, icon, children, s
 		<div className='flex flex-col items-center justify-between'>
 			<Button
 				variant='light'
-				className='m-0 flex flex-col items-center gap-0.5 p-0 text-xs'
+				className={`m-0 flex flex-col items-center gap-0.5 p-0 text-xs text-white ${isCurrentRoute && 'text-primary'}`}
 				onClick={() => handleClickAction(url)}
 			>
 				{isParentItem && subItems && Boolean(subItems?.length) ? (
