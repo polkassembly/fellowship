@@ -8,8 +8,8 @@ import React from 'react';
 
 import { usePathname, useRouter } from 'next/navigation';
 import { useApiContext, useUserDetailsContext } from '@/contexts';
-import styles from '../Header.module.scss';
-import LinkWithNetwork from '../../Misc/LinkWithNetwork';
+import styles from '@/components/Header/Header.module.scss';
+import LinkWithNetwork from '../Misc/LinkWithNetwork';
 import FooterNavItem from './FooterNavItem';
 
 type subItem = { label: string; url: string };

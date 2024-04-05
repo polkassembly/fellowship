@@ -10,7 +10,7 @@ import AppSidebar from '@/components/Header/AppSidebar';
 import AppNavbar from '@/components/Header/AppNavbar';
 import AppNavMobile from '@/components/Header/Mobile/AppNavMobile';
 import NotificationsContainer from '@/components/Misc/NotificationsContainer';
-import FooterNavMobile from '@/components/Header/Mobile/FooterNavMobile';
+import Footer from '@/components/Footer/Footer';
 import { poppinsFont } from '@/utils/fonts';
 import { Providers } from '../global/providers';
 
@@ -33,7 +33,7 @@ export default function RootLayout({ children, modal }: { children: ReactNode; m
 							<AppNavMobile />
 							<main>{children}</main>
 						</section>
-						<FooterNavMobile />
+						<Footer />
 					</section>
 					<NotificationsContainer />
 					{modal}

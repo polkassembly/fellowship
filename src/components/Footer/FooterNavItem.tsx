@@ -12,7 +12,7 @@ import { useUserDetailsContext } from '@/contexts';
 import { Listbox, ListboxItem } from '@nextui-org/listbox';
 import { Button } from '@nextui-org/button';
 import { Popover, PopoverTrigger, PopoverContent } from '@nextui-org/popover';
-import LinkWithNetwork from '../../Misc/LinkWithNetwork';
+import LinkWithNetwork from '../Misc/LinkWithNetwork';
 
 interface IFooterNavItem {
 	isParentItem: boolean;
