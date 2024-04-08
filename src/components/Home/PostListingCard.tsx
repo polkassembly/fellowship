@@ -27,7 +27,7 @@ interface Props {
 
 function PostListingCard({ feedItem, cardClassName, isDividerDisabled }: Props) {
 	return (
-		<article className='max-w-[calc(100vw-300px)] xl:max-w-[calc(100vw-600px)]'>
+		<article className='w-full md:max-w-[calc(100vw-300px)] xl:max-w-[calc(100vw-600px)]'>
 			<Card
 				shadow='none'
 				className={classNames('border border-primary_border', cardClassName)}
