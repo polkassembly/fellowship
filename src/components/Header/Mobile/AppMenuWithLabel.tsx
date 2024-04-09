@@ -9,7 +9,7 @@ import styles from '../Header.module.scss';
 
 function AppMenuWithLabel({ label, children }: { label: string; children: React.ReactNode }) {
 	return (
-		<div className='flex w-full flex-col md:w-auto'>
+		<div className='flex w-full flex-col gap-1 md:w-auto'>
 			<span className={styles.appMenuLabel}>{label}</span>
 			{children}
 		</div>
