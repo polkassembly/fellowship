@@ -6,23 +6,56 @@
 
 import React from 'react';
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
+import { useTheme } from 'next-themes';
+import { Button } from '@nextui-org/button';
+import THEME_CONSTANTS from '@/global/themeConstants';
 import styles from './Header.module.scss';
-import SearchBar from './SearchBar';
-import SwitchThemeBtn from './SwitchThemeBtn';
 
-const ConnectWalletButton = dynamic(() => import('./ConnectWalletButton'), { ssr: false });
-const NetworkDropdown = dynamic(() => import('./NetworkDropdown'), { ssr: false });
-
+const AppMenu = dynamic(() => import('./AppMenu'), { ssr: false });
 function AppNavbar() {
+	const [menuOpen, setMenuOpen] = React.useState(false);
+	const { resolvedTheme = 'light' } = useTheme();
+
 	return (
 		<nav
 			id='appNavbar'
 			className={styles.appNavbar}
 		>
-			<SearchBar className='w-[70%]' />
-			<NetworkDropdown />
-			<ConnectWalletButton />
-			<SwitchThemeBtn />
+			<div className={styles.navMobileHeader}>
+				<Image
+					src={THEME_CONSTANTS[resolvedTheme as keyof typeof THEME_CONSTANTS].polk_logo}
+					alt='Logo'
+					width={100}
+					height={20}
+				/>
+				<Button
+					isIconOnly
+					variant='light'
+					aria-label='Toggle Menu'
+					onClick={() => setMenuOpen(!menuOpen)}
+				>
+					{menuOpen ? (
+						<Image
+							src={THEME_CONSTANTS[resolvedTheme as keyof typeof THEME_CONSTANTS].menuCloseIcon}
+							alt='Menu'
+							className='fill-white stroke-white'
+							width={20}
+							height={20}
+						/>
+					) : (
+						<Image
+							src={THEME_CONSTANTS[resolvedTheme as keyof typeof THEME_CONSTANTS].menuIcon}
+							alt='Menu'
+							width={20}
+							height={20}
+							className='fill-white stroke-white'
+						/>
+					)}
+				</Button>
+			</div>
+
+			<AppMenu isOpen={menuOpen} />
 		</nav>
 	);
 }

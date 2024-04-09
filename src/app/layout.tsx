@@ -8,7 +8,6 @@ import type { Metadata } from 'next';
 import { ReactNode } from 'react';
 import AppSidebar from '@/components/Header/AppSidebar';
 import AppNavbar from '@/components/Header/AppNavbar';
-import AppNavMobile from '@/components/Header/Mobile/AppNavMobile';
 import NotificationsContainer from '@/components/Misc/NotificationsContainer';
 import { poppinsFont } from '@/utils/fonts';
 import { Providers } from '../global/providers';
@@ -29,7 +28,6 @@ export default function RootLayout({ children, modal }: { children: ReactNode; m
 						</section>
 						<section id='main-section'>
 							<AppNavbar />
-							<AppNavMobile />
 							<main>{children}</main>
 						</section>
 					</section>
