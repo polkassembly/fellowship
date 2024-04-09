@@ -14,7 +14,7 @@ export default function SectionTitle({ icon, title, desc }: ISectionTitleProps) 
 	return (
 		<div className='flex items-center px-6'>
 			{icon}
-			<div className='flex items-center gap-2'>
+			<div className='flex flex-col gap-2 md:flex-row md:items-center'>
 				<h3 className='text-base font-semibold leading-6'>{title}</h3>
 				{desc && <span className='text-sm'>{desc}</span>}
 			</div>
