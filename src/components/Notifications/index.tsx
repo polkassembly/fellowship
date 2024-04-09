@@ -6,7 +6,10 @@
 
 import { Accordion, AccordionItem } from '@nextui-org/accordion';
 import Image from 'next/image';
-import SectionTitle from './ui/SectionTitle';
+import SectionTitle from './common-ui/SectionTitle';
+import NotificationChannels from './NotificationChannels';
+import ProposalsNotificationCard from './Proposals';
+import ProposalAlertsCard from './Alerts';
 
 const accordionItemClassNames = {
 	base: 'rounded-[20px] border border-primary_border w-full mx-0',
@@ -43,10 +46,7 @@ export default function Notifications() {
 					/>
 				}
 			>
-				<div>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-					exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-				</div>
+				<NotificationChannels />
 			</AccordionItem>
 
 			<AccordionItem
@@ -69,10 +69,7 @@ export default function Notifications() {
 					/>
 				}
 			>
-				<div>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-					exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-				</div>
+				<ProposalsNotificationCard />
 			</AccordionItem>
 
 			<AccordionItem
@@ -86,10 +83,7 @@ export default function Notifications() {
 					/>
 				}
 			>
-				<div>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-					exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-				</div>
+				<ProposalAlertsCard />
 			</AccordionItem>
 		</Accordion>
 	);
