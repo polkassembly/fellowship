@@ -26,7 +26,7 @@ interface Props {
 	status?: ProposalStatus;
 	decidingEnds?: Date;
 	postId?: string;
-	index: number;
+	index?: number;
 }
 
 function ContentListingHeader({ className = '', index = 0, postId, activityType, address, username, createdAt, votesTally, status, decidingEnds }: Props) {
