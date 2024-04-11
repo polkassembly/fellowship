@@ -29,11 +29,11 @@ interface Props {
 	index?: number;
 }
 
-function ContentListingHeader({ className = '', index = 0, postId, activityType, address, username, createdAt, votesTally, status, decidingEnds }: Props) {
+function ContentListingHeader({ className = '', index, postId, activityType, address, username, createdAt, votesTally, status, decidingEnds }: Props) {
 	return (
 		<div className={`flex flex-col items-center gap-2.5 text-sm md:h-[26px] md:flex-row ${className}`}>
 			<div className='flex w-full items-center gap-1 md:hidden'>
-				<p className='mt-0.5 text-xs font-normal text-slate-500 md:hidden'>#{index}</p>
+				{index && <p className='mt-0.5 text-xs font-normal text-slate-500 md:hidden'>#{index}</p>}
 				{activityType && <ActivityTypeChip type={activityType} />}
 				{status && (
 					<StatusChip
