@@ -15,8 +15,9 @@ const accordionItemClassNames = {
 	base: 'rounded-[20px] border border-primary_border w-full mx-0',
 	heading: 'data-[open=true]:border-b border-primary_border',
 	title: 'text-base',
-	indicator: 'mr-6 -rotate-90 data-[open=true]:rotate-90',
-	content: 'p-6'
+	indicator: 'mr-6 -rotate-90 data-[open=true]:rotate-90 text-lg [&_*]:stroke-[2.5px] text-primary_text',
+	content: 'p-6',
+	icon: 'dark:contrast-[200%] dark:grayscale dark:invert dark:filter mr-2'
 };
 
 export default function Notifications() {
@@ -39,7 +40,7 @@ export default function Notifications() {
 								src='/icons/settings/notification-channels.svg'
 								width={24}
 								height={24}
-								className='mr-2'
+								className={accordionItemClassNames.icon}
 							/>
 						}
 						title='Notification Channels'
@@ -61,7 +62,7 @@ export default function Notifications() {
 								src='/icons/settings/proposal-icon.svg'
 								width={24}
 								height={24}
-								className='mr-2'
+								className={accordionItemClassNames.icon}
 							/>
 						}
 						title='My Proposals'

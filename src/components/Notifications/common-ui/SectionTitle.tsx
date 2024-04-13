@@ -12,7 +12,7 @@ interface ISectionTitleProps {
 
 export default function SectionTitle({ icon, title, desc }: ISectionTitleProps) {
 	return (
-		<div className='flex items-center px-6'>
+		<div className='flex items-start px-6 md:items-center'>
 			{icon}
 			<div className='flex flex-col gap-2 md:flex-row md:items-center'>
 				<h3 className='text-base font-semibold leading-6'>{title}</h3>

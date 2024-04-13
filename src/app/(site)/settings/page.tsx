@@ -28,7 +28,7 @@ export default async function Settings({ searchParams }: ServerComponentProps<un
 					src='/icons/settings.svg'
 					width={24}
 					height={24}
-					className='mr-2'
+					className='mr-2 dark:contrast-[200%] dark:grayscale dark:invert dark:filter'
 				/>
 				<div>
 					<h3 className='text-xl font-semibold leading-6'>Settings</h3>
