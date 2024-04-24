@@ -51,7 +51,7 @@ export default async function Home({ searchParams }: ServerComponentProps<unknow
 					<ActivitySelectorCard value={feed as EActivityFeed} />
 					{feed === EActivityFeed.ALL ? <ActivityFeed items={(feedItems || []) as ActivityFeedItem[]} /> : <PostFeed items={(feedItems || []) as PostListingItem[]} />}
 				</div>
-				<div className='flex w-6/12 flex-col gap-y-4 xl:w-4/12'>
+				<div className='flex w-full flex-col gap-y-4 md:w-6/12 xl:w-4/12'>
 					<Stats />
 					<JoinFellowshipCard />
 					<TrendingProposals />
