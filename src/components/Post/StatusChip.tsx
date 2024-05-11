@@ -23,14 +23,14 @@ const tagColoursClasses: { [index: string]: string } = {
 	[ProposalStatus.TimedOut]: failedStateClasses
 };
 
-function StatusChip({ status }: { status: ProposalStatus }) {
+function StatusChip({ status, className }: { status: ProposalStatus; className?: string }) {
 	const titleCase = status.replace(/([A-Z])/g, ' $1');
 	const statusText = titleCase.charAt(0).toUpperCase() + titleCase.slice(1);
 
 	return (
 		<Chip
 			size='sm'
-			className={`max-h-[18px] capitalize ${tagColoursClasses[status as string]}`}
+			className={`${className} max-h-[18px] capitalize ${tagColoursClasses[status as string]}`}
 		>
 			<span className='text-xs font-medium'>{statusText}</span>
 		</Chip>

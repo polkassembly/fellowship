@@ -20,18 +20,18 @@ function Profile(props: Props) {
 	return (
 		<section className='relative flex flex-col'>
 			<ProfileBanner />
-			<div className='absolute top-[151px] flex w-full items-center justify-between'>
+			<div className='top-[151px] flex w-full flex-col items-center justify-between gap-5 md:absolute md:flex-row'>
 				<ProfileAddressDetails address={address} />
 				<ProfileSocials />
 			</div>
-			<div className='mt-[56px] grid grid-cols-11 gap-x-4'>
-				<section className='col-span-5'>
+			<div className='mt-[56px] flex flex-col gap-4 md:grid md:grid-cols-11'>
+				<section className='w-full md:col-span-5'>
 					<Manifesto
 						manifesto={manifesto}
 						address={address}
 					/>
 				</section>
-				<section className='col-span-6'>
+				<section className='w-full md:col-span-6'>
 					<ProfileProposals address={address} />
 				</section>
 			</div>
