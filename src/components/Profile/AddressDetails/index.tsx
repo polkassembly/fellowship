@@ -87,8 +87,8 @@ function ProfileAddressDetails(props: Props) {
 	return (
 		<>
 			<div className='relative'>
-				<section className='relative h-full w-[98px]'>
-					<Card className='absolute -left-2 -top-3 z-10 flex h-[98px] w-[98px] items-center justify-center rounded-full'>
+				<section className='relative h-full w-full md:mb-auto md:w-[98px]'>
+					<Card className='-top-5 z-10 mx-auto flex h-[98px] w-[98px] items-center justify-center rounded-full md:absolute md:-left-2 md:-top-3'>
 						<Identicon
 							className='image identicon'
 							value={address}
@@ -98,7 +98,7 @@ function ProfileAddressDetails(props: Props) {
 					</Card>
 				</section>
 				{/* TODO: make and use a 'profile' variant of Address/index.tsx instead */}
-				<Card className='relative flex h-[68px] min-w-[324px] gap-x-3 rounded-[20px] border border-primary_border  pl-[98px]'>
+				<Card className='relative flex h-[68px] min-w-[324px] gap-x-3 rounded-[20px] border border-primary_border pl-4 md:pl-[98px]'>
 					<section className='flex w-full flex-col justify-between py-2 pr-4'>
 						<article className='flex w-full items-center justify-between'>
 							<h6 className='flex items-center gap-2 text-xl font-semibold leading-6'>
