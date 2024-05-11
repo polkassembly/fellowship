@@ -102,7 +102,7 @@ function TopFellowsCard({ className, fellowsDetails }: Props) {
 		<div className={`${className} flex flex-col items-start justify-center`}>
 			<div className='z-10 -mb-5 w-min self-center whitespace-nowrap rounded-xl bg-[#6B2D80] px-6 py-2 text-white'>Top Fellows</div>
 			<Card
-				className='flex h-[230px] w-full flex-row gap-4 gap-y-3 border border-primary_border bg-gradient-to-r from-[#661E7F] to-[#D396CF] p-6'
+				className='flex w-full flex-col items-center gap-4 gap-y-3 border border-primary_border bg-gradient-to-r from-[#661E7F] to-[#D396CF] p-6 md:h-[230px] md:flex-row'
 				shadow='none'
 				radius='lg'
 			>
