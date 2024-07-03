@@ -32,6 +32,8 @@ export interface ApiContextType {
 	network: Network;
 	setNetwork: Dispatch<SetStateAction<Network>>;
 	fellows: IFellow[];
+	wsProvider: string;
+	setWsProvider: Dispatch<SetStateAction<string>>;
 }
 
 export type NetworkProperties = {
