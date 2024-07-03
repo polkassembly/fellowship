@@ -32,3 +32,7 @@
 * {
 	box-sizing: border-box;
 }
+
+section[role='dialog'] {
+	@apply bottom-20 md:bottom-auto;
+}
