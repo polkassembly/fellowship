@@ -5,6 +5,7 @@
 'use client';
 
 import { useApiContext } from '@/contexts';
+import { Network } from '@/global/types';
 import Link from 'next/link';
 import React from 'react';
 
@@ -20,10 +21,11 @@ interface Props {
 
 function LinkWithNetwork({ className, href, children, replace = false, target = '_self', rel = 'noopener noreferer', hasParams = false }: Props) {
 	const { network } = useApiContext();
+	const additionalParams = network === Network.COLLECTIVES ? '' : `${hasParams ? '&' : '?'}network=${network}`;
 	return (
 		<Link
 			replace={replace}
-			href={`${href}${hasParams ? '&' : '?'}network=${network}`}
+			href={`${href}${additionalParams}`}
 			className={className}
 			target={target}
 			rel={rel}
