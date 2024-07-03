@@ -18,7 +18,7 @@ function Profile(props: Props) {
 	const { profile } = props;
 	const { address, manifesto } = profile;
 	return (
-		<section className='relative flex flex-col'>
+		<section className='relative flex flex-col pb-16 md:pb-0'>
 			<ProfileBanner />
 			<div className='top-[151px] flex w-full flex-col items-center justify-between gap-5 md:absolute md:flex-row'>
 				<ProfileAddressDetails address={address} />

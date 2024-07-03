@@ -153,7 +153,7 @@ function FellowsTable({ className, fellows, fellowsDetails }: Props) {
 				removeWrapper
 				hideHeader
 				aria-label='Fellows Table'
-				className='mt-2 table md:hidden'
+				className='mb-16 mt-2 table md:hidden'
 				classNames={{
 					td: 'px-0'
 				}}
