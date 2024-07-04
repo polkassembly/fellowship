@@ -46,7 +46,7 @@ export default async function Home({ searchParams }: ServerComponentProps<unknow
 		<div className='flex w-full flex-col gap-y-8'>
 			<Carousel />
 
-			<div className='flex flex-col items-center gap-8 xl:flex-row xl:items-start'>
+			<div className='mb-16 flex flex-col items-center gap-8 md:mb-auto xl:flex-row xl:items-start'>
 				<div className='flex w-full flex-col gap-y-4'>
 					<ActivitySelectorCard value={feed as EActivityFeed} />
 					{feed === EActivityFeed.ALL ? <ActivityFeed items={(feedItems || []) as ActivityFeedItem[]} /> : <PostFeed items={(feedItems || []) as PostListingItem[]} />}
