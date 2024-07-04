@@ -33,7 +33,7 @@ const socials = [
 
 function ProfileSocials() {
 	return (
-		<div className='flex h-[60px] min-w-[348px] items-center gap-x-3 rounded-[20px] border bg-secondary px-6 py-[10px]'>
+		<div className='flex h-[60px] w-full items-center gap-x-3 rounded-[20px] border bg-secondary px-6 py-[10px] md:min-w-[348px]'>
 			{socials.map((social) => (
 				<SocialIcon
 					key={social.src}
