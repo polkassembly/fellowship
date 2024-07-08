@@ -16,13 +16,16 @@ interface Props {
 
 function Profile(props: Props) {
 	const { profile } = props;
-	const { address, manifesto } = profile;
+	const { address, manifesto, social_links: socialLinks } = profile;
 	return (
 		<section className='relative flex flex-col'>
 			<ProfileBanner />
 			<div className='absolute top-[151px] flex w-full items-center justify-between'>
 				<ProfileAddressDetails address={address} />
-				<ProfileSocials />
+				<ProfileSocials
+					links={socialLinks || []}
+					address={address}
+				/>
 			</div>
 			<div className='mt-[56px] grid grid-cols-11 gap-x-4'>
 				<section className='col-span-5'>
