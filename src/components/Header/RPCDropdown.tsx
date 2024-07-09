@@ -29,7 +29,7 @@ function RPCDropdown() {
 			<DropdownTrigger>
 				<Button
 					variant='bordered'
-					className='flex h-unit-10 gap-2 border-1 border-primary_border px-5 text-sm font-medium md:h-unit-8 md:px-0'
+					className='flex h-unit-10 gap-2 rounded-lg border-1 border-primary_border px-5 text-sm font-medium md:h-unit-8 md:rounded-full md:px-0'
 				>
 					<Image
 						alt='signal icon'
