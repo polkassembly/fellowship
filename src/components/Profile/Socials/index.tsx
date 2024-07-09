@@ -41,7 +41,7 @@ function ProfileSocials({ links, address }: { links: ISocial[]; address: string 
 			if (data?.token) {
 				queueNotification({
 					header: 'Success!',
-					message: 'Manifesto updated successfully.',
+					message: 'Profile updated successfully.',
 					status: 'success'
 				});
 				onSuccess?.();
