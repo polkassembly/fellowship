@@ -13,6 +13,7 @@ import AppMenuWithLabel from './Mobile/AppMenuWithLabel';
 
 const ConnectWalletButton = dynamic(() => import('./ConnectWalletButton'), { ssr: false });
 const NetworkDropdown = dynamic(() => import('./NetworkDropdown'), { ssr: false });
+const RPCDropdown = dynamic(() => import('./RPCDropdown'), { ssr: false });
 
 function AppMenu({ isOpen }: { isOpen: boolean }) {
 	return (
@@ -23,6 +24,9 @@ function AppMenu({ isOpen }: { isOpen: boolean }) {
 			<SearchBar className='w-full md:w-[70%]' />
 			<AppMenuWithLabel label='Network'>
 				<NetworkDropdown />
+			</AppMenuWithLabel>
+			<AppMenuWithLabel label='Node'>
+				<RPCDropdown />
 			</AppMenuWithLabel>
 
 			<ConnectWalletButton />
