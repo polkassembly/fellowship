@@ -13,6 +13,7 @@ import THEME_CONSTANTS from '@/global/themeConstants';
 import styles from './Header.module.scss';
 
 const AppMenu = dynamic(() => import('./AppMenu'), { ssr: false });
+const RPCDropdown = dynamic(() => import('./RPCDropdown'), { ssr: false });
 function AppNavbar() {
 	const [menuOpen, setMenuOpen] = React.useState(false);
 	const { resolvedTheme = 'light' } = useTheme();

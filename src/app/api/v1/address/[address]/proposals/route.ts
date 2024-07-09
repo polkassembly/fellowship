@@ -99,8 +99,8 @@ export const POST = withErrorHandling(async (req: NextRequest, { params }) => {
 	// assign proposal data to proposalsData
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const proposalItemsPromises: Promise<PostListingItem>[] = onChainProposals?.map(async (onChainProposalObj: any, index: number) => {
-		const firestoreProposalData = firestoreProposalDocs.find((item) => item.id === onChainProposalObj?.index)?.data() || {};
-		const firestoreCommentCount = firestoreCommentCountDocs.find((item) => item.id === onChainProposalObj?.index)?.data().count || 0;
+		const firestoreProposalData = firestoreProposalDocs.find((item) => String(item.id) === String(onChainProposalObj?.index))?.data() || {};
+		const firestoreCommentCount = firestoreCommentCountDocs.find((item) => String(item.id) === String(onChainProposalObj?.index))?.data().count || 0;
 		const firestoreReactionDocsData = firestoreReactionDocs[Number(index)]?.docs || [];
 
 		const reactionCount = firestoreReactionDocsData.length || 0;

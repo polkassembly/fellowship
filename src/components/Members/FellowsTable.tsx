@@ -10,6 +10,7 @@ import RANK_CONSTANTS from '@/global/constants/rankConstants';
 import { useApiContext } from '@/contexts';
 import getEncodedAddress from '@/utils/getEncodedAddress';
 import { Tooltip } from '@nextui-org/tooltip';
+import formatSalary from '@/utils/formatSalary';
 import Address from '../Profile/Address';
 import LinkWithNetwork from '../Misc/LinkWithNetwork';
 import MemberCard from './MemberCard';
@@ -22,6 +23,7 @@ interface Props {
 
 function FellowsTable({ className, fellows, fellowsDetails }: Props) {
 	const { network } = useApiContext();
+
 	return (
 		<>
 			<Table
@@ -133,7 +135,7 @@ function FellowsTable({ className, fellows, fellowsDetails }: Props) {
 							<TableCell className='font-semibold'>{fellowsDetails?.[fellow.address].proposalsCreated ?? '-'}</TableCell>
 							<TableCell className='font-semibold'>{fellowsDetails?.[fellow.address].proposalsVotedOn ?? '-'}</TableCell>
 							<TableCell className='font-semibold'>-</TableCell>
-							<TableCell className='font-semibold'>{(Math.ceil(parseInt(fellow.salary as string, 10) / 6) ?? '-').toLocaleString()} USDT</TableCell>
+							<TableCell className='font-semibold'>{formatSalary(`${fellow.salary}`)}</TableCell>
 							<TableCell>
 								<Image
 									alt='icon'

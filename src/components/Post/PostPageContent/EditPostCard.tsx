@@ -70,7 +70,8 @@ function EditPostCard() {
 				content: description,
 				postId: Number(postId),
 				proposalType,
-				title: titleInput
+				title: titleInput,
+				topicId: 1
 			}
 		});
 
