@@ -1,8 +1,12 @@
 // Copyright 2019-2025 @polkassembly/fellowship authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
+
+'use client';
+
 import React from 'react';
 import { IProfile } from '@/global/types';
+import { useDisclosure } from '@nextui-org/modal';
 import ProfileBanner from './Banner';
 import ProfileSocials from './Socials';
 import ProfileAddressDetails from './AddressDetails';
@@ -17,14 +21,19 @@ interface Props {
 function Profile(props: Props) {
 	const { profile } = props;
 	const { address, manifesto, social_links: socialLinks } = profile;
+	const { isOpen: isModalOpen, onOpen: openProfileEdit, onOpenChange } = useDisclosure();
 	return (
 		<section className='relative flex flex-col pb-16 md:pb-0'>
-			<ProfileBanner />
+			<ProfileBanner
+				openProfileEdit={openProfileEdit}
+				address={address}
+			/>
 			<div className='top-[151px] flex w-full flex-col items-center justify-between gap-5 md:absolute md:flex-row'>
 				<ProfileAddressDetails address={address} />
 				<ProfileSocials
 					links={socialLinks || []}
-					address={address}
+					isModalOpen={isModalOpen}
+					onOpenChange={onOpenChange}
 				/>
 			</div>
 			<div className='mt-[56px] flex flex-col gap-4 md:grid md:grid-cols-11'>

@@ -4,22 +4,17 @@
 
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import { IAddProfileResponse, ISocial } from '@/global/types';
-import { Button } from '@nextui-org/button';
 import { socials } from '@/global/constants/socials';
-import Image from 'next/image';
 import nextApiClientFetch from '@/utils/nextApiClientFetch';
 import queueNotification from '@/utils/queueNotification';
 import { useApiContext, useUserDetailsContext } from '@/contexts';
-import { useDisclosure } from '@nextui-org/modal';
-import getSubstrateAddress from '@/utils/getSubstrateAddress';
 import SocialIcon from './SocialIcon';
 import EditSocialModal from './EditSocialModal';
 
-function ProfileSocials({ links, address }: { links: ISocial[]; address: string }) {
+function ProfileSocials({ links, isModalOpen, onOpenChange }: { links: ISocial[]; isModalOpen: boolean; onOpenChange: () => void }) {
 	const [socialLinks, setSocialLinks] = useState<ISocial[]>(links);
-	const { isOpen, onOpen, onOpenChange } = useDisclosure();
 	const [loading, setLoading] = useState<boolean>(false);
 	const { network } = useApiContext();
 	const userDetails = useUserDetailsContext();
@@ -64,14 +59,9 @@ function ProfileSocials({ links, address }: { links: ISocial[]; address: string 
 		}
 	};
 
-	const isLoggedInUserProfile = useMemo(() => {
-		const substrateAddress = getSubstrateAddress(address);
-		return userDetails?.addresses?.find((a) => getSubstrateAddress(a) === substrateAddress);
-	}, [address, userDetails]);
-
 	return (
 		<>
-			<div className='flex h-[60px] min-w-[348px] items-center gap-x-3 rounded-[20px] border bg-secondary px-6 py-[10px]'>
+			<div className='flex h-[60px] w-full items-center justify-around gap-x-3 rounded-[20px] border bg-secondary px-3 py-[10px] md:w-fit md:min-w-[348px] md:px-6'>
 				{socials.map((social) => {
 					const strLink = social.toString().toLocaleLowerCase();
 					return (
@@ -82,26 +72,9 @@ function ProfileSocials({ links, address }: { links: ISocial[]; address: string 
 						/>
 					);
 				})}
-				{isLoggedInUserProfile ? (
-					<Button
-						onPress={onOpen}
-						isIconOnly
-						radius='full'
-						variant='light'
-						className='flex h-10 w-10 items-center justify-center rounded-full bg-[rgba(210,216,224,0.20)]'
-					>
-						<Image
-							alt='edit icon'
-							src='/icons/edit-pencil.svg'
-							width={20}
-							height={20}
-							className='cursor-pointer grayscale invert filter'
-						/>
-					</Button>
-				) : null}
 			</div>
 			<EditSocialModal
-				isOpen={isOpen}
+				isOpen={isModalOpen}
 				onOpenChange={onOpenChange}
 				socialLinks={socialLinks}
 				setSocialLinks={setSocialLinks}
