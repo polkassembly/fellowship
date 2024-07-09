@@ -31,7 +31,7 @@ function ProfileSocials({ links, address }: { links: ISocial[]; address: string 
 			setLoading(true);
 			const { data, error } = await nextApiClientFetch<IAddProfileResponse>({
 				network,
-				url: 'api/v1/auth/actions/addProfile',
+				url: 'api/v1/auth/actions/addProfileSocialLinks',
 				isPolkassemblyAPI: true,
 				data: {
 					username: userDetails?.username,
