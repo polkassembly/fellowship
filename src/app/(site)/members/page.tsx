@@ -72,7 +72,7 @@ function MembersPage() {
 
 			<TopFellowsCard fellowsDetails={fellowsDetails} />
 
-			<div className='mt-9 flex w-full gap-3 overflow-x-scroll'>
+			<div className='mt-9 flex w-full gap-3 overflow-x-scroll scrollbar-hide'>
 				<Chip
 					onClick={() => setSelectedRankGroup(null)}
 					color={!selectedRankGroup ? 'primary' : 'default'}
