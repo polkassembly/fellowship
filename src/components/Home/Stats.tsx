@@ -45,7 +45,7 @@ function StatDisplay({ heroImg, title, value, icon, percentage }: { heroImg: str
 	);
 }
 
-function Stats() {
+function Stats({ className }: { className?: string }) {
 	const { api, apiReady } = useApiContext();
 
 	const [memberCount, setMemberCount] = useState(0);
@@ -61,7 +61,7 @@ function Stats() {
 
 	return (
 		<Card
-			className='flex flex-col items-center gap-y-6 border border-primary_border p-6'
+			className={`flex flex-col items-center gap-y-6 border border-primary_border p-6 ${className}`}
 			shadow='none'
 		>
 			<StatDisplay
