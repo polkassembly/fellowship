@@ -34,5 +34,5 @@
 }
 
 section[role='dialog'] {
-	@apply bottom-20 md:bottom-auto;
+	@apply bottom-20 mx-2 md:bottom-auto md:mx-auto;
 }
