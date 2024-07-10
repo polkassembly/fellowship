@@ -1,5 +1,5 @@
 .appSidebar {
-	@apply hidden max-h-full min-h-full w-[264px] flex-col justify-between rounded-[30px] bg-secondary p-8 text-secondary-foreground scrollbar-hide md:flex;
+	@apply hidden max-h-full min-h-full w-[264px] flex-col justify-between rounded-[30px] bg-secondary p-8 text-secondary-foreground scrollbar-hide lg:flex;
 }
 
 .navListboxItemHover {
@@ -16,11 +16,11 @@
 }
 
 .appMenu {
-	@apply hidden w-full items-center gap-5 md:flex [&>*]:w-full md:[&>*]:w-auto;
+	@apply hidden w-full items-center gap-5 lg:flex [&>*]:w-full lg:[&>*]:w-auto;
 }
 
 .appMenuLabel {
-	@apply w-full text-sm md:hidden;
+	@apply w-full text-sm lg:hidden;
 }
 
 .footerNavMobile {

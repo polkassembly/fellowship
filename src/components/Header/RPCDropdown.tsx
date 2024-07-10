@@ -29,7 +29,7 @@ function RPCDropdown({ closeMenu }: { closeMenu: () => void }) {
 			<DropdownTrigger>
 				<Button
 					variant='bordered'
-					className='flex h-unit-10 gap-2 rounded-lg border-1 border-primary_border px-5 text-sm font-medium md:h-unit-8 md:rounded-full md:px-0'
+					className='flex h-unit-10 gap-2 rounded-lg border-1 border-primary_border px-5 text-sm font-medium lg:h-unit-8 lg:rounded-full lg:px-0'
 				>
 					<Image
 						alt='signal icon'
@@ -37,13 +37,13 @@ function RPCDropdown({ closeMenu }: { closeMenu: () => void }) {
 						width={15}
 						height={15}
 					/>
-					<span className='md:hidden'>{currentRPC.label}</span>
+					<span className='lg:hidden'>{currentRPC.label}</span>
 					<Image
 						alt='down chevron'
 						src='/icons/chevron.svg'
 						width={12}
 						height={12}
-						className='ml-auto rounded-full md:hidden'
+						className='ml-auto rounded-full lg:hidden'
 					/>
 				</Button>
 			</DropdownTrigger>
