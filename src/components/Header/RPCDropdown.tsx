@@ -10,7 +10,7 @@ import { useApiContext } from '@/contexts';
 import { TRPCEndpoint } from '@/global/types';
 import networkConstants from '@/global/networkConstants';
 
-function RPCDropdown() {
+function RPCDropdown({ closeMenu }: { closeMenu: () => void }) {
 	const { network } = useApiContext();
 
 	const { wsProvider, setWsProvider } = useApiContext();
@@ -49,7 +49,10 @@ function RPCDropdown() {
 			</DropdownTrigger>
 			<DropdownMenu
 				aria-label='RPC Endpoint selection dropdown'
-				onAction={(key) => handleEndpointChange(key as string)}
+				onAction={(key) => {
+					handleEndpointChange(key as string);
+					closeMenu();
+				}}
 			>
 				{rpcEndpoints.map((item: TRPCEndpoint) => (
 					<DropdownItem

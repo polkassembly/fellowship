@@ -56,7 +56,10 @@ function AppNavbar() {
 				</Button>
 			</div>
 
-			<AppMenu isOpen={menuOpen} />
+			<AppMenu
+				isOpen={menuOpen}
+				closeMenu={() => setMenuOpen(false)}
+			/>
 		</nav>
 	);
 }

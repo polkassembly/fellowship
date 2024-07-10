@@ -6,7 +6,7 @@ import { Button } from '@nextui-org/button';
 import { useTheme } from 'next-themes';
 import React from 'react';
 
-function SwitchThemeBtn() {
+function SwitchThemeBtn({ closeMenu }: { closeMenu: () => void }) {
 	const { theme, setTheme } = useTheme();
 
 	return (
@@ -14,7 +14,10 @@ function SwitchThemeBtn() {
 			size='sm'
 			variant='bordered'
 			radius='full'
-			onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+			onClick={() => {
+				setTheme(theme === 'dark' ? 'light' : 'dark');
+				closeMenu();
+			}}
 		>
 			<span suppressHydrationWarning>{theme === 'dark' ? 'Light' : 'Dark'}</span>
 		</Button>

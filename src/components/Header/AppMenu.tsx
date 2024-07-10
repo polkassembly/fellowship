@@ -15,7 +15,7 @@ const ConnectWalletButton = dynamic(() => import('./ConnectWalletButton'), { ssr
 const NetworkDropdown = dynamic(() => import('./NetworkDropdown'), { ssr: false });
 const RPCDropdown = dynamic(() => import('./RPCDropdown'), { ssr: false });
 
-function AppMenu({ isOpen }: { isOpen: boolean }) {
+function AppMenu({ isOpen, closeMenu }: { isOpen: boolean; closeMenu: () => void }) {
 	return (
 		<menu
 			id='appMenu'
@@ -23,14 +23,14 @@ function AppMenu({ isOpen }: { isOpen: boolean }) {
 		>
 			<SearchBar className='w-full md:w-[70%]' />
 			<AppMenuWithLabel label='Network'>
-				<NetworkDropdown />
+				<NetworkDropdown closeMenu={closeMenu} />
 			</AppMenuWithLabel>
 			<AppMenuWithLabel label='Node'>
-				<RPCDropdown />
+				<RPCDropdown closeMenu={closeMenu} />
 			</AppMenuWithLabel>
 
 			<ConnectWalletButton />
-			<SwitchThemeBtn />
+			<SwitchThemeBtn closeMenu={closeMenu} />
 		</menu>
 	);
 }
