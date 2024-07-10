@@ -28,7 +28,7 @@ function Profile(props: Props) {
 				openProfileEdit={openProfileEdit}
 				address={address}
 			/>
-			<div className='top-[151px] flex w-full flex-col items-center justify-between gap-5 md:absolute md:flex-row'>
+			<div className='top-[151px] flex w-full flex-col items-center justify-between gap-5 xl:absolute xl:flex-row'>
 				<ProfileAddressDetails address={address} />
 				<ProfileSocials
 					links={socialLinks || []}
