@@ -8,6 +8,7 @@ import { useApiContext } from '@/contexts';
 import { IFellow, IFellowDataResponse } from '@/global/types';
 import RANK_CONSTANTS from '@/global/constants/rankConstants';
 import Image from 'next/image';
+import formatSalary from '@/utils/formatSalary';
 import LinkWithNetwork from '../Misc/LinkWithNetwork';
 import Address from '../Profile/Address';
 
@@ -91,7 +92,7 @@ function MemberCard({ className, fellow, fellowDetails }: IMemberCardProps) {
 						height={20}
 						className='dark:grayscale dark:invert'
 					/>
-					<span className='-mb-0.5'>- DOT</span>
+					<span className='-mb-0.5'>{formatSalary(`${fellow.salary}`)}</span>
 				</div>
 			</div>
 		</LinkWithNetwork>
