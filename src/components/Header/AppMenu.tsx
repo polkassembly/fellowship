@@ -19,7 +19,7 @@ function AppMenu({ isOpen }: { isOpen: boolean }) {
 	return (
 		<menu
 			id='appMenu'
-			className={`${styles.appMenu} ${isOpen ? 'absolute inset-0 top-20 z-[999] flex flex-col bg-background p-5 md:hidden ' : 'hidden md:flex'}`}
+			className={`${styles.appMenu} ${isOpen ? 'no-doc-scroll absolute inset-0 top-20 z-[9999] flex flex-col bg-background p-5 md:hidden' : 'hidden md:flex'}`}
 		>
 			<SearchBar className='w-full md:w-[70%]' />
 			<AppMenuWithLabel label='Network'>

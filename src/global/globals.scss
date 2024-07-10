@@ -6,6 +6,10 @@
 	--font_default: 'Poppins';
 }
 
+:root:has(.no-doc-scroll) {
+	overflow: hidden;
+}
+
 #root-section {
 	@apply mx-auto mt-4 flex h-[96vh] w-[90%] max-w-screen-2xl gap-8;
 }
