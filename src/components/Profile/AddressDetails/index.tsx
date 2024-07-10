@@ -86,7 +86,7 @@ function ProfileAddressDetails(props: Props) {
 
 	return (
 		<>
-			<div className='relative'>
+			<div className='relative w-full md:w-auto'>
 				<section className='relative h-full w-full md:mb-auto md:w-[98px]'>
 					<Card className='-top-5 z-10 mx-auto flex h-[98px] w-[98px] items-center justify-center rounded-full md:absolute md:-left-2 md:-top-3'>
 						<Identicon
