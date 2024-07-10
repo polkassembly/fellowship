@@ -47,8 +47,8 @@ function PostPageContent({ post }: Props) {
 
 	return (
 		<PostDataContextProvider postItem={post}>
-			<section className='flex gap-8'>
-				<div className='flex w-9/12 flex-grow flex-col gap-6'>
+			<section className='flex flex-col gap-8 pb-20 md:flex-row md:pb-0'>
+				<div className='flex w-full flex-grow flex-col gap-6 md:w-9/12'>
 					<div className='flex items-center justify-between'>
 						<PostRouteBreadcumbs />
 
