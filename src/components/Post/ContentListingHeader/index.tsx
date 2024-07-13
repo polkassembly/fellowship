@@ -27,9 +27,10 @@ interface Props {
 	decidingEnds?: Date;
 	postId?: string;
 	index?: number;
+	isModalHeader?: boolean;
 }
 
-function ContentListingHeader({ className = '', index, postId, activityType, address, username, createdAt, votesTally, status, decidingEnds }: Props) {
+function ContentListingHeader({ className = '', index, postId, activityType, address, username, createdAt, votesTally, status, decidingEnds, isModalHeader }: Props) {
 	return (
 		<div className={`flex flex-col items-center gap-2.5 text-sm md:h-[26px] md:flex-row ${className}`}>
 			<div className='flex w-full items-center gap-1 md:hidden'>
@@ -38,7 +39,7 @@ function ContentListingHeader({ className = '', index, postId, activityType, add
 				{status && (
 					<StatusChip
 						status={status}
-						className='ml-auto'
+						className={`${isModalHeader ? '' : 'ml-auto'}`}
 					/>
 				)}
 			</div>
