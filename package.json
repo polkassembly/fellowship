@@ -12,6 +12,7 @@
     "format:fix": "prettier --write --ignore-path .gitignore ."
   },
   "dependencies": {
+    "@internationalized/date": "^3.5.4",
     "@nextui-org/accordion": "^2.0.28",
     "@nextui-org/avatar": "^2.0.21",
     "@nextui-org/button": "^2.0.21",
