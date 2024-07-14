@@ -29,24 +29,12 @@
   dependencies:
     regenerator-runtime "^0.14.0"
 
-"@emotion/is-prop-valid@^0.8.2":
-  version "0.8.8"
-  resolved "https://registry.yarnpkg.com/@emotion/is-prop-valid/-/is-prop-valid-0.8.8.tgz#db28b1c4368a259b60a97311d6a952d4fd01ac1a"
-  integrity sha512-u5WtneEAr5IDG2Wv65yhunPSMLIpuKsbuOktRojfrEiEvRyC85LgPMZI63cr7NUqT8ZIGdSVg8ZKGxIug4lXcA==
-  dependencies:
-    "@emotion/memoize" "0.7.4"
-
 "@emotion/is-prop-valid@^1.2.1":
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@emotion/is-prop-valid/-/is-prop-valid-1.2.1.tgz#23116cf1ed18bfeac910ec6436561ecb1a3885cc"
   integrity sha512-61Mf7Ufx4aDxx1xlDeOm8aFFigGHE4z+0sKCa+IHCeZKiyP9RLD0Mmx7m8b9/Cf37f7NAvQOOJAbQQGVr5uERw==
   dependencies:
     "@emotion/memoize" "^0.8.1"
-
-"@emotion/memoize@0.7.4":
-  version "0.7.4"
-  resolved "https://registry.yarnpkg.com/@emotion/memoize/-/memoize-0.7.4.tgz#19bf0f5af19149111c40d98bb0cf82119f5d9eeb"
-  integrity sha512-Ja/Vfqe3HpuzRsG1oBtWTHk2PGZ7GR+2Vz5iYGelAw8dx32K0y7PjVuxK6z1nMpZOqAFsRUPCkK1YjJ56qJlgw==
 
 "@emotion/memoize@^0.8.1":
   version "0.8.1"
@@ -999,7 +987,7 @@
   dependencies:
     clsx "^1.2.1"
 
-"@nextui-org/system@2.0.10", "@nextui-org/system@^2.0.10":
+"@nextui-org/system@2.0.10":
   version "2.0.10"
   resolved "https://registry.yarnpkg.com/@nextui-org/system/-/system-2.0.10.tgz#70eb3f0435013234bcc5257c3331d194fe88d867"
   integrity sha512-5F6739zMOYSYR5CM/N8FQsRlQn8yCKiU5VNNPFkk022P5cA2NZXrhZ08mQSmFw2BU7OWxa/ieLivjDptKcRozQ==
@@ -1019,7 +1007,7 @@
     "@react-aria/utils" "^3.21.1"
     "@react-stately/utils" "^3.8.0"
 
-"@nextui-org/system@2.2.2":
+"@nextui-org/system@2.2.2", "@nextui-org/system@^2.2.2":
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/@nextui-org/system/-/system-2.2.2.tgz#2ed5758bc7589a5e958f6ff9d08fc623be41e953"
   integrity sha512-u30lWSIO4Q7DStiK5tJjDgKBQtmODeQZcC6llz973sJ9QlE4GeC1fgu0+/zXL8AZZ8o/iEXhHWXsZIJ26EquUQ==
@@ -1072,7 +1060,7 @@
     "@react-types/tabs" "^3.3.3"
     scroll-into-view-if-needed "3.0.10"
 
-"@nextui-org/theme@2.1.9", "@nextui-org/theme@^2.1.9":
+"@nextui-org/theme@2.1.9":
   version "2.1.9"
   resolved "https://registry.yarnpkg.com/@nextui-org/theme/-/theme-2.1.9.tgz#509da2e47bff35fafc974e675a3210caae7deab7"
   integrity sha512-DmSv6yWb8zp3dQ4ic5XDWGc1rNjEOPphrfc5E4tzUZqgsLisNjr2Gm3bMzM51Kquepv8OzYojoaB2nO2zmI6mw==
@@ -1095,6 +1083,24 @@
     lodash.omit "^4.5.0"
     tailwind-variants "^0.1.14"
     tailwindcss "^3.2.7"
+
+"@nextui-org/theme@^2.2.6":
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/@nextui-org/theme/-/theme-2.2.6.tgz#57f8fca6c2fddaf72df3c92e0e9befbd4a5a3002"
+  integrity sha512-FyDp5edpmjbvPzRx+D2+Km1oZ73wQOzKMSBPomOgP0h9OFnnTHqKlmtbGhWSk2cEyYN9VsaGvqJTw8X35/aChQ==
+  dependencies:
+    clsx "^1.2.1"
+    color "^4.2.3"
+    color2k "^2.0.2"
+    deepmerge "4.3.1"
+    flat "^5.0.2"
+    lodash.foreach "^4.5.0"
+    lodash.get "^4.4.2"
+    lodash.kebabcase "^4.1.1"
+    lodash.mapkeys "^4.6.0"
+    lodash.omit "^4.5.0"
+    tailwind-merge "^1.14.0"
+    tailwind-variants "^0.1.20"
 
 "@nextui-org/tooltip@^2.0.24":
   version "2.0.24"
@@ -5026,14 +5032,12 @@ fraction.js@^4.3.6:
   resolved "https://registry.yarnpkg.com/fraction.js/-/fraction.js-4.3.6.tgz#e9e3acec6c9a28cf7bc36cbe35eea4ceb2c5c92d"
   integrity sha512-n2aZ9tNfYDwaHhvFTkhFErqOMIb8uyzSQ+vGJBjZyanAKZVbGUQ1sngfk9FdkBw7G26O7AgNjLcecLffD1c7eg==
 
-framer-motion@^10.16.4:
-  version "10.16.4"
-  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-10.16.4.tgz#30279ef5499b8d85db3a298ee25c83429933e9f8"
-  integrity sha512-p9V9nGomS3m6/CALXqv6nFGMuFOxbWsmaOrdmhyQimMIlLl3LC7h7l86wge/Js/8cRu5ktutS/zlzgR7eBOtFA==
+framer-motion@^11.3.2:
+  version "11.3.2"
+  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-11.3.2.tgz#e55ed51af37f0f561ab8e4a2c9e8e7eee6fb5abc"
+  integrity sha512-RgjSzrNFZmedWcvmW4MMc84A7UcoY37jocadE3Mbg3o+UMofodfyeNnYD/HR15UhP22/bb5KOebNhYOj4mYkpQ==
   dependencies:
     tslib "^2.4.0"
-  optionalDependencies:
-    "@emotion/is-prop-valid" "^0.8.2"
 
 fs.realpath@^1.0.0:
   version "1.0.0"
@@ -7949,7 +7953,7 @@ synckit@^0.8.5:
     "@pkgr/utils" "^2.3.1"
     tslib "^2.5.0"
 
-tailwind-merge@^1.13.2:
+tailwind-merge@^1.13.2, tailwind-merge@^1.14.0:
   version "1.14.0"
   resolved "https://registry.yarnpkg.com/tailwind-merge/-/tailwind-merge-1.14.0.tgz#e677f55d864edc6794562c63f5001f45093cdb8b"
   integrity sha512-3mFKyCo/MBcgyOTlrY8T7odzZFx+w+qKSMAmdFzRvqBfLlSigU6TZnlFHK0lkMwj9Bj8OYU+9yW9lmGuS0QEnQ==
@@ -7960,6 +7964,13 @@ tailwind-variants@^0.1.14:
   integrity sha512-qfOkSGP+cSolTTkJboldGmiM+w5uE77pazCRkwixEBsuaml9CmhN0E8qgH7QnZNmOTVSsgRK1tn/MsKOvOKVWA==
   dependencies:
     tailwind-merge "^1.13.2"
+
+tailwind-variants@^0.1.20:
+  version "0.1.20"
+  resolved "https://registry.yarnpkg.com/tailwind-variants/-/tailwind-variants-0.1.20.tgz#8aaed9094be0379a438641a42d588943e44c5fcd"
+  integrity sha512-AMh7x313t/V+eTySKB0Dal08RHY7ggYK0MSn/ad8wKWOrDUIzyiWNayRUm2PIJ4VRkvRnfNuyRuKbLV3EN+ewQ==
+  dependencies:
+    tailwind-merge "^1.14.0"
 
 tailwindcss@^3, tailwindcss@^3.2.7:
   version "3.3.3"
