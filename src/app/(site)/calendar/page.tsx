@@ -25,6 +25,7 @@ import dayjs from 'dayjs';
 import Image from 'next/image';
 import { IEvent } from '@/global/types';
 import Events from '@/components/Calendar/Events';
+import nextApiClientFetch from '@/utils/nextApiClientFetch';
 import LoadingSpinner from '@/components/Misc/LoadingSpinner';
 import { Button } from '@nextui-org/button';
 
@@ -144,11 +145,7 @@ export default function CreateRFCProposal() {
 					.trim() as string
 			);
 
-			console.log('cellDate', cellDate);
-
 			const calendarEventsForDate = calendarEvents.filter((event) => event.start_time.toDateString() === cellDate.toDateString());
-
-			console.log('calendarEventsForDate', calendarEventsForDate);
 
 			if (calendarEventsForDate.length <= 0) return;
 
