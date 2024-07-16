@@ -620,3 +620,20 @@ export type PjsCalendarItem = PjsCalendarItemDuration & {
 	type: string;
 	data: { [key: string]: unknown };
 };
+
+export interface IEvent {
+	content: string;
+	end_time: Date;
+	id: string;
+	location: string;
+	start_time: Date;
+	status: string;
+	title: string;
+	url: string;
+	participants: {
+		id: string;
+		avatar: string;
+		name: string;
+		status: 'accepted' | 'pending' | 'rejected';
+	}[];
+}
