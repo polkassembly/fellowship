@@ -61,6 +61,11 @@ const navItems: NavItem[] = [
 		url: '/'
 	},
 	{
+		label: 'Events',
+		icon: 'calendar',
+		url: '/calendar'
+	},
+	{
 		label: 'Voting',
 		icon: 'vote',
 		url: '#voting',
