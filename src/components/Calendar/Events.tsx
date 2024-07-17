@@ -87,11 +87,12 @@ export default function Events({ events, selectedDate }: { events: IEvent[]; sel
 									</div>
 								</div>
 							)}
-
-							<JoinEventButton
-								platform='meet'
-								url={event.url}
-							/>
+							{event.url && (
+								<JoinEventButton
+									platform='meet'
+									url={event.url}
+								/>
+							)}
 						</div>
 					</AccordionItem>
 				);
