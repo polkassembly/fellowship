@@ -213,9 +213,9 @@ export default function CreateRFCProposal() {
 					<h1 className='text-xl font-bold'>Calendar</h1>
 					<Button
 						variant='bordered'
-						size='md'
+						size='sm'
 						radius='sm'
-						className='ml-auto px-3 py-1'
+						className='ml-auto px-3 py-1 text-sm'
 						onClick={() => setCurrentDate(today(getLocalTimeZone()))}
 					>
 						Today
