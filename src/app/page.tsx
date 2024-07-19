@@ -17,6 +17,7 @@ import { Metadata } from 'next';
 import getOriginUrl from '@/utils/getOriginUrl';
 import PostFeed from '@/components/Home/PostFeed';
 import getActivityFeed from './api/v1/feed/getActivityFeed';
+import getTrendingProposals from './api/v1/feed/trending/getTrendingProposals';
 
 type SearchParamProps = {
 	feed: string;
@@ -42,6 +43,8 @@ export default async function Home({ searchParams }: ServerComponentProps<unknow
 
 	const feedItems = await getActivityFeed({ feedType: feed as EActivityFeed, originUrl, network: network as Network });
 
+	const trending = await getTrendingProposals({ originUrl, network: network as Network });
+
 	return (
 		<div className='flex w-full flex-col gap-y-8'>
 			<Carousel />
@@ -54,7 +57,7 @@ export default async function Home({ searchParams }: ServerComponentProps<unknow
 				<div className='flex w-6/12 flex-col gap-y-4 xl:w-4/12'>
 					<Stats />
 					<JoinFellowshipCard />
-					<TrendingProposals />
+					<TrendingProposals proposals={trending} />
 				</div>
 			</div>
 		</div>
