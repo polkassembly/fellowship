@@ -21,7 +21,7 @@ try {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 } catch (error: any) {
 	// Skipping the "already exists" message which is not an actual error when we're hot-reloading.
-	if (!/already exists/u.test(error.message)) {
+	if (!/already exists/.test(error.message)) {
 		console.error('Firebase admin initialization error : ', error);
 	}
 }
