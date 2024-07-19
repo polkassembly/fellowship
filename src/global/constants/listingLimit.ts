@@ -3,4 +3,5 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 export const LISTING_LIMIT = 10;
+export const TRENDING_LIMIT = 8;
 export const VOTES_LISTING_LIMIT = 10;
