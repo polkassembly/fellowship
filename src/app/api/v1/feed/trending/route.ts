@@ -82,7 +82,8 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
 			total_votes_count: Number(onChainProposalObj.tally?.ayes ?? 0) + Number(onChainProposalObj.tally?.nays ?? 0),
 			created_at: dayjs(onChainProposalObj.createdAt ?? firestoreProposalData.created_at?.toDate() ?? new Date()).toDate(),
 			updated_at: dayjs(firestoreProposalData.updated_at?.toDate() ?? onChainProposalObj.updatedAt ?? new Date()).toDate(),
-			proposalType: ProposalType.FELLOWSHIP_REFERENDUMS
+			proposalType: ProposalType.FELLOWSHIP_REFERENDUMS,
+			isPassing: Number(onChainProposalObj.tally?.ayes ?? 0) > Number(onChainProposalObj.tally?.nays ?? 0)
 		};
 
 		return trendingProposal;

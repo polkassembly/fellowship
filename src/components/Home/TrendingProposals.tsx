@@ -10,6 +10,7 @@ import React from 'react';
 import { TrendingProposalItem, ProposalStatus } from '@/global/types';
 import { getSinglePostLinkFromProposalType } from '@/utils/getSinglePostLinkFromProposalType';
 import { Divider } from '@nextui-org/divider';
+import { Chip } from '@nextui-org/chip';
 import { useApiContext } from '@/contexts';
 import StatusChip from '../Post/StatusChip';
 import LinkWithNetwork from '../Misc/LinkWithNetwork';
@@ -20,9 +21,10 @@ interface Props {
 	status: ProposalStatus;
 	url: string;
 	votePercentage: number;
+	isPassing: boolean;
 }
 
-function ProposalListingItem({ index, title, status, votePercentage, url }: Props) {
+function ProposalListingItem({ index, title, status, votePercentage, url, isPassing }: Props) {
 	return (
 		<LinkWithNetwork
 			href={url}
@@ -34,7 +36,16 @@ function ProposalListingItem({ index, title, status, votePercentage, url }: Prop
 				<article className='flex w-full flex-col gap-1'>
 					<h2 className='line-clamp-3 font-medium'>{title}</h2>
 					<div className='flex items-center justify-between gap-5'>
-						<StatusChip status={status} />
+						{votePercentage > 0 ? (
+							<Chip
+								size='sm'
+								className={`max-h-[18px] capitalize text-white ${isPassing ? 'bg-voteAye' : 'bg-voteNay'}`}
+							>
+								<span className='text-xs font-medium'>{isPassing ? 'Passing' : 'Failing'}</span>
+							</Chip>
+						) : (
+							<StatusChip status={status} />
+						)}
 						<span className='ml-auto'>
 							<b className='text-primary'>{votePercentage}%</b> fellows voted
 						</span>
@@ -67,6 +78,7 @@ function TrendingProposals({ proposals }: { proposals: TrendingProposalItem[] })
 					status={proposal.status || ProposalStatus.Deciding}
 					votePercentage={Math.round((proposal.total_votes_count / fellows.length) * 100) || 0}
 					url={`/${getSinglePostLinkFromProposalType(proposal.proposalType)}/${proposal.id}`}
+					isPassing={proposal.isPassing}
 				/>
 			))}
 		</Card>

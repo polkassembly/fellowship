@@ -631,4 +631,5 @@ export interface TrendingProposalItem {
 	total_votes_count: number;
 	proposer_address?: string;
 	proposalType: ProposalType;
+	isPassing: boolean;
 }
