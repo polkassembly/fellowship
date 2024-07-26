@@ -10,21 +10,20 @@ import Link from 'next/link';
 import LoadingSpinner from '@/components/Misc/LoadingSpinner';
 
 function ContributionGraph() {
-	const username = 'alphainfinitus';
 	const [contributions, setContributions] = useState<any[]>([]);
 	const [totalContributionsCount, setTotalContributionsCount] = useState<number>(0);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 
 	const getColor = (count: number) => {
-		if (count === 0) return '#E5E7EB';
-		if (count < 5) return '#34D399';
-		if (count < 10) return '#10B981';
-		if (count < 20) return '#059669';
-		return '#047857';
+		if (count === 0) return 'fill-contributionEmpty';
+		if (count < 5) return 'fill-contributionSm';
+		if (count < 10) return 'fill-contributionMd';
+		if (count < 20) return 'fill-contributionLg';
+		return 'fill-contributionXl';
 	};
 
-	const author = 'alphainfinitus';
+	const author = 'adetoye-dev';
 	const repo = 'polkassembly/polkassembly';
 
 	useEffect(() => {
@@ -33,20 +32,33 @@ function ContributionGraph() {
 				setLoading(true);
 				let allCommits: any[] = [];
 				let page = 1;
-				let lastCommitDate = new Date();
-				const currentYear = new Date().getFullYear();
+				const currentDate = new Date();
+				const lastYearDate = new Date();
+				lastYearDate.setFullYear(currentDate.getFullYear() - 1);
+				lastYearDate.setDate(currentDate.getDate() + 1);
 
-				while (lastCommitDate.getFullYear() === currentYear) {
+				let fetchMore = true;
+
+				while (fetchMore) {
 					// eslint-disable-next-line no-await-in-loop
 					const data = await fetch(`https://api.github.com/repos/${repo}/commits?author=${author}&per_page=100&page=${page}`).then((res) => res.json());
 
 					if (!data.length) break;
 
-					lastCommitDate = new Date(data[data.length - 1].commit.author.date);
+					const lastCommitDate = new Date(data[data.length - 1].commit.author.date);
+
 					allCommits = [...allCommits, ...data];
+
+					// Check if the last commit is still within the last year
+					if (lastCommitDate < lastYearDate) {
+						fetchMore = false;
+					}
 
 					page += 1;
 				}
+
+				// Filter out commits outside the last year range
+				allCommits = allCommits.filter((commit) => new Date(commit.commit.author.date) >= lastYearDate);
 
 				const contributionsCount: { [key: string]: number } = {};
 
@@ -73,13 +85,14 @@ function ContributionGraph() {
 		};
 
 		fetchContributions();
-	}, [username]);
+	}, [author, repo]);
 
 	if (error) return <p>Error: {error}</p>;
 
 	const today = new Date();
 	const lastYear = new Date(today);
 	lastYear.setFullYear(today.getFullYear() - 1);
+	lastYear.setDate(today.getDate() + 1);
 
 	const days = [];
 	for (let day = new Date(lastYear); day <= today; day.setDate(day.getDate() + 1)) {
@@ -138,7 +151,7 @@ function ContributionGraph() {
 									key={month.name}
 									x={month.offset <= 12 ? month.offset * 5 : month.offset + 48}
 									y='-5'
-									className='fill-gray-500 text-xs'
+									className='fill-gray-500 text-[10px]'
 								>
 									{month.name}
 								</text>
@@ -148,7 +161,7 @@ function ContributionGraph() {
 									key={day}
 									x='-10'
 									y={index * 22 + 22}
-									className='fill-gray-500 text-xs'
+									className='fill-gray-500 text-[10px]'
 									textAnchor='end'
 								>
 									{day}
@@ -166,8 +179,8 @@ function ContributionGraph() {
 											width='10'
 											height='10'
 											y={dayIndex * 12}
-											style={{ fill: day.color }}
-											className='rounded-md'
+											// style={{ fill: day.color }}
+											className={`rounded-md ${day.color}`}
 										/>
 									))}
 								</g>
