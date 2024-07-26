@@ -4,12 +4,19 @@
 
 'use client';
 
+/* eslint-disable consistent-return */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useEffect, useState } from 'react';
 import { Accordion, AccordionItem } from '@nextui-org/accordion';
 import Image from 'next/image';
+import nextApiClientFetch from '@/utils/nextApiClientFetch';
+import { Network, CHANNEL } from '@/global/types';
+import { useApiContext, useUserDetailsContext } from '@/contexts';
 import SectionTitle from './common-ui/SectionTitle';
 import NotificationChannels from './NotificationChannels';
 import ProposalsNotificationCard from './Proposals';
 import ProposalAlertsCard from './Alerts';
+import LoadingSpinner from '../Misc/LoadingSpinner';
 
 const accordionItemClassNames = {
 	base: 'rounded-[20px] border border-primary_border w-full mx-0',
@@ -21,7 +28,94 @@ const accordionItemClassNames = {
 };
 
 export default function Notifications() {
-	return (
+	const { network } = useApiContext();
+	const { networkPreferences: currNetworkPreferences, setUserDetailsContextState } = useUserDetailsContext();
+	const [loading, setLoading] = useState(true);
+
+	const getNotificationSettings = async (network: string) => {
+		if (!network) {
+			return;
+		}
+		try {
+			const { data, error } = (await nextApiClientFetch({
+				url: 'api/v1/auth/data/notificationSettings',
+				network: network as Network,
+				isPolkassemblyAPI: true
+			})) as { data: any; error: null | string };
+			if (error) {
+				throw new Error(error);
+			}
+
+			let networkPreferences: any = {};
+			if (data?.notification_preferences?.channelPreferences) {
+				networkPreferences = {
+					...currNetworkPreferences,
+					channelPreferences: data?.notification_preferences?.channelPreferences
+				};
+			}
+			if (data?.notification_preferences?.triggerPreferences) {
+				networkPreferences = {
+					...currNetworkPreferences,
+					...networkPreferences,
+					triggerPreferences: data?.notification_preferences?.triggerPreferences
+				};
+				setUserDetailsContextState((currentUser) => ({
+					...currentUser,
+					networkPreferences
+				}));
+			}
+			setLoading(false);
+		} catch (e) {
+			console.log(e);
+		}
+	};
+
+	const toggleChannelPreferences = async (channel: CHANNEL, enabled = false) => {
+		try {
+			setUserDetailsContextState((currentUser) => ({
+				...currentUser,
+				networkPreferences: {
+					...currentUser.networkPreferences,
+					channelPreferences: {
+						...currentUser.networkPreferences?.channelPreferences,
+						[channel]: {
+							...currentUser.networkPreferences?.channelPreferences?.channel,
+							enabled
+						}
+					}
+				}
+			}));
+
+			const { data, error } = (await nextApiClientFetch({
+				url: 'api/v1/auth/actions/updateChannelNotification',
+				data: {
+					channel,
+					enabled
+				},
+				network: network as Network,
+				isPolkassemblyAPI: true
+			})) as { data: { message: string }; error: string | null };
+			if (error || !data.message) {
+				throw new Error(error || '');
+			}
+
+			return true;
+		} catch (e) {
+			console.log(e);
+		}
+	};
+
+	useEffect(() => {
+		getNotificationSettings(network);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [network]);
+
+	return loading ? (
+		<LoadingSpinner
+			message='Fetching Notifications Settings...'
+			size='lg'
+		/>
+	) : (
 		<Accordion
 			className='flex w-full flex-col gap-[24px] p-0'
 			showDivider={false}

@@ -214,6 +214,14 @@ export interface JWTPayloadType {
 	login_address?: string;
 }
 
+export enum CHANNEL {
+	TELEGRAM = 'telegram',
+	DISCORD = 'discord',
+	ELEMENT = 'element',
+	GITHUB = 'github',
+	EMAIL = 'email'
+}
+
 export interface INetworkPreferences {
 	channelPreferences: {
 		[index: string]: {

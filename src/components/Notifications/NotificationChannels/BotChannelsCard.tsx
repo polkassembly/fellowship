@@ -4,14 +4,8 @@
 
 import React from 'react';
 import Image from 'next/image';
+import { CHANNEL } from '@/global/types';
 import ComingSoonLabel from '../common-ui/ComingSoonLabel';
-
-enum CHANNELS {
-	TELEGRAM = 'telegram',
-	DISCORD = 'discord',
-	ELEMENT = 'element',
-	GITHUB = 'github'
-}
 
 const botChannels = [
 	{
@@ -23,7 +17,7 @@ const botChannels = [
 				height={15}
 			/>
 		),
-		channel: CHANNELS.TELEGRAM,
+		channel: CHANNEL.TELEGRAM,
 		description: 'a Telegram chat to get Telegram notifications',
 		title: 'Telegram Notifications'
 	},
@@ -36,7 +30,7 @@ const botChannels = [
 				height={15}
 			/>
 		),
-		channel: CHANNELS.DISCORD,
+		channel: CHANNEL.DISCORD,
 		description: 'a Discord Channel chat to get Discord notifications',
 		title: 'Discord Notifications'
 	},
@@ -49,7 +43,7 @@ const botChannels = [
 				height={15}
 			/>
 		),
-		channel: CHANNELS.ELEMENT,
+		channel: CHANNEL.ELEMENT,
 		description: '',
 		title: 'Element Notifications'
 	},
@@ -62,7 +56,7 @@ const botChannels = [
 				height={15}
 			/>
 		),
-		channel: CHANNELS.GITHUB,
+		channel: CHANNEL.GITHUB,
 		description: '',
 		title: 'GitHub Notifications'
 	}
