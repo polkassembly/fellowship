@@ -25,7 +25,6 @@ import dayjs from 'dayjs';
 import Image from 'next/image';
 import { IEvent } from '@/global/types';
 import Events from '@/components/Calendar/Events';
-import nextApiClientFetch from '@/utils/nextApiClientFetch';
 import LoadingSpinner from '@/components/Misc/LoadingSpinner';
 import { Button } from '@nextui-org/button';
 
@@ -63,8 +62,8 @@ export default function CreateRFCProposal() {
 			return eventObj.type === 'stakingEpoch'
 				? `Start of a new staking session ${eventObj?.data?.index}`
 				: eventObj.type === 'stakingEra'
-				? `Start of a new staking era ${eventObj?.data?.index}`
-				: `${eventObj.type} ${eventObj?.data?.index}`;
+					? `Start of a new staking era ${eventObj?.data?.index}`
+					: `${eventObj.type} ${eventObj?.data?.index}`;
 		};
 
 		const formatScheduledContent = (eventObj: any) => (eventObj?.data?.id ? `Execute named scheduled task ${eventObj?.data?.id}` : 'Execute anonymous scheduled task');

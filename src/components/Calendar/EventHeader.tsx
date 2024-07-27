@@ -27,7 +27,7 @@ export default function EventHeader({ title, startTime, endTime, category }: IEv
 					height={18}
 					className='dark:grayscale dark:invert dark:filter'
 				/>
-				<span className='text-secondaryText text-sm'>
+				<span className='text-sm text-secondaryText'>
 					{startTime} - {endTime}
 				</span>
 			</div>

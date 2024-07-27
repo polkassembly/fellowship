@@ -22,9 +22,9 @@ export default function Participant({ name, avatar, status }: IParticipantProps)
 				className='rounded-full'
 			/>
 			<h3 className='text-base font-semibold leading-6'>{name}</h3>
-			{status === 'accepted' && <span className='bg-successBg ml-auto rounded-lg px-3 py-1 text-success'>Accepted</span>}
-			{status === 'pending' && <span className='bg-warningBg ml-auto rounded-lg px-3 py-1 text-warning'>Pending</span>}
-			{status === 'rejected' && <span className='bg-errorBg text-error ml-auto rounded-lg px-3 py-1'>Rejected </span>}
+			{status === 'accepted' && <span className='ml-auto rounded-lg bg-successBg px-3 py-1 text-success'>Accepted</span>}
+			{status === 'pending' && <span className='ml-auto rounded-lg bg-warningBg px-3 py-1 text-warning'>Pending</span>}
+			{status === 'rejected' && <span className='ml-auto rounded-lg bg-errorBg px-3 py-1 text-error'>Rejected </span>}
 		</div>
 	);
 }
