@@ -24,8 +24,8 @@ function ContributionGraph() {
 		return 'fill-contributionXl';
 	};
 
-	const author = 'adetoye-dev';
-	const repo = 'polkassembly/polkassembly';
+	const author = 'franciscoaguirre';
+	const repo = 'polkadot-fellows/runtimes';
 
 	useEffect(() => {
 		const fetchContributions = async () => {
