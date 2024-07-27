@@ -96,7 +96,7 @@ function VotingProposalsFeed({ items, feedType }: Props) {
 	}
 
 	return (
-		<ScrollShadow className='flex max-h-screen w-full flex-col gap-y-4 overflow-auto'>
+		<ScrollShadow className='mb-16 flex max-h-screen w-full flex-col gap-y-4 overflow-auto md:mb-auto'>
 			{feedItems.map(
 				(feedItem) =>
 					feedItem.proposalType === ProposalType.FELLOWSHIP_REFERENDUMS && (

@@ -12,12 +12,12 @@ import { useApiContext } from '@/contexts';
 
 function StatDisplay({ heroImg, title, value, icon, percentage }: { heroImg: string; title: string; value: number; icon?: string; percentage?: number }) {
 	return (
-		<div className='flex flex-row items-center'>
-			<div className='min-w-max'>
+		<div className='flex w-full flex-row items-center'>
+			<div className='min-w-max rounded-xl border-2 border-primary_border p-1'>
 				<Image
 					src={heroImg}
 					alt='Stats Icon'
-					className='h-[70px] w-[70px] md:h-[40px] md:w-[40px] xl:h-[65px] xl:w-[65px] 2xl:h-[70px] 2xl:w-[70px]'
+					className='h-[70px] w-[70px] rounded-lg md:h-[40px] md:w-[40px] xl:h-[65px] xl:w-[65px] 2xl:h-[70px] 2xl:w-[70px]'
 					width={70}
 					height={70}
 				/>
@@ -45,7 +45,7 @@ function StatDisplay({ heroImg, title, value, icon, percentage }: { heroImg: str
 	);
 }
 
-function Stats() {
+function Stats({ className }: { className?: string }) {
 	const { api, apiReady } = useApiContext();
 
 	const [memberCount, setMemberCount] = useState(0);
@@ -61,7 +61,7 @@ function Stats() {
 
 	return (
 		<Card
-			className='flex flex-col items-center gap-y-6 border border-primary_border p-6'
+			className={`flex flex-col items-center gap-y-6 border border-primary_border p-6 ${className}`}
 			shadow='none'
 		>
 			<StatDisplay

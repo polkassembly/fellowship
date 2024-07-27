@@ -26,57 +26,86 @@ interface Props {
 	status?: ProposalStatus;
 	decidingEnds?: Date;
 	postId?: string;
+	index?: number;
+	isModalHeader?: boolean;
 }
 
-function ContentListingHeader({ className = '', postId, activityType, address, username, createdAt, votesTally, status, decidingEnds }: Props) {
+function ContentListingHeader({ className = '', index, postId, activityType, address, username, createdAt, votesTally, status, decidingEnds, isModalHeader }: Props) {
 	return (
-		<div className={`flex h-[26px] items-center gap-2.5 text-sm ${className}`}>
-			{(address || username) && (
-				<>
-					<UserIdentity
-						address={address}
-						username={username}
+		<div className={`flex flex-col items-center gap-2.5 text-sm md:h-[26px] md:flex-row ${className}`}>
+			<div className='flex w-full items-center gap-1 md:hidden'>
+				{index && <p className='mt-0.5 text-xs font-normal text-slate-500 md:hidden'>#{index}</p>}
+				{activityType && <ActivityTypeChip type={activityType} />}
+				{status && (
+					<StatusChip
+						status={status}
+						className={`${isModalHeader ? '' : 'ml-auto'}`}
 					/>
-					<Divider orientation='vertical' />
-				</>
-			)}
+				)}
+			</div>
 
-			<DateHeader date={createdAt} />
+			<div className={`flex w-full gap-2.5 md:w-auto ${address || username ? 'flex-col' : 'flex-row'} md:h-[26px] md:flex-row`}>
+				<span className={`flex ${address || username ? 'w-full' : 'mr-4 w-auto'} items-center justify-between gap-2.5 md:w-auto md:justify-normal`}>
+					{(address || username) && (
+						<>
+							<UserIdentity
+								address={address}
+								username={username}
+							/>
+							<Divider orientation='vertical' />
+						</>
+					)}
 
-			{decidingEnds && (
-				<>
-					<Divider orientation='vertical' />
-					<DecidingEndsHeader />
-				</>
-			)}
+					<DateHeader date={createdAt} />
+					{decidingEnds && (
+						<>
+							<Divider orientation='vertical' />
+							<DecidingEndsHeader />
+						</>
+					)}
+				</span>
 
-			{votesTally && (
-				<>
-					<Divider orientation='vertical' />
-					<VoteProgress
-						ayes={votesTally.ayes}
-						nays={votesTally.nays}
-						variant='listing'
-					/>
-				</>
-			)}
+				<span className='flex h-[26px] w-full items-center gap-2.5 md:h-full md:w-auto'>
+					{votesTally && (
+						<>
+							<Divider orientation='vertical' />
+							<VoteProgress
+								ayes={votesTally.ayes}
+								nays={votesTally.nays}
+								variant='listing'
+							/>
+						</>
+					)}
+
+					{activityType && (
+						<span className='ml-auto md:hidden'>
+							<ActivityActionTypeChip
+								postId={postId}
+								type={activityType}
+							/>
+						</span>
+					)}
+				</span>
+			</div>
+
+			<div className='hidden h-full items-center gap-2.5 md:flex'>
+				{activityType && (
+					<>
+						<Divider orientation='vertical' />
+						<ActivityTypeChip type={activityType} />
+					</>
+				)}
+
+				{status && (
+					<>
+						<Divider orientation='vertical' />
+						<StatusChip status={status} />
+					</>
+				)}
+			</div>
 
 			{activityType && (
-				<>
-					<Divider orientation='vertical' />
-					<ActivityTypeChip type={activityType} />
-				</>
-			)}
-
-			{status && (
-				<>
-					<Divider orientation='vertical' />
-					<StatusChip status={status} />
-				</>
-			)}
-
-			{activityType && (
-				<span className='ml-auto'>
+				<span className='ml-auto hidden md:inline'>
 					<ActivityActionTypeChip
 						postId={postId}
 						type={activityType}

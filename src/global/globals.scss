@@ -6,12 +6,16 @@
 	--font_default: 'Poppins';
 }
 
+:root:has(.no-doc-scroll) {
+	overflow: hidden;
+}
+
 #root-section {
-	@apply mx-auto mt-4 h-[96vh] max-w-screen-2xl gap-8 hidden md:flex;
+	@apply mx-auto mt-4 flex h-[96vh] w-[90%] max-w-screen-2xl gap-8;
 }
 
 #main-section {
-	@apply ml-[296px] w-full;
+	@apply w-full lg:ml-[296px];
 }
 
 ::-webkit-scrollbar {
@@ -31,4 +35,8 @@
 
 * {
 	box-sizing: border-box;
+}
+
+section[role='dialog'] {
+	@apply bottom-20 mx-2 md:bottom-auto md:mx-auto;
 }
