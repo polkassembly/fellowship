@@ -7,6 +7,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { Tooltip } from '@nextui-org/tooltip';
 import LoadingSpinner from '@/components/Misc/LoadingSpinner';
 
 function ContributionGraph() {
@@ -120,6 +121,27 @@ function ContributionGraph() {
 		});
 	}
 
+	function formatContributionDate(day: { date: string; count: number; color: string }) {
+		function getOrdinalSuffix(date: number) {
+			if (date > 3 && date < 21) return `${date}th`;
+			switch (date % 10) {
+				case 1:
+					return `${date}st`;
+				case 2:
+					return `${date}nd`;
+				case 3:
+					return `${date}rd`;
+				default:
+					return `${date}th`;
+			}
+		}
+
+		const date = new Date(day.date);
+		const dayWithSuffix = getOrdinalSuffix(date.getDate());
+		const formattedDate = `${date.toLocaleString('default', { month: 'short' })} ${dayWithSuffix}`;
+		return `${day.count} contributions on ${formattedDate}`;
+	}
+
 	return (
 		<div className='w-full rounded-2xl border border-primary_border bg-content1 p-4 shadow-lg'>
 			<div className='flex flex-col gap-2 md:flex-row md:items-center'>
@@ -174,14 +196,19 @@ function ContributionGraph() {
 									transform={`translate(${weekIndex * 12}, 0)`}
 								>
 									{week.map((day, dayIndex) => (
-										<rect
+										<Tooltip
+											showArrow
+											content={`${formatContributionDate(day)}`}
 											key={day.date}
-											width='10'
-											height='10'
-											y={dayIndex * 12}
-											// style={{ fill: day.color }}
-											className={`rounded-md ${day.color}`}
-										/>
+											className='text-xs'
+										>
+											<rect
+												width='10'
+												height='10'
+												y={dayIndex * 12}
+												className={`rounded-md ${day.color}`}
+											/>
+										</Tooltip>
 									))}
 								</g>
 							))}
