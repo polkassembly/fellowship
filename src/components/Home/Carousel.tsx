@@ -26,7 +26,7 @@ function Carousel() {
 			>
 				&#x2715;
 			</Button>
-			<div className="flex min-h-[200px] w-full flex-col items-center justify-center gap-3 bg-[url('/carousel/carousel-1.svg')] bg-cover p-4">
+			<div className="flex min-h-[200px] w-full flex-col items-center justify-center gap-3 rounded-3xl bg-[url('/carousel/carousel-2.svg')] bg-cover p-4 md:bg-[url('/carousel/carousel-1.svg')]">
 				<h1 className='flex items-center justify-center gap-2 text-2xl font-semibold text-white'>
 					<Image
 						alt='Join Fellowship Icon'

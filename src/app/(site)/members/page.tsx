@@ -8,6 +8,7 @@ import LoadingSpinner from '@/components/Misc/LoadingSpinner';
 import { useApiContext } from '@/contexts';
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { Input } from '@nextui-org/input';
 import TopFellowsCard from '@/components/Members/TopFellowsCard';
 import RANK_CONSTANTS, { RANK_GROUP } from '@/global/constants/rankConstants';
 import { Chip } from '@nextui-org/chip';
@@ -20,6 +21,7 @@ function MembersPage() {
 
 	const [selectedRankGroup, setSelectedRankGroup] = useState<RANK_GROUP | null>(null);
 	const [fellowsDetails, setFellowsDetails] = useState<IFellowDataResponse>();
+	const [searchValue, setSearchValue] = useState<string>('');
 
 	const getFellowsDetails = async () => {
 		const { data, error: fellowError } = await nextApiClientFetch<IFellowDataResponse>({
@@ -55,6 +57,9 @@ function MembersPage() {
 
 	const filteredFellows = selectedRankGroup ? fellows.filter((fellow) => RANK_CONSTANTS[fellow.rank].group === selectedRankGroup) : fellows;
 
+	// Filter the fellows based on the search value
+	const searchedFellows = searchValue ? filteredFellows.filter((fellow) => fellow.address.toLowerCase().includes(searchValue.toLowerCase())) : filteredFellows;
+
 	return (
 		<div className='flex flex-col'>
 			<div className='flex items-center gap-2 text-xl font-semibold'>
@@ -72,41 +77,63 @@ function MembersPage() {
 
 			<TopFellowsCard fellowsDetails={fellowsDetails} />
 
-			<div className='mt-9 flex gap-3'>
-				<Chip
-					onClick={() => setSelectedRankGroup(null)}
-					color={!selectedRankGroup ? 'primary' : 'default'}
-					variant='bordered'
-					className='h-10 max-h-10 min-h-10 cursor-pointer rounded-xl border-1'
-				>
-					<span className='text-xs font-semibold'>All ({fellows.length})</span>
-				</Chip>
-
-				{Object.values(RANK_GROUP).map((rankGroup) => (
+			<div className='mt-9 flex w-full flex-col justify-between gap-5 md:flex-row md:gap-20'>
+				<div className='flex w-full gap-3 overflow-x-scroll'>
 					<Chip
-						color={selectedRankGroup === rankGroup ? 'primary' : 'default'}
-						key={rankGroup}
+						onClick={() => setSelectedRankGroup(null)}
+						color={!selectedRankGroup ? 'primary' : 'default'}
 						variant='bordered'
-						className='h-10 max-h-10 min-h-10 cursor-pointer gap-1 rounded-xl border-1 px-6'
-						onClick={() => setSelectedRankGroup(rankGroup)}
+						className='h-10 max-h-10 min-h-10 cursor-pointer rounded-xl border-1'
 					>
-						<div className='flex items-center gap-2'>
-							<Image
-								alt='rank icon'
-								src={`/icons/ranks/${rankGroup.toLowerCase()}.svg`}
-								width={24}
-								height={24}
-							/>
-
-							<span className='text-xs font-semibold'>{rankGroup}</span>
-						</div>
+						<span className='text-xs font-semibold'>All ({fellows.length})</span>
 					</Chip>
-				))}
+
+					{Object.values(RANK_GROUP).map((rankGroup) => (
+						<Chip
+							color={selectedRankGroup === rankGroup ? 'primary' : 'default'}
+							key={rankGroup}
+							variant='bordered'
+							className='h-10 max-h-10 min-h-10 cursor-pointer gap-1 rounded-xl border-1 px-6'
+							onClick={() => setSelectedRankGroup(rankGroup)}
+						>
+							<div className='flex items-center gap-2'>
+								<Image
+									alt='rank icon'
+									src={`/icons/ranks/${rankGroup.toLowerCase()}.svg`}
+									width={24}
+									height={24}
+								/>
+
+								<span className='text-xs font-semibold'>{rankGroup}</span>
+							</div>
+						</Chip>
+					))}
+				</div>
+				<Input
+					size='md'
+					type='text'
+					variant='bordered'
+					placeholder='Search'
+					startContent={
+						<Image
+							alt='search icon'
+							src='/icons/search.svg'
+							width={12}
+							height={12}
+						/>
+					}
+					value={searchValue}
+					onChange={(e) => setSearchValue(e.target.value)}
+					className='ml-auto w-full flex-shrink md:w-[120px]'
+					classNames={{
+						inputWrapper: ['border-1', 'border-primary_border']
+					}}
+				/>
 			</div>
 
 			<FellowsTable
 				className='my-4'
-				fellows={filteredFellows}
+				fellows={searchedFellows} // Use the searchedFellows instead of filteredFellows
 				fellowsDetails={fellowsDetails}
 			/>
 		</div>

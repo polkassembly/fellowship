@@ -32,6 +32,8 @@ export interface ApiContextType {
 	network: Network;
 	setNetwork: Dispatch<SetStateAction<Network>>;
 	fellows: IFellow[];
+	wsProvider: string;
+	setWsProvider: Dispatch<SetStateAction<string>>;
 }
 
 export type NetworkProperties = {
@@ -270,6 +272,11 @@ export interface MessageType {
 
 export interface ChallengeMessage extends MessageType {
 	signMessage: string;
+}
+
+export interface IAddProfileResponse {
+	message?: string;
+	token?: string;
 }
 
 export interface TokenType {
@@ -569,11 +576,26 @@ export interface IFellowDataResponse {
 	};
 }
 
+export enum ESocialType {
+	EMAIL = 'Email',
+	RIOT = 'Riot',
+	TWITTER = 'Twitter',
+	TELEGRAM = 'Telegram',
+	DISCORD = 'Discord',
+	GITHUB = 'Github'
+}
+
+export interface ISocial {
+	type: ESocialType;
+	link: string;
+}
+
 export interface IProfile {
 	user_id: number;
 	manifesto: string;
 	address: string;
 	activities: UserActivityListingItem[];
+	social_links?: ISocial[];
 }
 
 // TODO: make a base interface for BaseFeedItem and extend it

@@ -185,8 +185,8 @@ export function ApiContextProvider({ children }: ApiContextProviderProps): React
 	}, [relayApi]);
 
 	const providerValue = useMemo(
-		() => ({ api, apiReady, relayApi, relayApiReady, network, setNetwork, fellows }),
-		[api, apiReady, network, relayApi, relayApiReady, setNetwork, fellows]
+		() => ({ api, apiReady, relayApi, relayApiReady, network, setNetwork, fellows, wsProvider, setWsProvider }),
+		[api, apiReady, network, relayApi, relayApiReady, setNetwork, fellows, wsProvider, setWsProvider]
 	);
 
 	return <ApiContext.Provider value={providerValue}>{children}</ApiContext.Provider>;

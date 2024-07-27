@@ -52,7 +52,7 @@ function ActivityListing({ address, items }: ActivityListingProps) {
 
 	if (!feedItems.length) {
 		return (
-			<div className='flex h-full flex-1 flex-col items-center justify-center py-10 text-sm font-normal leading-[21px] tracking-[0.14px] text-secondary'>
+			<div className='flex h-full flex-1 flex-col items-center justify-center py-10 text-center text-sm font-normal leading-[21px] tracking-[0.14px] text-secondary'>
 				<Image
 					alt='empty user-activity icon'
 					src='/icons/empty-states/user-activity.svg'
@@ -60,8 +60,8 @@ function ActivityListing({ address, items }: ActivityListingProps) {
 					height={156}
 					className='cursor-pointer'
 				/>
-				<p className='m-0 mb-2 mt-[14px] p-0 text-base font-medium leading-6 tracking-[0.08px]'>No Activity Available</p>
-				<p className='m-0 p-0 text-sm font-normal leading-[21px] tracking-[0.14px]'>You can see your likes, dislikes, comments, votes here</p>
+				<p className='m-0 mb-2 mt-[14px] px-2 text-base font-medium leading-6 tracking-[0.08px] md:p-0'>No Activity Available</p>
+				<p className='m-0 px-2 text-sm font-normal leading-[21px] tracking-[0.14px] md:p-0'>You can see your likes, dislikes, comments, votes here</p>
 			</div>
 		);
 	}

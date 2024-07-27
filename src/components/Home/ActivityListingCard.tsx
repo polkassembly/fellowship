@@ -57,8 +57,9 @@ function ActivityListingCard({ feedItem }: Props) {
 						<Address
 							variant='inline'
 							address={feedItem.who}
+							truncateCharLen={5}
 						/>
-						&nbsp; submitted an evidence :&nbsp;{feedItem.evidence}
+						&nbsp; submitted an evidence :&nbsp;<span className='w-full break-words'>{feedItem.evidence}</span>
 					</>
 				);
 				break;
@@ -234,7 +235,7 @@ function ActivityListingCard({ feedItem }: Props) {
 				node = feedItem.type;
 				break;
 		}
-		return <div className='flex flex-wrap items-center justify-start text-sm'>{node}</div>;
+		return <div className='flex w-full flex-wrap items-center justify-start break-words text-sm'>{node}</div>;
 	};
 
 	return (
@@ -243,9 +244,7 @@ function ActivityListingCard({ feedItem }: Props) {
 				shadow='none'
 				className='flex flex-col gap-3 border border-primary_border px-6 py-4'
 			>
-				<div className='flex gap-3 pb-3 text-sm'>
-					<div>{getActivityText()}</div>
-				</div>
+				<div className='flex w-full gap-3 pb-3 text-sm'>{getActivityText()}</div>
 				<PostReactionInfoBar
 					commentCount={null}
 					latestReaction={feedItem.reactions?.[0]}

@@ -66,6 +66,7 @@ function PostModal({ post }: Props) {
 										address={post.inductee_address || post.on_chain_info?.proposer}
 										status={post.on_chain_info?.status}
 										activityType={post.inductee_address ? ActivityType.INDUCTION : undefined}
+										isModalHeader
 									/>
 
 									<section className='mt-1 flex gap-2'>

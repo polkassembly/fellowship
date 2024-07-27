@@ -9,8 +9,8 @@ import { ReactNode } from 'react';
 import AppSidebar from '@/components/Header/AppSidebar';
 import AppNavbar from '@/components/Header/AppNavbar';
 import NotificationsContainer from '@/components/Misc/NotificationsContainer';
+import Footer from '@/components/Footer/Footer';
 import { poppinsFont } from '@/utils/fonts';
-import ComingSoon from '@/components/Misc/ComingSoon';
 import { Providers } from '../global/providers';
 
 export const metadata: Metadata = {
@@ -22,24 +22,16 @@ export default function RootLayout({ children, modal }: { children: ReactNode; m
 	return (
 		<html lang='en'>
 			<body className={`${poppinsFont.className}`}>
-				<ComingSoon
-					className='flex h-[100vh] w-[100vw] items-center justify-center p-5 md:hidden'
-					text={
-						<span>
-							Construction zone ahead!
-							<br /> Mobile view coming soon...
-						</span>
-					}
-				/>
 				<Providers>
 					<section id='root-section'>
-						<section className='fixed h-[96vh]'>
+						<section className='fixed h-[96vh] lg:block'>
 							<AppSidebar />
 						</section>
 						<section id='main-section'>
 							<AppNavbar />
 							<main>{children}</main>
 						</section>
+						<Footer />
 					</section>
 					<NotificationsContainer />
 					{modal}
