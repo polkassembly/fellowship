@@ -180,7 +180,7 @@ export default function CreateRFCProposal() {
 						className='dark:grayscale dark:invert dark:filter'
 					/>
 					<h2 className='w-full text-xl font-semibold'>
-						Events <span className='text-secondaryText ml-2 text-sm font-thin'>{focusedDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+						Events <span className='ml-2 text-sm font-thin text-secondaryText'>{focusedDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
 					</h2>
 				</div>
 				<div className='flex h-full flex-col gap-5'>
