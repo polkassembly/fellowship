@@ -6,6 +6,7 @@
 
 import { Card } from '@nextui-org/card';
 import React, { useEffect, useState } from 'react';
+import { Divider } from '@nextui-org/divider';
 
 import Image from 'next/image';
 import { useApiContext } from '@/contexts';
@@ -71,14 +72,14 @@ function Stats({ className }: { className?: string }) {
 				// icon='/icons/arrow-up-green.svg'
 				// percentage={12.8}
 			/>
-			{/* <Divider />
+			<Divider />
 			<StatDisplay
 				heroImg='/icons/stats-github.svg'
 				title='Github Commits'
 				value={60}
-				icon='/icons/arrow-down-red.svg'
-				percentage={12.8}
-			/> */}
+				// icon='/icons/arrow-down-red.svg'
+				// percentage={12.8}
+			/>
 		</Card>
 	);
 }

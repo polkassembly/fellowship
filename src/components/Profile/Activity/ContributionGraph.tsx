@@ -9,10 +9,11 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Tooltip } from '@nextui-org/tooltip';
 import LoadingSpinner from '@/components/Misc/LoadingSpinner';
+import { getUserCommitHistory } from '@/app/api/v1/github/getUserCommitHistory';
 
 function ContributionGraph() {
 	const [contributions, setContributions] = useState<any[]>([]);
-	const [totalContributionsCount, setTotalContributionsCount] = useState<number>(0);
+	const [totalContributionsCount, setTotalContributionsCount] = useState(0);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 
@@ -24,60 +25,16 @@ function ContributionGraph() {
 		return 'fill-contributionXl';
 	};
 
-	const author = 'franciscoaguirre';
-	const repo = 'polkadot-fellows/runtimes';
+	const author = 'bkontur';
 
 	useEffect(() => {
 		const fetchContributions = async () => {
 			try {
 				setLoading(true);
-				let allCommits: any[] = [];
-				let page = 1;
-				const currentDate = new Date();
-				const lastYearDate = new Date();
-				lastYearDate.setFullYear(currentDate.getFullYear() - 1);
-				lastYearDate.setDate(currentDate.getDate() + 1);
+				const { contributions, totalContributionsCount } = await getUserCommitHistory({ username: author });
 
-				let fetchMore = true;
-
-				while (fetchMore) {
-					// eslint-disable-next-line no-await-in-loop
-					const data = await fetch(`https://api.github.com/repos/${repo}/commits?author=${author}&per_page=100&page=${page}`).then((res) => res.json());
-
-					if (!data.length) break;
-
-					const lastCommitDate = new Date(data[data.length - 1].commit.author.date);
-
-					allCommits = [...allCommits, ...data];
-
-					// Check if the last commit is still within the last year
-					if (lastCommitDate < lastYearDate) {
-						fetchMore = false;
-					}
-
-					page += 1;
-				}
-
-				// Filter out commits outside the last year range
-				allCommits = allCommits.filter((commit) => new Date(commit.commit.author.date) >= lastYearDate);
-
-				const contributionsCount: { [key: string]: number } = {};
-
-				allCommits.forEach((commit: any) => {
-					const date = new Date(commit.commit.author.date).toISOString().split('T')[0];
-					if (!contributionsCount[date]) {
-						contributionsCount[date] = 0;
-					}
-					contributionsCount[date] += 1;
-				});
-
-				const contributionsArray = Object.entries(contributionsCount).map(([date, count]) => ({
-					date,
-					count
-				}));
-
-				setContributions(contributionsArray);
-				setTotalContributionsCount(allCommits.length);
+				setContributions(contributions);
+				setTotalContributionsCount(totalContributionsCount);
 			} catch (error) {
 				setError((error as Error)?.message);
 			} finally {
@@ -86,9 +43,9 @@ function ContributionGraph() {
 		};
 
 		fetchContributions();
-	}, [author, repo]);
+	}, [author]);
 
-	if (error) return <p>Error: {error}</p>;
+	if (error || !contributions) return <p>Error: {error || 'No contributions found!'}</p>;
 
 	const today = new Date();
 	const lastYear = new Date(today);
