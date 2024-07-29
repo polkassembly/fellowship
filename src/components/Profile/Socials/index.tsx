@@ -19,6 +19,8 @@ function ProfileSocials({ links, isModalOpen, onOpenChange }: { links: ISocial[]
 	const { network } = useApiContext();
 	const userDetails = useUserDetailsContext();
 
+	console.log('ProfileSocials -> socialLinks', links);
+
 	const updateSocialLinks = async (onSuccess?: () => void) => {
 		if (!socialLinks) return;
 
