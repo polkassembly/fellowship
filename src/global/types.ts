@@ -623,7 +623,6 @@ export type PjsCalendarItem = PjsCalendarItemDuration & {
 
 export interface TrendingProposalItem {
 	id: number;
-	user_id: number | null;
 	title: string;
 	status: ProposalStatus;
 	created_at: Date;

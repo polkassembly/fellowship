@@ -37,28 +37,17 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
 		status: [ProposalStatus.Deciding]
 	};
 
-	const proposalMap: {
-		[key: string]: TrendingProposalItem;
-	} = {};
-
 	const result = await gqlClient.query(GET_TRENDING_PROPOSALS, variables).toPromise();
 
 	if (result.error) throw new APIError(`${result.error || MESSAGES.SUBSQUID_FETCH_ERROR}`, 500, API_ERROR_CODE.SUBSQUID_FETCH_ERROR);
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	let onChainProposals = (result?.data?.activities || []).map((item: any) => {
+	const onChainProposals = (result?.data?.activities || []).map((item: any) => {
 		return {
 			activityType: item.type,
 			...item.proposal
 		};
 	});
-
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	onChainProposals?.forEach((onChainProposalObj: any) => {
-		proposalMap[onChainProposalObj.index] = onChainProposalObj;
-	});
-
-	onChainProposals = Object.values(proposalMap).reverse();
 
 	const { firestoreProposalDocs } = await getFirestoreDocs(onChainProposals, network);
 
@@ -76,7 +65,6 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
 
 		const trendingProposal: TrendingProposalItem = {
 			id: onChainProposalObj.index,
-			user_id: firestoreProposalData.user_id ?? null,
 			title: firestoreProposalData.title ?? DEFAULT_POST_TITLE,
 			status: onChainProposalObj.status,
 			total_votes_count: Number(onChainProposalObj.tally?.ayes ?? 0) + Number(onChainProposalObj.tally?.nays ?? 0),

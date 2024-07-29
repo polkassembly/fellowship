@@ -122,7 +122,6 @@ export const GET_TRENDING_PROPOSALS = gql`
 		activities(where: { who_eq: $who_eq, proposal: { status_in: $status } }, limit: $limit, offset: $offset, orderBy: proposal_createdAt_DESC) {
 			type
 			proposal {
-				id
 				description
 				index
 				status
