@@ -31,7 +31,7 @@ export const getGithubMonthlyStats = async () => {
 
 	return {
 		totalContributionsCount: currentMonthCommitsCount,
-		percentageDifference: percentageDifference.toFixed(1),
+		percentageDifference: Math.abs(percentageDifference).toFixed(1),
 		isIncrease: currentMonthCommitsCount > previousMonthCommitsCount
 	};
 };
