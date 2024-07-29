@@ -97,7 +97,7 @@ function Stats({ className }: { className?: string }) {
 					<Divider />
 					<StatDisplay
 						heroImg='/icons/stats-github.svg'
-						title='Github GithubStats'
+						title='Github commits'
 						value={githubStats?.totalContributionsCount || 0}
 						icon={githubStats?.isIncrease ? '/icons/arrow-up-green.svg' : '/icons/arrow-down-red.svg'}
 						percentage={Number(githubStats?.percentageDifference)}
