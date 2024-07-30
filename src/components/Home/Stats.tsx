@@ -100,7 +100,7 @@ function Stats({ className }: { className?: string }) {
 						title='Github commits'
 						value={githubStats?.totalContributionsCount || 0}
 						icon={githubStats?.isIncrease ? '/icons/arrow-up-green.svg' : '/icons/arrow-down-red.svg'}
-						percentage={Number(githubStats?.percentageDifference)}
+						percentage={Number(githubStats?.percentageDifference || 0)}
 					/>
 				</>
 			)}
