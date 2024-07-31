@@ -43,7 +43,7 @@ function AddressInline({ address, addressDisplayText, className, startChars, end
 								text: address,
 								startChars,
 								endChars
-						  })
+							})
 						: address)}
 			</p>
 		</div>

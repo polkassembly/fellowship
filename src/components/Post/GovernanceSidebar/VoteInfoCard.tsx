@@ -32,7 +32,7 @@ function VoteInfoCard() {
 	return (
 		<>
 			<Card
-				className='bg-cardBg flex flex-col gap-6 border border-primary_border px-4 py-6'
+				className='flex flex-col gap-6 border border-primary_border bg-cardBg px-4 py-6'
 				shadow='none'
 				radius='lg'
 			>

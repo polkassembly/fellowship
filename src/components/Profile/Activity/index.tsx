@@ -36,7 +36,7 @@ function UserActivity({ address, activities }: Props) {
 	];
 
 	return (
-		<Card className='bg-cardBg rounded-[20px] border border-primary_border pb-4'>
+		<Card className='rounded-[20px] border border-primary_border bg-cardBg pb-4'>
 			<div className='flex items-center justify-between border-b border-primary_border px-4 py-6'>
 				<h5 className='text-base font-semibold leading-6 tracking-[0.16px]'>Activity</h5>
 				<Dropdown>

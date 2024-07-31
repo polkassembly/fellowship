@@ -21,7 +21,7 @@ function RFCPullRequestListingCard({ feedItem, cardClassName }: Props) {
 		<article className='max-w-[calc(100vw-300px)] xl:max-w-[calc(100vw-600px)]'>
 			<Card
 				shadow='none'
-				className={classNames('bg-cardBg border border-primary_border', cardClassName)}
+				className={classNames('border border-primary_border bg-cardBg', cardClassName)}
 				isHoverable
 				isPressable
 				as={LinkWithNetwork}

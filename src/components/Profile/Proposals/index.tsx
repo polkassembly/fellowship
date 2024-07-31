@@ -152,7 +152,7 @@ function ProfileProposals({ address }: Props) {
 	}, [type, address, network]);
 
 	return (
-		<Card className='bg-cardBg rounded-[20px] border border-primary_border'>
+		<Card className='rounded-[20px] border border-primary_border bg-cardBg'>
 			<div className='flex items-center justify-between border-b border-primary_border px-4 py-6'>
 				<Dropdown>
 					<DropdownTrigger>

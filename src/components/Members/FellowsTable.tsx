@@ -27,7 +27,7 @@ function FellowsTable({ className, fellows, fellowsDetails }: Props) {
 	return (
 		<>
 			<Table
-				className={`${className} [&>div]:bg-cardBg hidden h-[calc(100vh-200px)] overflow-y-auto md:table`}
+				className={`${className} hidden h-[calc(100vh-200px)] overflow-y-auto md:table [&>div]:bg-cardBg`}
 				aria-label='Fellows Table'
 				selectionMode='single'
 				isHeaderSticky
