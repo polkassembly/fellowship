@@ -22,7 +22,7 @@ function CastVoteCard() {
 	return (
 		<>
 			<Card
-				className='flex flex-col gap-3 border border-primary_border px-4 py-6'
+				className='bg-cardBg flex flex-col gap-3 border border-primary_border px-4 py-6'
 				shadow='none'
 				radius='lg'
 			>

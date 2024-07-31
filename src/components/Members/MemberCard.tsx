@@ -22,7 +22,7 @@ function MemberCard({ className, fellow, fellowDetails }: IMemberCardProps) {
 	return (
 		<LinkWithNetwork
 			href={`/address/${fellow.address}`}
-			className={`flex w-full flex-col gap-5 rounded-lg bg-content1 p-2.5 ${className}`}
+			className={`bg-cardBg flex w-full flex-col gap-5 rounded-lg p-2.5 ${className}`}
 		>
 			<div className='flex w-full items-center gap-2'>
 				<Address

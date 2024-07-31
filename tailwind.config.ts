@@ -45,7 +45,7 @@ const config: Config = {
 				},
 				dark: {
 					colors: {
-						background: '#151532', // the page background color
+						background: '#111D2B', // the page background color
 						foreground: '#FFFFFF', // the page text color
 						primary: {
 							foreground: '#FFFFFF',
@@ -53,7 +53,7 @@ const config: Config = {
 						},
 						secondary: {
 							foreground: '#FFFFFF',
-							DEFAULT: '#2D2D6C'
+							DEFAULT: '#21214F'
 						}
 					}
 				}

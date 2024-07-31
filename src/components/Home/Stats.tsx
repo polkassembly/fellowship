@@ -61,7 +61,7 @@ function Stats({ className }: { className?: string }) {
 
 	return (
 		<Card
-			className={`flex flex-col items-center gap-y-6 border border-primary_border p-6 ${className}`}
+			className={`bg-cardBg flex flex-col items-center gap-y-6 border border-primary_border p-6 ${className}`}
 			shadow='none'
 		>
 			<StatDisplay

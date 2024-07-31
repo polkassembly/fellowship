@@ -152,13 +152,13 @@ function ProfileProposals({ address }: Props) {
 	}, [type, address, network]);
 
 	return (
-		<Card className='rounded-[20px] border border-primary_border'>
+		<Card className='bg-cardBg rounded-[20px] border border-primary_border'>
 			<div className='flex items-center justify-between border-b border-primary_border px-4 py-6'>
 				<Dropdown>
 					<DropdownTrigger>
 						<Button
 							variant='bordered'
-							className='flex h-unit-8 justify-between border-1 border-primary_border px-3 text-sm font-medium'
+							className='h-unit-8 flex justify-between border-1 border-primary_border px-3 text-sm font-medium'
 						>
 							<span className='mr-3'>{types.find((t) => t.key === type)?.name || ''}</span>
 							<Image

@@ -48,7 +48,7 @@ function CommentsCard({ postId, proposalType }: Props) {
 	return (
 		<Card
 			shadow='none'
-			className='flex flex-col gap-6 border border-primary_border p-6'
+			className='bg-cardBg flex flex-col gap-6 border border-primary_border p-6'
 		>
 			<h2 className='text-base font-semibold'>
 				Comments <span className='text-xs font-normal'>({postComments.length})</span>

@@ -242,7 +242,7 @@ function ActivityListingCard({ feedItem }: Props) {
 		<article>
 			<Card
 				shadow='none'
-				className='flex flex-col gap-3 border border-primary_border px-6 py-4'
+				className='bg-cardBg flex flex-col gap-3 border border-primary_border px-6 py-4'
 			>
 				<div className='flex w-full gap-3 pb-3 text-sm'>{getActivityText()}</div>
 				<PostReactionInfoBar

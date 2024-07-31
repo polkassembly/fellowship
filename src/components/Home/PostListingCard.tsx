@@ -27,10 +27,10 @@ interface Props {
 
 function PostListingCard({ feedItem, cardClassName, isDividerDisabled }: Props) {
 	return (
-		<article className='w-full md:max-w-[calc(100vw-300px)] xl:max-w-[calc(100vw-600px)]'>
+		<article className='w-full lg:max-w-[calc(100vw-300px)] xl:max-w-[calc(100vw-600px)]'>
 			<Card
 				shadow='none'
-				className={classNames('border border-primary_border', cardClassName)}
+				className={classNames('bg-cardBg border border-primary_border', cardClassName)}
 				isHoverable
 				isPressable
 				as={LinkWithNetwork}
@@ -44,8 +44,8 @@ function PostListingCard({ feedItem, cardClassName, isDividerDisabled }: Props) 
 							feedItem.proposalType === ProposalType.FELLOWSHIP_REFERENDUMS && feedItem.on_chain_info?.status && VOTABLE_STATUSES.includes(feedItem.on_chain_info?.status)
 								? ActivityType.GENERAL_PROPOSAL
 								: feedItem.proposalType === ProposalType.DISCUSSIONS
-								? ActivityType.INDUCTION
-								: undefined
+									? ActivityType.INDUCTION
+									: undefined
 						}
 						address={feedItem.proposer_address}
 						username={feedItem.username}

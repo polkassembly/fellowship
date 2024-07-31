@@ -17,10 +17,11 @@ const THEME_COLORS = {
 		successModalHeaderBg: '#51D36E',
 		inductionAccordionHeaderBg: '#191042',
 		topFellowCardBg: '#FDEFFF',
-		rankRequestBtn: '#407BFF'
+		rankRequestBtn: '#407BFF',
+		cardBg: '#FFFFFF'
 	},
 	dark: {
-		primary_border: '#3F3F46',
+		primary_border: '#4B4B4B',
 		tooltip_background: '#363636',
 		tooltip_foreground: '#FFFFFF',
 		link: '#1B61FF',
@@ -33,7 +34,8 @@ const THEME_COLORS = {
 		successModalHeaderBg: '#51D36E',
 		inductionAccordionHeaderBg: '#191042',
 		topFellowCardBg: '#3F3F46',
-		rankRequestBtn: '#407BFF'
+		rankRequestBtn: '#407BFF',
+		cardBg: '#252B36'
 	}
 };
 

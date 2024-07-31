@@ -47,7 +47,7 @@ function ActivitySelectorCard({ value = EActivityFeed.ALL }: { value?: EActivity
 
 	return (
 		<Card
-			className='flex flex-col gap-y-3 border border-primary_border p-6'
+			className='bg-cardBg flex flex-col gap-y-3 border border-primary_border p-6'
 			shadow='none'
 			radius='lg'
 		>
@@ -87,7 +87,7 @@ function ActivitySelectorCard({ value = EActivityFeed.ALL }: { value?: EActivity
 						isIconOnly
 						radius='full'
 						size='sm'
-						className='absolute -right-3 flex items-center justify-center border border-primary_border bg-content1 shadow-lg md:hidden'
+						className='bg-cardBg absolute -right-3 flex items-center justify-center border border-primary_border shadow-lg md:hidden'
 					>
 						<Image
 							width={12}
@@ -105,7 +105,7 @@ function ActivitySelectorCard({ value = EActivityFeed.ALL }: { value?: EActivity
 						isIconOnly
 						radius='full'
 						size='sm'
-						className='absolute -right-3 flex items-center justify-center border border-primary_border bg-content1 shadow-lg md:hidden'
+						className='bg-cardBg absolute -right-3 flex items-center justify-center border border-primary_border shadow-lg md:hidden'
 					>
 						<Image
 							width={12}

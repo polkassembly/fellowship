@@ -57,7 +57,7 @@ function PostArticleCard({ className, onlyDescriptionTab }: Props) {
 		<article className={className}>
 			<Card
 				shadow='none'
-				className='flex flex-col gap-3 border border-primary_border pb-4 pt-6'
+				className='bg-cardBg flex flex-col gap-3 border border-primary_border pb-4 pt-6'
 			>
 				<div className='px-6'>
 					<ContentListingHeader
