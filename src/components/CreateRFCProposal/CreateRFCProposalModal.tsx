@@ -40,7 +40,7 @@ export default function CreateRFCProposalModal({ prItem }: Props) {
 	return (
 		<Modal
 			isOpen
-			className={`${!isOpen ? 'hidden' : ''}`}
+			className={`${!isOpen ? 'hidden' : ''} bg-cardBg`}
 			onClose={handleOnClose}
 			size='4xl'
 			scrollBehavior='inside'

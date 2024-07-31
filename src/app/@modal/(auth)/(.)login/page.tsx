@@ -25,6 +25,7 @@ function LoginModal() {
 			size='xl'
 			scrollBehavior='inside'
 			shouldBlockScroll
+			className='bg-cardBg'
 			classNames={{
 				wrapper: 'z-[999999]',
 				backdrop: 'z-[999999]'

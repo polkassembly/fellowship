@@ -55,6 +55,7 @@ function PostModal({ post }: Props) {
 				size='5xl'
 				scrollBehavior='inside'
 				shouldBlockScroll
+				className='bg-cardBg'
 			>
 				<ModalContent>
 					{() => (

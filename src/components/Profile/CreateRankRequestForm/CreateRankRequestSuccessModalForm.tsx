@@ -30,6 +30,7 @@ function CreateRankRequestSuccessModalForm({ successDetails }: Props) {
 			isOpen
 			size='xl'
 			onClose={handleOnClose}
+			className='bg-cardBg'
 		>
 			<ModalContent>
 				{() => (
