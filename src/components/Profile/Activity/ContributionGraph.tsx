@@ -12,7 +12,6 @@ import LoadingSpinner from '@/components/Misc/LoadingSpinner';
 import { getUserCommitHistory } from '@/utils/getUserCommitHistory';
 import Image from 'next/image';
 import dayjs from '@/services/dayjs-init';
-import { getColor } from '@/utils/getGraphContributionsColor';
 import { formatContributionDate } from '@/utils/formatContributionDate';
 
 const getCommitHistory = cache(getUserCommitHistory);
@@ -42,6 +41,14 @@ function ContributionGraph({ classNames = '', githubUsername, openProfileEdit }:
 	}, [githubUsername]);
 
 	if (error || !contributions) return <p>Error: {error ?? 'No contributions found!'}</p>;
+
+	const getColor = (count: number) => {
+		if (count === 0) return 'fill-contributionEmpty';
+		if (count < 5) return 'fill-contributionSm';
+		if (count < 10) return 'fill-contributionMd';
+		if (count < 20) return 'fill-contributionLg';
+		return 'fill-contributionXl';
+	};
 
 	const today = dayjs();
 	const lastYear = dayjs().subtract(1, 'year').add(1, 'day');
