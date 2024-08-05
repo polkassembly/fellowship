@@ -2,16 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import dayjs from '@/services/dayjs-init';
 import { FELLOWS_REPO } from '@/global/constants/fellowsRepo';
 
 export const getUserCommitHistory = async ({ username }: { username: string }) => {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	let allCommits: any[] = [];
 	let page = 1;
-	const currentDate = new Date();
-	const lastYearDate = new Date();
-	lastYearDate.setFullYear(currentDate.getFullYear() - 1);
-	lastYearDate.setDate(currentDate.getDate() + 1); // Include the current day last year
+	const currentDate = dayjs();
+	const lastYearDate = currentDate.subtract(1, 'year').add(1, 'day');
 
 	let fetchMore = true;
 
@@ -22,25 +21,23 @@ export const getUserCommitHistory = async ({ username }: { username: string }) =
 
 			if (!data.length) break;
 
-			const lastCommitDate = new Date(data[data.length - 1].commit.author.date);
+			const lastCommitDate = dayjs(data[data.length - 1].commit.author.date);
 
 			allCommits = [...allCommits, ...data];
 
-			// Check if the last commit is still within the last year
-			if (lastCommitDate < lastYearDate) {
+			if (lastCommitDate.isBefore(lastYearDate)) {
 				fetchMore = false;
 			}
 
 			page += 1;
 		}
 
-		// Filter out commits outside the last year range
-		allCommits = allCommits.filter((commit) => new Date(commit.commit.author.date) >= lastYearDate);
+		allCommits = allCommits.filter((commit) => dayjs(commit.commit.author.date).isSame(lastYearDate, 'day') || dayjs(commit.commit.author.date).isAfter(lastYearDate, 'day'));
 
 		const contributionsCount: { [key: string]: number } = {};
 
 		allCommits.forEach((commit) => {
-			const date = new Date(commit.commit.author.date).toISOString().split('T')[0];
+			const date = dayjs(commit.commit.author.date).format('YYYY-MM-DD');
 			if (!contributionsCount[date]) {
 				contributionsCount[date] = 0;
 			}
