@@ -117,6 +117,28 @@ export const GET_FELLOWSHIP_REFERENDUMS = gql`
 	}
 `;
 
+export const GET_TRENDING_PROPOSALS = gql`
+	query GET_TRENDING_PROPOSALS($limit: Int = 10, $offset: Int = 0, $who_eq: String, $status: [ProposalStatus!]) {
+		activities(where: { who_eq: $who_eq, proposal: { status_in: $status } }, limit: $limit, offset: $offset, orderBy: proposal_createdAt_DESC) {
+			type
+			proposal {
+				description
+				index
+				status
+				trackNumber
+				proposer
+				updatedAt
+				createdAt
+				tally {
+					ayes
+					nays
+				}
+			}
+			who
+		}
+	}
+`;
+
 export const GET_SALARY_PAYOUTS = gql`
 	query GET_SALARY_PAYOUTS($limit: Int = 10, $offset: Int = 0, $type_in: [ActivityType!], $who_eq: String) {
 		activities(where: { type_in: $type_in, who_eq: $who_eq }, limit: $limit, offset: $offset, orderBy: proposal_createdAt_DESC) {
