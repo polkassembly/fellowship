@@ -17,7 +17,12 @@ const THEME_COLORS = {
 		successModalHeaderBg: '#51D36E',
 		inductionAccordionHeaderBg: '#191042',
 		topFellowCardBg: '#FDEFFF',
-		rankRequestBtn: '#407BFF'
+		rankRequestBtn: '#407BFF',
+		contributionEmpty: '#ebedf0',
+		contributionSm: '#9be9a8',
+		contributionMd: '#40c463',
+		contributionLg: '#30a14e',
+		contributionXl: '#216e39'
 	},
 	dark: {
 		primary_border: '#3F3F46',
@@ -33,7 +38,12 @@ const THEME_COLORS = {
 		successModalHeaderBg: '#51D36E',
 		inductionAccordionHeaderBg: '#191042',
 		topFellowCardBg: '#3F3F46',
-		rankRequestBtn: '#407BFF'
+		rankRequestBtn: '#407BFF',
+		contributionEmpty: '#161b22',
+		contributionSm: '#0e4429',
+		contributionMd: '#006d32',
+		contributionLg: '#26a641',
+		contributionXl: '#39d353'
 	}
 };
 
