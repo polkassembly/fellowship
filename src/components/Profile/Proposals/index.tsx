@@ -189,7 +189,7 @@ function ProfileProposals({ address }: Props) {
 						{type === EProfileProposals.SALARY_REQUESTS && fellows.find((fellow) => fellow.address === routeSubstrateAddress) && (
 							<LinkWithNetwork
 								href={`/address/${address}/salary-induction`}
-								className='bg-primary_accent flex items-center gap-x-[6px] rounded-[39px] border border-primary px-3 py-1 text-sm font-medium leading-[21px] tracking-[0.21px] text-white'
+								className='flex items-center gap-x-[6px] rounded-[39px] border border-primary bg-primary_accent px-3 py-1 text-sm font-medium leading-[21px] tracking-[0.21px] text-white'
 							>
 								Induct
 							</LinkWithNetwork>
@@ -197,7 +197,7 @@ function ProfileProposals({ address }: Props) {
 						{type === EProfileProposals.RANK_REQUESTS && (
 							<LinkWithNetwork
 								href={`/address/${address}/create-rank-request`}
-								className='bg-primary_accent flex items-center gap-x-[6px] rounded-[39px] border border-primary px-3 py-1 text-sm font-medium leading-[21px] tracking-[0.21px] text-white'
+								className='flex items-center gap-x-[6px] rounded-[39px] border border-primary bg-primary_accent px-3 py-1 text-sm font-medium leading-[21px] tracking-[0.21px] text-white'
 							>
 								<>
 									<Image

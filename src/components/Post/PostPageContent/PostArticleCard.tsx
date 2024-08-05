@@ -69,7 +69,7 @@ function PostArticleCard({ className, onlyDescriptionTab }: Props) {
 				</div>
 
 				<section className='mt-1 flex gap-2 px-6'>
-					<p className='text-secondaryText mt-0.5 text-base font-normal'>#{postData.id}</p>
+					<p className='mt-0.5 text-base font-normal text-secondaryText'>#{postData.id}</p>
 					<article className='flex flex-col gap-1'>
 						<h2 className='text-lg font-semibold md:text-xl'>{postData.title}</h2>
 						{postData.tags.length > 0 && <PostTags tags={postData.tags} />}

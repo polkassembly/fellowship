@@ -104,7 +104,7 @@ function JoinFellowshipModal() {
 											handleSubmit();
 										}
 									}}
-									className='bg-primary_accent flex flex-1 rounded-3xl text-sm'
+									className='flex flex-1 rounded-3xl bg-primary_accent text-sm'
 								>
 									{isPreview ? (
 										'Submit Application'

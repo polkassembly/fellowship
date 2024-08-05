@@ -148,7 +148,7 @@ function ProfileAddressDetails(props: Props) {
 										<DropdownTrigger>
 											<Button
 												variant='solid'
-												className='bg-primary_accent flex h-auto items-center justify-between border-none p-0 px-2 py-0.5 text-white'
+												className='flex h-auto items-center justify-between border-none bg-primary_accent p-0 px-2 py-0.5 text-white'
 											>
 												<span className='text-xs font-normal leading-[18px] tracking-[0.33px]'>{activeStatus}</span>
 												<Image
