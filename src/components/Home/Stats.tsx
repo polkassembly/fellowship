@@ -10,7 +10,7 @@ import { Divider } from '@nextui-org/divider';
 
 import Image from 'next/image';
 import { useApiContext } from '@/contexts';
-import { getGithubMonthlyStats } from '@/app/api/v1/github/getGithubMonthlyStats';
+import { getGithubMonthlyStats } from '@/utils/getGithubMonthlyStats';
 import LoadingSpinner from '../Misc/LoadingSpinner';
 
 function StatDisplay({ heroImg, title, value, icon, percentage }: { heroImg: string; title: string; value: number; icon?: string; percentage?: number }) {

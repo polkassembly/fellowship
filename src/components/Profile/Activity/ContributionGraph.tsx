@@ -9,7 +9,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Tooltip } from '@nextui-org/tooltip';
 import LoadingSpinner from '@/components/Misc/LoadingSpinner';
-import { getUserCommitHistory } from '@/app/api/v1/github/getUserCommitHistory';
+import { getUserCommitHistory } from '@/utils/getUserCommitHistory';
 import Image from 'next/image';
 
 function ContributionGraph({ classNames = '', githubUsername, openProfileEdit }: { classNames?: string; githubUsername: string; openProfileEdit: () => void }) {
