@@ -5,6 +5,7 @@
 const THEME_COLORS = {
 	light: {
 		primary_border: '#D2D8E0',
+		primary_accent: '#E5007A',
 		tooltip_background: '#363636',
 		tooltip_foreground: '#FFFFFF',
 		link: '#1B61FF',
@@ -24,6 +25,7 @@ const THEME_COLORS = {
 	},
 	dark: {
 		primary_border: '#4B4B4B',
+		primary_accent: '#C30068',
 		tooltip_background: '#363636',
 		tooltip_foreground: '#FFFFFF',
 		link: '#1B61FF',

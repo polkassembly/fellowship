@@ -49,7 +49,7 @@ const config: Config = {
 						foreground: '#FFFFFF', // the page text color
 						primary: {
 							foreground: '#FFFFFF',
-							DEFAULT: '#C30068'
+							DEFAULT: '#FF60B5'
 						},
 						secondary: {
 							foreground: '#FFFFFF',

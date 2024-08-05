@@ -109,7 +109,7 @@ function Manifesto({ manifesto: prevManifesto, address }: Props) {
 							Cancel
 						</Button>
 						<Button
-							className='bg-primary text-white'
+							className='bg-primary_accent text-white'
 							size='sm'
 							onClick={onSave}
 							isLoading={loading}

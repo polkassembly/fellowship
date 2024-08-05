@@ -57,7 +57,7 @@ function RPCDropdown({ closeMenu }: { closeMenu: () => void }) {
 				{rpcEndpoints.map((item: TRPCEndpoint) => (
 					<DropdownItem
 						key={item.key}
-						className={currentRPC.key === item.key ? 'bg-primary/10 text-primary dark:bg-primary dark:text-white' : ''}
+						className={currentRPC.key === item.key ? 'bg-primary_accent/10 dark:bg-primary_accent text-primary dark:text-white' : ''}
 					>
 						{item.label}
 					</DropdownItem>

@@ -19,7 +19,7 @@ const classNameMap = {
 	warning: 'bg-yellow-300/50 border-yellow-300 text-yellow',
 	info: 'bg-blue-300/50 border-blue-300 text-foreground',
 	success: 'bg-green-300/50 border-green-300 text-green',
-	default: 'bg-primary/10 border-primary_border text-primary'
+	default: 'bg-primary_accent/10 border-primary_border text-primary'
 };
 
 const iconMap = {

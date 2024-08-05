@@ -226,7 +226,7 @@ function ListingItem({ feedItem, isLastItem }: ListingItemProps) {
 		<LinkWrapper index={feedItem?.proposal?.index}>
 			<div className='relative'>
 				<ActivityIcon feedItem={feedItem} />
-				{!isLastItem ? <div className='absolute left-4 top-9 h-[calc(100%-36px)] w-[1px] bg-primary_border' /> : null}
+				{!isLastItem ? <div className='bg-primary_accent_border absolute left-4 top-9 h-[calc(100%-36px)] w-[1px]' /> : null}
 			</div>
 			<div className='flex-1 pl-4'>
 				<ActivityText feedItem={feedItem} />

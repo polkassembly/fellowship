@@ -3,12 +3,11 @@
 }
 
 .navListboxItemHover {
-	@apply text-primary;
-	background-color: hsl(var(--nui-primary) / 0.2);
+	@apply text-primary_accent bg-primary_accent/20;
 }
 
 .appNavbar {
-	@apply bg-cardBg mb-6 flex h-[52px] w-full items-center justify-between gap-x-4 rounded-[14px] border border-primary_border px-4 py-2.5;
+	@apply mb-6 flex h-[52px] w-full items-center justify-between gap-x-4 rounded-[14px] border border-primary_border bg-cardBg px-4 py-2.5;
 }
 
 .navMobileHeader {

@@ -261,7 +261,7 @@ function LoginForm({ onClose }: { onClose?: () => void }) {
 						<div className='flex justify-center'>
 							<Button
 								color='primary'
-								className='w-3/6'
+								className='bg-primary_accent w-3/6'
 								type='submit'
 								isLoading={loading}
 							>
@@ -311,7 +311,7 @@ function LoginForm({ onClose }: { onClose?: () => void }) {
 
 					<Button
 						color='primary'
-						className='mx-auto w-3/6'
+						className='bg-primary_accent mx-auto w-3/6'
 						type='button'
 						isLoading={loading}
 						onPress={onWalletLogin}
