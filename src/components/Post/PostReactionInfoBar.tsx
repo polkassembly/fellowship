@@ -14,7 +14,7 @@ interface Props {
 
 function PostReactionInfoBar({ commentCount = 0, latestReaction, totalReactions = 0 }: Props) {
 	return (
-		<section className='flex justify-between text-xs'>
+		<section className='text-secondaryText flex justify-between text-xs'>
 			<ReactionSummary
 				latestReaction={latestReaction}
 				totalReactions={totalReactions}

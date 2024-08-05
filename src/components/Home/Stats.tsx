@@ -10,7 +10,21 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useApiContext } from '@/contexts';
 
-function StatDisplay({ heroImg, title, value, icon, percentage }: { heroImg: string; title: string; value: number; icon?: string; percentage?: number }) {
+function StatDisplay({
+	heroImg,
+	title,
+	value,
+	icon,
+	percentage,
+	isIncrease
+}: {
+	heroImg: string;
+	title: string;
+	value: number;
+	icon?: string;
+	percentage?: number;
+	isIncrease?: boolean;
+}) {
 	return (
 		<div className='flex w-full flex-row items-center'>
 			<div className='min-w-max rounded-xl border-2 border-primary_border p-1'>
@@ -23,7 +37,7 @@ function StatDisplay({ heroImg, title, value, icon, percentage }: { heroImg: str
 				/>
 			</div>
 			<div className='ml-3 flex flex-col'>
-				<small className='text-sm font-normal'>{title}</small>
+				<small className='text-secondaryText text-sm font-normal'>{title}</small>
 				<p className='text-2xl font-semibold'>{value}</p>
 				{percentage && (
 					<small className='flex items-center text-xs font-normal'>
@@ -35,8 +49,8 @@ function StatDisplay({ heroImg, title, value, icon, percentage }: { heroImg: str
 								height={20}
 							/>
 						)}
-						<span className='ml-1'>
-							<b>{percentage}%</b> this month
+						<span className='text-secondaryText ml-1'>
+							<b className={isIncrease ? 'text-statsGreen' : 'text-voteNay'}>{percentage}%</b> this month
 						</span>
 					</small>
 				)}

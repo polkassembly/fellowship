@@ -48,7 +48,7 @@ function RFCPullRequestListingCard({ feedItem, cardClassName }: Props) {
 					</div>
 
 					<section className='flex gap-2'>
-						<p className='mt-0.5 text-xs font-normal text-slate-500'>#{feedItem.id}</p>
+						<p className='text-secondaryText mt-0.5 text-xs font-normal'>#{feedItem.id}</p>
 						<article className='flex flex-col gap-1'>
 							<h2 className='text-sm font-medium'>{feedItem.title}</h2>
 						</article>

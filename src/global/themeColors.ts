@@ -18,7 +18,9 @@ const THEME_COLORS = {
 		inductionAccordionHeaderBg: '#191042',
 		topFellowCardBg: '#FDEFFF',
 		rankRequestBtn: '#407BFF',
-		cardBg: '#FFFFFF'
+		cardBg: '#FFFFFF',
+		secondaryText: '#485F7D',
+		statsGreen: '#00AC4F'
 	},
 	dark: {
 		primary_border: '#4B4B4B',
@@ -35,7 +37,9 @@ const THEME_COLORS = {
 		inductionAccordionHeaderBg: '#191042',
 		topFellowCardBg: '#3F3F46',
 		rankRequestBtn: '#407BFF',
-		cardBg: '#252B36'
+		cardBg: '#252B36',
+		secondaryText: '#9E9E9E',
+		statsGreen: '#00AC4F'
 	}
 };
 
