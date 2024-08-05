@@ -5,7 +5,7 @@
 'use client';
 
 import { Card } from '@nextui-org/card';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, cache } from 'react';
 import { Divider } from '@nextui-org/divider';
 
 import Image from 'next/image';
@@ -13,7 +13,9 @@ import { useApiContext } from '@/contexts';
 import { getGithubMonthlyStats } from '@/utils/getGithubMonthlyStats';
 import LoadingSpinner from '../Misc/LoadingSpinner';
 
-function StatDisplay({ heroImg, title, value, icon, percentage }: { heroImg: string; title: string; value: number; icon?: string; percentage?: number }) {
+const getGithubStats = cache(getGithubMonthlyStats);
+
+function StatDisplay({ heroImg, title, value, icon, percentage }: Readonly<{ heroImg: string; title: string; value: number; icon?: string; percentage?: number }>) {
 	return (
 		<div className='flex w-full flex-row items-center'>
 			<div className='min-w-max rounded-xl border-2 border-primary_border p-1'>
@@ -48,7 +50,7 @@ function StatDisplay({ heroImg, title, value, icon, percentage }: { heroImg: str
 	);
 }
 
-function Stats({ className }: { className?: string }) {
+function Stats({ className }: Readonly<{ className?: string }>) {
 	const { api, apiReady } = useApiContext();
 
 	const [memberCount, setMemberCount] = useState(0);
@@ -64,7 +66,7 @@ function Stats({ className }: { className?: string }) {
 			if (!api || !apiReady) return;
 
 			try {
-				const [count, githubStats] = await Promise.all([api.query.fellowshipCollective.memberCount(0), getGithubMonthlyStats()]);
+				const [count, githubStats] = await Promise.all([api.query.fellowshipCollective.memberCount(0), getGithubStats()]);
 
 				setMemberCount(Number(count.toString()));
 				setGithubStats(githubStats);
@@ -98,9 +100,9 @@ function Stats({ className }: { className?: string }) {
 					<StatDisplay
 						heroImg='/icons/stats-github.svg'
 						title='Github commits'
-						value={githubStats?.totalContributionsCount || 0}
+						value={githubStats?.totalContributionsCount ?? 0}
 						icon={githubStats?.isIncrease ? '/icons/arrow-up-green.svg' : '/icons/arrow-down-red.svg'}
-						percentage={Number(githubStats?.percentageDifference || 0)}
+						percentage={Number(githubStats?.percentageDifference ?? 0)}
 					/>
 				</>
 			)}

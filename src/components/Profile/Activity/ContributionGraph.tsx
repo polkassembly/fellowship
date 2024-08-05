@@ -5,7 +5,7 @@
 'use client';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, cache } from 'react';
 import Link from 'next/link';
 import { Tooltip } from '@nextui-org/tooltip';
 import LoadingSpinner from '@/components/Misc/LoadingSpinner';
@@ -15,7 +15,9 @@ import dayjs from '@/services/dayjs-init';
 import { getColor } from '@/utils/getGraphContributionsColor';
 import { formatContributionDate } from '@/utils/formatContributionDate';
 
-function ContributionGraph({ classNames = '', githubUsername, openProfileEdit }: { classNames?: string; githubUsername: string; openProfileEdit: () => void }) {
+const getCommitHistory = cache(getUserCommitHistory);
+
+function ContributionGraph({ classNames = '', githubUsername, openProfileEdit }: Readonly<{ classNames?: string; githubUsername: string; openProfileEdit: () => void }>) {
 	const [contributions, setContributions] = useState<any[]>([]);
 	const [totalContributionsCount, setTotalContributionsCount] = useState(0);
 	const [loading, setLoading] = useState(true);
@@ -25,7 +27,7 @@ function ContributionGraph({ classNames = '', githubUsername, openProfileEdit }:
 		const fetchContributions = async () => {
 			try {
 				setLoading(true);
-				const { contributions, totalContributionsCount } = await getUserCommitHistory({ username: githubUsername });
+				const { contributions, totalContributionsCount } = await getCommitHistory({ username: githubUsername });
 
 				setContributions(contributions);
 				setTotalContributionsCount(totalContributionsCount);
@@ -39,7 +41,7 @@ function ContributionGraph({ classNames = '', githubUsername, openProfileEdit }:
 		fetchContributions();
 	}, [githubUsername]);
 
-	if (error || !contributions) return <p>Error: {error || 'No contributions found!'}</p>;
+	if (error || !contributions) return <p>Error: {error ?? 'No contributions found!'}</p>;
 
 	const today = dayjs();
 	const lastYear = dayjs().subtract(1, 'year').add(1, 'day');
