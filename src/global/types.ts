@@ -642,3 +642,15 @@ export type PjsCalendarItem = PjsCalendarItemDuration & {
 	type: string;
 	data: { [key: string]: unknown };
 };
+
+export interface TrendingProposalItem {
+	id: number;
+	title: string;
+	status: ProposalStatus;
+	created_at: Date;
+	updated_at: Date;
+	total_votes_count: number;
+	proposer_address?: string;
+	proposalType: ProposalType;
+	isPassing: boolean;
+}
