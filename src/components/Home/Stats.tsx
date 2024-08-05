@@ -37,7 +37,7 @@ function StatDisplay({
 				/>
 			</div>
 			<div className='ml-3 flex flex-col'>
-				<small className='text-secondaryText text-sm font-normal'>{title}</small>
+				<small className='text-sm font-normal text-secondaryText'>{title}</small>
 				<p className='text-2xl font-semibold'>{value}</p>
 				{percentage && (
 					<small className='flex items-center text-xs font-normal'>
@@ -49,7 +49,7 @@ function StatDisplay({
 								height={20}
 							/>
 						)}
-						<span className='text-secondaryText ml-1'>
+						<span className='ml-1 text-secondaryText'>
 							<b className={isIncrease ? 'text-statsGreen' : 'text-voteNay'}>{percentage}%</b> this month
 						</span>
 					</small>

@@ -34,7 +34,7 @@ function ContentListingHeader({ className = '', index, postId, activityType, add
 	return (
 		<div className={`flex flex-col items-center gap-2.5 text-sm md:h-[26px] md:flex-row ${className}`}>
 			<div className='flex w-full items-center gap-1 md:hidden'>
-				{index && <p className='text-secondaryText mt-0.5 text-xs font-normal md:hidden'>#{index}</p>}
+				{index && <p className='mt-0.5 text-xs font-normal text-secondaryText md:hidden'>#{index}</p>}
 				{activityType && <ActivityTypeChip type={activityType} />}
 				{status && (
 					<StatusChip
@@ -45,7 +45,7 @@ function ContentListingHeader({ className = '', index, postId, activityType, add
 			</div>
 
 			<div className={`flex w-full gap-2.5 md:w-auto ${address || username ? 'flex-col' : 'flex-row'} md:h-[26px] md:flex-row`}>
-				<span className={`flex ${address || username ? 'w-full' : 'mr-4 w-auto'} text-secondaryText items-center justify-between gap-2.5 md:w-auto md:justify-normal`}>
+				<span className={`flex ${address || username ? 'w-full' : 'mr-4 w-auto'} items-center justify-between gap-2.5 text-secondaryText md:w-auto md:justify-normal`}>
 					{(address || username) && (
 						<>
 							<UserIdentity

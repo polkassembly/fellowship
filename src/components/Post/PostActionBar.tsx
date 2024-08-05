@@ -86,7 +86,7 @@ function PostActionBar(props: Props) {
 	};
 
 	return (
-		<section className={`${className} text-secondaryText flex items-center justify-between`}>
+		<section className={`${className} flex items-center justify-between text-secondaryText`}>
 			<div className='flex items-center gap-0.5'>
 				<AddReactionBtn
 					postId={postId}

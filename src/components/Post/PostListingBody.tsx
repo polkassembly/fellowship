@@ -19,7 +19,7 @@ interface Props {
 function PostListingBody({ className = '', index = 0, title = '', content = '', tags = [] }: Props) {
 	return (
 		<section className={`flex gap-2 ${className}`}>
-			<p className='text-secondaryText mt-0.5 hidden text-xs font-normal md:block'>#{index}</p>
+			<p className='mt-0.5 hidden text-xs font-normal text-secondaryText md:block'>#{index}</p>
 			<article className='flex w-full flex-col gap-1'>
 				<h2 className='text-sm font-medium'>{title}</h2>
 				{content && (
