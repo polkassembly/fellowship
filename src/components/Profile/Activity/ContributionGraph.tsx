@@ -11,6 +11,7 @@ import { Tooltip } from '@nextui-org/tooltip';
 import LoadingSpinner from '@/components/Misc/LoadingSpinner';
 import { getUserCommitHistory } from '@/utils/getUserCommitHistory';
 import Image from 'next/image';
+import dayjs from '@/services/dayjs-init';
 
 function ContributionGraph({ classNames = '', githubUsername, openProfileEdit }: { classNames?: string; githubUsername: string; openProfileEdit: () => void }) {
 	const [contributions, setContributions] = useState<any[]>([]);
@@ -46,14 +47,12 @@ function ContributionGraph({ classNames = '', githubUsername, openProfileEdit }:
 
 	if (error || !contributions) return <p>Error: {error || 'No contributions found!'}</p>;
 
-	const today = new Date();
-	const lastYear = new Date(today);
-	lastYear.setFullYear(today.getFullYear() - 1);
-	lastYear.setDate(today.getDate() + 1);
+	const today = dayjs();
+	const lastYear = dayjs().subtract(1, 'year').add(1, 'day');
 
 	const days = [];
-	for (let day = new Date(lastYear); day <= today; day.setDate(day.getDate() + 1)) {
-		const dateStr = day.toISOString().split('T')[0];
+	for (let day = lastYear; day.isBefore(today) || day.isSame(today); day = day.add(1, 'day')) {
+		const dateStr = day.format('YYYY-MM-DD');
 		const contribution = contributions.find((c) => c.date === dateStr);
 		days.push({
 			date: dateStr,
@@ -128,7 +127,7 @@ function ContributionGraph({ classNames = '', githubUsername, openProfileEdit }:
 								{months.map((month) => (
 									<text
 										key={month.name}
-										x={month.offset <= 12 ? month.offset * 5 : month.offset + 48}
+										x={month.offset <= 12 ? month.offset * 2 : month.offset}
 										y='-5'
 										className='fill-gray-500 text-[10px]'
 									>
