@@ -36,7 +36,7 @@ export default function CreateRFCProposal() {
 	const [focusedDate, setFocusedDate] = useState<Date>(new Date());
 
 	useEffect(() => {
-		if (!api || !apiReady || ['polymesh'].includes(network)) {
+		if (!api || !apiReady) {
 			return;
 		}
 
