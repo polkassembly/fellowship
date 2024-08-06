@@ -2,8 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Client, fetchExchange } from '@urql/core';
-import { cacheExchange } from '@urql/exchange-graphcache';
+import { cacheExchange, Client, fetchExchange } from '@urql/core';
 
 export const urqlClientGithub = () => {
 	const { GITHUB_TOKEN } = process.env;
@@ -14,7 +13,7 @@ export const urqlClientGithub = () => {
 
 	return new Client({
 		url: 'https://api.github.com/graphql',
-		exchanges: [cacheExchange(), fetchExchange],
+		exchanges: [cacheExchange, fetchExchange],
 		fetchOptions: {
 			headers: {
 				Authorization: `Bearer ${GITHUB_TOKEN}`

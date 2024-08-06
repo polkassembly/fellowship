@@ -60,7 +60,7 @@ function Address(props: Props) {
 				text: encodedAddress,
 				startChars: props.truncateCharLen,
 				endChars: props.truncateCharLen
-		  })
+			})
 		: encodedAddress;
 
 	const truncatedUsername = props.truncateCharLen
@@ -68,7 +68,7 @@ function Address(props: Props) {
 				text: onChainUsername,
 				startChars: 10,
 				endChars: 10
-		  })
+			})
 		: onChainUsername;
 
 	switch (props.variant) {

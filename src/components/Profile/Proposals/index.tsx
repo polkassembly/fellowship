@@ -158,7 +158,7 @@ function ProfileProposals({ address }: Props) {
 					<DropdownTrigger>
 						<Button
 							variant='bordered'
-							className='flex h-unit-8 justify-between border-1 border-primary_border px-3 text-sm font-medium'
+							className='h-unit-8 flex justify-between border-1 border-primary_border px-3 text-sm font-medium'
 						>
 							<span className='mr-3'>{types.find((t) => t.key === type)?.name || ''}</span>
 							<Image

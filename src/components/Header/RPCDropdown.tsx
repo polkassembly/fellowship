@@ -29,7 +29,7 @@ function RPCDropdown({ closeMenu }: { closeMenu: () => void }) {
 			<DropdownTrigger>
 				<Button
 					variant='bordered'
-					className='flex h-unit-10 gap-2 rounded-lg border-1 border-primary_border px-5 text-sm font-medium lg:h-unit-8 lg:rounded-full lg:px-0'
+					className='h-unit-10 lg:h-unit-8 flex gap-2 rounded-lg border-1 border-primary_border px-5 text-sm font-medium lg:rounded-full lg:px-0'
 				>
 					<Image
 						alt='signal icon'
