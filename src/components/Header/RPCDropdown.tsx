@@ -29,7 +29,8 @@ function RPCDropdown({ closeMenu }: { closeMenu: () => void }) {
 			<DropdownTrigger>
 				<Button
 					variant='bordered'
-					className='h-unit-10 lg:h-unit-8 flex gap-2 rounded-lg border-1 border-primary_border px-5 text-sm font-medium lg:rounded-full lg:px-0'
+					// eslint-disable-next-line prettier/prettier
+					className='h-unit-10 lg:h-unit-8 flex gap-2 rounded-lg border-1 border-primary_border px-5 text-sm font-medium lg:rounded-2xl'
 				>
 					<Image
 						alt='signal icon'
@@ -57,7 +58,8 @@ function RPCDropdown({ closeMenu }: { closeMenu: () => void }) {
 				{rpcEndpoints.map((item: TRPCEndpoint) => (
 					<DropdownItem
 						key={item.key}
-						className={currentRPC.key === item.key ? 'bg-primary_accent/10 text-primary dark:bg-primary_accent dark:text-white' : ''}
+						// eslint-disable-next-line prettier/prettier
+						className={currentRPC.key === item.key ? 'bg-primary_accent/10 dark:bg-primary_accent text-primary dark:text-white' : ''}
 					>
 						{item.label}
 					</DropdownItem>

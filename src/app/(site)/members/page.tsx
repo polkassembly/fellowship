@@ -83,6 +83,7 @@ function MembersPage() {
 						onClick={() => setSelectedRankGroup(null)}
 						color={!selectedRankGroup ? 'primary' : 'default'}
 						variant='bordered'
+						// eslint-disable-next-line prettier/prettier
 						className='h-10 max-h-10 min-h-10 cursor-pointer rounded-xl border-1'
 					>
 						<span className='text-xs font-semibold'>All ({fellows.length})</span>
@@ -93,6 +94,7 @@ function MembersPage() {
 							color={selectedRankGroup === rankGroup ? 'primary' : 'default'}
 							key={rankGroup}
 							variant='bordered'
+							// eslint-disable-next-line prettier/prettier
 							className='h-10 max-h-10 min-h-10 cursor-pointer gap-1 rounded-xl border-1 px-6'
 							onClick={() => setSelectedRankGroup(rankGroup)}
 						>
