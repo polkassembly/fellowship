@@ -4,13 +4,25 @@
 
 'use client';
 
+import { CHANNEL, INetworkPreferences } from '@/global/types';
 import EmailNotificationCard from './EmailNotificationCard';
 import BotChannelsCard from './BotChannelsCard';
 
-export default function NotificationChannels() {
+export default function NotificationChannels({
+	toggleChannelPreferences,
+	networkPreferences
+}: {
+	toggleChannelPreferences: (channel: CHANNEL, enabled: boolean) => void;
+	networkPreferences: INetworkPreferences;
+}) {
 	return (
 		<div>
-			<EmailNotificationCard />
+			<EmailNotificationCard
+				email={networkPreferences?.channelPreferences?.[CHANNEL.EMAIL]?.handle || ''}
+				isEmailVerified={networkPreferences?.channelPreferences?.[CHANNEL.EMAIL]?.verified || false}
+				notificationEnabled={networkPreferences?.channelPreferences?.[CHANNEL.EMAIL]?.enabled || false}
+				toggleChannelPreferences={toggleChannelPreferences}
+			/>
 			<BotChannelsCard />
 		</div>
 	);

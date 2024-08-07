@@ -231,6 +231,7 @@ export interface INetworkPreferences {
 			verification_token_expires?: Date;
 			enabled?: boolean;
 			handle?: string;
+			verified?: boolean;
 		};
 	};
 	triggerPreferences: {

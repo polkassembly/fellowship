@@ -10,7 +10,7 @@ import React, { useEffect, useState } from 'react';
 import { Accordion, AccordionItem } from '@nextui-org/accordion';
 import Image from 'next/image';
 import nextApiClientFetch from '@/utils/nextApiClientFetch';
-import { Network, CHANNEL } from '@/global/types';
+import { Network, CHANNEL, INetworkPreferences } from '@/global/types';
 import { useApiContext, useUserDetailsContext } from '@/contexts';
 import SectionTitle from './common-ui/SectionTitle';
 import NotificationChannels from './NotificationChannels';
@@ -29,7 +29,8 @@ const accordionItemClassNames = {
 
 export default function Notifications() {
 	const { network } = useApiContext();
-	const { networkPreferences: currNetworkPreferences, setUserDetailsContextState } = useUserDetailsContext();
+	const { networkPreferences: defaultNetworkPreferences, setUserDetailsContextState } = useUserDetailsContext();
+	const [currNetworkPreferences, setNetworkPreferences] = useState<INetworkPreferences>(defaultNetworkPreferences);
 	const [loading, setLoading] = useState(true);
 
 	const getNotificationSettings = async (network: string) => {
@@ -55,7 +56,6 @@ export default function Notifications() {
 			}
 			if (data?.notification_preferences?.triggerPreferences) {
 				networkPreferences = {
-					...currNetworkPreferences,
 					...networkPreferences,
 					triggerPreferences: data?.notification_preferences?.triggerPreferences
 				};
@@ -63,6 +63,7 @@ export default function Notifications() {
 					...currentUser,
 					networkPreferences
 				}));
+				setNetworkPreferences(networkPreferences);
 			}
 			setLoading(false);
 		} catch (e) {
@@ -141,7 +142,10 @@ export default function Notifications() {
 					/>
 				}
 			>
-				<NotificationChannels />
+				<NotificationChannels
+					toggleChannelPreferences={toggleChannelPreferences}
+					networkPreferences={currNetworkPreferences}
+				/>
 			</AccordionItem>
 
 			<AccordionItem
