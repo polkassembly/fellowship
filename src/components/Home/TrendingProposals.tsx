@@ -70,17 +70,29 @@ function TrendingProposals({ proposals }: { proposals: TrendingProposalItem[] })
 				<span className='text-base font-semibold'>Trending Proposals</span>
 			</h2>
 
-			{proposals.map((proposal, index) => (
-				<ProposalListingItem
-					key={proposal.title}
-					index={index + 1}
-					title={proposal.title}
-					status={proposal.status || ProposalStatus.Deciding}
-					votePercentage={Math.round((proposal.total_votes_count / fellows.length) * 100) || 0}
-					url={`/${getSinglePostLinkFromProposalType(proposal.proposalType)}/${proposal.id}`}
-					isPassing={proposal.isPassing}
-				/>
-			))}
+			{proposals.length > 0 ? (
+				proposals.map((proposal, index) => (
+					<ProposalListingItem
+						key={proposal.title}
+						index={index + 1}
+						title={proposal.title}
+						status={proposal.status || ProposalStatus.Deciding}
+						votePercentage={Math.round((proposal.total_votes_count / fellows.length) * 100) || 0}
+						url={`/${getSinglePostLinkFromProposalType(proposal.proposalType)}/${proposal.id}`}
+						isPassing={proposal.isPassing}
+					/>
+				))
+			) : (
+				<div className='flex flex-col items-center justify-center gap-5 p-5'>
+					<Image
+						alt='No trending proposals'
+						height={100}
+						src='/icons/empty-states/general-proposals.svg'
+						width={100}
+					/>
+					<p className='py-3 text-center text-sm'>No trending proposals. Check back later!</p>
+				</div>
+			)}
 		</Card>
 	);
 }
