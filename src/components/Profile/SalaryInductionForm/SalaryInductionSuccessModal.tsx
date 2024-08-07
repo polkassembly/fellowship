@@ -32,6 +32,7 @@ function SalaryInductionSuccessModal({ address, isInduction, isRegistration }: P
 			isOpen
 			size='xl'
 			onClose={handleOnClose}
+			className='bg-cardBg'
 		>
 			<ModalContent>
 				{() => (

@@ -69,6 +69,7 @@ function EditSocialModal({ isOpen, onOpenChange, socialLinks, setSocialLinks, lo
 			onOpenChange={onOpenChange}
 			scrollBehavior='inside'
 			size='lg'
+			className='bg-cardBg'
 		>
 			<ModalContent>
 				{(onClose) => (
@@ -133,7 +134,7 @@ function EditSocialModal({ isOpen, onOpenChange, socialLinks, setSocialLinks, lo
 
 						<ModalFooter>
 							<Button
-								color='danger'
+								color='primary'
 								variant='light'
 								onPress={onClose}
 							>

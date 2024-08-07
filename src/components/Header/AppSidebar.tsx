@@ -172,7 +172,7 @@ function AppSidebar() {
 						return (
 							<ListboxItem
 								id='nav-listbox-item'
-								className={`mb-3 h-[40px] rounded-none hover:bg-transparent ${navItem.subItem && '-mt-3'} ${isParentItem && isCurrentRoute && 'text-primary'} ${
+								className={`mb-3 h-[40px] rounded-none hover:bg-transparent ${navItem.subItem && '-mt-3'} ${isParentItem && isCurrentRoute && 'text-primary_accent'} ${
 									isCurrentRoute && !isParentItem && styles.navListboxItemHover
 								}`}
 								key={navItem.url}

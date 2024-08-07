@@ -40,6 +40,7 @@ function JoinFellowshipModal() {
 			size='4xl'
 			scrollBehavior='inside'
 			shouldBlockScroll
+			className='bg-cardBg'
 		>
 			<ModalContent>
 				{() =>
@@ -103,7 +104,7 @@ function JoinFellowshipModal() {
 											handleSubmit();
 										}
 									}}
-									className='flex flex-1 rounded-3xl text-sm'
+									className='flex flex-1 rounded-3xl bg-primary_accent text-sm'
 								>
 									{isPreview ? (
 										'Submit Application'

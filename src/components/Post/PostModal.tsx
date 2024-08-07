@@ -55,6 +55,7 @@ function PostModal({ post }: Props) {
 				size='5xl'
 				scrollBehavior='inside'
 				shouldBlockScroll
+				className='bg-cardBg'
 			>
 				<ModalContent>
 					{() => (
@@ -70,7 +71,7 @@ function PostModal({ post }: Props) {
 									/>
 
 									<section className='mt-1 flex gap-2'>
-										<p className='mt-0.5 text-base font-normal text-slate-500'>#{post.id}</p>
+										<p className='mt-0.5 text-base font-normal text-secondaryText'>#{post.id}</p>
 										<article className='flex flex-col gap-1'>
 											<h2 className='text-xl font-semibold'>{post.title}</h2>
 											{post.tags.length > 0 && <PostTags tags={post.tags} />}

@@ -53,6 +53,7 @@ function InductMemberModal({ post }: Props) {
 			size='4xl'
 			scrollBehavior='outside'
 			backdrop='blur'
+			className='bg-cardBg'
 		>
 			<ModalContent>
 				{() =>

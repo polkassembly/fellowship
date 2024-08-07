@@ -19,7 +19,7 @@ function JoinFellowshipCard() {
 			<Button
 				href='/join-fellowship'
 				as={LinkWithNetwork}
-				className='mt-5 text-sm font-semibold shadow-md light:bg-white'
+				className='mt-5 bg-white text-sm font-semibold text-slate-700 shadow-md'
 				radius='full'
 				size='lg'
 			>

@@ -29,7 +29,7 @@ function ActivityActionTypeChip({ type, postId }: { type: ActivityType; postId?:
 			<Chip
 				as={LinkWithNetwork}
 				href={link}
-				className='border-1 bg-primary/10'
+				className='border-1 bg-primary_accent/10'
 				variant='bordered'
 				size='sm'
 				radius='sm'

@@ -107,7 +107,7 @@ function EditPostCard() {
 	return (
 		<Card
 			shadow='none'
-			className='flex flex-col gap-3 border border-primary_border p-6'
+			className='flex flex-col gap-3 border border-primary_border bg-cardBg p-6'
 		>
 			{error && (
 				<AlertCard

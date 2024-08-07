@@ -49,7 +49,7 @@ export default function CreateRFCProposalPageContent({ prItem }: Props) {
 					<Button
 						size='md'
 						color='primary'
-						className='flex min-h-[40px] w-full flex-1 text-sm'
+						className='flex min-h-[40px] w-full flex-1 bg-primary_accent text-sm'
 						onPress={handleSubmit}
 					>
 						Submit Proposal

@@ -70,7 +70,7 @@ function Manifesto({ manifesto: prevManifesto, address }: Props) {
 	}, [address, userDetails]);
 
 	return (
-		<Card className='h-full min-h-[301px] rounded-[20px] border border-primary_border px-4 py-6'>
+		<Card className='h-full min-h-[301px] rounded-[20px] border border-primary_border bg-cardBg px-4 py-6'>
 			<div className='flex items-center gap-x-2'>
 				<h4 className='text-base font-semibold leading-6'>Manifesto</h4>
 				{isLoggedInUserProfile ? (
@@ -109,7 +109,7 @@ function Manifesto({ manifesto: prevManifesto, address }: Props) {
 							Cancel
 						</Button>
 						<Button
-							className='bg-primary text-white'
+							className='bg-primary_accent text-white'
 							size='sm'
 							onClick={onSave}
 							isLoading={loading}

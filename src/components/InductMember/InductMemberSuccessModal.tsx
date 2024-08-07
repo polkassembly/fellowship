@@ -25,6 +25,7 @@ function InductMemberSuccessModal({ successDetails }: Props) {
 		<Modal
 			isOpen
 			size='xl'
+			className='bg-cardBg'
 			onClose={handleOnClose}
 		>
 			<ModalContent>

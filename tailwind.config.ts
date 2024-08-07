@@ -45,15 +45,15 @@ const config: Config = {
 				},
 				dark: {
 					colors: {
-						background: '#151532', // the page background color
+						background: '#111D2B', // the page background color
 						foreground: '#FFFFFF', // the page text color
 						primary: {
 							foreground: '#FFFFFF',
-							DEFAULT: '#C30068'
+							DEFAULT: '#FF60B5'
 						},
 						secondary: {
 							foreground: '#FFFFFF',
-							DEFAULT: '#2D2D6C'
+							DEFAULT: '#21214F'
 						}
 					}
 				}

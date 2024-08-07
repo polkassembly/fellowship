@@ -59,7 +59,7 @@ function ProposalListingItem({ index, title, status, votePercentage, url, isPass
 function TrendingProposals({ proposals }: { proposals: TrendingProposalItem[] }) {
 	const { fellows } = useApiContext();
 	return (
-		<Card className='py-6'>
+		<Card className='bg-cardBg py-6'>
 			<h2 className='flex items-center gap-2 px-4 pb-4'>
 				<Image
 					alt='Trending Proposals Icon'

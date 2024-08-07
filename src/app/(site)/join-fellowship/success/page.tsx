@@ -28,6 +28,7 @@ function JoinFellowshipApplicationSuccessModal({ searchParams }: ServerComponent
 			isOpen
 			size='xl'
 			onClose={handleClose}
+			className='bg-cardBg'
 		>
 			<ModalContent>
 				{() => (
