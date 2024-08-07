@@ -8,7 +8,6 @@ import type { Metadata } from 'next';
 import { ReactNode } from 'react';
 import AppSidebar from '@/components/Header/AppSidebar';
 import AppNavbar from '@/components/Header/AppNavbar';
-import AppNavMobile from '@/components/Header/Mobile/AppNavMobile';
 import NotificationsContainer from '@/components/Misc/NotificationsContainer';
 import Footer from '@/components/Footer/Footer';
 import { poppinsFont } from '@/utils/fonts';
@@ -25,12 +24,11 @@ export default function RootLayout({ children, modal }: { children: ReactNode; m
 			<body className={`${poppinsFont.className}`}>
 				<Providers>
 					<section id='root-section'>
-						<section className='fixed h-[96vh] md:block'>
+						<section className='fixed h-[96vh] lg:block'>
 							<AppSidebar />
 						</section>
 						<section id='main-section'>
 							<AppNavbar />
-							<AppNavMobile />
 							<main>{children}</main>
 						</section>
 						<Footer />

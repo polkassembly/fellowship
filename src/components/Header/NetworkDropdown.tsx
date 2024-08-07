@@ -14,7 +14,7 @@ import networkConstants from '@/global/networkConstants';
 import { Network, NetworkProperties } from '@/global/types';
 import { useApiContext } from '@/contexts';
 
-function NetworkDropdown() {
+function NetworkDropdown({ closeMenu }: { closeMenu: () => void }) {
 	const router = useRouter();
 	const { network, setNetwork } = useApiContext();
 	const currentNetworkProperties = networkConstants[String(network)];
@@ -26,7 +26,7 @@ function NetworkDropdown() {
 			<DropdownTrigger>
 				<Button
 					variant='bordered'
-					className='flex h-unit-10 gap-2 rounded-lg border-1 border-primary_border px-5 text-sm font-medium md:h-unit-8'
+					className='flex h-unit-10 gap-2 rounded-lg border-1 border-primary_border px-5 text-sm font-medium lg:h-unit-8 lg:rounded-2xl'
 				>
 					<Image
 						alt={`${currentNetworkProperties.name} Logo`}
@@ -51,6 +51,7 @@ function NetworkDropdown() {
 				aria-label='Network selection dropdown'
 				onAction={(key) => {
 					setNetwork(key as Network);
+					closeMenu();
 					router.push(`/?network=${key}`);
 				}}
 			>

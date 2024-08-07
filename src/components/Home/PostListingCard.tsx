@@ -52,6 +52,7 @@ function PostListingCard({ feedItem, cardClassName, isDividerDisabled }: Props) 
 						createdAt={feedItem.created_at}
 						votesTally={feedItem.on_chain_info?.tally}
 						status={feedItem.on_chain_info?.status}
+						index={feedItem.id}
 					/>
 					<PostListingBody
 						index={feedItem.id}

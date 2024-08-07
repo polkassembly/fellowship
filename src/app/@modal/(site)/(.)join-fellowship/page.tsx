@@ -103,7 +103,7 @@ function JoinFellowshipModal() {
 											handleSubmit();
 										}
 									}}
-									className='flex flex-1 text-sm'
+									className='flex flex-1 rounded-3xl text-sm'
 								>
 									{isPreview ? (
 										'Submit Application'

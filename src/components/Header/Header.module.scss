@@ -1,5 +1,5 @@
 .appSidebar {
-	@apply hidden max-h-full min-h-full w-[264px] flex-col justify-between rounded-[30px] bg-secondary p-8 text-secondary-foreground md:flex;
+	@apply hidden max-h-full min-h-full w-[264px] flex-col justify-between rounded-[30px] bg-secondary p-8 text-secondary-foreground scrollbar-hide lg:flex;
 }
 
 .navListboxItemHover {
@@ -8,22 +8,19 @@
 }
 
 .appNavbar {
-	@apply mb-6 hidden h-[52px] w-full items-center justify-between gap-x-4 rounded-[14px] border border-primary_border px-4 py-2.5 md:flex;
-}
-
-.appNavMobile {
-	@apply mb-6 flex w-full flex-col md:hidden;
+	@apply mb-6 flex h-[52px] w-full items-center justify-between gap-x-4 rounded-[14px] border border-primary_border bg-content1 px-4 py-2.5;
 }
 
 .navMobileHeader {
-	@apply mb-6 flex h-[52px] w-full items-center justify-between gap-x-4 rounded-[14px] border border-primary_border px-4 py-2.5;
-}
-.appMenu {
-	@apply flex h-screen w-full flex-col gap-6;
+	@apply flex w-full items-center justify-between gap-x-4 lg:hidden;
 }
 
-.menuCategory {
-	@apply flex w-full flex-col gap-2 text-sm;
+.appMenu {
+	@apply hidden w-full items-center gap-5 lg:flex [&>*]:w-full lg:[&>*]:w-auto;
+}
+
+.appMenuLabel {
+	@apply w-full text-sm lg:hidden;
 }
 
 .footerNavMobile {

@@ -19,18 +19,20 @@ interface Props {
 function PostListingBody({ className = '', index = 0, title = '', content = '', tags = [] }: Props) {
 	return (
 		<section className={`flex gap-2 ${className}`}>
-			<p className='mt-0.5 text-xs font-normal text-slate-500'>#{index}</p>
-			<article className='flex flex-col gap-1'>
+			<p className='mt-0.5 hidden text-xs font-normal text-slate-500 md:block'>#{index}</p>
+			<article className='flex w-full flex-col gap-1'>
 				<h2 className='text-sm font-medium'>{title}</h2>
 				{content && (
 					<>
-						<p className='line-clamp-2 text-sm'>{content}</p>
-						<LinkWithNetwork
-							className='mb-0.5 text-xs text-link'
-							href={`/referenda/${index}`}
-						>
-							Read more
-						</LinkWithNetwork>
+						<p className='line-clamp-3 w-full break-words text-sm md:line-clamp-2'>{content}</p>
+						{content.length > 150 && (
+							<LinkWithNetwork
+								className='mb-0.5 text-xs text-link'
+								href={`/referenda/${index}`}
+							>
+								Read more
+							</LinkWithNetwork>
+						)}
 					</>
 				)}
 				{tags.length > 0 && <PostTags tags={tags} />}

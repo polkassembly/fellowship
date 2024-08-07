@@ -25,6 +25,10 @@ function LoginModal() {
 			size='xl'
 			scrollBehavior='inside'
 			shouldBlockScroll
+			classNames={{
+				wrapper: 'z-[999999]',
+				backdrop: 'z-[999999]'
+			}}
 		>
 			<ModalContent>
 				{(onClose) => (

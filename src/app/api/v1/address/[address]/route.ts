@@ -40,7 +40,8 @@ export const GET = withErrorHandling(async (req: NextRequest, { params }) => {
 		user_id: user?.id,
 		manifesto: user?.manifesto || '',
 		address: data?.address || '',
-		activities: activities || []
+		activities: activities || [],
+		social_links: user?.social_links || []
 	};
 
 	return NextResponse.json(profile);

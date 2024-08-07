@@ -129,6 +129,7 @@ function AddressDropdown({ disabled, label, wallet, triggerVariant, onAddressSel
 										variant='dropdownItem'
 										name={selectedAddress.name || ''}
 										address={selectedAddress.address}
+										truncateCharLen={12}
 									/>
 								) : (
 									'Select Address'
@@ -161,6 +162,7 @@ function AddressDropdown({ disabled, label, wallet, triggerVariant, onAddressSel
 									variant='dropdownItem'
 									name={account.name || 'Untitled'}
 									address={account.address}
+									truncateCharLen={20}
 								/>
 							</DropdownItem>
 						))}
