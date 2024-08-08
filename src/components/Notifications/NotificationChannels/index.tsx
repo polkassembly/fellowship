@@ -23,7 +23,10 @@ export default function NotificationChannels({
 				notificationEnabled={networkPreferences?.channelPreferences?.[CHANNEL.EMAIL]?.enabled || false}
 				toggleChannelPreferences={toggleChannelPreferences}
 			/>
-			<BotChannelsCard />
+			<BotChannelsCard
+				toggleChannelPreferences={toggleChannelPreferences}
+				networkPreferences={networkPreferences}
+			/>
 		</div>
 	);
 }
