@@ -7,6 +7,7 @@
 import React from 'react';
 import { IProfile } from '@/global/types';
 import { useDisclosure } from '@nextui-org/modal';
+import ContributionGraph from './Activity/ContributionGraph';
 import ProfileBanner from './Banner';
 import ProfileSocials from './Socials';
 import ProfileAddressDetails from './AddressDetails';
@@ -36,7 +37,12 @@ function Profile(props: Props) {
 					onOpenChange={onOpenChange}
 				/>
 			</div>
-			<div className='mt-[56px] flex flex-col gap-4 md:grid md:grid-cols-11'>
+			<ContributionGraph
+				classNames='mt-[56px]'
+				githubUsername={socialLinks?.find((social) => social.type === 'Github')?.link || ''}
+				openProfileEdit={openProfileEdit}
+			/>
+			<div className='mt-4 flex flex-col gap-4 md:grid md:grid-cols-11'>
 				<section className='w-full md:col-span-5'>
 					<Manifesto
 						manifesto={manifesto}
