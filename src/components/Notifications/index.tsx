@@ -11,6 +11,7 @@ import { Accordion, AccordionItem } from '@nextui-org/accordion';
 import Image from 'next/image';
 import nextApiClientFetch from '@/utils/nextApiClientFetch';
 import { Network, CHANNEL, INetworkPreferences } from '@/global/types';
+import queueNotification from '@/utils/queueNotification';
 import { useApiContext, useUserDetailsContext } from '@/contexts';
 import SectionTitle from './common-ui/SectionTitle';
 import NotificationChannels from './NotificationChannels';
@@ -65,9 +66,15 @@ export default function Notifications() {
 				}));
 				setNetworkPreferences(networkPreferences);
 			}
-			setLoading(false);
 		} catch (e) {
 			console.log(e);
+			queueNotification({
+				header: 'Error!',
+				message: (e as Error).message || 'Failed to fetch notification settings',
+				status: 'error'
+			});
+		} finally {
+			setLoading(false);
 		}
 	};
 
