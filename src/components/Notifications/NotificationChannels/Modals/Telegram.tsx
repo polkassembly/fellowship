@@ -117,7 +117,7 @@ function TelegramInfoModal({ title, open, getVerifyToken, generatedToken = '', o
 										</div>
 										<br />
 										{token && (
-											<div className='flex items-center dark:text-white'>
+											<div className='mb-5 flex flex-col dark:text-white'>
 												<span>Username & Verification Token: </span>
 												<button
 													type='button'
