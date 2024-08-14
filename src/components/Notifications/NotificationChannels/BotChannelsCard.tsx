@@ -12,6 +12,7 @@ import DiscordInfoModal from './Modals/Discord';
 import TelegramInfoModal from './Modals/Telegram';
 import { FIREBASE_FUNCTIONS_URL, firebaseFunctionsHeader } from './utilsFe';
 import ComingSoonLabel from '../common-ui/ComingSoonLabel';
+import DisabledConfirmation from './Modals/Confirmation';
 
 const botChannels = [
 	{
@@ -78,6 +79,13 @@ export default function BotChannelsCard({
 	const { network } = useApiContext();
 	const { id, loginAddress } = useUserDetailsContext();
 	const [showModal, setShowModal] = useState<CHANNEL | null>(null);
+	const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+	const [confirmChannel, setConfirmChannel] = useState<CHANNEL>(CHANNEL.TELEGRAM);
+
+	const confirmDecision = (channel: CHANNEL) => {
+		setShowConfirmationModal(true);
+		setConfirmChannel(channel);
+	};
 
 	const getVerifyToken = async (channel: CHANNEL) => {
 		try {
@@ -136,7 +144,7 @@ export default function BotChannelsCard({
 							{isBotSetup && (
 								<Switch
 									defaultSelected={isEnabled}
-									onValueChange={(isSelected) => toggleChannelPreferences(botChannel.channel, isSelected)}
+									onValueChange={(isSelected) => (!isSelected ? confirmDecision(botChannel.channel) : toggleChannelPreferences(botChannel.channel, true))}
 									color='primary'
 									size='sm'
 								/>
@@ -179,6 +187,15 @@ export default function BotChannelsCard({
 				getVerifyToken={getVerifyToken}
 				onClose={() => setShowModal(null)}
 				generatedToken={networkPreferences?.channelPreferences?.[CHANNEL.DISCORD]?.verification_token || ''}
+			/>
+			<DisabledConfirmation
+				open={showConfirmationModal}
+				onConfirm={() => {
+					setShowConfirmationModal(false);
+					toggleChannelPreferences(confirmChannel, false);
+				}}
+				onCancel={() => setShowConfirmationModal(false)}
+				channel={confirmChannel}
 			/>
 		</>
 	);
