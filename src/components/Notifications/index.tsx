@@ -31,7 +31,7 @@ const accordionItemClassNames = {
 export default function Notifications() {
 	const { network } = useApiContext();
 	const { networkPreferences: defaultNetworkPreferences, setUserDetailsContextState } = useUserDetailsContext();
-	const [currNetworkPreferences, setNetworkPreferences] = useState<INetworkPreferences>(defaultNetworkPreferences);
+	const [currNetworkPreferences, setCurrNetworkPreferences] = useState<INetworkPreferences>(defaultNetworkPreferences);
 	const [loading, setLoading] = useState(true);
 
 	const getNotificationSettings = async (network: string) => {
@@ -64,7 +64,7 @@ export default function Notifications() {
 					...currentUser,
 					networkPreferences
 				}));
-				setNetworkPreferences(networkPreferences);
+				setCurrNetworkPreferences(networkPreferences);
 			}
 		} catch (e) {
 			console.log(e);
@@ -100,7 +100,7 @@ export default function Notifications() {
 					channel,
 					enabled
 				},
-				network: network as Network,
+				network,
 				isPolkassemblyAPI: true
 			})) as { data: { message: string }; error: string | null };
 			if (error || !data.message) {

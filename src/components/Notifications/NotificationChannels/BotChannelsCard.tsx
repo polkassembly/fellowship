@@ -13,6 +13,7 @@ import TelegramInfoModal from './Modals/Telegram';
 import { FIREBASE_FUNCTIONS_URL, firebaseFunctionsHeader } from './utilsFe';
 import ComingSoonLabel from '../common-ui/ComingSoonLabel';
 import DisabledConfirmation from './Modals/Confirmation';
+import ResetConfirmation from './Modals/ResetConfirmation';
 
 const botChannels = [
 	{
@@ -71,19 +72,27 @@ const botChannels = [
 
 export default function BotChannelsCard({
 	toggleChannelPreferences,
-	networkPreferences
+	networkPreferences,
+	handleReset
 }: Readonly<{
 	toggleChannelPreferences: (channel: CHANNEL, enabled: boolean) => void;
 	networkPreferences: INetworkPreferences;
+	handleReset: (channel: CHANNEL) => void;
 }>) {
 	const { network } = useApiContext();
 	const { id, loginAddress } = useUserDetailsContext();
 	const [showModal, setShowModal] = useState<CHANNEL | null>(null);
 	const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+	const [showResetModal, setShowResetModal] = useState(false);
 	const [confirmChannel, setConfirmChannel] = useState<CHANNEL>(CHANNEL.TELEGRAM);
 
 	const confirmDecision = (channel: CHANNEL) => {
 		setShowConfirmationModal(true);
+		setConfirmChannel(channel);
+	};
+
+	const handleResetClick = (channel: CHANNEL) => () => {
+		setShowResetModal(true);
 		setConfirmChannel(channel);
 	};
 
@@ -142,12 +151,21 @@ export default function BotChannelsCard({
 								<p className='m-0 ml-1 mr-1 p-0'>{botChannel.title}</p>
 							</h3>
 							{isBotSetup && (
-								<Switch
-									defaultSelected={isEnabled}
-									onValueChange={(isSelected) => (!isSelected ? confirmDecision(botChannel.channel) : toggleChannelPreferences(botChannel.channel, true))}
-									color='primary'
-									size='sm'
-								/>
+								<div className='flex flex-1 items-center justify-between gap-5'>
+									<Switch
+										defaultSelected={isEnabled}
+										onValueChange={(isSelected) => (!isSelected ? confirmDecision(botChannel.channel) : toggleChannelPreferences(botChannel.channel, true))}
+										color='primary'
+										size='sm'
+									/>
+									<button
+										type='button'
+										className='flex cursor-pointer items-center gap-1 text-[16px] font-medium text-primary underline'
+										onClick={handleResetClick(botChannel.channel)}
+									>
+										Reset
+									</button>
+								</div>
 							)}
 
 							{!isBotSetup && botChannel.description && (
@@ -179,14 +197,14 @@ export default function BotChannelsCard({
 				open={showModal === CHANNEL.TELEGRAM}
 				getVerifyToken={getVerifyToken}
 				onClose={() => setShowModal(null)}
-				generatedToken={networkPreferences?.channelPreferences?.[CHANNEL.TELEGRAM]?.verification_token || ''}
+				generatedToken={networkPreferences?.channelPreferences?.[CHANNEL.TELEGRAM]?.verification_token ?? ''}
 			/>
 			<DiscordInfoModal
 				title='How to add Bot to Discord'
 				open={showModal === CHANNEL.DISCORD}
 				getVerifyToken={getVerifyToken}
 				onClose={() => setShowModal(null)}
-				generatedToken={networkPreferences?.channelPreferences?.[CHANNEL.DISCORD]?.verification_token || ''}
+				generatedToken={networkPreferences?.channelPreferences?.[CHANNEL.DISCORD]?.verification_token ?? ''}
 			/>
 			<DisabledConfirmation
 				open={showConfirmationModal}
@@ -195,6 +213,15 @@ export default function BotChannelsCard({
 					toggleChannelPreferences(confirmChannel, false);
 				}}
 				onCancel={() => setShowConfirmationModal(false)}
+				channel={confirmChannel}
+			/>
+			<ResetConfirmation
+				open={showResetModal}
+				onConfirm={() => {
+					setShowResetModal(false);
+					handleReset(confirmChannel);
+				}}
+				onCancel={() => setShowResetModal(false)}
 				channel={confirmChannel}
 			/>
 		</>
