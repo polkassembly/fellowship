@@ -5,10 +5,15 @@
 'use client';
 
 import { Card } from '@nextui-org/card';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, cache } from 'react';
+import { Divider } from '@nextui-org/divider';
 
 import Image from 'next/image';
 import { useApiContext } from '@/contexts';
+import { getGithubMonthlyStats } from '@/utils/getGithubMonthlyStats';
+import LoadingSpinner from '../Misc/LoadingSpinner';
+
+const getGithubStats = cache(getGithubMonthlyStats);
 
 function StatDisplay({
 	heroImg,
@@ -37,7 +42,7 @@ function StatDisplay({
 				/>
 			</div>
 			<div className='ml-3 flex flex-col'>
-				<small className='text-sm font-normal text-secondaryText'>{title}</small>
+				<small className='text-secondaryText text-sm font-normal'>{title}</small>
 				<p className='text-2xl font-semibold'>{value}</p>
 				{percentage && (
 					<small className='flex items-center text-xs font-normal'>
@@ -49,7 +54,7 @@ function StatDisplay({
 								height={20}
 							/>
 						)}
-						<span className='ml-1 text-secondaryText'>
+						<span className='text-secondaryText ml-1'>
 							<b className={isIncrease ? 'text-statsGreen' : 'text-voteNay'}>{percentage}%</b> this month
 						</span>
 					</small>
@@ -59,40 +64,62 @@ function StatDisplay({
 	);
 }
 
-function Stats({ className }: { className?: string }) {
+function Stats({ className }: Readonly<{ className?: string }>) {
 	const { api, apiReady } = useApiContext();
 
 	const [memberCount, setMemberCount] = useState(0);
+	const [githubStats, setGithubStats] = useState<{
+		totalContributionsCount: number;
+		percentageDifference: string;
+		isIncrease: boolean;
+	}>();
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		if (!api || !apiReady) return;
+		async function fetchStats() {
+			if (!api || !apiReady) return;
 
-		(async () => {
-			const count = (await api.query.fellowshipCollective.memberCount(0)) || 0;
-			setMemberCount(Number(count.toString()));
-		})();
+			try {
+				const [count, githubStats] = await Promise.all([api.query.fellowshipCollective.memberCount(0), getGithubStats()]);
+
+				setMemberCount(Number(count.toString()));
+				setGithubStats(githubStats);
+				setLoading(false);
+			} catch (error) {
+				console.error('Error fetching stats:', error);
+				setLoading(false);
+			}
+		}
+
+		fetchStats();
 	}, [api, apiReady]);
 
 	return (
 		<Card
-			className={`flex flex-col items-center gap-y-6 border border-primary_border bg-cardBg p-6 ${className}`}
+			className={`bg-cardBg flex flex-col items-center gap-y-6 border border-primary_border p-6 ${className}`}
 			shadow='none'
 		>
-			<StatDisplay
-				heroImg='/icons/stats-users.svg'
-				title='Number of fellows'
-				value={memberCount}
-				// icon='/icons/arrow-up-green.svg'
-				// percentage={12.8}
-			/>
-			{/* <Divider />
-			<StatDisplay
-				heroImg='/icons/stats-github.svg'
-				title='Github Commits'
-				value={60}
-				icon='/icons/arrow-down-red.svg'
-				percentage={12.8}
-			/> */}
+			{loading ? (
+				<LoadingSpinner message='fetching stats...' />
+			) : (
+				<>
+					<StatDisplay
+						heroImg='/icons/stats-users.svg'
+						title='Number of fellows'
+						value={memberCount}
+						// icon='/icons/arrow-up-green.svg'
+						// percentage={12.8}
+					/>
+					<Divider />
+					<StatDisplay
+						heroImg='/icons/stats-github.svg'
+						title='Github commits'
+						value={githubStats?.totalContributionsCount ?? 0}
+						icon={githubStats?.isIncrease ? '/icons/arrow-up-green.svg' : '/icons/arrow-down-red.svg'}
+						percentage={Number(githubStats?.percentageDifference ?? 0)}
+					/>
+				</>
+			)}
 		</Card>
 	);
 }
