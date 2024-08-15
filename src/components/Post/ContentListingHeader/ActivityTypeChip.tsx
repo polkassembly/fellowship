@@ -12,6 +12,10 @@ function ActivityTypeChip({ type }: { type: ActivityType }) {
 	const typeString = type.replaceAll('-', ' ');
 	return (
 		<Tooltip
+			classNames={{
+				base: 'dark:bg-tooltip_background',
+				arrow: 'dark:bg-tooltip_background'
+			}}
 			showArrow
 			content={
 				<div className='max-w-[350px] p-4'>
