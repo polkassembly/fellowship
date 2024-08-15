@@ -78,7 +78,7 @@ export default function CreateRFCProposalModal({ prItem }: Props) {
 								<Button
 									color='primary'
 									onPress={() => handleSubmit()}
-									className='flex flex-1 text-sm'
+									className='flex flex-1 bg-primary_accent text-sm'
 								>
 									Submit Proposal
 								</Button>
