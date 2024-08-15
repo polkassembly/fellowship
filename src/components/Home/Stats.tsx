@@ -42,7 +42,7 @@ function StatDisplay({
 				/>
 			</div>
 			<div className='ml-3 flex flex-col'>
-				<small className='text-secondaryText text-sm font-normal'>{title}</small>
+				<small className='text-sm font-normal text-secondaryText'>{title}</small>
 				<p className='text-2xl font-semibold'>{value}</p>
 				{percentage && (
 					<small className='flex items-center text-xs font-normal'>
@@ -54,7 +54,7 @@ function StatDisplay({
 								height={20}
 							/>
 						)}
-						<span className='text-secondaryText ml-1'>
+						<span className='ml-1 text-secondaryText'>
 							<b className={isIncrease ? 'text-statsGreen' : 'text-voteNay'}>{percentage}%</b> this month
 						</span>
 					</small>
@@ -80,10 +80,10 @@ function Stats({ className }: Readonly<{ className?: string }>) {
 			if (!api || !apiReady) return;
 
 			try {
-				const [count, githubStats] = await Promise.all([api.query.fellowshipCollective.memberCount(0), getGithubStats()]);
+				const [count, stats] = await Promise.all([api.query.fellowshipCollective.memberCount(0), getGithubStats()]);
 
 				setMemberCount(Number(count.toString()));
-				setGithubStats(githubStats);
+				setGithubStats(stats);
 				setLoading(false);
 			} catch (error) {
 				console.error('Error fetching stats:', error);
@@ -96,7 +96,7 @@ function Stats({ className }: Readonly<{ className?: string }>) {
 
 	return (
 		<Card
-			className={`bg-cardBg flex flex-col items-center gap-y-6 border border-primary_border p-6 ${className}`}
+			className={`flex flex-col items-center gap-y-6 border border-primary_border bg-cardBg p-6 ${className}`}
 			shadow='none'
 		>
 			{loading ? (
