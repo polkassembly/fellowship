@@ -4,20 +4,84 @@
 
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CheckboxGroup, Checkbox } from '@nextui-org/checkbox';
+import { useApiContext } from '@/contexts';
+import nextApiClientFetch from '@/utils/nextApiClientFetch';
+import { ETriggerType, ITriggerPreferences, SubsquidProposalType, INetworkPreferences } from '@/global/types';
 
-export default function ProposalAlertsCard() {
-	const [selected, setSelected] = React.useState(['in-voting']);
+export default function ProposalAlertsCard({
+	networkPreferences
+}: Readonly<{
+	networkPreferences: INetworkPreferences;
+}>) {
+	const [selected, setSelected] = React.useState(['']);
+	const { network } = useApiContext();
+
+	const setTriggerPreferences = async (triggerName: string, preferences: ITriggerPreferences) => {
+		try {
+			await nextApiClientFetch({
+				url: 'api/v1/auth/actions/setTriggerPreferences',
+				data: {
+					network,
+					trigger_name: triggerName,
+					trigger_preferences: preferences
+				},
+				network,
+				isPolkassemblyAPI: true
+			});
+		} catch (e) {
+			console.log(e);
+		}
+	};
+
+	const handleTriggerChange = (triggerName: ETriggerType) => {
+		const value = !selected.includes(triggerName);
+
+		setTriggerPreferences(triggerName, {
+			enabled: value,
+			post_types: [SubsquidProposalType.FELLOWSHIP_REFERENDUMS],
+			name: triggerName
+		});
+	};
+
+	const alertOptions = [
+		{
+			value: ETriggerType.PROPOSAL_CREATED,
+			label: 'New proposals created'
+		},
+		{
+			value: ETriggerType.PROPOSAL_IN_VOTING,
+			label: 'Proposal in voting'
+		},
+		{
+			value: ETriggerType.PROPOSAL_CLOSED,
+			label: 'Proposal closed for voting'
+		}
+	];
+
+	useEffect(() => {
+		const triggerPreferences = networkPreferences?.triggerPreferences[network] || {};
+		const selectedTriggers = Object.keys(triggerPreferences).filter((key) => triggerPreferences[key].enabled);
+
+		setSelected(selectedTriggers);
+	}, [networkPreferences, network]);
+
 	return (
 		<CheckboxGroup
 			value={selected}
 			onValueChange={setSelected}
 			radius='sm'
 		>
-			<Checkbox value='new'>New proposals created</Checkbox>
-			<Checkbox value='in-voting'>Proposal in voting</Checkbox>
-			<Checkbox value='closed'>Proposal closed for voting</Checkbox>
+			{alertOptions.map(({ value, label }) => (
+				<Checkbox
+					key={value}
+					value={value}
+					onChange={() => handleTriggerChange(value)}
+				>
+					{label}
+				</Checkbox>
+			))}
 		</CheckboxGroup>
 	);
 }

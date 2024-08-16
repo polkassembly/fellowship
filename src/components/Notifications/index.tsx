@@ -175,7 +175,7 @@ export default function Notifications() {
 					/>
 				}
 			>
-				<ProposalsNotificationCard />
+				<ProposalsNotificationCard networkPreferences={currNetworkPreferences} />
 			</AccordionItem>
 
 			<AccordionItem
@@ -189,7 +189,7 @@ export default function Notifications() {
 					/>
 				}
 			>
-				<ProposalAlertsCard />
+				<ProposalAlertsCard networkPreferences={currNetworkPreferences} />
 			</AccordionItem>
 		</Accordion>
 	);

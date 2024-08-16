@@ -663,3 +663,28 @@ export interface TrendingProposalItem {
 	proposalType: ProposalType;
 	isPassing: boolean;
 }
+
+export enum EMentionType {
+	COMMENT = 'comment',
+	REPLY = 'reply',
+	POST = 'post'
+}
+
+export interface ITriggerPreferences {
+	enabled: boolean;
+	name: string;
+	post_types?: Array<string>;
+	tracks?: Array<number>;
+	sub_triggers?: Array<string>;
+	mention_types?: Array<string>;
+	pip_types?: Array<string>;
+}
+
+export enum ETriggerType {
+	NEW_COMMENT = 'newCommentAdded',
+	NEW_MENTION = 'newMention',
+	PROPOSAL_CREATED = 'proposalSubmitted',
+	PROPOSAL_IN_VOTING = 'proposalInVoting',
+	PROPOSAL_CLOSED = 'proposalClosed',
+	DAILY_UPDATES = 'dailyUpdates'
+}
