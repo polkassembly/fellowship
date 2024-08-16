@@ -128,7 +128,8 @@ function AppSidebar() {
 
 				{loginAddress && fellows.map((fellow) => fellow.address).includes(loginAddress) && (
 					<LinkWithNetwork
-						className='mb-5 flex cursor-pointer items-center justify-center gap-1 rounded-3xl bg-rankRequestBtn px-3 py-2 text-xs font-medium leading-[21px]'
+						// eslint-disable-next-line prettier/prettier
+						className='bg-rankRequestBtn mb-5 flex cursor-pointer items-center justify-center gap-1 rounded-3xl px-3 py-2 text-xs font-medium leading-[21px]'
 						href={`/address/${loginAddress}/create-rank-request`}
 					>
 						<Image
