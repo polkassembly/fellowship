@@ -11,6 +11,8 @@ import { Divider } from '@nextui-org/divider';
 import Image from 'next/image';
 import { useApiContext } from '@/contexts';
 import { getGithubMonthlyStats } from '@/utils/getGithubMonthlyStats';
+import { useTheme } from 'next-themes';
+import THEME_CONSTANTS from '@/global/themeConstants';
 import LoadingSpinner from '../Misc/LoadingSpinner';
 
 const getGithubStats = cache(getGithubMonthlyStats);
@@ -32,7 +34,7 @@ function StatDisplay({
 }) {
 	return (
 		<div className='flex w-full flex-row items-center'>
-			<div className='min-w-max rounded-xl border-2 border-primary_border p-1'>
+			<div className='min-w-max'>
 				<Image
 					src={heroImg}
 					alt='Stats Icon'
@@ -75,6 +77,10 @@ function Stats({ className }: Readonly<{ className?: string }>) {
 	}>();
 	const [loading, setLoading] = useState(true);
 
+	const { resolvedTheme = 'light' } = useTheme();
+
+	const [mounted, setMounted] = useState(false);
+
 	useEffect(() => {
 		async function fetchStats() {
 			if (!api || !apiReady) return;
@@ -94,6 +100,15 @@ function Stats({ className }: Readonly<{ className?: string }>) {
 		fetchStats();
 	}, [api, apiReady]);
 
+	// only mount on client to prevent hydration error
+	useEffect(() => {
+		setMounted(true);
+	}, []);
+
+	if (!mounted) {
+		return null;
+	}
+
 	return (
 		<Card
 			className={`flex flex-col items-center gap-y-6 border border-primary_border bg-cardBg p-6 ${className}`}
@@ -104,7 +119,7 @@ function Stats({ className }: Readonly<{ className?: string }>) {
 			) : (
 				<>
 					<StatDisplay
-						heroImg='/icons/stats-users.svg'
+						heroImg={THEME_CONSTANTS[resolvedTheme as keyof typeof THEME_CONSTANTS].stats_user}
 						title='Number of fellows'
 						value={memberCount}
 						// icon='/icons/arrow-up-green.svg'
@@ -112,7 +127,7 @@ function Stats({ className }: Readonly<{ className?: string }>) {
 					/>
 					<Divider />
 					<StatDisplay
-						heroImg='/icons/stats-github.svg'
+						heroImg={THEME_CONSTANTS[resolvedTheme as keyof typeof THEME_CONSTANTS].stats_github}
 						title='Github commits'
 						value={githubStats?.totalContributionsCount ?? 0}
 						icon={githubStats?.isIncrease ? '/icons/arrow-up-green.svg' : '/icons/arrow-down-red.svg'}
