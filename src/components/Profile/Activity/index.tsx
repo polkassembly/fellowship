@@ -51,7 +51,7 @@ function UserActivity({ address, activities }: Props) {
 								src='/icons/chevron.svg'
 								width={12}
 								height={12}
-								className='rounded-full'
+								className='dark:dark-icon-filter rounded-full'
 							/>
 						</Button>
 					</DropdownTrigger>

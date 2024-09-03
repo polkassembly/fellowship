@@ -36,7 +36,7 @@ function AppNavbar() {
 						<Image
 							src={THEME_CONSTANTS[resolvedTheme as keyof typeof THEME_CONSTANTS].menuCloseIcon}
 							alt='Menu'
-							className='fill-white stroke-white'
+							className='dark:dark-icon-filter fill-white stroke-white'
 							width={20}
 							height={20}
 						/>
@@ -46,7 +46,7 @@ function AppNavbar() {
 							alt='Menu'
 							width={20}
 							height={20}
-							className='fill-white stroke-white'
+							className='dark:dark-icon-filter fill-white stroke-white'
 						/>
 					)}
 				</Button>

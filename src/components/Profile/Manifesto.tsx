@@ -127,7 +127,7 @@ function Manifesto({ manifesto: prevManifesto, address }: Props) {
 					/>
 				</div>
 			) : (
-				<div className='flex h-full flex-1 flex-col items-center justify-center gap-y-[14px] text-sm font-normal leading-[21px] tracking-[0.14px] text-secondary'>
+				<div className='flex h-full flex-1 flex-col items-center justify-center gap-y-[14px] text-sm font-normal leading-[21px] tracking-[0.14px] text-secondary dark:text-white'>
 					<Image
 						alt='empty manifesto icon'
 						src='/icons/empty-states/manifesto.svg'

@@ -141,7 +141,7 @@ function AddressDropdown({ disabled, label, wallet, triggerVariant, onAddressSel
 									src='/icons/chevron.svg'
 									width={12}
 									height={12}
-									className='rounded-full'
+									className='dark:dark-icon-filter rounded-full'
 								/>
 							</span>
 						</Button>

@@ -43,8 +43,8 @@ function FellowsTable({ className, fellows, fellowsDetails }: Props) {
 								src='/icons/table/proposal.svg'
 								width={16}
 								height={16}
-								className='ml-[-8px] mr-2'
-							/>{' '}
+								className='dark:dark-icon-filter ml-[-8px] mr-2'
+							/>
 							Proposals
 						</div>
 					</TableColumn>
@@ -55,8 +55,8 @@ function FellowsTable({ className, fellows, fellowsDetails }: Props) {
 								src='/icons/table/votes.svg'
 								width={16}
 								height={16}
-								className='ml-[-8px] mr-2'
-							/>{' '}
+								className='dark:dark-icon-filter ml-[-8px] mr-2'
+							/>
 							Voted
 						</div>
 					</TableColumn>
@@ -67,8 +67,8 @@ function FellowsTable({ className, fellows, fellowsDetails }: Props) {
 								src='/icons/table/contribution.svg'
 								width={16}
 								height={16}
-								className='ml-[-8px] mr-2'
-							/>{' '}
+								className='dark:dark-icon-filter ml-[-8px] mr-2'
+							/>
 							Contributions
 						</div>
 					</TableColumn>
@@ -79,8 +79,8 @@ function FellowsTable({ className, fellows, fellowsDetails }: Props) {
 								src='/icons/table/salary.svg'
 								width={16}
 								height={16}
-								className='ml-[-8px] mr-2'
-							/>{' '}
+								className='dark:dark-icon-filter ml-[-8px] mr-2'
+							/>
 							Salary
 						</div>
 					</TableColumn>
@@ -142,7 +142,7 @@ function FellowsTable({ className, fellows, fellowsDetails }: Props) {
 									src='/icons/chevron.svg'
 									width={12}
 									height={12}
-									className='-rotate-90'
+									className='dark:dark-icon-filter -rotate-90'
 								/>
 							</TableCell>
 						</TableRow>

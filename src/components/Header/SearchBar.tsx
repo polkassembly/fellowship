@@ -19,6 +19,7 @@ function SearchBar({ className = '' }: { className?: string }) {
 					src='/icons/search.svg'
 					width={12}
 					height={12}
+					className='dark:dark-icon-filter'
 				/>
 			}
 			disabled

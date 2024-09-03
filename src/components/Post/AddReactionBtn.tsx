@@ -190,6 +190,7 @@ function AddReactionBtn({ postId, postType, reactions, addReaction, removeReacti
 						alt='Add Reaction'
 						width={24}
 						height={24}
+						className='dark:dark-icon-filter'
 					/>
 				</Button>
 			</PopoverTrigger>

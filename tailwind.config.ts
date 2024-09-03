@@ -5,6 +5,8 @@ import { nextui } from '@nextui-org/theme/plugin';
 import type { Config } from 'tailwindcss';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { createThemes } from 'tw-colors';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import plugin from 'tailwindcss/plugin';
 import THEME_COLORS from './src/global/themeColors';
 
 const config: Config = {
@@ -58,6 +60,17 @@ const config: Config = {
 					}
 				}
 			}
+		}),
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any, func-names
+		plugin(function ({ addUtilities }: { addUtilities: any }) {
+			addUtilities(
+				{
+					'.dark-icon-filter': {
+						filter: 'invert(71%) grayscale(100%) sepia(0%) saturate(558%) hue-rotate(187deg) brightness(90%) contrast(88%)'
+					}
+				},
+				['dark']
+			); // Ensure it's only applied in dark mode
 		}),
 		createThemes(THEME_COLORS)
 	]
