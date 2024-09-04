@@ -26,7 +26,8 @@ const THEME_COLORS = {
 		contributionSm: '#9be9a8',
 		contributionMd: '#40c463',
 		contributionLg: '#30a14e',
-		contributionXl: '#216e39'
+		contributionXl: '#216e39',
+		searchBg: '#E3E4E433'
 	},
 	dark: {
 		primary_border: '#4B4B4B',
@@ -51,7 +52,8 @@ const THEME_COLORS = {
 		contributionSm: '#0e4429',
 		contributionMd: '#006d32',
 		contributionLg: '#26a641',
-		contributionXl: '#39d353'
+		contributionXl: '#39d353',
+		searchBg: '#333945'
 	}
 };
 
