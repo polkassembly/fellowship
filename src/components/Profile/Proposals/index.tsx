@@ -166,7 +166,7 @@ function ProfileProposals({ address }: Props) {
 								src='/icons/chevron.svg'
 								width={12}
 								height={12}
-								className='dark:dark-icon-filter rounded-full'
+								className='rounded-full dark:dark-icon-filter'
 							/>
 						</Button>
 					</DropdownTrigger>

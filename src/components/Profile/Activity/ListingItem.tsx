@@ -236,7 +236,7 @@ function ListingItem({ feedItem, isLastItem }: ListingItemProps) {
 						src='/icons/clock.svg'
 						width={16}
 						height={16}
-						className='dark:dark-icon-filter rounded-full'
+						className='rounded-full dark:dark-icon-filter'
 					/>
 					<span className='text-xs font-normal leading-[18px] tracking-[0.03px]'>{dayjs(getCreatedAtDate(feedItem)).format('DD MMM YYYY')}</span>
 				</article>

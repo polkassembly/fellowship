@@ -136,7 +136,7 @@ function ProfileAddressDetails(props: Props) {
 									src='/icons/content_copy.svg'
 									width={16}
 									height={16}
-									className='dark:dark-icon-filter cursor-pointer rounded-full'
+									className='cursor-pointer rounded-full dark:dark-icon-filter'
 									onClick={() => {
 										navigator.clipboard.writeText(address);
 									}}

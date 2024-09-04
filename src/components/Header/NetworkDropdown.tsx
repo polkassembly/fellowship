@@ -42,7 +42,7 @@ function NetworkDropdown({ closeMenu }: { closeMenu: () => void }) {
 						src='/icons/chevron.svg'
 						width={12}
 						height={12}
-						className='dark:dark-icon-filter ml-auto rounded-full'
+						className='ml-auto rounded-full dark:dark-icon-filter'
 					/>
 				</Button>
 			</DropdownTrigger>
