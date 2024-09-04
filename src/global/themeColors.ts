@@ -27,7 +27,8 @@ const THEME_COLORS = {
 		contributionMd: '#40c463',
 		contributionLg: '#30a14e',
 		contributionXl: '#216e39',
-		searchBg: '#E3E4E433'
+		searchBg: '#E3E4E433',
+		selectedRadioBg: '#FEF2F8'
 	},
 	dark: {
 		primary_border: '#4B4B4B',
@@ -53,7 +54,8 @@ const THEME_COLORS = {
 		contributionMd: '#006d32',
 		contributionLg: '#26a641',
 		contributionXl: '#39d353',
-		searchBg: '#333945'
+		searchBg: '#333945',
+		selectedRadioBg: '#3E1C2D'
 	}
 };
 

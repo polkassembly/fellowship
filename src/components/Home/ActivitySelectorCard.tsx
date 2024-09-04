@@ -72,7 +72,9 @@ function ActivitySelectorCard({ value = EActivityFeed.ALL }: { value?: EActivity
 								size='md'
 								classNames={{
 									label: 'flex items-center',
-									base: 'data-[selected=true]:inline-flex m-0 data-[selected=true]:bg-primary_accent/10 data-[selected=true]:dark:bg-primary_accent/20 items-center justify-between max-w-[300px] cursor-pointer rounded-full data-[selected=true]:px-2.5'
+									base: 'data-[selected=true]:inline-flex m-0 data-[selected=true]:bg-selectedRadioBg items-center justify-between max-w-[300px] cursor-pointer rounded-full data-[selected=true]:px-2.5',
+									wrapper: 'dark:border-white/70 group-data-[selected=true]:border-primary_accent',
+									control: 'bg-primary_accent'
 								}}
 							>
 								<span className='text-xs capitalize'>{feedType.replaceAll('-', ' ')}</span>
