@@ -99,6 +99,7 @@ function AddViewBtn({ postId, postType, onView, views }: Props) {
 					alt='Add View'
 					width={24}
 					height={24}
+					className='dark:dark-icon-filter'
 				/>
 			</Button>
 		</Tooltip>

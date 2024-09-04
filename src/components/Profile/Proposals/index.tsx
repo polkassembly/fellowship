@@ -152,7 +152,7 @@ function ProfileProposals({ address }: Props) {
 	}, [type, address, network]);
 
 	return (
-		<Card className='rounded-[20px] border border-primary_border'>
+		<Card className='rounded-[20px] border border-primary_border bg-cardBg'>
 			<div className='flex items-center justify-between border-b border-primary_border px-4 py-6'>
 				<Dropdown>
 					<DropdownTrigger>
@@ -166,7 +166,7 @@ function ProfileProposals({ address }: Props) {
 								src='/icons/chevron.svg'
 								width={12}
 								height={12}
-								className='rounded-full'
+								className='rounded-full dark:dark-icon-filter'
 							/>
 						</Button>
 					</DropdownTrigger>
@@ -189,7 +189,7 @@ function ProfileProposals({ address }: Props) {
 						{type === EProfileProposals.SALARY_REQUESTS && fellows.find((fellow) => fellow.address === routeSubstrateAddress) && (
 							<LinkWithNetwork
 								href={`/address/${address}/salary-induction`}
-								className='flex items-center gap-x-[6px] rounded-[39px] border border-primary bg-primary px-3 py-1 text-sm font-medium leading-[21px] tracking-[0.21px] text-white'
+								className='flex items-center gap-x-[6px] rounded-[39px] border border-primary bg-primary_accent px-3 py-1 text-sm font-medium leading-[21px] tracking-[0.21px] text-white'
 							>
 								Induct
 							</LinkWithNetwork>
@@ -197,7 +197,7 @@ function ProfileProposals({ address }: Props) {
 						{type === EProfileProposals.RANK_REQUESTS && (
 							<LinkWithNetwork
 								href={`/address/${address}/create-rank-request`}
-								className='flex items-center gap-x-[6px] rounded-[39px] border border-primary bg-primary px-3 py-1 text-sm font-medium leading-[21px] tracking-[0.21px] text-white'
+								className='flex items-center gap-x-[6px] rounded-[39px] border border-primary bg-primary_accent px-3 py-1 text-sm font-medium leading-[21px] tracking-[0.21px] text-white'
 							>
 								<>
 									<Image

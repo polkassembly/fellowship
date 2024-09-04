@@ -34,6 +34,7 @@ function VoteModal({ isModalOpen, defaultVoteType, closeModal }: Props) {
 			scrollBehavior='inside'
 			shouldBlockScroll
 			isDismissable={false}
+			className='bg-cardBg'
 		>
 			<ModalContent>
 				{() => (

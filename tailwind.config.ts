@@ -5,6 +5,8 @@ import { nextui } from '@nextui-org/theme/plugin';
 import type { Config } from 'tailwindcss';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { createThemes } from 'tw-colors';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import plugin from 'tailwindcss/plugin';
 import THEME_COLORS from './src/global/themeColors';
 
 const config: Config = {
@@ -45,19 +47,30 @@ const config: Config = {
 				},
 				dark: {
 					colors: {
-						background: '#151532', // the page background color
+						background: '#111D2B', // the page background color
 						foreground: '#FFFFFF', // the page text color
 						primary: {
 							foreground: '#FFFFFF',
-							DEFAULT: '#C30068'
+							DEFAULT: '#FF60B5'
 						},
 						secondary: {
 							foreground: '#FFFFFF',
-							DEFAULT: '#2D2D6C'
+							DEFAULT: '#21214F'
 						}
 					}
 				}
 			}
+		}),
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any, func-names
+		plugin(function ({ addUtilities }: { addUtilities: any }) {
+			addUtilities(
+				{
+					'.dark-icon-filter': {
+						filter: 'invert(71%) grayscale(100%) sepia(0%) saturate(558%) hue-rotate(187deg) brightness(90%) contrast(88%)'
+					}
+				},
+				['dark']
+			); // Ensure it's only applied in dark mode
 		}),
 		createThemes(THEME_COLORS)
 	]

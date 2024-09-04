@@ -21,7 +21,7 @@ function RFCPullRequestListingCard({ feedItem, cardClassName }: Props) {
 		<article className='max-w-[calc(100vw-300px)] xl:max-w-[calc(100vw-600px)]'>
 			<Card
 				shadow='none'
-				className={classNames('border border-primary_border', cardClassName)}
+				className={classNames('border border-primary_border bg-cardBg', cardClassName)}
 				isHoverable
 				isPressable
 				as={LinkWithNetwork}
@@ -48,7 +48,7 @@ function RFCPullRequestListingCard({ feedItem, cardClassName }: Props) {
 					</div>
 
 					<section className='flex gap-2'>
-						<p className='mt-0.5 text-xs font-normal text-slate-500'>#{feedItem.id}</p>
+						<p className='mt-0.5 text-xs font-normal text-secondaryText'>#{feedItem.id}</p>
 						<article className='flex flex-col gap-1'>
 							<h2 className='text-sm font-medium'>{feedItem.title}</h2>
 						</article>

@@ -41,6 +41,7 @@ function ActivityStatusModal({ isOpen, address, isActive, onClose, onSuccess }: 
 			scrollBehavior='inside'
 			shouldBlockScroll
 			onClose={() => onClose?.()}
+			className='bg-cardBg'
 		>
 			<ModalContent>
 				{() =>

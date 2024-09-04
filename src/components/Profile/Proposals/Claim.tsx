@@ -66,7 +66,7 @@ function Claim({ showClaimButton }: Props) {
 						src='/icons/claim.svg'
 						width={24}
 						height={24}
-						className=''
+						className='dark:dark-icon-filter'
 					/>
 				</button>
 			);

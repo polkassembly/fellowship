@@ -16,6 +16,7 @@ function DateHeader({ date = new Date(), format = 'D MMM YYYY' }: { date: Date |
 				width={16}
 				height={16}
 				alt='Clock Icon'
+				className='dark:dark-icon-filter'
 			/>
 			<span className='text-xs'>{formattedDateString}</span>
 		</div>

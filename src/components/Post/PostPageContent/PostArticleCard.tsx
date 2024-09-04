@@ -57,7 +57,7 @@ function PostArticleCard({ className, onlyDescriptionTab }: Props) {
 		<article className={className}>
 			<Card
 				shadow='none'
-				className='flex flex-col gap-3 border border-primary_border pb-4 pt-6'
+				className='flex flex-col gap-3 border border-primary_border bg-cardBg pb-4 pt-6'
 			>
 				<div className='px-6'>
 					<ContentListingHeader
@@ -69,7 +69,7 @@ function PostArticleCard({ className, onlyDescriptionTab }: Props) {
 				</div>
 
 				<section className='mt-1 flex gap-2 px-6'>
-					<p className='mt-0.5 text-base font-normal text-slate-500'>#{postData.id}</p>
+					<p className='mt-0.5 text-base font-normal text-secondaryText'>#{postData.id}</p>
 					<article className='flex flex-col gap-1'>
 						<h2 className='text-lg font-semibold md:text-xl'>{postData.title}</h2>
 						{postData.tags.length > 0 && <PostTags tags={postData.tags} />}
@@ -89,7 +89,7 @@ function PostArticleCard({ className, onlyDescriptionTab }: Props) {
 							className='w-full border-b-1 border-b-gray-300/70 px-3 md:pl-16'
 							classNames={{
 								tabList: 'gap-12 w-full relative rounded-none p-0 border-b-0 border-divider',
-								cursor: 'w-full bg-primary',
+								cursor: 'w-full bg-primary_accent',
 								tab: 'max-w-fit px-0 h-12',
 								tabContent: 'group-data-[selected=true]:text-primary text-foreground hover:text-primary group-data-[selected=true]:font-medium'
 							}}

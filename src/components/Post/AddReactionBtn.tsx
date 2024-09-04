@@ -38,7 +38,7 @@ function ReactionsList({ userReaction, onReaction }: ReactionsListProps) {
 				radius='full'
 				className={classNames('text-lg', {
 					'bg-transparent': reaction !== userReaction?.reaction,
-					'bg-primary': reaction === userReaction?.reaction
+					'bg-primary_accent': reaction === userReaction?.reaction
 				})}
 				onClick={() => {
 					onReaction(reaction);
@@ -190,6 +190,7 @@ function AddReactionBtn({ postId, postType, reactions, addReaction, removeReacti
 						alt='Add Reaction'
 						width={24}
 						height={24}
+						className='dark:dark-icon-filter'
 					/>
 				</Button>
 			</PopoverTrigger>
