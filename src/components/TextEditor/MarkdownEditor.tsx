@@ -2,12 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import 'react-mde/lib/styles/css/react-mde-all.css';
 import React, { LegacyRef, forwardRef, useCallback, useEffect, useState } from 'react';
 import ReactMde, { Suggestion } from 'react-mde';
-import { IMG_BB_API_KEY } from '@/global/apiKeys';
+import { IMG_BB_API_KEY, ALGOLIA_APP_ID, ALGOLIA_SEARCH_API_KEY } from '@/global/apiKeys';
 import nextApiClientFetch from '@/utils/nextApiClientFetch';
 import debounce from 'lodash.debounce';
+import algoliasearch from 'algoliasearch/lite';
 import { useApiContext, useUserDetailsContext } from '@/contexts';
 import './MarkdownEditor.scss';
 import Markdown from './Markdown';
@@ -26,20 +28,44 @@ const MarkdownEditor = forwardRef(function MarkdownEditor({ className, height, o
 
 	const [selectedTab, setSelectedTab] = React.useState<'write' | 'preview'>('write');
 
-	const loadSuggestions = async (text: string) => {
-		return new Promise<Suggestion[]>((accept) => {
-			const savedUsers = global.window.localStorage.getItem('users');
-			const users: string[] = savedUsers ? savedUsers.split(',') : [];
+	const algoliaClient = algoliasearch(ALGOLIA_APP_ID || '', ALGOLIA_SEARCH_API_KEY || '');
 
-			const suggestions: Suggestion[] = users
-				.map((user) => ({
-					preview: user,
-					value: `[@${user}](${global.window.location.origin}/user/${user})`
-				}))
-				.filter((i) => i.preview.toLowerCase().includes(text.toLowerCase()));
+	const loadSuggestions = async (pattern: string): Promise<Suggestion[]> => {
+		const queries = [
+			{
+				indexName: 'polkassembly_users',
+				query: pattern,
+				params: {
+					hitsPerPage: 6,
+					restrictSearchableAttributes: ['username']
+				}
+			},
+			{
+				indexName: 'polkassembly_addresses',
+				query: pattern,
+				params: {
+					hitsPerPage: 4,
+					restrictSearchableAttributes: ['address']
+				}
+			}
+		];
 
-			accept(suggestions);
-		});
+		const hits = await algoliaClient.search(queries, { strategy: 'none' });
+
+		const usernameHits = hits.results[0]?.hits || [];
+		const addressHits = hits.results[1]?.hits || [];
+
+		const usernameResults: Suggestion[] = usernameHits.map((user: any) => ({
+			preview: `@${user.username}`,
+			value: `[@${user.username}](${global.window.location.origin}/user/${user.username})`
+		}));
+
+		const addressResults: Suggestion[] = addressHits.map((user: any) => ({
+			preview: `@${user.address}`,
+			value: `[@${user.address}](${global.window.location.origin}/address/${user.address})`
+		}));
+
+		return [...usernameResults, ...addressResults];
 	};
 
 	// Generator function to save images pasted. This generator should 1) Yield the image URL. 2) Return true if the save was successful or false, otherwise
@@ -147,6 +173,9 @@ const MarkdownEditor = forwardRef(function MarkdownEditor({ className, height, o
 				onTabChange={setSelectedTab}
 				selectedTab={selectedTab}
 				loadSuggestions={loadSuggestions}
+				classes={{
+					suggestionsDropdown: 'rounded-lg bg-cardBg [&>li]:bg-cardBg'
+				}}
 				toolbarCommands={[['bold', 'header', 'link', 'quote', 'strikethrough', 'code', 'image', 'ordered-list', 'unordered-list']]}
 				paste={{
 					saveImage: handleSaveImage
