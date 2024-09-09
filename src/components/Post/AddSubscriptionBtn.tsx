@@ -27,6 +27,7 @@ function AddSubscriptionBtn() {
 					alt='Add Subscription'
 					width={24}
 					height={24}
+					className='dark:dark-icon-filter'
 				/>
 			</Button>
 		</Tooltip>

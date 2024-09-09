@@ -49,6 +49,7 @@ function CreateRankRequestModal({ params }: ServerComponentProps<IParams, unknow
 			size='4xl'
 			scrollBehavior='inside'
 			shouldBlockScroll
+			className='bg-cardBg'
 		>
 			<ModalContent>
 				{() =>

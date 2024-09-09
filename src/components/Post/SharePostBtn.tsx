@@ -27,6 +27,7 @@ function SharePostBtn() {
 					alt='Share Post'
 					width={24}
 					height={24}
+					className='dark:dark-icon-filter'
 				/>
 			</Button>
 		</Tooltip>

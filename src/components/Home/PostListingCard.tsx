@@ -27,10 +27,11 @@ interface Props {
 
 function PostListingCard({ feedItem, cardClassName, isDividerDisabled }: Props) {
 	return (
-		<article className='w-full md:max-w-[calc(100vw-300px)] xl:max-w-[calc(100vw-600px)]'>
+		<article className='w-full lg:max-w-[calc(100vw-300px)] xl:max-w-[calc(100vw-600px)]'>
 			<Card
 				shadow='none'
-				className={classNames('border border-primary_border', cardClassName)}
+				// eslint-disable-next-line prettier/prettier
+				className={classNames('bg-cardBg border border-primary_border', cardClassName)}
 				isHoverable
 				isPressable
 				as={LinkWithNetwork}

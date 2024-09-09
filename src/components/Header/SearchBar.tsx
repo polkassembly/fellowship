@@ -6,7 +6,7 @@ import { Input } from '@nextui-org/input';
 import React from 'react';
 import Image from 'next/image';
 
-function SearchBar({ className = '' }: { className?: string }) {
+function SearchBar({ className = 'bg-primary' }: { className?: string }) {
 	return (
 		<Input
 			size='sm'
@@ -19,13 +19,14 @@ function SearchBar({ className = '' }: { className?: string }) {
 					src='/icons/search.svg'
 					width={12}
 					height={12}
+					className='dark:dark-icon-filter'
 				/>
 			}
 			disabled
 			isDisabled
 			className={className}
 			classNames={{
-				inputWrapper: ['border-1', 'border-primary_border']
+				inputWrapper: ['border-1', 'border-primary_border', 'bg-searchBg']
 			}}
 		/>
 	);

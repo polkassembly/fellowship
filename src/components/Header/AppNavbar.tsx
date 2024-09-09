@@ -11,6 +11,7 @@ import { useTheme } from 'next-themes';
 import { Button } from '@nextui-org/button';
 import THEME_CONSTANTS from '@/global/themeConstants';
 import styles from './Header.module.scss';
+import AppLogo from './AppLogo';
 
 const AppMenu = dynamic(() => import('./AppMenu'), { ssr: false });
 
@@ -24,12 +25,7 @@ function AppNavbar() {
 			className={styles.appNavbar}
 		>
 			<div className={styles.navMobileHeader}>
-				<Image
-					src={THEME_CONSTANTS[resolvedTheme as keyof typeof THEME_CONSTANTS].polk_logo}
-					alt='Logo'
-					width={100}
-					height={20}
-				/>
+				<AppLogo />
 				<Button
 					isIconOnly
 					variant='light'
@@ -40,7 +36,7 @@ function AppNavbar() {
 						<Image
 							src={THEME_CONSTANTS[resolvedTheme as keyof typeof THEME_CONSTANTS].menuCloseIcon}
 							alt='Menu'
-							className='fill-white stroke-white'
+							className='fill-white stroke-white dark:dark-icon-filter'
 							width={20}
 							height={20}
 						/>
@@ -50,7 +46,7 @@ function AppNavbar() {
 							alt='Menu'
 							width={20}
 							height={20}
-							className='fill-white stroke-white'
+							className='fill-white stroke-white dark:dark-icon-filter'
 						/>
 					)}
 				</Button>

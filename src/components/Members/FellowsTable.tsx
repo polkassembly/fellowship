@@ -27,7 +27,7 @@ function FellowsTable({ className, fellows, fellowsDetails }: Props) {
 	return (
 		<>
 			<Table
-				className={`${className} hidden h-[calc(100vh-200px)] overflow-y-auto md:table`}
+				className={`${className} hidden h-[calc(100vh-200px)] overflow-y-auto md:table [&>div]:bg-cardBg`}
 				aria-label='Fellows Table'
 				selectionMode='single'
 				isHeaderSticky
@@ -43,8 +43,8 @@ function FellowsTable({ className, fellows, fellowsDetails }: Props) {
 								src='/icons/table/proposal.svg'
 								width={16}
 								height={16}
-								className='ml-[-8px] mr-2'
-							/>{' '}
+								className='ml-[-8px] mr-2 dark:dark-icon-filter'
+							/>
 							Proposals
 						</div>
 					</TableColumn>
@@ -55,8 +55,8 @@ function FellowsTable({ className, fellows, fellowsDetails }: Props) {
 								src='/icons/table/votes.svg'
 								width={16}
 								height={16}
-								className='ml-[-8px] mr-2'
-							/>{' '}
+								className='ml-[-8px] mr-2 dark:dark-icon-filter'
+							/>
 							Voted
 						</div>
 					</TableColumn>
@@ -67,8 +67,8 @@ function FellowsTable({ className, fellows, fellowsDetails }: Props) {
 								src='/icons/table/contribution.svg'
 								width={16}
 								height={16}
-								className='ml-[-8px] mr-2'
-							/>{' '}
+								className='ml-[-8px] mr-2 dark:dark-icon-filter'
+							/>
 							Contributions
 						</div>
 					</TableColumn>
@@ -79,8 +79,8 @@ function FellowsTable({ className, fellows, fellowsDetails }: Props) {
 								src='/icons/table/salary.svg'
 								width={16}
 								height={16}
-								className='ml-[-8px] mr-2'
-							/>{' '}
+								className='ml-[-8px] mr-2 dark:dark-icon-filter'
+							/>
 							Salary
 						</div>
 					</TableColumn>
@@ -142,7 +142,7 @@ function FellowsTable({ className, fellows, fellowsDetails }: Props) {
 									src='/icons/chevron.svg'
 									width={12}
 									height={12}
-									className='-rotate-90'
+									className='-rotate-90 dark:dark-icon-filter'
 								/>
 							</TableCell>
 						</TableRow>

@@ -88,7 +88,7 @@ function ProfileAddressDetails(props: Props) {
 		<>
 			<div className='relative w-full md:w-auto'>
 				<section className='relative h-full w-full xl:mb-auto xl:w-[98px]'>
-					<Card className='-top-5 z-10 mx-auto flex h-[98px] w-[98px] items-center justify-center rounded-full xl:absolute xl:-left-2 xl:-top-3'>
+					<Card className='-top-5 z-10 mx-auto flex h-[98px] w-[98px] items-center justify-center rounded-full bg-cardBg xl:absolute xl:-left-2 xl:-top-3'>
 						<Identicon
 							className='image identicon'
 							value={address}
@@ -98,7 +98,7 @@ function ProfileAddressDetails(props: Props) {
 					</Card>
 				</section>
 				{/* TODO: make and use a 'profile' variant of Address/index.tsx instead */}
-				<Card className='relative flex h-[68px] min-w-[324px] gap-x-3 rounded-[20px] border border-primary_border pl-4 xl:pl-[98px]'>
+				<Card className='relative flex h-[68px] min-w-[324px] gap-x-3 rounded-[20px] border border-primary_border bg-cardBg pl-4 xl:pl-[98px]'>
 					<section className='flex w-full flex-col justify-between py-2 pr-4'>
 						<article className='flex w-full items-center justify-between'>
 							<h6 className='flex items-center gap-2 text-xl font-semibold leading-6'>
@@ -136,7 +136,7 @@ function ProfileAddressDetails(props: Props) {
 									src='/icons/content_copy.svg'
 									width={16}
 									height={16}
-									className='cursor-pointer rounded-full'
+									className='cursor-pointer rounded-full dark:dark-icon-filter'
 									onClick={() => {
 										navigator.clipboard.writeText(address);
 									}}
@@ -148,7 +148,7 @@ function ProfileAddressDetails(props: Props) {
 										<DropdownTrigger>
 											<Button
 												variant='solid'
-												className='flex h-auto items-center justify-between border-none bg-primary p-0 px-2 py-0.5 text-white'
+												className='flex h-auto items-center justify-between border-none bg-primary_accent p-0 px-2 py-0.5 text-white'
 											>
 												<span className='text-xs font-normal leading-[18px] tracking-[0.33px]'>{activeStatus}</span>
 												<Image

@@ -26,6 +26,7 @@ function NetworkDropdown({ closeMenu }: { closeMenu: () => void }) {
 			<DropdownTrigger>
 				<Button
 					variant='bordered'
+					// eslint-disable-next-line prettier/prettier
 					className='flex h-unit-10 gap-2 rounded-lg border-1 border-primary_border px-5 text-sm font-medium lg:h-unit-8 lg:rounded-2xl'
 				>
 					<Image
@@ -41,7 +42,7 @@ function NetworkDropdown({ closeMenu }: { closeMenu: () => void }) {
 						src='/icons/chevron.svg'
 						width={12}
 						height={12}
-						className='ml-auto rounded-full'
+						className='ml-auto rounded-full dark:dark-icon-filter'
 					/>
 				</Button>
 			</DropdownTrigger>

@@ -40,7 +40,7 @@ function Carousel() {
 					color='primary'
 					href='/join-fellowship'
 					as={LinkWithNetwork}
-					className='text-sm font-semibold shadow-md'
+					className='bg-primary_accent text-sm font-semibold shadow-md '
 					radius='full'
 					size='md'
 				>
