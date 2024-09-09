@@ -37,15 +37,20 @@ function DiscordInfoModal({ title, open, getVerifyToken, generatedToken = '', on
 
 	const handleGenerateToken = async () => {
 		setLoading(true);
-		const data = await getVerifyToken(CHANNEL.DISCORD);
-		if (!data) {
-			queueNotification({ message: 'Error generating token', header: 'Error', status: 'error' });
+		try {
+			const data = await getVerifyToken(CHANNEL.DISCORD);
+			if (!data) {
+				queueNotification({ message: 'Error generating token', header: 'Error', status: 'error' });
+				return;
+			}
+			setToken(data);
+		} catch (error) {
+			queueNotification({ message: 'Unexpected error occurred', header: 'Error', status: 'error' });
+		} finally {
 			setLoading(false);
-			return;
 		}
-		setToken(data);
-		setLoading(false);
 	};
+
 	const handleCopyClicked = (text: string) => {
 		navigator.clipboard.writeText(text);
 		queueNotification({ message: 'Copied', header: 'success' });

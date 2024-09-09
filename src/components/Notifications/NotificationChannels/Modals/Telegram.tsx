@@ -34,16 +34,21 @@ function TelegramInfoModal({ title, open, getVerifyToken, generatedToken = '', o
 	const [loading, setLoading] = useState(false);
 	const [token, setToken] = useState(generatedToken);
 	const { username } = useUserDetailsContext();
+
 	const handleGenerateToken = async () => {
 		setLoading(true);
-		const data = await getVerifyToken(CHANNEL.TELEGRAM);
-		if (!data) {
-			queueNotification({ message: 'Error generating token', header: 'Error', status: 'error' });
+		try {
+			const data = await getVerifyToken(CHANNEL.TELEGRAM);
+			if (!data) {
+				queueNotification({ message: 'Error generating token', header: 'Error', status: 'error' });
+				return;
+			}
+			setToken(data);
+		} catch (error) {
+			queueNotification({ message: 'Unexpected error occurred', header: 'Error', status: 'error' });
+		} finally {
 			setLoading(false);
-			return;
 		}
-		setToken(data);
-		setLoading(false);
 	};
 
 	const handleCopyClicked = (text: string) => {

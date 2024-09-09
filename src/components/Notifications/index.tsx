@@ -67,7 +67,7 @@ export default function Notifications() {
 				setCurrNetworkPreferences(networkPreferences);
 			}
 		} catch (e) {
-			console.log(e);
+			console.error('Failed to fetch notification settings:', e);
 			queueNotification({
 				header: 'Error!',
 				message: (e as Error).message || 'Failed to fetch notification settings',
@@ -103,13 +103,19 @@ export default function Notifications() {
 				network,
 				isPolkassemblyAPI: true
 			})) as { data: { message: string }; error: string | null };
+
 			if (error || !data.message) {
-				throw new Error(error || '');
+				throw new Error(error || 'Failed to update channel notification');
 			}
 
 			return true;
 		} catch (e) {
-			console.log(e);
+			console.error('Failed to toggle channel preferences:', e);
+			queueNotification({
+				header: 'Error!',
+				message: 'Failed to update channel notification',
+				status: 'error'
+			});
 		}
 	};
 
