@@ -39,7 +39,8 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
 	const result = await gqlClient
 		.query(GET_ALL_ACTIVITIES, {
 			limit: LISTING_LIMIT,
-			offset: (page - 1) * LISTING_LIMIT
+			offset: (page - 1) * LISTING_LIMIT,
+			type_not_in: [SubsquidActivityType.Voted]
 		})
 		.toPromise();
 
