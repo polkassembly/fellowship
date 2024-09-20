@@ -4,7 +4,6 @@
 
 import '../global/globals.scss';
 import 'react-toastify/dist/ReactToastify.css';
-import NextTopLoader from 'nextjs-toploader';
 import type { Metadata } from 'next';
 import { ReactNode } from 'react';
 import AppSidebar from '@/components/Header/AppSidebar';
@@ -24,11 +23,6 @@ export default function RootLayout({ children, modal }: { children: ReactNode; m
 		<html lang='en'>
 			<body className={`${poppinsFont.className}`}>
 				<Providers>
-					<NextTopLoader
-						color='#E5007A'
-						crawlSpeed={300}
-						showSpinner={false}
-					/>
 					<section id='root-section'>
 						<section className='fixed h-[96vh] lg:block'>
 							<AppSidebar />
