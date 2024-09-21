@@ -5,8 +5,8 @@
 import { gql } from '@urql/core';
 
 export const GET_ALL_ACTIVITIES = gql`
-	query GET_ALL_ACTIVITIES($limit: Int = 30, $offset: Int = 0) {
-		activities(limit: $limit, offset: $offset, orderBy: createdAt_DESC) {
+	query GET_ALL_ACTIVITIES($limit: Int = 30, $offset: Int = 0, $type_not_in: [ActivityType!]) {
+		activities(limit: $limit, offset: $offset, orderBy: createdAt_DESC, where: { type_not_in: $type_not_in }) {
 			id
 			type
 			who
