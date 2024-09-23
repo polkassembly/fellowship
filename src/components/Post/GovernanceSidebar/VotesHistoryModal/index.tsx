@@ -72,6 +72,7 @@ function VotesHistoryModal({ isModalOpen, closeModal }: Props) {
 			scrollBehavior='inside'
 			shouldBlockScroll
 			isDismissable={false}
+			className='bg-cardBg'
 		>
 			<ModalContent>
 				{() => (

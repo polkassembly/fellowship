@@ -5,6 +5,7 @@
 const THEME_COLORS = {
 	light: {
 		primary_border: '#D2D8E0',
+		primary_accent: '#E5007A',
 		tooltip_background: '#363636',
 		tooltip_foreground: '#FFFFFF',
 		link: '#1B61FF',
@@ -18,16 +19,26 @@ const THEME_COLORS = {
 		inductionAccordionHeaderBg: '#191042',
 		topFellowCardBg: '#FDEFFF',
 		rankRequestBtn: '#407BFF',
+		cardBg: '#FFFFFF',
 		secondaryText: '#485F7D',
 		warningBg: '#F9ECAA80',
 		warning: '#E9C400',
 		successBg: '#C2EECC80',
 		success: '#03781D',
 		errorBg: '#FEE1E1',
-		error: '#BA1717'
+		error: '#BA1717',
+		statsGreen: '#00AC4F',
+		contributionEmpty: '#ebedf0',
+		contributionSm: '#9be9a8',
+		contributionMd: '#40c463',
+		contributionLg: '#30a14e',
+		contributionXl: '#216e39',
+		searchBg: '#E3E4E433',
+		selectedRadioBg: '#FEF2F8'
 	},
 	dark: {
-		primary_border: '#3F3F46',
+		primary_border: '#4B4B4B',
+		primary_accent: '#C30068',
 		tooltip_background: '#363636',
 		tooltip_foreground: '#FFFFFF',
 		link: '#1B61FF',
@@ -41,13 +52,22 @@ const THEME_COLORS = {
 		inductionAccordionHeaderBg: '#191042',
 		topFellowCardBg: '#3F3F46',
 		rankRequestBtn: '#407BFF',
-		secondaryText: '#63636F',
+		cardBg: '#252B36',
+		secondaryText: '#485F7D',
 		warningBg: '#F9ECAA80',
 		warning: '#E9C400',
 		successBg: '#C2EECC80',
 		success: '#03781D',
 		errorBg: '#FEE1E1',
-		error: '#BA1717'
+		error: '#BA1717',
+		statsGreen: '#00AC4F',
+		contributionEmpty: '#161b22',
+		contributionSm: '#0e4429',
+		contributionMd: '#006d32',
+		contributionLg: '#26a641',
+		contributionXl: '#39d353',
+		searchBg: '#333945',
+		selectedRadioBg: '#3E1C2D'
 	}
 };
 

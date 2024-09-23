@@ -53,7 +53,7 @@ export default function JoinFellowship() {
 								handleSubmit();
 							}
 						}}
-						className='flex w-full flex-1 text-sm'
+						className='flex w-full flex-1 bg-primary_accent text-sm'
 					>
 						{isPreview ? (
 							'Submit Application'

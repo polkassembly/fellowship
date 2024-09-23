@@ -83,7 +83,8 @@ function MembersPage() {
 						onClick={() => setSelectedRankGroup(null)}
 						color={!selectedRankGroup ? 'primary' : 'default'}
 						variant='bordered'
-						className='h-10 max-h-10 min-h-10 cursor-pointer rounded-xl border-1'
+						// eslint-disable-next-line prettier/prettier
+						className='min-h-10 h-10 max-h-10 cursor-pointer rounded-xl border-1'
 					>
 						<span className='text-xs font-semibold'>All ({fellows.length})</span>
 					</Chip>
@@ -93,7 +94,8 @@ function MembersPage() {
 							color={selectedRankGroup === rankGroup ? 'primary' : 'default'}
 							key={rankGroup}
 							variant='bordered'
-							className='h-10 max-h-10 min-h-10 cursor-pointer gap-1 rounded-xl border-1 px-6'
+							// eslint-disable-next-line prettier/prettier
+							className='min-h-10 h-10 max-h-10 cursor-pointer gap-1 rounded-xl border-1 px-6'
 							onClick={() => setSelectedRankGroup(rankGroup)}
 						>
 							<div className='flex items-center gap-2'>
@@ -120,6 +122,7 @@ function MembersPage() {
 							src='/icons/search.svg'
 							width={12}
 							height={12}
+							className='dark:dark-icon-filter'
 						/>
 					}
 					value={searchValue}

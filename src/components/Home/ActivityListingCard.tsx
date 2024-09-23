@@ -59,7 +59,7 @@ function ActivityListingCard({ feedItem }: Props) {
 							address={feedItem.who}
 							truncateCharLen={5}
 						/>
-						&nbsp; submitted an evidence :&nbsp;<span className='w-full break-words'>{feedItem.evidence}</span>
+						<p className='line-clamp-3 w-full break-words text-sm md:line-clamp-2'>{feedItem.evidence}</p>
 					</>
 				);
 				break;
@@ -239,10 +239,10 @@ function ActivityListingCard({ feedItem }: Props) {
 	};
 
 	return (
-		<article>
+		<article className='w-full'>
 			<Card
 				shadow='none'
-				className='flex flex-col gap-3 border border-primary_border px-6 py-4'
+				className='flex flex-col gap-3 border border-primary_border bg-cardBg px-6 py-4'
 			>
 				<div className='flex w-full gap-3 pb-3 text-sm'>{getActivityText()}</div>
 				<PostReactionInfoBar

@@ -3,12 +3,11 @@
 }
 
 .navListboxItemHover {
-	@apply text-primary;
-	background-color: hsl(var(--nui-primary) / 0.2);
+	@apply bg-primary_accent/20 text-primary_accent;
 }
 
 .appNavbar {
-	@apply mb-6 flex h-[52px] w-full items-center justify-between gap-x-4 rounded-[14px] border border-primary_border bg-content1 px-4 py-2.5;
+	@apply mb-6 flex h-[52px] w-full items-center justify-between gap-x-4 rounded-[14px] border border-primary_border bg-cardBg px-4 py-2.5;
 }
 
 .navMobileHeader {
@@ -24,5 +23,5 @@
 }
 
 .footerNavMobile {
-	@apply fixed bottom-0 left-0 right-0 z-[999] flex h-[57px] w-screen justify-between rounded-t-2xl bg-secondary p-2 pb-0 text-secondary-foreground md:hidden;
+	@apply fixed bottom-0 left-0 right-0 z-[999] flex h-[57px] w-screen justify-between rounded-t-2xl bg-secondary p-2 pb-0 text-secondary-foreground lg:hidden;
 }

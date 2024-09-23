@@ -5,15 +5,36 @@
 'use client';
 
 import { Card } from '@nextui-org/card';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, cache } from 'react';
+import { Divider } from '@nextui-org/divider';
 
 import Image from 'next/image';
 import { useApiContext } from '@/contexts';
+import { getGithubMonthlyStats } from '@/utils/getGithubMonthlyStats';
+import { useTheme } from 'next-themes';
+import THEME_CONSTANTS from '@/global/themeConstants';
+import LoadingSpinner from '../Misc/LoadingSpinner';
 
-function StatDisplay({ heroImg, title, value, icon, percentage }: { heroImg: string; title: string; value: number; icon?: string; percentage?: number }) {
+const getGithubStats = cache(getGithubMonthlyStats);
+
+function StatDisplay({
+	heroImg,
+	title,
+	value,
+	icon,
+	percentage,
+	isIncrease
+}: {
+	heroImg: string;
+	title: string;
+	value: number;
+	icon?: string;
+	percentage?: number;
+	isIncrease?: boolean;
+}) {
 	return (
 		<div className='flex w-full flex-row items-center'>
-			<div className='min-w-max rounded-xl border-2 border-primary_border p-1'>
+			<div className='min-w-max'>
 				<Image
 					src={heroImg}
 					alt='Stats Icon'
@@ -23,7 +44,7 @@ function StatDisplay({ heroImg, title, value, icon, percentage }: { heroImg: str
 				/>
 			</div>
 			<div className='ml-3 flex flex-col'>
-				<small className='text-sm font-normal'>{title}</small>
+				<small className='text-sm font-normal text-secondaryText'>{title}</small>
 				<p className='text-2xl font-semibold'>{value}</p>
 				{percentage && (
 					<small className='flex items-center text-xs font-normal'>
@@ -35,8 +56,8 @@ function StatDisplay({ heroImg, title, value, icon, percentage }: { heroImg: str
 								height={20}
 							/>
 						)}
-						<span className='ml-1'>
-							<b>{percentage}%</b> this month
+						<span className='ml-1 text-secondaryText'>
+							<b className={isIncrease ? 'text-statsGreen' : 'text-voteNay'}>{percentage}%</b> this month
 						</span>
 					</small>
 				)}
@@ -45,40 +66,75 @@ function StatDisplay({ heroImg, title, value, icon, percentage }: { heroImg: str
 	);
 }
 
-function Stats({ className }: { className?: string }) {
+function Stats({ className }: Readonly<{ className?: string }>) {
 	const { api, apiReady } = useApiContext();
 
 	const [memberCount, setMemberCount] = useState(0);
+	const [githubStats, setGithubStats] = useState<{
+		totalContributionsCount: number;
+		percentageDifference: string;
+		isIncrease: boolean;
+	}>();
+	const [loading, setLoading] = useState(true);
+
+	const { resolvedTheme = 'light' } = useTheme();
+
+	const [mounted, setMounted] = useState(false);
 
 	useEffect(() => {
-		if (!api || !apiReady) return;
+		async function fetchStats() {
+			if (!api || !apiReady) return;
 
-		(async () => {
-			const count = (await api.query.fellowshipCollective.memberCount(0)) || 0;
-			setMemberCount(Number(count.toString()));
-		})();
+			try {
+				const [count, stats] = await Promise.all([api.query.fellowshipCollective.memberCount(0), getGithubStats()]);
+
+				setMemberCount(Number(count.toString()));
+				setGithubStats(stats);
+				setLoading(false);
+			} catch (error) {
+				console.error('Error fetching stats:', error);
+				setLoading(false);
+			}
+		}
+
+		fetchStats();
 	}, [api, apiReady]);
+
+	// only mount on client to prevent hydration error
+	useEffect(() => {
+		setMounted(true);
+	}, []);
+
+	if (!mounted) {
+		return null;
+	}
 
 	return (
 		<Card
-			className={`flex flex-col items-center gap-y-6 border border-primary_border p-6 ${className}`}
+			className={`flex flex-col items-center gap-y-6 border border-primary_border bg-cardBg p-6 ${className}`}
 			shadow='none'
 		>
-			<StatDisplay
-				heroImg='/icons/stats-users.svg'
-				title='Number of fellows'
-				value={memberCount}
-				// icon='/icons/arrow-up-green.svg'
-				// percentage={12.8}
-			/>
-			{/* <Divider />
-			<StatDisplay
-				heroImg='/icons/stats-github.svg'
-				title='Github Commits'
-				value={60}
-				icon='/icons/arrow-down-red.svg'
-				percentage={12.8}
-			/> */}
+			{loading ? (
+				<LoadingSpinner message='fetching stats...' />
+			) : (
+				<>
+					<StatDisplay
+						heroImg={THEME_CONSTANTS[resolvedTheme as keyof typeof THEME_CONSTANTS].stats_user}
+						title='Number of fellows'
+						value={memberCount}
+						// icon='/icons/arrow-up-green.svg'
+						// percentage={12.8}
+					/>
+					<Divider />
+					<StatDisplay
+						heroImg={THEME_CONSTANTS[resolvedTheme as keyof typeof THEME_CONSTANTS].stats_github}
+						title='Github commits'
+						value={githubStats?.totalContributionsCount ?? 0}
+						icon={githubStats?.isIncrease ? '/icons/arrow-up-green.svg' : '/icons/arrow-down-red.svg'}
+						percentage={Number(githubStats?.percentageDifference ?? 0)}
+					/>
+				</>
+			)}
 		</Card>
 	);
 }

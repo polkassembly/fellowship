@@ -64,6 +64,7 @@ function SalaryInductModalPage({ params, searchParams }: ServerComponentProps<IP
 			size='4xl'
 			scrollBehavior='inside'
 			shouldBlockScroll
+			className='bg-cardBg'
 		>
 			<ModalContent>
 				{() =>
