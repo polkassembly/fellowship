@@ -57,7 +57,7 @@ export type NetworkConstants = {
 };
 
 export enum EActivityFeed {
-	// PENDING = 'pending',
+	PENDING = 'pending',
 	ALL = 'all',
 	GENERAL_PROPOSALS = 'general-proposals',
 	RANK_REQUESTS = 'rank-requests',
