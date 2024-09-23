@@ -95,8 +95,8 @@ export const GER_USER_ACTIVITY = gql`
 `;
 
 export const GET_FELLOWSHIP_REFERENDUMS = gql`
-	query GET_FELLOWSHIP_REFERENDUMS($limit: Int = 10, $offset: Int = 0, $type_in: [ActivityType!], $who_eq: String) {
-		activities(where: { type_in: $type_in, who_eq: $who_eq }, limit: $limit, offset: $offset, orderBy: proposal_createdAt_DESC) {
+	query GET_FELLOWSHIP_REFERENDUMS($limit: Int = 10, $offset: Int = 0, $type_in: [ActivityType!], $who_eq: String, $status: [ProposalStatus!]) {
+		activities(where: { type_in: $type_in, who_eq: $who_eq, proposal: { status_in: $status } }, limit: $limit, offset: $offset, orderBy: proposal_createdAt_DESC) {
 			type
 			proposal {
 				id

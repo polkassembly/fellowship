@@ -13,7 +13,7 @@ import { useApiContext } from '@/contexts';
 import Image from 'next/image';
 import { Button } from '@nextui-org/button';
 
-function ActivitySelectorCard({ value = EActivityFeed.ALL }: { value?: EActivityFeed }) {
+function ActivitySelectorCard({ value = EActivityFeed.PENDING }: { value?: EActivityFeed }) {
 	const router = useRouter();
 	const { network } = useApiContext();
 	const elementRef = useRef<HTMLDivElement>(null);
