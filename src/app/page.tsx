@@ -50,16 +50,16 @@ export default async function Home({ searchParams }: ServerComponentProps<unknow
 		<div className='flex w-full flex-col gap-y-8'>
 			<Carousel />
 
-			<div className='mb-16 flex flex-col items-center gap-8 md:mb-auto xl:flex-row xl:items-start'>
-				<div className='flex w-full flex-col gap-y-4'>
+			<div className='mb-16 flex flex-col items-center gap-8 md:mb-auto lg:flex-row lg:items-start'>
+				<div className='flex w-full flex-col gap-y-4 lg:max-w-[calc(100%-300px)]'>
 					<PendingTasks className='md:hidden' />
-					<Stats className='md:hidden' />
+					<Stats className='lg:hidden' />
 					<ActivitySelectorCard value={feed as EActivityFeed} />
 					{feed === EActivityFeed.ALL ? <ActivityFeed items={(feedItems || []) as ActivityFeedItem[]} /> : <PostFeed items={(feedItems || []) as PostListingItem[]} />}
 				</div>
-				<div className='flex w-full flex-col gap-y-4 md:w-6/12 xl:w-4/12'>
+				<div className='flex w-full flex-col gap-y-4 lg:w-[300px]'>
 					<PendingTasks className='hidden md:flex' />
-					<Stats className='hidden md:flex' />
+					<Stats className='hidden lg:flex' />
 					<JoinFellowshipCard />
 					<TrendingProposals proposals={trending} />
 				</div>

@@ -31,7 +31,7 @@ function PostListingCard({ feedItem, cardClassName, isDividerDisabled }: Props) 
 			<Card
 				shadow='none'
 				// eslint-disable-next-line prettier/prettier
-				className={classNames('bg-cardBg border border-primary_border', cardClassName)}
+				className={classNames('border border-primary_border bg-cardBg', cardClassName)}
 				isHoverable
 				isPressable
 				as={LinkWithNetwork}
