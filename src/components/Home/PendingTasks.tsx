@@ -5,43 +5,47 @@
 'use client';
 
 import { Card } from '@nextui-org/card';
-import React, { useEffect, useState, cache } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useApiContext } from '@/contexts';
+import { useApiContext, useUserDetailsContext } from '@/contexts';
 import { EActivityFeed } from '@/global/types';
-import LoadingSpinner from '../Misc/LoadingSpinner';
+import getPendingActivityCount from '@/app/api/v1/feed/pending/getPendingActivityCount';
+import getOriginUrl from '@/utils/getOriginUrl';
 import Progress from '../Misc/Progress';
-
-const getPendingTasks = cache(() => {
-	return 45;
-});
+import LoadingSpinner from '../Misc/LoadingSpinner';
 
 function PendingTasks({ className }: Readonly<{ className?: string }>) {
-	const { api, apiReady, network } = useApiContext();
+	const { network } = useApiContext();
+	const { loginAddress, addresses } = useUserDetailsContext();
 	const router = useRouter();
 
-	const [pendingTasks, setPendingTasks] = useState<number>(0);
+	const [completedTasks, setCompletedTasks] = useState<number>(0);
 	const [allTasks, setAllTasks] = useState<number>(54);
 
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		async function fetchPendingTasks() {
-			if (!api || !apiReady) return;
-
+		(async () => {
+			setLoading(true);
 			try {
-				const pendingTaskCount = await getPendingTasks();
+				const originUrl = getOriginUrl();
 
-				setPendingTasks(pendingTaskCount);
-				setLoading(false);
+				const data = await getPendingActivityCount({
+					originUrl,
+					address: loginAddress || addresses?.[0] || '',
+					network,
+					page: 1
+				});
+				if (data) {
+					setCompletedTasks(data.userCompletedCount);
+					setAllTasks(data.allPendingCount);
+				}
 			} catch (error) {
-				console.error('Error fetching pendingTasks:', error);
-				setLoading(false);
+				//
 			}
-		}
-
-		fetchPendingTasks();
-	}, [api, apiReady]);
+			setLoading(false);
+		})();
+	}, [network, loginAddress, addresses]);
 
 	const handleShowPendingTasks = (activityValue: string) => {
 		router.push(`/?feed=${activityValue}&network=${network}`);
@@ -66,7 +70,7 @@ function PendingTasks({ className }: Readonly<{ className?: string }>) {
 					<div className='flex w-full flex-row items-center gap-3'>
 						<div className='min-w-max rounded-full'>
 							<Progress
-								percentage={Math.round((pendingTasks / allTasks) * 100)}
+								percentage={Math.round((Number(completedTasks ?? 0) / Number(allTasks ?? 0)) * 100)}
 								size={80}
 								color='#47BE61'
 								strokeWidth={7}
@@ -74,7 +78,7 @@ function PendingTasks({ className }: Readonly<{ className?: string }>) {
 						</div>
 
 						<p className='text-xs'>
-							you have completed <b>{pendingTasks}</b> out of <b>{allTasks}</b> tasks
+							you have completed <b>{completedTasks}</b> out of <b>{allTasks}</b> tasks
 						</p>
 					</div>
 				</div>
