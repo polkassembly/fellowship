@@ -267,6 +267,21 @@ export const GET_VOTES_COUNT = gql`
 	}
 `;
 
+export const GET_PENDING_ACTIVITIES = gql`
+	query GET_PENDING_ACTIVITIES($status_in: [ProposalStatus!], $voter_in: [String!]) {
+		all_pending: activities(where: { proposal: { status_in: $status_in } }) {
+			type
+			proposal {
+				index
+			}
+		}
+		user_voted: votes(where: { proposal: { status_in: $status_in }, voter_in: $voter_in }) {
+			voter
+			proposalIndex
+		}
+	}
+`;
+
 export const GET_VOTES = gql`
 	query GET_VOTES($limit: Int = 10, $offset: Int = 0, $index_eq: Int! = 44, $type_eq: VoteType = Fellowship, $decision_eq: VoteDecision = yes) {
 		votes(limit: $limit, offset: $offset, where: { type_eq: $type_eq, proposalIndex_eq: $index_eq, decision_eq: $decision_eq }) {
