@@ -18,19 +18,19 @@ function LinkDiscussionNudge() {
 			content={
 				<div className='max-w-[320px] p-4'>
 					<h4 className='mb-3 text-sm font-semibold capitalize'>Link Discussion post</h4>
-					<p className='text-tiny'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc dignissim sodales neque</p>
+					<p className='text-tiny'>Please add contextual info for voters to make an informed decision</p>
 
 					<div className='mt-3 flex w-full items-center justify-between gap-5'>
 						<Button
 							size='sm'
-							className='w-full bg-buttonRed text-white'
+							className='bg-buttonRed w-full text-white'
 						>
 							Link
 						</Button>
 						<Button
 							variant='light'
 							size='sm'
-							className='w-full font-bold text-buttonRed'
+							className='text-buttonRed w-full font-bold'
 						>
 							Later
 						</Button>
