@@ -17,11 +17,11 @@ function SetIdentityNudge() {
 	if (!isNudgeVisible) return null;
 
 	return (
-		<div className='mb-5 flex w-full flex-row items-center justify-between gap-8 rounded-lg border-none bg-nudgePurpleBg px-5 py-2 text-xs'>
+		<div className='bg-nudgePurpleBg mb-5 flex w-full flex-row items-center justify-between gap-8 rounded-lg border-none px-5 py-2 text-xs'>
 			<button
 				type='button'
 				className='flex flex-col gap-2 text-white sm:inline-flex sm:flex-row sm:items-center'
-				onClick={() => {}}
+				// todo: add set Identity function
 			>
 				Identity has not been verified yet
 				<span className='inline-flex cursor-pointer items-center gap-2 rounded-md bg-black/30 px-2 py-1 hover:opacity-80'>
