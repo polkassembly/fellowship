@@ -23,14 +23,14 @@ function LinkDiscussionNudge() {
 					<div className='mt-3 flex w-full items-center justify-between gap-5'>
 						<Button
 							size='sm'
-							className='bg-buttonRed w-full text-white'
+							className='w-full bg-buttonRed text-white'
 						>
 							Link
 						</Button>
 						<Button
 							variant='light'
 							size='sm'
-							className='text-buttonRed w-full font-bold'
+							className='w-full font-bold text-buttonRed'
 						>
 							Later
 						</Button>
