@@ -105,6 +105,11 @@ const navItems: NavItem[] = [
 		label: 'Polkadot Github',
 		icon: 'git-branch',
 		url: '/polkadot-github'
+	},
+	{
+		label: 'Settings',
+		icon: 'settings',
+		url: '/settings'
 	}
 ];
 
