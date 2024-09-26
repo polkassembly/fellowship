@@ -11,12 +11,13 @@ import { useApiContext, useUserDetailsContext } from '@/contexts';
 import { EActivityFeed } from '@/global/types';
 import getPendingActivityCount from '@/app/api/v1/feed/pending/getPendingActivityCount';
 import getOriginUrl from '@/utils/getOriginUrl';
+import LinkWithNetwork from '../Misc/LinkWithNetwork';
 import Progress from '../Misc/Progress';
 import LoadingSpinner from '../Misc/LoadingSpinner';
 
 function PendingTasks({ className }: Readonly<{ className?: string }>) {
 	const { network } = useApiContext();
-	const { loginAddress, addresses } = useUserDetailsContext();
+	const { loginAddress, addresses, id } = useUserDetailsContext();
 	const router = useRouter();
 
 	const [completedTasks, setCompletedTasks] = useState<number>(0);
@@ -48,6 +49,10 @@ function PendingTasks({ className }: Readonly<{ className?: string }>) {
 	}, [network, loginAddress, addresses]);
 
 	const handleShowPendingTasks = (activityValue: string) => {
+		if (!id) {
+			router.push('/login');
+			return;
+		}
 		router.push(`/?feed=${activityValue}&network=${network}`);
 	};
 
@@ -67,20 +72,33 @@ function PendingTasks({ className }: Readonly<{ className?: string }>) {
 					>
 						Pending tasks &gt;
 					</button>
-					<div className='flex w-full flex-row items-center gap-3'>
-						<div className='min-w-max rounded-full'>
-							<Progress
-								percentage={Math.round((Number(completedTasks ?? 0) / Number(allTasks ?? 0)) * 100)}
-								size={80}
-								color='#47BE61'
-								strokeWidth={7}
-							/>
+					{!id ? (
+						<div className='text-sm'>
+							Please&nbsp;
+							<LinkWithNetwork
+								href='/login'
+								className='text-link'
+							>
+								login
+							</LinkWithNetwork>
+							&nbsp;to view your pending tasks
 						</div>
+					) : (
+						<div className='flex w-full flex-row items-center gap-3'>
+							<div className='min-w-max rounded-full'>
+								<Progress
+									percentage={Math.round((Number(completedTasks ?? 0) / Number(allTasks ?? 0)) * 100)}
+									size={80}
+									color='#47BE61'
+									strokeWidth={7}
+								/>
+							</div>
 
-						<p className='text-xs'>
-							you have completed <b>{completedTasks}</b> out of <b>{allTasks}</b> tasks
-						</p>
-					</div>
+							<p className='text-xs'>
+								you have completed <b>{completedTasks}</b> out of <b>{allTasks}</b> tasks
+							</p>
+						</div>
+					)}
 				</div>
 			)}
 		</Card>
