@@ -15,7 +15,6 @@ import getReqBody from '../../../api-utils/getReqBody';
 import getNetworkFromHeaders from '../../../api-utils/getNetworkFromHeaders';
 import withErrorHandling from '../../../api-utils/withErrorHandling';
 
-// eslint-disable-next-line sonarjs/cognitive-complexity
 export const POST = withErrorHandling(async (req: NextRequest) => {
 	const { page = 1, address = '' } = await getReqBody(req);
 
@@ -26,8 +25,7 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
 
 	const gqlClient = urqlClient(network);
 
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const variables: any = {
+	const variables = {
 		limit: LISTING_LIMIT,
 		offset: (page - 1) * LISTING_LIMIT,
 		status_in: [ProposalStatus.Deciding, ProposalStatus.DecisionDepositPlaced],
@@ -41,6 +39,5 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
 	const allPendingCount = result?.data?.all_pending?.length ?? 0;
 	const userCompletedCount = result?.data?.user_voted?.length ?? 0;
 
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	return NextResponse.json({ allPendingCount, userCompletedCount });
 });
