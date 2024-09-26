@@ -11,7 +11,7 @@ import TrendingProposals from '@/components/Home/TrendingProposals';
 import { API_ERROR_CODE } from '@/global/constants/errorCodes';
 import { ClientError } from '@/global/exceptions';
 import MESSAGES from '@/global/messages';
-import { ActivityFeedItem, EActivityFeed, Network, PostListingItem, ServerComponentProps } from '@/global/types';
+import { ActivityFeedItem, EActivityFeed, Network, PostFeedListingItem, ServerComponentProps } from '@/global/types';
 import { headers } from 'next/headers';
 import { Metadata } from 'next';
 import getOriginUrl from '@/utils/getOriginUrl';
@@ -53,7 +53,7 @@ export default async function Home({ searchParams }: ServerComponentProps<unknow
 				<div className='flex w-full flex-col gap-y-4 lg:max-w-[calc(100%-300px)]'>
 					<Stats className='lg:hidden' />
 					<ActivitySelectorCard value={feed as EActivityFeed} />
-					{feed === EActivityFeed.ALL ? <ActivityFeed items={(feedItems || []) as ActivityFeedItem[]} /> : <PostFeed items={(feedItems || []) as PostListingItem[]} />}
+					{feed === EActivityFeed.ALL ? <ActivityFeed items={(feedItems || []) as ActivityFeedItem[]} /> : <PostFeed items={(feedItems || []) as PostFeedListingItem[]} />}
 				</div>
 				<div className='flex w-full flex-col gap-y-4 lg:w-[300px]'>
 					<Stats className='hidden lg:flex' />

@@ -9,7 +9,7 @@ import { headers } from 'next/headers';
 import { APIError } from '@/global/exceptions';
 import { API_ERROR_CODE } from '@/global/constants/errorCodes';
 import MESSAGES from '@/global/messages';
-import { PostListingItem, PostView, ProposalType, PublicReactionEntry } from '@/global/types';
+import { PostFeedListingItem, PostView, ProposalType, PublicReactionEntry } from '@/global/types';
 import { NextRequest, NextResponse } from 'next/server';
 import dayjs from '@/services/dayjs-init';
 import getReqBody from '@/app/api/api-utils/getReqBody';
@@ -35,14 +35,14 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
 		.get();
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const feedItemPromises: Promise<PostListingItem>[] = discussionsSnapshot.docs.map(async (postDoc: any) => {
+	const feedItemPromises: Promise<PostFeedListingItem>[] = discussionsSnapshot.docs.map(async (postDoc: any) => {
 		const commentsCount = (await postCommentsCollRef(network, ProposalType.DISCUSSIONS, String(postDoc.id)).count().get()).data().count ?? 0;
 		const reactions = (await postReactionCollRef(network, ProposalType.DISCUSSIONS, String(postDoc.id)).get()).docs.map((doc) => doc.data() as PublicReactionEntry);
 		const views = (await postViewsCollRef(network, ProposalType.DISCUSSIONS, String(postDoc.id)).get()).docs.map((doc) => doc.data() as PostView);
 
 		const postObj = postDoc.data();
 
-		const postListingItem: PostListingItem = {
+		const postListingItem: PostFeedListingItem = {
 			id: Number(postObj.id),
 			user_id: Number(postObj.user_id),
 			title: postObj.title || 'Untitled',
@@ -66,7 +66,7 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
 	});
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const feedItems: PostListingItem[] = (await Promise.allSettled(feedItemPromises)).filter((item) => item.status === 'fulfilled').map((item) => (item as any).value);
+	const feedItems: PostFeedListingItem[] = (await Promise.allSettled(feedItemPromises)).filter((item) => item.status === 'fulfilled').map((item) => (item as any).value);
 
 	return NextResponse.json(feedItems);
 });

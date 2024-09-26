@@ -354,3 +354,18 @@ export const getFellowsData = (addresses: string[]) => {
 		}
 	`;
 };
+
+export const GET_POST_LISTING_DATA = gql`
+	query GET_POST_LISTING_DATA($limit: Int!, $offset: Int!) {
+		proposals(limit: $limit, offset: $offset, orderBy: index_DESC, where: { type_eq: FellowshipReferendum }) {
+			hash
+			createdAt
+			updatedAt
+			description
+			proposer
+			status
+			trackNumber
+			index
+		}
+	}
+`;

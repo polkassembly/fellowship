@@ -10,7 +10,7 @@ import { APIError } from '@/global/exceptions';
 import { urqlClient } from '@/services/urqlClient';
 import { API_ERROR_CODE } from '@/global/constants/errorCodes';
 import MESSAGES from '@/global/messages';
-import { ActivityFeedItem, OnChainPostInfo, PostListingItem, PostView, ProposalStatus, ProposalType, PublicReactionEntry, SubsquidActivityType } from '@/global/types';
+import { ActivityFeedItem, OnChainPostInfo, PostFeedListingItem, PostView, ProposalStatus, ProposalType, PublicReactionEntry, SubsquidActivityType } from '@/global/types';
 import { NextRequest, NextResponse } from 'next/server';
 import dayjs from '@/services/dayjs-init';
 import getReqBody from '@/app/api/api-utils/getReqBody';
@@ -112,7 +112,7 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
 			activity_type: onChainProposalObj.activityType
 		};
 
-		const postListingItem: PostListingItem = {
+		const postListingItem: PostFeedListingItem = {
 			id: onChainProposalObj.index,
 			user_id: firestoreProposalData?.user_id ?? null,
 			title: firestoreProposalData?.title ?? DEFAULT_POST_TITLE,

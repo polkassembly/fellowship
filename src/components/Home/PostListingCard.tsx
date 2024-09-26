@@ -5,7 +5,7 @@
 import { Card } from '@nextui-org/card';
 import React from 'react';
 import { Divider } from '@nextui-org/divider';
-import { ActivityType, PostListingItem, ProposalType } from '@/global/types';
+import { ActivityType, PostFeedListingItem, ProposalType } from '@/global/types';
 import { getSinglePostLinkFromProposalType } from '@/utils/getSinglePostLinkFromProposalType';
 import VOTABLE_STATUSES from '@/global/constants/votableStatuses';
 import classNames from 'classnames';
@@ -20,7 +20,7 @@ import LinkWithNetwork from '../Misc/LinkWithNetwork';
 const SHOW_NOT_VOTED = false;
 
 interface Props {
-	feedItem: PostListingItem;
+	feedItem: PostFeedListingItem;
 	cardClassName?: string;
 	isDividerDisabled?: boolean;
 }

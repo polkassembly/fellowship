@@ -8,7 +8,7 @@ import { Button } from '@nextui-org/button';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from '@nextui-org/dropdown';
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { EProfileProposals, PayoutListingItem, PostListingItem } from '@/global/types';
+import { EProfileProposals, PayoutListingItem, PostFeedListingItem } from '@/global/types';
 import { Card } from '@nextui-org/card';
 import getProfileProposals from '@/app/api/v1/address/[address]/proposals/getProfileProposals';
 import getOriginUrl from '@/utils/getOriginUrl';
@@ -25,7 +25,7 @@ interface Props {
 }
 
 interface ProposalListingProps {
-	proposals: (PostListingItem | PayoutListingItem)[];
+	proposals: (PostFeedListingItem | PayoutListingItem)[];
 	type: EProfileProposals;
 }
 
@@ -39,7 +39,7 @@ function ProposalListing({ proposals, type }: ProposalListingProps) {
 	}
 	return (
 		<div className='w-full flex-1'>
-			{(proposals as PostListingItem[])?.map((feedItem, idx) => {
+			{(proposals as PostFeedListingItem[])?.map((feedItem, idx) => {
 				return (
 					<>
 						<PostListingCard
@@ -107,7 +107,7 @@ function NoSalaryDetails() {
 function ProfileProposals({ address }: Props) {
 	const [type, setType] = useState(EProfileProposals.GENERAL_PROPOSALS);
 	const [loading, setLoading] = useState(false);
-	const [proposals, setProposals] = useState<(PostListingItem | PayoutListingItem)[]>([]);
+	const [proposals, setProposals] = useState<(PostFeedListingItem | PayoutListingItem)[]>([]);
 
 	const { network, fellows } = useApiContext();
 

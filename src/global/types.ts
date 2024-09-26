@@ -388,7 +388,7 @@ export interface OnChainPostInfo {
 	deposit?: number;
 }
 
-export interface PostListingItem {
+export interface PostFeedListingItem {
 	id: number;
 	user_id: number | null;
 	title: string;
@@ -617,7 +617,7 @@ export interface ActivityFeedItem {
 	comments_count?: number;
 	views?: PostView[];
 	reactions?: PublicReactionEntry[];
-	postListingItem?: PostListingItem;
+	postListingItem?: PostFeedListingItem;
 	isActive?: boolean;
 	cycleStartDatetime?: Date;
 	evidence?: string;
@@ -687,4 +687,27 @@ export enum ETriggerType {
 	PROPOSAL_IN_VOTING = 'proposalInVoting',
 	PROPOSAL_CLOSED = 'proposalClosed',
 	DAILY_UPDATES = 'dailyUpdates'
+}
+
+export interface IPostListingItem {
+	comments_count: number;
+	content: string;
+	created_at: Date;
+	id: number;
+	post_reactions: {
+		[key: string]: number;
+	};
+	proposer: string;
+	status?: ProposalStatus;
+	title: string;
+	type: ProposalType;
+	user_id: number | null;
+	updated_at: Date;
+	hash?: string;
+	trackNumber?: number;
+}
+
+export interface IPostListingResponse {
+	totalCount: number;
+	posts: IPostListingItem[];
 }
