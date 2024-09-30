@@ -33,13 +33,11 @@ export default async function PreimagesPage({ searchParams }: ServerComponentPro
 
 	return (
 		<>
-			<div className='mb-2 flex items-center justify-between'>
+			<div className='mb-2 flex flex-col  items-start justify-between gap-5 md:flex-row md:items-center'>
 				<h1 className='mx-2 text-2xl font-semibold leading-9'>
 					{count} {count > 1 ? 'Preimages' : 'Preimage'}
 				</h1>
-				<div className='flex items-center justify-between gap-3'>
-					<SearchPreimageHash />
-				</div>
+				<SearchPreimageHash />
 			</div>
 
 			<PreimagesTable

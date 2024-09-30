@@ -107,18 +107,9 @@ function PreimagesTable({ className, preimages }: Props) {
 							<TableCell className='font-semibold'>
 								{preimage?.proposedCall && preimage?.proposedCall.section && preimage?.proposedCall.method && (
 									<div className='flex items-center'>
-										<code className='rounded-md px-2'>
+										<code className='rounded-md bg-searchBg px-2'>
 											{preimage?.proposedCall.section}.{preimage?.proposedCall.method}
 										</code>
-										{/* {preimage?.proposedCall.args && (
-											<ProfileOutlined
-												className='hover:text-pink_primary dark:hover:text-blue-dark-helper ml-2 cursor-pointer rounded-md p-1 text-base dark:font-normal dark:text-white'
-												onClick={async () => {
-													await handleModalArgs(preimage?.proposedCall.args);
-													setModalArgs(preimage?.proposedCall.args);
-												}}
-											/>
-										)} */}
 									</div>
 								)}
 							</TableCell>
@@ -138,7 +129,7 @@ function PreimagesTable({ className, preimages }: Props) {
 											substrateAddresses={substrateAddresses}
 											afterUnnotePreimage={() => {
 												setPreimages((prev) => {
-													return prev.filter((preimage: any) => preimage.hash !== preimage?.hash && preimage.proposer !== preimage?.proposer);
+													return prev.filter((preimg: IPreimageResponse) => preimg.hash !== preimg?.hash && preimg.proposer !== preimg?.proposer);
 												});
 											}}
 										/>
@@ -151,7 +142,7 @@ function PreimagesTable({ className, preimages }: Props) {
 			</Table>
 
 			{/* Table Mobile */}
-			{/* <Table
+			<Table
 				removeWrapper
 				hideHeader
 				aria-label='Preimages Table'
@@ -166,21 +157,21 @@ function PreimagesTable({ className, preimages }: Props) {
 				<TableBody>
 					{preimages.map((preimage) => (
 						<TableRow
-							key={preimage.address}
+							key={preimage.hash}
 							as={LinkWithNetwork}
-							href={`/address/${preimage.address}?network=${network}`}
+							href={`/preimages/${preimage.hash}`}
 							className='cursor-pointer'
 						>
 							<TableCell>
 								<PreimageCard
 									preimage={preimage}
-									preimageDetails={preimagesDetails}
+									setPreimages={setPreimages}
 								/>
 							</TableCell>
 						</TableRow>
 					))}
 				</TableBody>
-			</Table> */}
+			</Table>
 		</>
 	);
 }
