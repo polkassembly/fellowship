@@ -369,3 +369,31 @@ export const GET_POST_LISTING_DATA = gql`
 		}
 	}
 `;
+
+export const GET_PREIMAGES = gql`
+	query GET_PREIMAGES($limit: Int = 25, $offset: Int = 0, $hash_contains: String) {
+		preimagesConnection(orderBy: createdAtBlock_DESC, where: { hash_contains: $hash_contains }) {
+			totalCount
+		}
+		preimages(limit: $limit, offset: $offset, orderBy: createdAtBlock_DESC, where: { hash_contains: $hash_contains }) {
+			hash
+			id
+			length
+			method
+			section
+			deposit
+			proposedCall {
+				args
+				description
+				method
+				section
+			}
+			proposer
+			status
+			updatedAt
+			updatedAtBlock
+			createdAtBlock
+			createdAt
+		}
+	}
+`;

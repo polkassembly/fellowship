@@ -574,6 +574,11 @@ export interface IPreimage {
 	storageFee: BN;
 }
 
+export interface IPreimagesListingResponse {
+	count: number;
+	preimages: IPreimage[];
+}
+
 export interface IAddPostCommentResponse {
 	id: string;
 }
