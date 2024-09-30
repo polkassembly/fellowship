@@ -9,6 +9,7 @@ import { Metadata } from 'next';
 import getOriginUrl from '@/utils/getOriginUrl';
 import getPreimages from '@/app/api/v1/preimages/getPreimges';
 import SearchPreimageHash from '@/components/Preimage/SearchPreimageHash';
+import PreimagesTable from '@/components/Preimage/PreImagesTable';
 
 type SearchParamProps = {
 	page?: string;
@@ -41,12 +42,11 @@ export default async function PreimagesPage({ searchParams }: ServerComponentPro
 				</div>
 			</div>
 
-			<div className='rounded-xxl border p-3 shadow-md'>
-				<div>
-					Preimage Table
-					<div className='mt-6 flex justify-end'>pagintion</div>
-				</div>
-			</div>
+			<PreimagesTable
+				preimages={preimages}
+				className='mt-5'
+			/>
+			<div className='mt-6 flex justify-end'>pagintion</div>
 		</>
 	);
 }

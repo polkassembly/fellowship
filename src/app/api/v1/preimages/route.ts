@@ -8,7 +8,7 @@ import { headers } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { APIError } from '@/global/exceptions';
 import MESSAGES from '@/global/messages';
-import { LISTING_LIMIT } from '@/global/constants/listingLimit';
+import { PREIMAGE_LISTING_LIMIT } from '@/global/constants/listingLimit';
 import { API_ERROR_CODE } from '@/global/constants/errorCodes';
 import { urqlClient } from '@/services/urqlClient';
 import { GET_PREIMAGES } from '@/app/api/v1/subsquidQueries';
@@ -24,8 +24,8 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
 	const network = getNetworkFromHeaders(headersList);
 
 	const variables = {
-		limit: LISTING_LIMIT,
-		offset: (page - 1) * LISTING_LIMIT
+		limit: PREIMAGE_LISTING_LIMIT,
+		offset: (page - 1) * PREIMAGE_LISTING_LIMIT
 	};
 
 	const gqlClient = urqlClient(network);
