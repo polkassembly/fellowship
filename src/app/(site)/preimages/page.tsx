@@ -8,6 +8,7 @@ import { headers } from 'next/headers';
 import { Metadata } from 'next';
 import getOriginUrl from '@/utils/getOriginUrl';
 import getPreimages from '@/app/api/v1/preimages/getPreimges';
+import SearchPreimageHash from '@/components/Preimage/SearchPreimageHash';
 
 type SearchParamProps = {
 	page?: string;
@@ -35,10 +36,12 @@ export default async function PreimagesPage({ searchParams }: ServerComponentPro
 				<h1 className='mx-2 text-2xl font-semibold leading-9'>
 					{count} {count > 1 ? 'Preimages' : 'Preimage'}
 				</h1>
-				<div className='flex items-center justify-between gap-3'>Search</div>
+				<div className='flex items-center justify-between gap-3'>
+					<SearchPreimageHash />
+				</div>
 			</div>
 
-			<div className='rounded-xxl dark:bg-section-dark-overlay bg-white p-3 shadow-md md:p-8'>
+			<div className='rounded-xxl border p-3 shadow-md'>
 				<div>
 					Preimage Table
 					<div className='mt-6 flex justify-end'>pagintion</div>
