@@ -10,6 +10,7 @@ import getOriginUrl from '@/utils/getOriginUrl';
 import getPreimages from '@/app/api/v1/preimages/getPreimges';
 import SearchPreimageHash from '@/components/Preimage/SearchPreimageHash';
 import PreimagesTable from '@/components/Preimage/PreImagesTable';
+import PreimagePagination from '@/components/Preimage/Pagination';
 
 type SearchParamProps = {
 	page?: string;
@@ -30,8 +31,6 @@ export default async function PreimagesPage({ searchParams }: ServerComponentPro
 
 	const { count, preimages } = await getPreimages({ originUrl, page: parseInt(page as string, 10), network: network as Network, hash });
 
-	console.log(preimages, count);
-
 	return (
 		<>
 			<div className='mb-2 flex flex-col  items-start justify-between gap-5 md:flex-row md:items-center'>
@@ -45,7 +44,12 @@ export default async function PreimagesPage({ searchParams }: ServerComponentPro
 				preimages={preimages}
 				className='mt-5'
 			/>
-			<div className='mt-6 flex justify-end'>pagintion</div>
+			<div className='mt-6 flex justify-end'>
+				<PreimagePagination
+					totalCount={count}
+					page={Number(page)}
+				/>
+			</div>
 		</>
 	);
 }
