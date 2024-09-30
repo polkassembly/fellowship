@@ -52,14 +52,14 @@ function PreimagesTable({ className, preimages }: Props) {
 				<TableBody>
 					{renderPreimages.map((preimage) => (
 						<TableRow
-							key={preimage.hash}
+							key={preimage.id}
 							as={LinkWithNetwork}
-							href={`/preimages/${preimage.hash}`}
+							href={`/preimages/${preimage.id}`}
 							className='cursor-pointer'
 						>
 							<TableCell>
 								<div className='flex items-center space-x-[6px]'>
-									<span className='font-medium'>{`${preimage.hash.substring(0, 6)}...${preimage.hash.substring(preimage.hash.length - 6)}`}</span>
+									<span className='font-medium'>{`${preimage?.hash?.substring(0, 6)}...${preimage?.hash?.substring(preimage.hash.length - 6)}`}</span>
 									<Tooltip content='Copy'>
 										<Image
 											alt='content copy icon'
@@ -157,9 +157,9 @@ function PreimagesTable({ className, preimages }: Props) {
 				<TableBody>
 					{preimages.map((preimage) => (
 						<TableRow
-							key={preimage.hash}
+							key={preimage.id}
 							as={LinkWithNetwork}
-							href={`/preimages/${preimage.hash}`}
+							href={`/preimages/${preimage.id}`}
 							className='cursor-pointer'
 						>
 							<TableCell>
