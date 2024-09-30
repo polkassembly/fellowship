@@ -4,10 +4,11 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from '@nextui-org/table';
 import { IPreimageResponse } from '@/global/types';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useApiContext, useUserDetailsContext } from '@/contexts';
 import { Tooltip } from '@nextui-org/tooltip';
 import { Button } from '@nextui-org/button';
@@ -24,9 +25,10 @@ interface Props {
 }
 
 function PreimagesTable({ className, preimages }: Props) {
-	const [renderPreimages, setPreimages] = useState(preimages);
 	const { network, api, apiReady } = useApiContext();
 	const { addresses } = useUserDetailsContext();
+
+	const router = useRouter();
 
 	const substrateAddresses = addresses?.map((address) => {
 		return getSubstrateAddress(address);
@@ -50,7 +52,7 @@ function PreimagesTable({ className, preimages }: Props) {
 				</TableHeader>
 
 				<TableBody>
-					{renderPreimages.map((preimage) => (
+					{preimages.map((preimage) => (
 						<TableRow
 							key={preimage.id}
 							as={LinkWithNetwork}
@@ -127,11 +129,7 @@ function PreimagesTable({ className, preimages }: Props) {
 											apiReady={apiReady}
 											network={network}
 											substrateAddresses={substrateAddresses}
-											afterUnnotePreimage={() => {
-												setPreimages((prev) => {
-													return prev.filter((preimg: IPreimageResponse) => preimg.hash !== preimg?.hash && preimg.proposer !== preimg?.proposer);
-												});
-											}}
+											afterUnnotePreimage={() => router.refresh()}
 										/>
 									)}
 								</div>
@@ -163,10 +161,7 @@ function PreimagesTable({ className, preimages }: Props) {
 							className='cursor-pointer'
 						>
 							<TableCell>
-								<PreimageCard
-									preimage={preimage}
-									setPreimages={setPreimages}
-								/>
+								<PreimageCard preimage={preimage} />
 							</TableCell>
 						</TableRow>
 					))}

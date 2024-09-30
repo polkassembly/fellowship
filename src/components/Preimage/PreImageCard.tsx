@@ -4,11 +4,12 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useApiContext, useUserDetailsContext } from '@/contexts';
 import { IPreimageResponse } from '@/global/types';
 import ReactJson from 'react-json-view';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import { Tooltip } from '@nextui-org/tooltip';
 import { Button } from '@nextui-org/button';
@@ -20,12 +21,13 @@ import Address from '../Profile/Address';
 interface IPreimageCardProps {
 	className?: string;
 	preimage: IPreimageResponse;
-	setPreimages?: React.Dispatch<React.SetStateAction<IPreimageResponse[]>>;
 	showProposedCall?: boolean;
 }
-function PreimageCard({ className, preimage, setPreimages, showProposedCall }: IPreimageCardProps) {
+function PreimageCard({ className, preimage, showProposedCall }: IPreimageCardProps) {
 	const { network, api, apiReady } = useApiContext();
 	const { addresses } = useUserDetailsContext();
+
+	const router = useRouter();
 
 	const { resolvedTheme = 'light' } = useTheme();
 
@@ -106,15 +108,7 @@ function PreimageCard({ className, preimage, setPreimages, showProposedCall }: I
 								apiReady={apiReady}
 								network={network}
 								substrateAddresses={substrateAddresses}
-								afterUnnotePreimage={
-									setPreimages
-										? () => {
-												setPreimages((prev) => {
-													return prev.filter((preimg: IPreimageResponse) => preimg.hash !== preimg?.hash && preimg.proposer !== preimg?.proposer);
-												});
-										  }
-										: () => {}
-								}
+								afterUnnotePreimage={() => router.refresh()}
 							/>
 						)}
 					</div>
@@ -122,13 +116,13 @@ function PreimageCard({ className, preimage, setPreimages, showProposedCall }: I
 			</div>
 			{showProposedCall && (
 				<div className='flex flex-col items-start gap-5 md:flex-row md:gap-20'>
-					{<span className='font-semibold'>Proposed Call</span>}
+					<span className='font-semibold'>Proposed Call</span>
 					{preimage?.proposedCall?.args && (
 						<div className='max-h-[60vh] w-full overflow-auto'>
 							<ReactJson
 								theme={resolvedTheme === 'dark' ? 'bright' : 'rjv-default'}
 								style={{ color: 'white', background: 'var(--section-dark-overlay)' }}
-								src={(preimage?.proposedCall?.args as Object) || {}}
+								src={(preimage?.proposedCall?.args as unknown) || {}}
 								iconStyle='circle'
 								enableClipboard={false}
 								displayDataTypes={false}

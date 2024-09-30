@@ -14,6 +14,7 @@ import PreimagesTable from '@/components/Preimage/PreImagesTable';
 type SearchParamProps = {
 	page?: string;
 	network?: string;
+	hash?: string;
 };
 
 export const metadata: Metadata = {
@@ -22,12 +23,12 @@ export const metadata: Metadata = {
 };
 
 export default async function PreimagesPage({ searchParams }: ServerComponentProps<unknown, SearchParamProps>) {
-	const { page = 1, network } = searchParams ?? {};
+	const { page = 1, network, hash } = searchParams ?? {};
 
 	const headersList = headers();
 	const originUrl = getOriginUrl(headersList);
 
-	const { count, preimages } = await getPreimages({ originUrl, page: parseInt(page as string, 10), network: network as Network });
+	const { count, preimages } = await getPreimages({ originUrl, page: parseInt(page as string, 10), network: network as Network, hash });
 
 	console.log(preimages, count);
 

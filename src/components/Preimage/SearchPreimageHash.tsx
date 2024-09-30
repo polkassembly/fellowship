@@ -13,10 +13,8 @@ function SearchPreimageHash() {
 	const router = useRouter();
 	const [searchValue, setSearchValue] = useState('');
 
-	const redirect = router.replace;
-
 	const handleSearch = (hash: string) => {
-		redirect(`/preimages/${hash}`);
+		router.replace(`/preimages?hash=${(hash || '').trim()}`);
 	};
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {

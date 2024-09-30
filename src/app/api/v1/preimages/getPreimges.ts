@@ -14,14 +14,15 @@ interface Args {
 	originUrl: string;
 	page?: number;
 	network?: Network;
+	hash?: string | string[];
 }
 
-export default async function getPreimages({ originUrl, page = 1, network }: Args) {
+export default async function getPreimages({ originUrl, page = 1, network, hash }: Args) {
 	const feedRes = await fetchPF(`${originUrl}/api/v1/preimages`, {
 		headers: {
 			'x-network': network || ''
 		},
-		body: JSON.stringify({ page }),
+		body: JSON.stringify({ page, hash }),
 		method: 'POST'
 	}).catch((e) => {
 		throw new ClientError(`${MESSAGES.API_FETCH_ERROR} - ${e}`, API_ERROR_CODE.API_FETCH_ERROR);

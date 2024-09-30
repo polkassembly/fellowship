@@ -16,7 +16,7 @@ import { IPreimageResponse, IPreimagesListingResponse, IPreimageStatusHistory } 
 import getReqBody from '../../api-utils/getReqBody';
 
 export const POST = withErrorHandling(async (req: NextRequest) => {
-	const { page = 1 } = await getReqBody(req);
+	const { page = 1, hash = '' } = await getReqBody(req);
 
 	if (!page || isNaN(page) || Number(page) < 1) throw new APIError(`${MESSAGES.REQ_BODY_ERROR}`, 500, API_ERROR_CODE.REQ_BODY_ERROR);
 
@@ -25,7 +25,8 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
 
 	const variables = {
 		limit: PREIMAGE_LISTING_LIMIT,
-		offset: (page - 1) * PREIMAGE_LISTING_LIMIT
+		offset: (page - 1) * PREIMAGE_LISTING_LIMIT,
+		hash_contains: hash
 	};
 
 	const gqlClient = urqlClient(network);
