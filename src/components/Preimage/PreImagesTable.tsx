@@ -78,7 +78,7 @@ function PreimagesTable({ className, preimages }: Props) {
 											variant='light'
 											size='sm'
 											className='cursor-pointer'
-											onClick={() => window.open(`https://${network}.subscan.io/extrinsic/${obj?.statusHistory?.extrinsicIndex}`, '_blank')}
+											onClick={() => window.open(`https://${network}.subscan.io/extrinsic/${preimage?.statusHistory?.extrinsicIndex}`, '_blank')}
 										>
 											<Image
 												alt='subscan icon'

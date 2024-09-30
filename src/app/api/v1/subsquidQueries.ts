@@ -397,3 +397,15 @@ export const GET_PREIMAGES = gql`
 		}
 	}
 `;
+
+export const GET_STATUS_HISTORY_BY_PREIMAGES_HASH = gql`
+	query GET_STATUS_HISTORY_BY_PREIMAGES_HASH($hash_in: [String!]) {
+		statusHistories(where: { preimage_isNull: false, preimage: { hash_in: $hash_in } }) {
+			extrinsicIndex
+			preimage {
+				hash
+			}
+			status
+		}
+	}
+`;
