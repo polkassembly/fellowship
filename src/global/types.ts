@@ -574,6 +574,41 @@ export interface IPreimage {
 	storageFee: BN;
 }
 
+export interface IPreimageStatusHistory {
+	extrinsicIndex: number;
+	status: string;
+	preimage: {
+		hash: string;
+	};
+}
+
+export interface IPreimageResponse {
+	hash: string;
+	id: string;
+	length: number;
+	method: string;
+	section: string;
+	deposit: string;
+	proposedCall: {
+		args: string;
+		description: string;
+		method: string;
+		section: string;
+	};
+	createdAt: string;
+	createdAtBlock: number;
+	updatedAt: string;
+	updatedAtBlock: number;
+	proposer: string;
+	status: string;
+	statusHistory: IPreimageStatusHistory;
+}
+
+export interface IPreimagesListingResponse {
+	count: number;
+	preimages: IPreimageResponse[];
+}
+
 export interface IAddPostCommentResponse {
 	id: string;
 }

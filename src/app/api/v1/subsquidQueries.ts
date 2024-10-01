@@ -369,3 +369,75 @@ export const GET_POST_LISTING_DATA = gql`
 		}
 	}
 `;
+
+export const GET_PREIMAGES = gql`
+	query GET_PREIMAGES($limit: Int = 25, $offset: Int = 0, $hash_contains: String) {
+		preimagesConnection(orderBy: createdAtBlock_DESC, where: { hash_contains: $hash_contains }) {
+			totalCount
+		}
+		preimages(limit: $limit, offset: $offset, orderBy: createdAtBlock_DESC, where: { hash_contains: $hash_contains }) {
+			hash
+			id
+			length
+			method
+			section
+			deposit
+			proposedCall {
+				args
+				description
+				method
+				section
+			}
+			proposer
+			status
+			updatedAt
+			updatedAtBlock
+			createdAtBlock
+			createdAt
+		}
+	}
+`;
+
+export const GET_PREIMAGE_BY_ID = gql`
+	query GET_PREIMAGE_BY_ID($id: String!) {
+		preimageById(id: $id) {
+			hash
+			id
+			length
+			method
+			section
+			deposit
+			proposedCall {
+				args
+				description
+				method
+				section
+			}
+			proposer
+			status
+			updatedAt
+			updatedAtBlock
+			createdAtBlock
+			createdAt
+		}
+		statusHistories(where: { preimage_isNull: false, preimage: { id_in: [$id] } }) {
+			extrinsicIndex
+			preimage {
+				hash
+			}
+			status
+		}
+	}
+`;
+
+export const GET_STATUS_HISTORY_BY_PREIMAGES_HASH = gql`
+	query GET_STATUS_HISTORY_BY_PREIMAGES_HASH($hash_in: [String!]) {
+		statusHistories(where: { preimage_isNull: false, preimage: { hash_in: $hash_in } }) {
+			extrinsicIndex
+			preimage {
+				hash
+			}
+			status
+		}
+	}
+`;
