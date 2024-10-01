@@ -7,7 +7,7 @@ import React from 'react';
 import { headers } from 'next/headers';
 import { Metadata } from 'next';
 import getOriginUrl from '@/utils/getOriginUrl';
-import getPreimages from '@/app/api/v1/preimages/getPreimges';
+import getPreimages from '@/app/api/v1/preimages/getPreimages';
 import SearchPreimageHash from '@/components/Preimage/SearchPreimageHash';
 import PreimagesTable from '@/components/Preimage/PreImagesTable';
 import PreimagePagination from '@/components/Preimage/Pagination';
