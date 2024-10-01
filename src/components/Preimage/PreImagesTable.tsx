@@ -41,6 +41,9 @@ function PreimagesTable({ className, preimages }: Props) {
 				aria-label='Preimages Table'
 				selectionMode='single'
 				isHeaderSticky
+				classNames={{
+					tbody: 'divide-y divide-primary_border border-t border-primary_border'
+				}}
 			>
 				<TableHeader>
 					<TableColumn>Hash</TableColumn>
