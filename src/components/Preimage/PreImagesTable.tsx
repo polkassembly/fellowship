@@ -66,16 +66,23 @@ function PreimagesTable({ className, preimages }: Props) {
 								<div className='flex items-center space-x-[6px]'>
 									<span className='font-medium'>{`${preimage?.hash?.substring(0, 6)}...${preimage?.hash?.substring(preimage.hash.length - 6)}`}</span>
 									<Tooltip content='Copy'>
-										<Image
-											alt='content copy icon'
-											src='/icons/content_copy.svg'
-											width={16}
-											height={16}
-											className='cursor-pointer rounded-full dark:dark-icon-filter'
+										<Button
+											isIconOnly
+											variant='light'
+											size='sm'
+											className='cursor-pointer'
 											onClick={() => {
 												navigator.clipboard.writeText(preimage?.hash);
 											}}
-										/>
+										>
+											<Image
+												alt='content copy icon'
+												src='/icons/content_copy.svg'
+												width={16}
+												height={16}
+												className='cursor-pointer rounded-full dark:dark-icon-filter'
+											/>
+										</Button>
 									</Tooltip>
 									<Tooltip content='Subscan'>
 										<Button
