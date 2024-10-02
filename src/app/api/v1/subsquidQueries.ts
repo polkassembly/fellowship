@@ -95,8 +95,8 @@ export const GER_USER_ACTIVITY = gql`
 `;
 
 export const GET_FELLOWSHIP_REFERENDUMS = gql`
-	query GET_FELLOWSHIP_REFERENDUMS($limit: Int = 10, $offset: Int = 0, $type_in: [ActivityType!], $who_eq: String) {
-		activities(where: { type_in: $type_in, who_eq: $who_eq }, limit: $limit, offset: $offset, orderBy: proposal_createdAt_DESC) {
+	query GET_FELLOWSHIP_REFERENDUMS($limit: Int = 10, $offset: Int = 0, $type_in: [ActivityType!], $who_eq: String, $status: [ProposalStatus!]) {
+		activities(where: { type_in: $type_in, who_eq: $who_eq, proposal: { status_in: $status } }, limit: $limit, offset: $offset, orderBy: proposal_createdAt_DESC) {
 			type
 			proposal {
 				id
@@ -263,6 +263,21 @@ export const GET_VOTES_COUNT = gql`
 	query GET_VOTES_COUNT($index_eq: Int! = 5, $decision_eq: VoteDecision = yes) {
 		votesConnection(orderBy: id_ASC, where: { proposalIndex_eq: $index_eq, decision_eq: $decision_eq }) {
 			totalCount
+		}
+	}
+`;
+
+export const GET_PENDING_ACTIVITIES = gql`
+	query GET_PENDING_ACTIVITIES($status_in: [ProposalStatus!], $voter_in: [String!]) {
+		all_pending: activities(where: { proposal: { status_in: $status_in } }) {
+			type
+			proposal {
+				index
+			}
+		}
+		user_voted: votes(where: { proposal: { status_in: $status_in }, voter_in: $voter_in }) {
+			voter
+			proposalIndex
 		}
 	}
 `;

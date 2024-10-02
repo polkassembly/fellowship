@@ -32,7 +32,15 @@ const getActivityTypes = (feedType: EActivityFeed) => {
 		SubsquidActivityType.GeneralProposal
 	];
 	switch (feedType) {
-		// case EActivityFeed.PENDING:
+		case EActivityFeed.PENDING:
+			return [
+				SubsquidActivityType.GeneralProposal,
+				SubsquidActivityType.RFC,
+				SubsquidActivityType.RetentionRequest,
+				SubsquidActivityType.PromotionRequest,
+				SubsquidActivityType.DemotionRequest,
+				SubsquidActivityType.InductionRequest
+			];
 		case EActivityFeed.ALL:
 			return all;
 		case EActivityFeed.GENERAL_PROPOSALS:
@@ -66,6 +74,11 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
 	if (types) {
 		variables.type_in = types;
 	}
+
+	if (feedType === EActivityFeed.PENDING) {
+		variables.status = [ProposalStatus.Deciding, ProposalStatus.DecisionDepositPlaced];
+	}
+
 	const result = await gqlClient.query(GET_FELLOWSHIP_REFERENDUMS, variables).toPromise();
 
 	if (result.error) throw new APIError(`${result.error || MESSAGES.SUBSQUID_FETCH_ERROR}`, 500, API_ERROR_CODE.SUBSQUID_FETCH_ERROR);

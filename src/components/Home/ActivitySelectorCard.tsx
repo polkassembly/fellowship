@@ -9,13 +9,14 @@ import { Card } from '@nextui-org/card';
 import { RadioGroup, Radio } from '@nextui-org/radio';
 import { EActivityFeed } from '@/global/types';
 import { useRouter } from 'next/navigation';
-import { useApiContext } from '@/contexts';
+import { useApiContext, useUserDetailsContext } from '@/contexts';
 import Image from 'next/image';
 import { Button } from '@nextui-org/button';
 
 function ActivitySelectorCard({ value = EActivityFeed.ALL }: { value?: EActivityFeed }) {
 	const router = useRouter();
 	const { network } = useApiContext();
+	const { id } = useUserDetailsContext();
 	const elementRef = useRef<HTMLDivElement>(null);
 
 	const [isScrollingRight, setIsScrollingRight] = useState(true);
@@ -63,23 +64,27 @@ function ActivitySelectorCard({ value = EActivityFeed.ALL }: { value?: EActivity
 							wrapper: 'gap-8 flex-nowrap min-w-[530px]'
 						}}
 						defaultValue={value.toString()}
+						value={value.toString()}
 						onValueChange={handleOnValueChange}
 					>
-						{Object.values(EActivityFeed).map((feedType) => (
-							<Radio
-								key={feedType}
-								value={feedType}
-								size='md'
-								classNames={{
-									label: 'flex items-center',
-									base: 'data-[selected=true]:inline-flex m-0 data-[selected=true]:bg-selectedRadioBg items-center justify-between max-w-[300px] cursor-pointer rounded-full data-[selected=true]:px-2.5',
-									wrapper: 'dark:border-white/70 group-data-[selected=true]:border-primary_accent',
-									control: 'bg-primary_accent'
-								}}
-							>
-								<span className='text-xs capitalize'>{feedType.replaceAll('-', ' ')}</span>
-							</Radio>
-						))}
+						{Object.values(EActivityFeed).map((feedType) => {
+							if (feedType === EActivityFeed.PENDING && !id) return null;
+							return (
+								<Radio
+									key={feedType}
+									value={feedType}
+									size='md'
+									classNames={{
+										label: 'flex items-center',
+										base: 'data-[selected=true]:inline-flex m-0 data-[selected=true]:bg-selectedRadioBg items-center justify-between max-w-[300px] cursor-pointer rounded-full data-[selected=true]:px-2.5',
+										wrapper: 'dark:border-white/70 group-data-[selected=true]:border-primary_accent',
+										control: 'bg-primary_accent'
+									}}
+								>
+									<span className='text-xs capitalize'>{feedType.replaceAll('-', ' ')}</span>
+								</Radio>
+							);
+						})}
 					</RadioGroup>
 				</div>
 				{isScrollingRight ? (
