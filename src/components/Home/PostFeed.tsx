@@ -7,7 +7,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { PostListingItem, ProposalType, EActivityFeed } from '@/global/types';
 import { parseAsInteger, useQueryState } from 'next-usequerystate';
-import { useParams, usePathname } from 'next/navigation';
+import { useSearchParams, usePathname } from 'next/navigation';
 import getActivityFeed from '@/app/api/v1/feed/getActivityFeed';
 import getOriginUrl from '@/utils/getOriginUrl';
 import { ScrollShadow } from '@nextui-org/scroll-shadow';
@@ -24,7 +24,9 @@ interface Props {
 // TODO : Optimize and use activity feed instead
 
 function PostFeed({ items }: Props) {
-	const { feed = EActivityFeed.ALL } = useParams();
+	const params = useSearchParams();
+	const feed = params.get('feed');
+
 	const pathname = usePathname();
 
 	const { network } = useApiContext();
