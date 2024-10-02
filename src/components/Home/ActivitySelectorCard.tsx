@@ -64,6 +64,7 @@ function ActivitySelectorCard({ value = EActivityFeed.ALL }: { value?: EActivity
 							wrapper: 'gap-8 flex-nowrap min-w-[530px]'
 						}}
 						defaultValue={value.toString()}
+						value={value.toString()}
 						onValueChange={handleOnValueChange}
 					>
 						{Object.values(EActivityFeed).map((feedType) => {
