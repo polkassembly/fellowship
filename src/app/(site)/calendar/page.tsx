@@ -229,9 +229,11 @@ export default function CreateRFCProposal() {
 					onChange={setCurrentDate}
 					classNames={{
 						base: 'bg-cardBg border border-primary_border rounded-2xl',
+						headerWrapper: 'bg-cardBg',
 						prevButton: 'border border-primary_border rounded-md',
 						nextButton: 'border border-primary_border rounded-md',
 						title: 'font-bold text-base text-foreground',
+						gridHeader: 'bg-cardBg',
 						gridWrapper: 'bg-cardBg',
 						gridHeaderCell: 'w-full',
 						gridBodyRow: 'px-4',
