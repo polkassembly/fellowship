@@ -5,7 +5,7 @@
 import { API_ERROR_CODE } from '@/global/constants/errorCodes';
 import { ClientError } from '@/global/exceptions';
 import MESSAGES from '@/global/messages';
-import { ActivityFeedItem, EActivityFeed, Network, PostListingItem } from '@/global/types';
+import { ActivityFeedItem, EActivityFeed, Network, PostFeedListingItem } from '@/global/types';
 import fetchPonyfill from 'fetch-ponyfill';
 
 const { fetch: fetchPF } = fetchPonyfill();
@@ -30,5 +30,5 @@ export default async function getActivityFeed({ feedType, originUrl, page = 1, n
 
 	if (feedType === EActivityFeed.ALL) return (await feedRes.json()) as ActivityFeedItem[];
 
-	return (await feedRes.json()) as PostListingItem[];
+	return (await feedRes.json()) as PostFeedListingItem[];
 }

@@ -8,7 +8,7 @@ import { urqlClient } from '@/services/urqlClient';
 import { API_ERROR_CODE } from '@/global/constants/errorCodes';
 import MESSAGES from '@/global/messages';
 import { LISTING_LIMIT } from '@/global/constants/listingLimit';
-import { EProfileProposals, OnChainPostInfo, PostListingItem, ProposalStatus, ProposalType, PublicReactionEntry, SubsquidActivityType } from '@/global/types';
+import { EProfileProposals, OnChainPostInfo, PostFeedListingItem, ProposalStatus, ProposalType, PublicReactionEntry, SubsquidActivityType } from '@/global/types';
 import DEFAULT_POST_TITLE from '@/global/constants/defaultTitle';
 import getDefaultPostContent from '@/utils/getDefaultPostContent';
 import { NextRequest, NextResponse } from 'next/server';
@@ -98,7 +98,7 @@ export const POST = withErrorHandling(async (req: NextRequest, { params }) => {
 
 	// assign proposal data to proposalsData
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const proposalItemsPromises: Promise<PostListingItem>[] = onChainProposals?.map(async (onChainProposalObj: any, index: number) => {
+	const proposalItemsPromises: Promise<PostFeedListingItem>[] = onChainProposals?.map(async (onChainProposalObj: any, index: number) => {
 		const firestoreProposalData = firestoreProposalDocs.find((item) => String(item.id) === String(onChainProposalObj?.index))?.data() || {};
 		const firestoreCommentCount = firestoreCommentCountDocs.find((item) => String(item.id) === String(onChainProposalObj?.index))?.data().count || 0;
 		const firestoreReactionDocsData = firestoreReactionDocs[Number(index)]?.docs || [];
@@ -127,7 +127,7 @@ export const POST = withErrorHandling(async (req: NextRequest, { params }) => {
 			}
 		}
 
-		const postListingItem: PostListingItem = {
+		const postListingItem: PostFeedListingItem = {
 			id: onChainProposalObj.index,
 			user_id: firestoreProposalData.user_id ?? null,
 			title: firestoreProposalData.title ?? DEFAULT_POST_TITLE,

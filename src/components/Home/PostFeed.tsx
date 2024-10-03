@@ -5,9 +5,9 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { PostListingItem, ProposalType, EActivityFeed } from '@/global/types';
+import { PostFeedListingItem, ProposalType, EActivityFeed } from '@/global/types';
 import { parseAsInteger, useQueryState } from 'next-usequerystate';
-import { useParams, usePathname } from 'next/navigation';
+import { useSearchParams, usePathname } from 'next/navigation';
 import getActivityFeed from '@/app/api/v1/feed/getActivityFeed';
 import getOriginUrl from '@/utils/getOriginUrl';
 import { ScrollShadow } from '@nextui-org/scroll-shadow';
@@ -18,13 +18,15 @@ import LoadingSpinner from '../Misc/LoadingSpinner';
 // import InductionListingCard from './InductionListingCard';
 
 interface Props {
-	items: PostListingItem[];
+	items: PostFeedListingItem[];
 }
 
 // TODO : Optimize and use activity feed instead
 
 function PostFeed({ items }: Props) {
-	const { feed = EActivityFeed.ALL } = useParams();
+	const params = useSearchParams();
+	const feed = params.get('feed');
+
 	const pathname = usePathname();
 
 	const { network } = useApiContext();
@@ -32,7 +34,7 @@ function PostFeed({ items }: Props) {
 	const observerTarget = useRef(null);
 
 	const [page, setPage] = useQueryState('page', parseAsInteger);
-	const [feedItems, setFeedItems] = useState<PostListingItem[]>(items || []);
+	const [feedItems, setFeedItems] = useState<PostFeedListingItem[]>(items || []);
 	const [isFetching, setIsFetching] = useState(false);
 	const [isLastPage, setIsLastPage] = useState(false);
 
@@ -57,11 +59,11 @@ function PostFeed({ items }: Props) {
 						setIsFetching(true);
 						const originUrl = getOriginUrl();
 						const nextPage = page ? page + 1 : 1;
-						const newFeedItems = (await getActivityFeed({ feedType: feed as EActivityFeed, originUrl, page: nextPage, network })) as PostListingItem[];
+						const newFeedItems = (await getActivityFeed({ feedType: feed as EActivityFeed, originUrl, page: nextPage, network })) as PostFeedListingItem[];
 
 						if (newFeedItems.length) {
 							const feedItemsMap: {
-								[key: string]: PostListingItem;
+								[key: string]: PostFeedListingItem;
 							} = {};
 							const allItems = [...feedItems, ...newFeedItems];
 							allItems.forEach((item) => {

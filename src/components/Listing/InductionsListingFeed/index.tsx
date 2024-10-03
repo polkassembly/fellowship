@@ -5,7 +5,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { PostListingItem } from '@/global/types';
+import { PostFeedListingItem } from '@/global/types';
 import { parseAsInteger, useQueryState } from 'next-usequerystate';
 import { usePathname } from 'next/navigation';
 import getOriginUrl from '@/utils/getOriginUrl';
@@ -18,7 +18,7 @@ import getInductionsFeed from '@/app/api/v1/feed/inductions/getInductionsFeed';
 // import InductionListingCard from './InductionListingCard';
 
 interface Props {
-	items: PostListingItem[];
+	items: PostFeedListingItem[];
 }
 
 function InductionsListingFeed({ items }: Props) {
@@ -29,7 +29,7 @@ function InductionsListingFeed({ items }: Props) {
 	const observerTarget = useRef(null);
 
 	const [page, setPage] = useQueryState('page', parseAsInteger);
-	const [feedItems, setFeedItems] = useState<PostListingItem[]>(items || []);
+	const [feedItems, setFeedItems] = useState<PostFeedListingItem[]>(items || []);
 	const [isFetching, setIsFetching] = useState(false);
 	const [isLastPage, setIsLastPage] = useState(false);
 
@@ -54,11 +54,11 @@ function InductionsListingFeed({ items }: Props) {
 						setIsFetching(true);
 						const originUrl = getOriginUrl();
 						const nextPage = page ? page + 1 : 1;
-						const newFeedItems = (await getInductionsFeed({ originUrl, page: nextPage, network })) as PostListingItem[];
+						const newFeedItems = (await getInductionsFeed({ originUrl, page: nextPage, network })) as PostFeedListingItem[];
 
 						if (newFeedItems.length) {
 							const feedItemsMap: {
-								[key: string]: PostListingItem;
+								[key: string]: PostFeedListingItem;
 							} = {};
 							const allItems = [...feedItems, ...newFeedItems];
 							allItems.forEach((item) => {

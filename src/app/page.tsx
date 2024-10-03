@@ -11,11 +11,12 @@ import TrendingProposals from '@/components/Home/TrendingProposals';
 import { API_ERROR_CODE } from '@/global/constants/errorCodes';
 import { ClientError } from '@/global/exceptions';
 import MESSAGES from '@/global/messages';
-import { ActivityFeedItem, EActivityFeed, Network, PostListingItem, ServerComponentProps } from '@/global/types';
+import { ActivityFeedItem, EActivityFeed, Network, PostFeedListingItem, ServerComponentProps } from '@/global/types';
 import { headers } from 'next/headers';
 import { Metadata } from 'next';
 import getOriginUrl from '@/utils/getOriginUrl';
 import PostFeed from '@/components/Home/PostFeed';
+import PendingTasks from '@/components/Home/PendingTasks';
 import getActivityFeed from './api/v1/feed/getActivityFeed';
 import getTrendingProposals from './api/v1/feed/trending/getTrendingProposals';
 
@@ -51,11 +52,13 @@ export default async function Home({ searchParams }: ServerComponentProps<unknow
 
 			<div className='mb-16 flex flex-col items-center gap-8 md:mb-auto lg:flex-row lg:items-start'>
 				<div className='flex w-full flex-col gap-y-4 lg:max-w-[calc(100%-300px)]'>
+					<PendingTasks className='md:hidden' />
 					<Stats className='lg:hidden' />
 					<ActivitySelectorCard value={feed as EActivityFeed} />
-					{feed === EActivityFeed.ALL ? <ActivityFeed items={(feedItems || []) as ActivityFeedItem[]} /> : <PostFeed items={(feedItems || []) as PostListingItem[]} />}
+					{feed === EActivityFeed.ALL ? <ActivityFeed items={(feedItems || []) as ActivityFeedItem[]} /> : <PostFeed items={(feedItems || []) as PostFeedListingItem[]} />}
 				</div>
 				<div className='flex w-full flex-col gap-y-4 lg:w-[300px]'>
+					<PendingTasks className='hidden md:flex' />
 					<Stats className='hidden lg:flex' />
 					<JoinFellowshipCard />
 					<TrendingProposals proposals={trending} />

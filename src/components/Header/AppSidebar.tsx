@@ -102,6 +102,11 @@ const navItems: NavItem[] = [
 		url: '/rfc-pull-requests'
 	},
 	{
+		label: 'Preimages',
+		icon: 'image',
+		url: '/preimages'
+	},
+	{
 		label: 'Profile',
 		icon: 'shield-user',
 		url: '/address'
@@ -110,6 +115,11 @@ const navItems: NavItem[] = [
 		label: 'Polkadot Github',
 		icon: 'git-branch',
 		url: '/polkadot-github'
+	},
+	{
+		label: 'Settings',
+		icon: 'settings',
+		url: '/settings'
 	}
 ];
 

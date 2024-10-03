@@ -5,7 +5,7 @@
 import { API_ERROR_CODE } from '@/global/constants/errorCodes';
 import { ClientError } from '@/global/exceptions';
 import MESSAGES from '@/global/messages';
-import { EProfileProposals, Network, PayoutListingItem, PostListingItem } from '@/global/types';
+import { EProfileProposals, Network, PayoutListingItem, PostFeedListingItem } from '@/global/types';
 import fetchPonyfill from 'fetch-ponyfill';
 
 const { fetch: fetchPF } = fetchPonyfill();
@@ -29,7 +29,7 @@ export default async function getProfileProposals({ profileProposalsType, origin
 		throw new ClientError(`${MESSAGES.API_FETCH_ERROR} - ${e?.message}`, API_ERROR_CODE.API_FETCH_ERROR);
 	});
 
-	const feedItems: (PostListingItem | PayoutListingItem)[] = await feedRes.json();
+	const feedItems: (PostFeedListingItem | PayoutListingItem)[] = await feedRes.json();
 
 	return feedItems;
 }

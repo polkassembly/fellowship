@@ -5,7 +5,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { PostListingItem, ProposalType, EActivityFeed } from '@/global/types';
+import { PostFeedListingItem, ProposalType, EActivityFeed } from '@/global/types';
 import { parseAsInteger, useQueryState } from 'next-usequerystate';
 import { usePathname } from 'next/navigation';
 import getActivityFeed from '@/app/api/v1/feed/getActivityFeed';
@@ -18,7 +18,7 @@ import PostListingCard from '../Home/PostListingCard';
 // import InductionListingCard from './InductionListingCard';
 
 interface Props {
-	items: PostListingItem[];
+	items: PostFeedListingItem[];
 	feedType: EActivityFeed;
 }
 
@@ -30,7 +30,7 @@ function VotingProposalsFeed({ items, feedType }: Props) {
 	const observerTarget = useRef(null);
 
 	const [page, setPage] = useQueryState('page', parseAsInteger);
-	const [feedItems, setFeedItems] = useState<PostListingItem[]>(items || []);
+	const [feedItems, setFeedItems] = useState<PostFeedListingItem[]>(items || []);
 	const [isFetching, setIsFetching] = useState(false);
 	const [isLastPage, setIsLastPage] = useState(false);
 
@@ -55,11 +55,11 @@ function VotingProposalsFeed({ items, feedType }: Props) {
 						setIsFetching(true);
 						const originUrl = getOriginUrl();
 						const nextPage = page ? page + 1 : 1;
-						const newFeedItems = (await getActivityFeed({ feedType, originUrl, page: nextPage, network })) as PostListingItem[];
+						const newFeedItems = (await getActivityFeed({ feedType, originUrl, page: nextPage, network })) as PostFeedListingItem[];
 
 						if (newFeedItems.length) {
 							const feedItemsMap: {
-								[key: string]: PostListingItem;
+								[key: string]: PostFeedListingItem;
 							} = {};
 							const allItems = [...feedItems, ...newFeedItems];
 							allItems.forEach((item) => {

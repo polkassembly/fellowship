@@ -95,8 +95,8 @@ export const GER_USER_ACTIVITY = gql`
 `;
 
 export const GET_FELLOWSHIP_REFERENDUMS = gql`
-	query GET_FELLOWSHIP_REFERENDUMS($limit: Int = 10, $offset: Int = 0, $type_in: [ActivityType!], $who_eq: String) {
-		activities(where: { type_in: $type_in, who_eq: $who_eq }, limit: $limit, offset: $offset, orderBy: proposal_createdAt_DESC) {
+	query GET_FELLOWSHIP_REFERENDUMS($limit: Int = 10, $offset: Int = 0, $type_in: [ActivityType!], $who_eq: String, $status: [ProposalStatus!]) {
+		activities(where: { type_in: $type_in, who_eq: $who_eq, proposal: { status_in: $status } }, limit: $limit, offset: $offset, orderBy: proposal_createdAt_DESC) {
 			type
 			proposal {
 				id
@@ -267,6 +267,21 @@ export const GET_VOTES_COUNT = gql`
 	}
 `;
 
+export const GET_PENDING_ACTIVITIES = gql`
+	query GET_PENDING_ACTIVITIES($status_in: [ProposalStatus!], $voter_in: [String!]) {
+		all_pending: activities(where: { proposal: { status_in: $status_in } }) {
+			type
+			proposal {
+				index
+			}
+		}
+		user_voted: votes(where: { proposal: { status_in: $status_in }, voter_in: $voter_in }) {
+			voter
+			proposalIndex
+		}
+	}
+`;
+
 export const GET_VOTES = gql`
 	query GET_VOTES($limit: Int = 10, $offset: Int = 0, $index_eq: Int! = 44, $type_eq: VoteType = Fellowship, $decision_eq: VoteDecision = yes) {
 		votes(limit: $limit, offset: $offset, where: { type_eq: $type_eq, proposalIndex_eq: $index_eq, decision_eq: $decision_eq }) {
@@ -354,3 +369,90 @@ export const getFellowsData = (addresses: string[]) => {
 		}
 	`;
 };
+
+export const GET_POST_LISTING_DATA = gql`
+	query GET_POST_LISTING_DATA($limit: Int!, $offset: Int!) {
+		proposals(limit: $limit, offset: $offset, orderBy: index_DESC, where: { type_eq: FellowshipReferendum }) {
+			hash
+			createdAt
+			updatedAt
+			description
+			proposer
+			status
+			trackNumber
+			index
+		}
+	}
+`;
+
+export const GET_PREIMAGES = gql`
+	query GET_PREIMAGES($limit: Int = 25, $offset: Int = 0, $hash_contains: String) {
+		preimagesConnection(orderBy: createdAtBlock_DESC, where: { hash_contains: $hash_contains }) {
+			totalCount
+		}
+		preimages(limit: $limit, offset: $offset, orderBy: createdAtBlock_DESC, where: { hash_contains: $hash_contains }) {
+			hash
+			id
+			length
+			method
+			section
+			deposit
+			proposedCall {
+				args
+				description
+				method
+				section
+			}
+			proposer
+			status
+			updatedAt
+			updatedAtBlock
+			createdAtBlock
+			createdAt
+		}
+	}
+`;
+
+export const GET_PREIMAGE_BY_ID = gql`
+	query GET_PREIMAGE_BY_ID($id: String!) {
+		preimageById(id: $id) {
+			hash
+			id
+			length
+			method
+			section
+			deposit
+			proposedCall {
+				args
+				description
+				method
+				section
+			}
+			proposer
+			status
+			updatedAt
+			updatedAtBlock
+			createdAtBlock
+			createdAt
+		}
+		statusHistories(where: { preimage_isNull: false, preimage: { id_in: [$id] } }) {
+			extrinsicIndex
+			preimage {
+				hash
+			}
+			status
+		}
+	}
+`;
+
+export const GET_STATUS_HISTORY_BY_PREIMAGES_HASH = gql`
+	query GET_STATUS_HISTORY_BY_PREIMAGES_HASH($hash_in: [String!]) {
+		statusHistories(where: { preimage_isNull: false, preimage: { hash_in: $hash_in } }) {
+			extrinsicIndex
+			preimage {
+				hash
+			}
+			status
+		}
+	}
+`;

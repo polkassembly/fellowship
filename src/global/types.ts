@@ -57,7 +57,7 @@ export type NetworkConstants = {
 };
 
 export enum EActivityFeed {
-	// PENDING = 'pending',
+	PENDING = 'pending',
 	ALL = 'all',
 	GENERAL_PROPOSALS = 'general-proposals',
 	RANK_REQUESTS = 'rank-requests',
@@ -216,6 +216,14 @@ export interface JWTPayloadType {
 	login_address?: string;
 }
 
+export enum CHANNEL {
+	TELEGRAM = 'telegram',
+	DISCORD = 'discord',
+	ELEMENT = 'element',
+	GITHUB = 'github',
+	EMAIL = 'email'
+}
+
 export interface INetworkPreferences {
 	channelPreferences: {
 		[index: string]: {
@@ -223,6 +231,7 @@ export interface INetworkPreferences {
 			verification_token_expires?: Date;
 			enabled?: boolean;
 			handle?: string;
+			verified?: boolean;
 		};
 	};
 	triggerPreferences: {
@@ -379,7 +388,7 @@ export interface OnChainPostInfo {
 	deposit?: number;
 }
 
-export interface PostListingItem {
+export interface PostFeedListingItem {
 	id: number;
 	user_id: number | null;
 	title: string;
@@ -565,6 +574,41 @@ export interface IPreimage {
 	storageFee: BN;
 }
 
+export interface IPreimageStatusHistory {
+	extrinsicIndex: number;
+	status: string;
+	preimage: {
+		hash: string;
+	};
+}
+
+export interface IPreimageResponse {
+	hash: string;
+	id: string;
+	length: number;
+	method: string;
+	section: string;
+	deposit: string;
+	proposedCall: {
+		args: string;
+		description: string;
+		method: string;
+		section: string;
+	};
+	createdAt: string;
+	createdAtBlock: number;
+	updatedAt: string;
+	updatedAtBlock: number;
+	proposer: string;
+	status: string;
+	statusHistory: IPreimageStatusHistory;
+}
+
+export interface IPreimagesListingResponse {
+	count: number;
+	preimages: IPreimageResponse[];
+}
+
 export interface IAddPostCommentResponse {
 	id: string;
 }
@@ -608,7 +652,7 @@ export interface ActivityFeedItem {
 	comments_count?: number;
 	views?: PostView[];
 	reactions?: PublicReactionEntry[];
-	postListingItem?: PostListingItem;
+	postListingItem?: PostFeedListingItem;
 	isActive?: boolean;
 	cycleStartDatetime?: Date;
 	evidence?: string;
@@ -653,6 +697,54 @@ export interface TrendingProposalItem {
 	proposer_address?: string;
 	proposalType: ProposalType;
 	isPassing: boolean;
+}
+
+export enum EMentionType {
+	COMMENT = 'comment',
+	REPLY = 'reply',
+	POST = 'post'
+}
+
+export interface ITriggerPreferences {
+	enabled: boolean;
+	name: string;
+	post_types?: Array<string>;
+	tracks?: Array<number>;
+	sub_triggers?: Array<string>;
+	mention_types?: Array<string>;
+	pip_types?: Array<string>;
+}
+
+export enum ETriggerType {
+	NEW_COMMENT = 'newCommentAdded',
+	NEW_MENTION = 'newMention',
+	PROPOSAL_CREATED = 'proposalSubmitted',
+	PROPOSAL_IN_VOTING = 'proposalInVoting',
+	PROPOSAL_CLOSED = 'proposalClosed',
+	DAILY_UPDATES = 'dailyUpdates'
+}
+
+export interface IPostListingItem {
+	comments_count: number;
+	content: string;
+	created_at: Date;
+	id: number;
+	post_reactions: {
+		[key: string]: number;
+	};
+	proposer: string;
+	status?: ProposalStatus;
+	title: string;
+	type: ProposalType;
+	user_id: number | null;
+	updated_at: Date;
+	hash?: string;
+	trackNumber?: number;
+}
+
+export interface IPostListingResponse {
+	totalCount: number;
+	posts: IPostListingItem[];
 }
 
 export interface IEvent {

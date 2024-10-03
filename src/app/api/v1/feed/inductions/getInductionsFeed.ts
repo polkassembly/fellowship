@@ -5,7 +5,7 @@
 import { API_ERROR_CODE } from '@/global/constants/errorCodes';
 import { ClientError } from '@/global/exceptions';
 import MESSAGES from '@/global/messages';
-import { Network, PostListingItem } from '@/global/types';
+import { Network, PostFeedListingItem } from '@/global/types';
 import fetchPonyfill from 'fetch-ponyfill';
 
 const { fetch: fetchPF } = fetchPonyfill();
@@ -27,5 +27,5 @@ export default async function getInductionsFeed({ originUrl, page = 1, network }
 		throw new ClientError(`${MESSAGES.API_FETCH_ERROR} - ${e}`, API_ERROR_CODE.API_FETCH_ERROR);
 	});
 
-	return (await feedRes.json()) as PostListingItem[];
+	return (await feedRes.json()) as PostFeedListingItem[];
 }

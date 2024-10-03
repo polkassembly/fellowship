@@ -16,3 +16,4 @@ export const ALGOLIA_APP_ID = process.env.NEXT_PUBLIC_ALGOLIA_APP_ID || '';
 export const ALGOLIA_SEARCH_API_KEY = process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY || '';
 export const SUBSCAN_API_KEY = process.env.NEXT_PUBLIC_SUBSCAN_API_KEY || '';
 export const IMG_BB_API_KEY = process.env.NEXT_PUBLIC_IMG_BB_API_KEY || '';
+export const NOTIFICATION_ENGINE_API_KEY = process.env.NOTIFICATION_ENGINE_API_KEY || '';
