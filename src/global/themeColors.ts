@@ -57,7 +57,7 @@ const THEME_COLORS = {
 		topFellowCardBg: '#3F3F46',
 		rankRequestBtn: '#407BFF',
 		cardBg: '#252B36',
-		secondaryText: '#485F7D',
+		secondaryText: '#9E9E9E',
 		warningBg: '#F9ECAA80',
 		warning: '#E9C400',
 		successBg: '#C2EECC80',

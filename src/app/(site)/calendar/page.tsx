@@ -170,7 +170,7 @@ export default function CreateRFCProposal() {
 
 	return (
 		<div className='flex flex-col-reverse gap-8 lg:flex-row'>
-			<div className='mb-5 flex w-full flex-col gap-5 rounded-2xl border border-primary_border bg-content1 p-5 shadow-md lg:max-h-[calc(100vh-100px)] lg:w-2/3 lg:overflow-y-scroll'>
+			<div className='mb-5 flex w-full flex-col gap-5 rounded-2xl border border-primary_border bg-cardBg p-5 shadow-md lg:max-h-[calc(100vh-100px)] lg:w-2/3 lg:overflow-y-scroll'>
 				<div className='flex items-center gap-2 border-b pb-3'>
 					<Image
 						src='/icons/calendar.svg'
@@ -200,7 +200,7 @@ export default function CreateRFCProposal() {
 				</div>
 			</div>
 
-			<div className='mb-5 flex h-fit w-full flex-col gap-5 rounded-2xl border border-primary_border bg-content1 p-5 shadow-md lg:w-1/3'>
+			<div className='mb-5 flex h-fit w-full flex-col gap-5 rounded-2xl border border-primary_border bg-cardBg p-5 shadow-md lg:w-1/3'>
 				<div className='flex items-center gap-2'>
 					<Image
 						src='/icons/calendar.svg'
@@ -228,11 +228,11 @@ export default function CreateRFCProposal() {
 					onFocusChange={setCurrentDate}
 					onChange={setCurrentDate}
 					classNames={{
-						base: 'bg-content1 border border-primary_border rounded-2xl',
+						base: 'bg-cardBg border border-primary_border rounded-2xl',
 						prevButton: 'border border-primary_border rounded-md',
 						nextButton: 'border border-primary_border rounded-md',
 						title: 'font-bold text-base text-foreground',
-						gridWrapper: 'bg-content1',
+						gridWrapper: 'bg-cardBg',
 						gridHeaderCell: 'w-full',
 						gridBodyRow: 'px-4',
 						cell: 'w-full flex items-center justify-center',
