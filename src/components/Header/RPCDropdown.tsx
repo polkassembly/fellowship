@@ -30,7 +30,7 @@ function RPCDropdown({ closeMenu }: { closeMenu: () => void }) {
 				<Button
 					variant='bordered'
 					// eslint-disable-next-line prettier/prettier
-					className='h-unit-10 lg:h-unit-8 flex gap-2 rounded-lg border-1 border-primary_border px-5 text-sm font-medium lg:rounded-2xl'
+					className='flex h-unit-10 gap-2 rounded-lg border-1 border-primary_border px-5 text-sm font-medium lg:h-unit-8 lg:rounded-2xl'
 				>
 					<Image
 						alt='signal icon'
@@ -59,7 +59,7 @@ function RPCDropdown({ closeMenu }: { closeMenu: () => void }) {
 					<DropdownItem
 						key={item.key}
 						// eslint-disable-next-line prettier/prettier
-						className={currentRPC.key === item.key ? 'bg-primary_accent/10 dark:bg-primary_accent text-primary dark:text-white' : ''}
+						className={currentRPC.key === item.key ? 'bg-primary_accent/10 text-primary dark:bg-primary_accent dark:text-white' : ''}
 					>
 						{item.label}
 					</DropdownItem>

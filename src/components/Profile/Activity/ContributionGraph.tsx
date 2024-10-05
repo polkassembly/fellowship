@@ -80,7 +80,7 @@ function ContributionGraph({ classNames = '', githubUsername, openProfileEdit }:
 	}
 
 	return githubUsername ? (
-		<div className={`w-full rounded-2xl border border-primary_border bg-content1 p-4 shadow-lg ${classNames}`}>
+		<div className={`w-full rounded-2xl border border-primary_border bg-cardBg p-4 shadow-lg ${classNames}`}>
 			<div className='flex flex-col gap-2 md:flex-row md:items-center'>
 				<h1 className='flex items-center gap-4 text-base font-bold md:text-lg lg:text-xl'>
 					GitHub Contributions
@@ -157,7 +157,7 @@ function ContributionGraph({ classNames = '', githubUsername, openProfileEdit }:
 			)}
 		</div>
 	) : (
-		<div className='mt-[56px] w-full rounded-2xl border border-primary_border bg-content1 p-4 shadow-lg'>
+		<div className='mt-[56px] w-full rounded-2xl border border-primary_border bg-cardBg p-4 shadow-lg'>
 			<div className='flex items-center justify-between'>
 				<h2 className='text-lg font-semibold'>GitHub Contributions</h2>
 				<button

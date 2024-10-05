@@ -746,3 +746,20 @@ export interface IPostListingResponse {
 	totalCount: number;
 	posts: IPostListingItem[];
 }
+
+export interface IEvent {
+	content: string;
+	end_time: Date;
+	id: string;
+	location: string;
+	start_time: Date;
+	status: string;
+	title: string;
+	url: string;
+	participants: {
+		id: string;
+		avatar: string;
+		name: string;
+		status: 'accepted' | 'pending' | 'rejected';
+	}[];
+}
