@@ -6,9 +6,13 @@ import { urqlClient } from '@/services/urqlClient';
 import { APIError } from '@/global/exceptions';
 import MESSAGES from '@/global/messages';
 import { API_ERROR_CODE } from '@/global/constants/errorCodes';
+import getDefaultPostContent from '@/utils/getDefaultPostContent';
+import DEFAULT_POST_TITLE from '@/global/constants/defaultTitle';
 import { postCommentsCollRef, postDocRef, postReactionCollRef } from '../firestoreRefs';
 import { GET_POST_LISTING_DATA } from '../subsquidQueries';
+import { getSubSquareContentAndTitle } from '../../api-utils/subsquare-content';
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export async function getOnChainPostsListing({
 	network,
 	proposalType,
@@ -66,15 +70,36 @@ export async function getOnChainPostsListing({
 
 			const reactionCountsObject = Object.assign({}, ...reactionCounts);
 
+			let title = offChaindata?.title || DEFAULT_POST_TITLE;
+			let content =
+				offChaindata?.content ||
+				proposalData.description ||
+				getDefaultPostContent({
+					network,
+					proposalType,
+					proposerAddress: proposalData.proposer
+				});
+
+			// get content and title from subsquare if not available in firestore
+			if (!offChaindata?.title || !offChaindata?.content) {
+				const { content: subsquareContent, title: subsquareTitle } = await getSubSquareContentAndTitle(ProposalType.FELLOWSHIP_REFERENDUMS, network, proposalData.index);
+				if (!offChaindata?.title && subsquareTitle) {
+					title = subsquareTitle;
+				}
+				if (!offChaindata?.content && subsquareContent) {
+					content = subsquareContent;
+				}
+			}
+
 			return {
 				comments_count: (await postCommentsCollRef(network, proposalType, String(proposalData.index)).count().get()).data().count || 0,
-				content: offChaindata?.content || proposalData.description || '',
+				content,
 				created_at: new Date(proposalData.createdAt) || offChaindata?.created_at?.toDate?.() || new Date(),
 				id: proposalData.index,
 				post_reactions: reactionCountsObject,
 				proposer: proposalData.proposer || offChaindata?.proposer || '',
 				status: proposalData.status,
-				title: offChaindata?.title || 'Untitled',
+				title,
 				type: proposalType,
 				updated_at: offChaindata?.updated_at?.toDate?.() || new Date(proposalData.updatedAt),
 				user_id: offChaindata?.user_id || null,
