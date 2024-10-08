@@ -763,3 +763,20 @@ export interface IEvent {
 		status: 'accepted' | 'pending' | 'rejected';
 	}[];
 }
+
+export interface IRecording {
+	id: string;
+	title: string;
+	description: string;
+	url: string;
+	views_count?: number;
+	created_at: Date;
+	updated_at: Date;
+	reactions_count?: number;
+	who: string;
+}
+
+export interface IRecordingListingResponse {
+	totalCount: number;
+	recordings: IRecording[];
+}
