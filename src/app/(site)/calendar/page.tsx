@@ -27,6 +27,7 @@ import { IEvent } from '@/global/types';
 import Events from '@/components/Calendar/Events';
 import LoadingSpinner from '@/components/Misc/LoadingSpinner';
 import { Button } from '@nextui-org/button';
+import Recordings from '@/components/Calendar/Recordings';
 
 export default function CreateRFCProposal() {
 	const { api, apiReady, network } = useApiContext();
@@ -132,6 +133,7 @@ export default function CreateRFCProposal() {
 		const parsedDate = new Date(`${currentDate.year}-${currentDate.month}-${currentDate.day}`);
 		setFocusedDate(parsedDate);
 	}, [currentDate]);
+
 	useEffect(() => {
 		const gridCells = document.querySelectorAll("td[role='gridcell']");
 
@@ -170,34 +172,22 @@ export default function CreateRFCProposal() {
 
 	return (
 		<div className='flex flex-col-reverse gap-8 lg:flex-row'>
-			<div className='mb-5 flex w-full flex-col gap-5 rounded-2xl border border-primary_border bg-cardBg p-5 shadow-md lg:max-h-[calc(100vh-100px)] lg:w-2/3 lg:overflow-y-scroll'>
-				<div className='flex items-center gap-2 border-b pb-3'>
-					<Image
-						src='/icons/calendar.svg'
-						alt='calendar icon'
-						width={32}
-						height={32}
-						className='dark:grayscale dark:invert dark:filter'
-					/>
-					<h2 className='w-full text-xl font-semibold'>
-						Events <span className='ml-2 text-sm font-thin text-secondaryText'>{focusedDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
-					</h2>
-				</div>
-				<div className='flex h-full flex-col gap-5'>
-					{eventsLoading ? (
-						<div className='flex w-full items-center justify-center p-10'>
-							<LoadingSpinner
-								message='Fetching Events...'
-								size='lg'
-							/>
-						</div>
-					) : (
-						<Events
-							events={calendarEvents}
-							selectedDate={focusedDate}
-						/>
-					)}
-				</div>
+			<div className='mb-5 w-full lg:max-h-[calc(100vh-100px)] lg:w-2/3 lg:overflow-y-scroll'>
+				<Recordings
+					items={[
+						{
+							id: '1',
+							title: 'test',
+							url: 'test',
+							description: 'test',
+							thumbnail: '/icons/calendar.svg',
+							who: 'test',
+							created_at: new Date(),
+							updated_at: new Date()
+						}
+					]}
+					totalCount={1}
+				/>
 			</div>
 
 			<div className='mb-5 flex h-fit w-full flex-col gap-5 rounded-2xl border border-primary_border bg-cardBg p-5 shadow-md lg:w-1/3'>
@@ -241,6 +231,26 @@ export default function CreateRFCProposal() {
 						cellButton: 'md:w-10 md:h-10 data-[today=true]:border data-[today=true]:border-primary relative flex items-center justify-center flex-col gap-0.5'
 					}}
 				/>
+				<div className='flex items-center gap-2 border-b pb-3'>
+					<h2 className='w-full text-xl font-semibold'>
+						Events <span className='ml-2 text-sm font-thin text-secondaryText'>{focusedDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+					</h2>
+				</div>
+				<div className='flex h-full flex-col gap-5'>
+					{eventsLoading ? (
+						<div className='flex w-full items-center justify-center p-10'>
+							<LoadingSpinner
+								message='Fetching Events...'
+								size='lg'
+							/>
+						</div>
+					) : (
+						<Events
+							events={calendarEvents}
+							selectedDate={focusedDate}
+						/>
+					)}
+				</div>
 			</div>
 		</div>
 	);

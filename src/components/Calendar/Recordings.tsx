@@ -16,26 +16,36 @@ import getRecordings from '@/app/api/v1/recordings/getRecordings';
 import LoadingSpinner from '../Misc/LoadingSpinner';
 import RecordingListingCard from './RecordingListingCard';
 
-interface Props {
-	items: IRecording[];
-	totalCount: number;
-}
-
-function Recordings({ items, totalCount }: Props) {
+function Recordings() {
 	const pathname = usePathname();
 
 	const { network } = useApiContext();
+	const originUrl = getOriginUrl();
 
 	const observerTarget = useRef(null);
 
 	const [page, setPage] = useQueryState('page', parseAsInteger);
-	const [recordings, setRecordings] = useState<IRecording[]>(items || []);
+	const [recordings, setRecordings] = useState<IRecording[]>([]);
+	const [totalCount, setTotalCount] = useState(0);
 	const [isFetching, setIsFetching] = useState(false);
 	const [isLastPage, setIsLastPage] = useState(false);
 
 	useEffect(() => {
-		setRecordings(items || []);
-	}, [items]);
+		async function fetchRecordings() {
+			setIsFetching(true);
+			try {
+				const { totalCount: count, recordings: items } = await getRecordings({ originUrl, network });
+				setRecordings(items || []);
+				setTotalCount(count);
+			} catch (error) {
+				console.error('Failed to fetch recordings:', error);
+			} finally {
+				setIsFetching(false);
+			}
+		}
+
+		fetchRecordings();
+	}, [network, originUrl]);
 
 	useEffect(() => {
 		setIsLastPage(false);
@@ -52,7 +62,6 @@ function Recordings({ items, totalCount }: Props) {
 				if (recordings.length && entries[0].isIntersecting) {
 					(async () => {
 						setIsFetching(true);
-						const originUrl = getOriginUrl();
 						const nextPage = page ? page + 1 : 1;
 						const res = await getRecordings({ originUrl, page: nextPage, network });
 						const newRecordings = res.recordings;
@@ -91,10 +100,6 @@ function Recordings({ items, totalCount }: Props) {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [observerTarget, page]);
 
-	if (!recordings.length) {
-		return <div className='p-6 text-center text-sm'>No recording found.</div>;
-	}
-
 	return (
 		<>
 			<div className='mb-5 flex w-full items-center gap-2 rounded-2xl border border-primary_border bg-cardBg p-5 shadow-md'>
@@ -109,24 +114,30 @@ function Recordings({ items, totalCount }: Props) {
 					Recordings <span className='ml-2 text-sm font-thin text-secondaryText'>{`(${totalCount})`}</span>
 				</h2>
 			</div>
-			<ScrollShadow className='flex max-h-screen w-full flex-col gap-y-4 overflow-auto'>
-				{recordings.map((recording) => (
-					<RecordingListingCard
-						key={recording.id}
-						recording={recording}
-					/>
-				))}
+			{!recordings.length ? (
+				<div className='w-full rounded-2xl border border-primary_border bg-cardBg p-6 text-center text-sm shadow-md'>
+					There are currently no recordings at this time. Please check back later!
+				</div>
+			) : (
+				<ScrollShadow className='flex max-h-screen w-full flex-col gap-y-4 overflow-auto'>
+					{recordings.map((recording) => (
+						<RecordingListingCard
+							key={recording.id}
+							recording={recording}
+						/>
+					))}
 
-				{!isFetching && !isLastPage && <div ref={observerTarget} />}
+					{!isFetching && !isLastPage && <div ref={observerTarget} />}
 
-				{isFetching && !isLastPage && (
-					<div className='mb-6 mt-2'>
-						<LoadingSpinner message='Fetching feed...' />
-					</div>
-				)}
+					{isFetching && !isLastPage && (
+						<div className='mb-6 mt-2'>
+							<LoadingSpinner message='Fetching feed...' />
+						</div>
+					)}
 
-				{isLastPage && <div className='mb-6 mt-4 flex justify-center text-sm'>Yay! You have reached the end of the feed.</div>}
-			</ScrollShadow>
+					{isLastPage && <div className='mb-6 mt-4 flex justify-center text-sm'>Yay! You have reached the end of the feed.</div>}
+				</ScrollShadow>
+			)}
 		</>
 	);
 }
