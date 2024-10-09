@@ -8,9 +8,12 @@ import React, { useState } from 'react';
 import { Accordion, AccordionItem } from '@nextui-org/accordion';
 import { IEvent } from '@/global/types';
 import { Button } from '@nextui-org/button';
+import { useUserDetailsContext } from '@/contexts';
+import Image from 'next/image';
 import EventHeader from './EventHeader';
 import JoinEventButton from './JoinEventButton';
 import EventParticipant from './EventParticipant';
+import LinkWithNetwork from '../Misc/LinkWithNetwork';
 
 const accordionItemClassNames = {
 	base: 'rounded-[20px] border border-primary_border w-full mx-0',
@@ -22,6 +25,8 @@ const accordionItemClassNames = {
 };
 
 export default function Events({ events, selectedDate }: { events: IEvent[]; selectedDate: Date }) {
+	const { id } = useUserDetailsContext();
+
 	const filteredEvents = events.filter((event) => event.start_time.toDateString() === selectedDate.toDateString());
 
 	const [showAll, setShowAll] = useState(false);
@@ -29,6 +34,29 @@ export default function Events({ events, selectedDate }: { events: IEvent[]; sel
 	const toggleShowAll = () => {
 		setShowAll(!showAll);
 	};
+
+	if (!id) {
+		return (
+			<div className='flex flex-col items-center gap-5 p-5'>
+				<Image
+					src='/icons/empty-states/signed-out.svg'
+					width={160}
+					height={160}
+					alt='Empty'
+				/>
+				<p className='text-sm'>
+					Please&nbsp;
+					<LinkWithNetwork
+						href='/login'
+						className='text-primary'
+					>
+						Sign In
+					</LinkWithNetwork>
+					&nbsp;to view Events
+				</p>
+			</div>
+		);
+	}
 
 	if (filteredEvents.length === 0) {
 		return <p className='flex h-full w-full items-center justify-center p-10'>No current events</p>;
