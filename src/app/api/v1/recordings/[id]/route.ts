@@ -25,7 +25,8 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
 		who: data?.proposer_address,
 		created_at: data?.created_at?.toDate?.() || new Date(),
 		updated_at: data?.updated_at?.toDate?.() || new Date(),
-		title: data?.title
+		title: data?.title,
+		thumbnail: data?.thumbnail
 	} as IRecording;
 
 	return NextResponse.json(recording as IRecording);
