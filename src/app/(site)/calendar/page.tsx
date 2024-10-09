@@ -173,21 +173,7 @@ export default function CreateRFCProposal() {
 	return (
 		<div className='flex flex-col-reverse gap-8 lg:flex-row'>
 			<div className='mb-5 w-full lg:max-h-[calc(100vh-100px)] lg:w-2/3 lg:overflow-y-scroll'>
-				<Recordings
-					items={[
-						{
-							id: '1',
-							title: 'test',
-							url: 'test',
-							description: 'test',
-							thumbnail: '/icons/calendar.svg',
-							who: 'test',
-							created_at: new Date(),
-							updated_at: new Date()
-						}
-					]}
-					totalCount={1}
-				/>
+				<Recordings />
 			</div>
 
 			<div className='mb-5 flex h-fit w-full flex-col gap-5 rounded-2xl border border-primary_border bg-cardBg p-5 shadow-md lg:w-1/3'>
