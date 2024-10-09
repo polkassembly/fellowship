@@ -61,7 +61,7 @@ const navItems: NavItem[] = [
 		url: '/'
 	},
 	{
-		label: 'Events',
+		label: 'Events and Recordings',
 		icon: 'calendar',
 		url: '/calendar'
 	},
