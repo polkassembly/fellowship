@@ -16,7 +16,7 @@ interface Args {
 	network?: Network;
 }
 
-export default async function getProfile({ originUrl, recordingId, network }: Args) {
+export default async function getRecordingById({ originUrl, recordingId, network }: Args) {
 	const recordingRes = await fetchPF(`${originUrl}/api/v1/recordings/${recordingId}`, {
 		headers: {
 			'x-network': network || ''

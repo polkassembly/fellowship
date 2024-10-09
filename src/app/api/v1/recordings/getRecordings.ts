@@ -17,7 +17,7 @@ interface Args {
 	network?: Network;
 }
 
-export default async function getPreimages({ originUrl, page, network, limit }: Args) {
+export default async function getRecordings({ originUrl, page, network, limit }: Args) {
 	const recordingsRes = await fetchPF(`${originUrl}/api/v1/recordings`, {
 		headers: {
 			'x-network': network || ''
