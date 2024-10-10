@@ -129,7 +129,8 @@ export enum ActivityType {
 	RANK_REQUEST = 'rank-request',
 	FELLOWSHIP_RULE = 'fellowship-rule',
 	INDUCTION = 'induction',
-	RFC_PULL_REQUEST = 'rfc-pull-request'
+	RFC_PULL_REQUEST = 'rfc-pull-request',
+	RECORDING = 'recording'
 }
 
 export enum Reaction {
@@ -762,4 +763,22 @@ export interface IEvent {
 		name: string;
 		status: 'accepted' | 'pending' | 'rejected';
 	}[];
+}
+
+export interface IRecording {
+	id: string;
+	title: string;
+	description: string;
+	url: string;
+	thumbnail: string;
+	views_count?: number;
+	created_at: Date;
+	updated_at: Date;
+	reactions_count?: number;
+	who: string;
+}
+
+export interface IRecordingListingResponse {
+	totalCount: number;
+	recordings: IRecording[];
 }
