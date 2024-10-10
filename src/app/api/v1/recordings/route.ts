@@ -20,7 +20,7 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
 	const offset = (Number(page) - 1) * Number(limit);
 
 	const totalCountQuery = recordingsCollRef().count().get();
-	const querySnapshot = recordingsCollRef().orderBy('created_at').limit(limit).offset(offset).get();
+	const querySnapshot = recordingsCollRef().orderBy('created_at', 'desc').limit(limit).offset(offset).get();
 
 	const res = await Promise.all([totalCountQuery, querySnapshot]).catch(() => {
 		throw new APIError(`${MESSAGES.API_FETCH_ERROR}`, 500, API_ERROR_CODE.API_FETCH_ERROR);
