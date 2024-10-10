@@ -18,6 +18,10 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
 
 	const querySnapshot = await recordingDocRef(recordingId).get();
 
+	if (!querySnapshot.exists) {
+		throw new APIError(MESSAGES.NOT_FOUND, 404, API_ERROR_CODE.API_FETCH_ERROR);
+	}
+
 	const data = querySnapshot.data();
 
 	const recording = {
