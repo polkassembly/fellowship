@@ -26,19 +26,20 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
 		throw new APIError(`${MESSAGES.API_FETCH_ERROR}`, 500, API_ERROR_CODE.API_FETCH_ERROR);
 	});
 
-	const totalCount = res[0]?.data()?.count || 0;
+	const totalCount = res[0]?.data()?.count ?? 0;
 
-	const recordings: IRecording[] = res[1]?.docs?.map((doc) => {
-		const data = doc.data();
-		return {
-			id: data?.id,
-			who: data?.proposer_address,
-			created_at: data?.created_at?.toDate?.() || new Date(),
-			updated_at: data?.updated_at?.toDate?.() || new Date(),
-			title: data?.title,
-			thumbnail: data?.thumbnail
-		} as IRecording;
-	});
+	const recordings: IRecording[] =
+		res[1]?.docs?.map((doc) => {
+			const data = doc.data();
+			return {
+				id: data?.id ?? '',
+				who: data?.proposer_address ?? '',
+				created_at: data?.created_at?.toDate?.() || new Date(),
+				updated_at: data?.updated_at?.toDate?.() || new Date(),
+				title: data?.title ?? '',
+				thumbnail: data?.thumbnail ?? ''
+			} as IRecording;
+		}) ?? [];
 
 	return NextResponse.json({ totalCount, recordings } as IRecordingListingResponse);
 });
