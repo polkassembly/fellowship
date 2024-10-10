@@ -22,19 +22,21 @@ export const POST = withErrorHandling(async (req: NextRequest) => {
 	const totalCountQuery = recordingsCollRef().count().get();
 	const querySnapshot = recordingsCollRef().orderBy('created_at').limit(limit).offset(offset).get();
 
-	const res = await Promise.all([totalCountQuery, querySnapshot]);
+	const res = await Promise.all([totalCountQuery, querySnapshot]).catch(() => {
+		throw new APIError(`${MESSAGES.API_FETCH_ERROR}`, 500, API_ERROR_CODE.API_FETCH_ERROR);
+	});
 
-	const totalCount = res[0].data().count || 0;
+	const totalCount = res[0]?.data()?.count || 0;
 
-	const recordings: IRecording[] = res[1].docs.map((doc) => {
+	const recordings: IRecording[] = res[1]?.docs?.map((doc) => {
 		const data = doc.data();
 		return {
-			id: data.id,
-			who: data.proposer_address,
+			id: data?.id,
+			who: data?.proposer_address,
 			created_at: data?.created_at?.toDate?.() || new Date(),
 			updated_at: data?.updated_at?.toDate?.() || new Date(),
-			title: data.title,
-			thumbnail: data.thumbnail
+			title: data?.title,
+			thumbnail: data?.thumbnail
 		} as IRecording;
 	});
 
