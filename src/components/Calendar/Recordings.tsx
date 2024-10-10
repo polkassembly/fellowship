@@ -61,26 +61,28 @@ function Recordings() {
 			(entries) => {
 				if (recordings.length && entries[0].isIntersecting) {
 					(async () => {
-						setIsFetching(true);
-						const nextPage = page ? page + 1 : 1;
-						const res = await getRecordings({ originUrl, page: nextPage, network });
-						const newRecordings = res.recordings;
+						try {
+							setIsFetching(true);
+							const nextPage = page ? page + 1 : 1;
+							const res = await getRecordings({ originUrl, page: nextPage, network });
+							const newRecordings = res.recordings;
 
-						if (newRecordings.length) {
-							const recordingsMap: {
-								[key: string]: IRecording;
-							} = {};
-							const allItems = [...recordings, ...newRecordings];
-							allItems.forEach((item) => {
-								recordingsMap[item.id] = item;
-							});
-							setRecordings(Object.values(recordingsMap).reverse());
-							setPage(nextPage);
-						} else {
-							setIsLastPage(true);
+							if (newRecordings.length) {
+								const recordingsMap = new Map<string, IRecording>();
+								const allItems = [...recordings, ...newRecordings];
+								allItems.forEach((item) => {
+									recordingsMap.set(item.id, item);
+								});
+								setRecordings(Array.from(recordingsMap.values()));
+								setPage(nextPage);
+							} else {
+								setIsLastPage(true);
+							}
+						} catch (error) {
+							console.error('Failed to fetch recordings:', error);
+						} finally {
+							setIsFetching(false);
 						}
-
-						setIsFetching(false);
 					})();
 				}
 			},
