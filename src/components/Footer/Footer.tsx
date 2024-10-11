@@ -12,7 +12,7 @@ import styles from '@/components/Header/Header.module.scss';
 import LinkWithNetwork from '../Misc/LinkWithNetwork';
 import FooterNavItem from './FooterNavItem';
 
-type subItem = { label: string; url: string };
+type subItem = { label: string; url: string; icon?: string };
 
 type NavItem = {
 	label: string;
@@ -57,6 +57,29 @@ const navItems: NavItem[] = [
 		label: 'Profile',
 		icon: 'shield-user',
 		url: '/address'
+	},
+	{
+		label: 'More',
+		icon: 'three-dots',
+		url: '#more',
+		subItems: [
+			{
+				label: 'Events and Recordings',
+				icon: 'calendar',
+				url: '/calendar'
+			},
+			{
+				label: 'Inductions',
+				icon: 'add-user',
+				url: '/inductions'
+			},
+			{
+				label: 'Preimages',
+				icon: 'image',
+				url: '/preimages'
+			}
+		],
+		childUrls: ['/calendar', '/inductions', '/preimages']
 	}
 ];
 
@@ -94,7 +117,7 @@ function FooterNavMobile() {
 					return (
 						<div
 							id='nav-list-item'
-							className={`mb-3 block h-[40px] rounded-none p-0 hover:bg-transparent ${isCurrentRoute && 'text-primary'}`}
+							className={`mb-3 h-[40px] rounded-none p-0 hover:bg-transparent ${isCurrentRoute && 'text-primary'}`}
 							key={navItem.url}
 						>
 							<FooterNavItem

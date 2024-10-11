@@ -10,7 +10,6 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useUserDetailsContext } from '@/contexts';
 import { Listbox, ListboxItem } from '@nextui-org/listbox';
-import { Button } from '@nextui-org/button';
 import { Popover, PopoverTrigger, PopoverContent } from '@nextui-org/popover';
 import LinkWithNetwork from '../Misc/LinkWithNetwork';
 
@@ -20,7 +19,7 @@ interface IFooterNavItem {
 	icon?: string;
 	url: string;
 	children: React.ReactNode;
-	subItems?: { label: string; url: string }[];
+	subItems?: { label: string; url: string; icon?: string }[];
 	handleClickAction: (url: string) => void;
 }
 
@@ -31,9 +30,9 @@ function FooterNavItem({ isParentItem = false, isCurrentRoute, icon, children, s
 
 	return (
 		<div className='flex flex-col items-center justify-between'>
-			<Button
-				variant='light'
-				className={`m-0 flex flex-col items-center gap-0.5 p-0 text-xs text-white ${isCurrentRoute && 'text-primary'}`}
+			<button
+				type='button'
+				className={`m-0 flex flex-col items-center gap-0.5 p-0 text-xs ${isCurrentRoute ? 'text-primary' : 'text-white'}`}
 				onClick={() => handleClickAction(url)}
 			>
 				{isParentItem && subItems && Boolean(subItems?.length) ? (
@@ -56,9 +55,9 @@ function FooterNavItem({ isParentItem = false, isCurrentRoute, icon, children, s
 								<span className={isCurrentRoute ? '' : 'mt-1'}>{children}</span>
 							</div>
 						</PopoverTrigger>
-						<PopoverContent>
+						<PopoverContent className='mb-3 overflow-hidden p-0 py-2'>
 							<Listbox
-								className='text-sm'
+								className='p-0 text-sm'
 								variant='flat'
 								color='primary'
 								aria-label='Sidebar navigation'
@@ -73,18 +72,30 @@ function FooterNavItem({ isParentItem = false, isCurrentRoute, icon, children, s
 										<ListboxItem
 											id='nav-list-subItem'
 											textValue={subItem.label}
-											className={`mb-3 h-[40px] rounded-none hover:bg-transparent ${isSubItemCurrentRoute && 'text-primary'}`}
+											className={`h-[40px] rounded-none px-4 hover:bg-transparent ${isSubItemCurrentRoute && 'bg-selectedRadioBg text-primary'}`}
 											key={subItem.url}
 											onClick={() => {
 												setIsPopoverOpen(false);
 												handleClickAction(subItem.url);
 											}}
 										>
-											{subItem.url.startsWith('#') ? (
-												<span>{subItem.label}</span>
-											) : (
-												<LinkWithNetwork href={subItem.url === '/address' ? `${subItem.url}/${loginAddress || addresses?.[0]}` : subItem.url}>{subItem.label}</LinkWithNetwork>
-											)}
+											<div className='flex items-center gap-2'>
+												{subItem.icon && (
+													<Image
+														alt='icon'
+														className='m-0'
+														src={`/icons/sidebar/${subItem?.icon}${isSubItemCurrentRoute ? '-filled' : '-outlined'}.svg`}
+														width={20}
+														height={20}
+													/>
+												)}
+
+												{subItem.url.startsWith('#') ? (
+													<span>{subItem.label}</span>
+												) : (
+													<LinkWithNetwork href={subItem.url === '/address' ? `${subItem.url}/${loginAddress || addresses?.[0]}` : subItem.url}>{subItem.label}</LinkWithNetwork>
+												)}
+											</div>
 										</ListboxItem>
 									);
 								})}
@@ -105,7 +116,7 @@ function FooterNavItem({ isParentItem = false, isCurrentRoute, icon, children, s
 						{children}
 					</>
 				)}
-			</Button>
+			</button>
 			{isCurrentRoute && (
 				<Image
 					alt='border-image'
