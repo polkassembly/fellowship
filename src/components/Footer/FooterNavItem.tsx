@@ -83,8 +83,8 @@ function FooterNavItem({ isParentItem = false, isCurrentRoute, icon, children, s
 												{subItem.icon && (
 													<Image
 														alt='icon'
-														className='m-0'
-														src={`/icons/sidebar/${subItem?.icon}${isSubItemCurrentRoute ? '-filled' : '-outlined'}.svg`}
+														className={`m-0 ${!isSubItemCurrentRoute && 'dark:contrast-[200%] dark:grayscale dark:invert dark:filter'}`}
+														src={`/icons/sidebar/${subItem?.icon}${isSubItemCurrentRoute ? '-filled' : '-mobile'}.svg`}
 														width={20}
 														height={20}
 													/>
