@@ -9,7 +9,7 @@ import { Input } from '@nextui-org/input';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { TFA_CODE_RULES } from '@/global/validationRules';
-import { ChallengeMessage, IAuthResponse, TokenType, Wallet } from '@/global/types';
+import { IAuthResponse, TokenType, Wallet } from '@/global/types';
 import nextApiClientFetch from '@/utils/nextApiClientFetch';
 import { handleTokenChange } from '@/services/auth.service';
 import { useApiContext, useUserDetailsContext } from '@/contexts';
@@ -20,6 +20,7 @@ import APP_NAME from '@/global/constants/appName';
 import getSubstrateAddress from '@/utils/getSubstrateAddress';
 import { stringToHex } from '@polkadot/util';
 import { SignerResult } from '@polkadot/api/types';
+import { SIGN_MESSAGE } from '@/global/constants/signMessage';
 import WalletButtonsRow from './WalletButtonsRow';
 import AlertCard from '../Misc/AlertCard';
 import AddressDropdown from './AddressDropdown';
@@ -90,27 +91,15 @@ function LoginForm({ onClose }: { onClose?: () => void }) {
 		try {
 			setLoading(true);
 
-			const { data: signupStartData, error: signupStartError } = await nextApiClientFetch<ChallengeMessage>({
-				network,
-				url: 'api/v1/auth/actions/addressSignupStart',
-				isPolkassemblyAPI: true,
-				data: { address: substrateAddress }
-			});
-
-			if (signupStartError || !signupStartData) throw new Error(signupStartError || 'Something went wrong');
-
-			const signupStartSignMessage = signupStartData?.signMessage;
-			if (!signupStartSignMessage) throw new Error('Signup challenge message not found.');
-
 			const { signature: signupSignature } = await signRaw({
 				address: substrateAddress,
-				data: stringToHex(signupStartSignMessage),
+				data: stringToHex(SIGN_MESSAGE),
 				type: 'bytes'
 			});
 
 			const { data: confirmData, error: confirmError } = await nextApiClientFetch<TokenType>({
 				network,
-				url: 'api/v1/auth/actions/addressSignupConfirm',
+				url: 'api/v1/auth/actions/addressSignup',
 				isPolkassemblyAPI: true,
 				data: {
 					address: substrateAddress,
@@ -160,24 +149,9 @@ function LoginForm({ onClose }: { onClose?: () => void }) {
 
 			const substrateAddress = getSubstrateAddress(selectedAddress.address) ?? selectedAddress.address;
 
-			const { data: loginStartData, error: loginStartError } = await nextApiClientFetch<ChallengeMessage>({
-				network,
-				url: 'api/v1/auth/actions/addressLoginStart',
-				isPolkassemblyAPI: true,
-				data: {
-					address: substrateAddress,
-					wallet: selectedWallet
-				}
-			});
-
-			if (loginStartError) throw new Error(loginStartError);
-
-			const loginStartSignMessage = loginStartData?.signMessage;
-			if (!loginStartSignMessage) throw new Error('Challenge message not found');
-
 			const { signature: loginStartSignature } = await signRaw({
 				address: substrateAddress,
-				data: stringToHex(loginStartSignMessage),
+				data: stringToHex(SIGN_MESSAGE),
 				type: 'bytes'
 			});
 
