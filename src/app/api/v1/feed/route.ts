@@ -29,7 +29,11 @@ const getActivityTypes = (feedType: EActivityFeed) => {
 		SubsquidActivityType.DemotionRequest,
 		SubsquidActivityType.InductionRequest,
 		SubsquidActivityType.RFC,
-		SubsquidActivityType.GeneralProposal
+		SubsquidActivityType.GeneralProposal,
+		SubsquidActivityType.Promoted,
+		SubsquidActivityType.Retained,
+		SubsquidActivityType.Demoted,
+		SubsquidActivityType.ActivityChanged
 	];
 	switch (feedType) {
 		case EActivityFeed.PENDING:
