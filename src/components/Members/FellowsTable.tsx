@@ -100,6 +100,7 @@ function FellowsTable({ className, fellows, fellowsDetails }: Props) {
 									variant='dropdownItem'
 									address={getEncodedAddress(fellow?.address || '', network) || ''}
 									truncateCharLen={6}
+									showRank={false}
 								/>
 							</TableCell>
 

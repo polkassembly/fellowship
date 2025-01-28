@@ -21,6 +21,7 @@ interface BaseProps {
 	address: string;
 	truncateCharLen?: number;
 	iconSize?: number;
+	showRank?: boolean;
 }
 
 interface AddressInlineProps extends BaseProps {
@@ -85,6 +86,7 @@ function Address(props: Props) {
 						address={encodedAddress}
 						addressDisplayText={truncatedUsername || addressDisplayText}
 						iconSize={iconSize}
+						showRank={props.showRank}
 					/>
 				</LinkWithNetwork>
 			);
@@ -97,6 +99,7 @@ function Address(props: Props) {
 					address={encodedAddress}
 					addressDisplayText={addressDisplayText}
 					iconSize={iconSize}
+					showRank={props.showRank}
 				/>
 			);
 		default:

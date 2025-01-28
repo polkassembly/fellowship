@@ -5,6 +5,7 @@
 import { Card } from '@nextui-org/card';
 import React from 'react';
 import Image from 'next/image';
+import { Tooltip } from '@nextui-org/tooltip';
 import { useApiContext } from '@/contexts';
 import { IFellow, IFellowDataResponse } from '@/global/types';
 import RANK_CONSTANTS from '@/global/constants/rankConstants';
@@ -30,15 +31,18 @@ function TopFellowRow({ className, fellow, fellowDetails }: { className?: string
 						variant='dropdownItem'
 						address={fellow.address}
 						truncateCharLen={4}
+						showRank={false}
 					/>
 				</div>
 
-				<Image
-					alt='icon'
-					src={RANK_CONSTANTS[fellow.rank].icon}
-					width={42}
-					height={32}
-				/>
+				<Tooltip content={`Rank: ${String(RANK_CONSTANTS[fellow.rank].rank)}`}>
+					<Image
+						alt='icon'
+						src={RANK_CONSTANTS[fellow.rank].icon}
+						width={42}
+						height={32}
+					/>
+				</Tooltip>
 
 				{/* TODO: Add since */}
 
