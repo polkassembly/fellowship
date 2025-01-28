@@ -35,7 +35,11 @@ const RANK_CONSTANTS = [
 		icon: memberIcon,
 		group: RANK_GROUP.MEMBERS,
 		retentionTrack: 'Members',
-		promotionTrack: 'PromoteTo1Dan'
+		promotionTrack: 'PromoteTo1Dan',
+		colors: {
+			bg: '#F1F2FF',
+			text: '#707EFF'
+		}
 	},
 	{
 		rank: 1,
@@ -44,7 +48,11 @@ const RANK_CONSTANTS = [
 		icon: memberIcon,
 		group: RANK_GROUP.MEMBERS,
 		retentionTrack: 'RetainAt1Dan',
-		promotionTrack: 'PromoteTo2Dan'
+		promotionTrack: 'PromoteTo2Dan',
+		colors: {
+			bg: '#F1F2FF',
+			text: '#707EFF'
+		}
 	},
 	{
 		rank: 2,
@@ -53,7 +61,11 @@ const RANK_CONSTANTS = [
 		icon: memberIcon,
 		group: RANK_GROUP.MEMBERS,
 		retentionTrack: 'RetainAt2Dan',
-		promotionTrack: 'PromoteTo3Dan'
+		promotionTrack: 'PromoteTo3Dan',
+		colors: {
+			bg: '#F5EBFE',
+			text: '#5824D4'
+		}
 	},
 	{
 		rank: 3,
@@ -62,7 +74,11 @@ const RANK_CONSTANTS = [
 		icon: fellowIcon,
 		group: RANK_GROUP.FELLOWS,
 		retentionTrack: 'RetainAt3Dan',
-		promotionTrack: 'PromoteTo4Dan'
+		promotionTrack: 'PromoteTo4Dan',
+		colors: {
+			bg: '#E6F5F4',
+			text: '#1A6C8A'
+		}
 	},
 	{
 		rank: 4,
@@ -71,7 +87,11 @@ const RANK_CONSTANTS = [
 		icon: architectIcon,
 		group: RANK_GROUP.ARCHITECTS,
 		retentionTrack: 'RetainAt4Dan',
-		promotionTrack: 'PromoteTo5Dan'
+		promotionTrack: 'PromoteTo5Dan',
+		colors: {
+			bg: '#F7F0E4',
+			text: '#CE7100'
+		}
 	},
 	{
 		rank: 5,
@@ -80,7 +100,11 @@ const RANK_CONSTANTS = [
 		icon: architectIcon,
 		group: RANK_GROUP.ARCHITECTS,
 		retentionTrack: 'RetainAt5Dan',
-		promotionTrack: 'PromoteTo6Dan'
+		promotionTrack: 'PromoteTo6Dan',
+		colors: {
+			bg: '#FFF5E2',
+			text: '#DAAC06'
+		}
 	},
 	{
 		rank: 6,
@@ -89,7 +113,11 @@ const RANK_CONSTANTS = [
 		icon: architectIcon,
 		group: RANK_GROUP.ARCHITECTS,
 		retentionTrack: 'RetainAt6Dan',
-		promotionTrack: 'Masters'
+		promotionTrack: 'Masters',
+		colors: {
+			bg: '#FFF2F1',
+			text: '#EF281A'
+		}
 	},
 	{
 		rank: 7,
@@ -98,7 +126,11 @@ const RANK_CONSTANTS = [
 		icon: masterIcon,
 		group: RANK_GROUP.MASTERS,
 		retentionTrack: 'Masters',
-		promotionTrack: 'Masters'
+		promotionTrack: 'Masters',
+		colors: {
+			bg: '#FFF1F6',
+			text: '#BD0126'
+		}
 	},
 	{
 		rank: 8,
@@ -107,7 +139,11 @@ const RANK_CONSTANTS = [
 		icon: masterIcon,
 		group: RANK_GROUP.MASTERS,
 		retentionTrack: 'Masters',
-		promotionTrack: 'Masters'
+		promotionTrack: 'Masters',
+		colors: {
+			bg: '#E2F0D8',
+			text: '#3E7532'
+		}
 	},
 	{
 		rank: 9,
@@ -116,7 +152,11 @@ const RANK_CONSTANTS = [
 		icon: masterIcon,
 		group: RANK_GROUP.MASTERS,
 		retentionTrack: 'Masters',
-		promotionTrack: 'Masters'
+		promotionTrack: 'Masters',
+		colors: {
+			bg: '#C3F56B33',
+			text: '#07A61E'
+		}
 	}
 ];
 
