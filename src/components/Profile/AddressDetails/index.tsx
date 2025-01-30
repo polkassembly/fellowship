@@ -6,7 +6,7 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 import Identicon from '@polkadot/react-identicon';
-import { useApiContext } from '@/contexts';
+import { useApiContext, useUserDetailsContext } from '@/contexts';
 import RANK_CONSTANTS from '@/global/constants/rankConstants';
 import Image from 'next/image';
 import midTruncateText from '@/utils/midTruncateText';
@@ -15,6 +15,7 @@ import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from '@nextui-o
 import getEncodedAddress from '@/utils/getEncodedAddress';
 import { Card } from '@nextui-org/card';
 import getSubstrateAddress from '@/utils/getSubstrateAddress';
+import Rank from '@/components/Members/Rank';
 import ActivityStatusModal from './ActivityStatusModal';
 import IdentityBadge from '../Address/IdentityBadge';
 
@@ -41,6 +42,7 @@ const activeStates = [
 function ProfileAddressDetails(props: Props) {
 	const { address } = props;
 	const { fellows, network, api, apiReady, relayApiReady, relayApi } = useApiContext();
+	const { loginAddress } = useUserDetailsContext();
 	const [activeStatus, setActiveStatus] = useState<ActiveStatus | null>(null);
 	const [isActiveFormModalOpen, setIsActiveFormModalOpen] = useState(false);
 	const [statusToSet, setStatusToSet] = useState<ActiveStatus>(ActiveStatus.ACTIVE);
@@ -48,6 +50,8 @@ function ProfileAddressDetails(props: Props) {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const [onChainIdentity, setOnChainIdentity] = useState<any>();
 
+	const substrateAddress = getSubstrateAddress(address);
+	const substrateLoginAddress = getSubstrateAddress(loginAddress);
 	const encodedAddress = getEncodedAddress(address, network) || address;
 	const onChainUsername = onChainIdentity?.identity?.displayParent || onChainIdentity?.identity?.display || '';
 
@@ -72,8 +76,6 @@ function ProfileAddressDetails(props: Props) {
 	};
 
 	useEffect(() => {
-		const substrateAddress = getSubstrateAddress(address);
-
 		if (!api || !apiReady || !substrateAddress || !fellow) return;
 
 		(async () => {
@@ -114,12 +116,15 @@ function ProfileAddressDetails(props: Props) {
 								/>
 							</h6>
 							{fellow ? (
-								<Image
-									alt='rank icon'
-									src={RANK_CONSTANTS[fellow?.rank].icon}
-									width={24}
-									height={24}
-								/>
+								<>
+									<Rank rank={fellow?.rank} />
+									<Image
+										alt='rank icon'
+										src={RANK_CONSTANTS[fellow?.rank].icon}
+										width={24}
+										height={24}
+									/>
+								</>
 							) : null}
 						</article>
 						<article className='flex items-center justify-between'>
@@ -143,7 +148,7 @@ function ProfileAddressDetails(props: Props) {
 								/>
 							</div>
 							<div>
-								{activeStatus !== null && (
+								{activeStatus !== null && substrateLoginAddress === substrateAddress && (
 									<Dropdown>
 										<DropdownTrigger>
 											<Button
