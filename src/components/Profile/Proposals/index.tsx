@@ -12,7 +12,7 @@ import { EProfileProposals, PayoutListingItem, PostFeedListingItem } from '@/glo
 import { Card } from '@nextui-org/card';
 import getProfileProposals from '@/app/api/v1/address/[address]/proposals/getProfileProposals';
 import getOriginUrl from '@/utils/getOriginUrl';
-import { useApiContext } from '@/contexts';
+import { useApiContext, useUserDetailsContext } from '@/contexts';
 import LoadingSpinner from '@/components/Misc/LoadingSpinner';
 import PostListingCard from '@/components/Home/PostListingCard';
 import { Divider } from '@nextui-org/divider';
@@ -110,8 +110,9 @@ function ProfileProposals({ address }: Props) {
 	const [proposals, setProposals] = useState<(PostFeedListingItem | PayoutListingItem)[]>([]);
 
 	const { network, fellows } = useApiContext();
+	const { loginAddress } = useUserDetailsContext();
 
-	const routeSubstrateAddress = getSubstrateAddress(address || '');
+	const userSubstrateAddress = getSubstrateAddress(loginAddress || '');
 
 	const types = [
 		{
@@ -120,7 +121,7 @@ function ProfileProposals({ address }: Props) {
 		},
 		{
 			key: EProfileProposals.SALARY_REQUESTS,
-			name: 'Salary Requests'
+			name: 'Salary Details'
 		},
 		{
 			key: EProfileProposals.GENERAL_PROPOSALS,
@@ -186,12 +187,12 @@ function ProfileProposals({ address }: Props) {
 				{type !== EProfileProposals.GENERAL_PROPOSALS ? (
 					// TODO: route with register=true if inducted and not registered
 					<>
-						{type === EProfileProposals.SALARY_REQUESTS && fellows.find((fellow) => fellow.address === routeSubstrateAddress) && (
+						{type === EProfileProposals.SALARY_REQUESTS && fellows.find((fellow) => fellow.address === userSubstrateAddress) && (
 							<LinkWithNetwork
 								href={`/address/${address}/salary-induction`}
 								className='flex items-center gap-x-[6px] rounded-[39px] border border-primary bg-primary_accent px-3 py-1 text-sm font-medium leading-[21px] tracking-[0.21px] text-white'
 							>
-								Induct
+								Register
 							</LinkWithNetwork>
 						)}
 						{type === EProfileProposals.RANK_REQUESTS && (

@@ -14,11 +14,11 @@ function Rank({ rank }: Props) {
 		<div
 			className='flex h-6 w-6 items-center justify-center rounded-full text-xs font-semibold'
 			style={{
-				background: RANK_CONSTANTS[rank].colors.bg,
-				color: RANK_CONSTANTS[rank].colors.text
+				background: RANK_CONSTANTS[rank]?.colors?.bg,
+				color: RANK_CONSTANTS[rank]?.colors?.text
 			}}
 		>
-			{`0${String(RANK_CONSTANTS[rank].rank)}`}
+			{`0${String(RANK_CONSTANTS[rank]?.rank)}`}
 		</div>
 	);
 }

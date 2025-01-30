@@ -141,7 +141,7 @@ export const GET_TRENDING_PROPOSALS = gql`
 
 export const GET_SALARY_PAYOUTS = gql`
 	query GET_SALARY_PAYOUTS($limit: Int = 10, $offset: Int = 0, $type_in: [ActivityType!], $who_eq: String) {
-		activities(where: { type_in: $type_in, who_eq: $who_eq }, limit: $limit, offset: $offset, orderBy: proposal_createdAt_DESC) {
+		activities(where: { type_in: $type_in, who_eq: $who_eq }, limit: $limit, offset: $offset, orderBy: createdAt_DESC) {
 			type
 			who
 			payout {

@@ -28,7 +28,7 @@ const getActivityTypes = (profileProposalsType: EProfileProposals) => {
 		case EProfileProposals.GENERAL_PROPOSALS:
 			return [SubsquidActivityType.GeneralProposal];
 		case EProfileProposals.SALARY_REQUESTS:
-			return [SubsquidActivityType.SalaryInduction, SubsquidActivityType.Payout, SubsquidActivityType.Registration];
+			return [SubsquidActivityType.Payout, SubsquidActivityType.Registration];
 		case EProfileProposals.RANK_REQUESTS:
 			return [SubsquidActivityType.RetentionRequest, SubsquidActivityType.PromotionRequest, SubsquidActivityType.DemotionRequest, SubsquidActivityType.InductionRequest];
 		default:
