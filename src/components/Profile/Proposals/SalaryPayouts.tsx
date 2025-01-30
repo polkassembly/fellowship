@@ -3,9 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from '@nextui-org/table';
 import React from 'react';
+import Image from 'next/image';
 import dayjs from '@/services/dayjs-init';
 import { PayoutListingItem } from '@/global/types';
-import Claim from './Claim';
+import Rank from '@/components/Members/Rank';
+import formatSalary from '@/utils/formatSalary';
 
 interface Props {
 	payouts: PayoutListingItem[];
@@ -34,12 +36,44 @@ function SalaryPayouts({ payouts, className }: Props) {
 			<TableBody>
 				{payouts.map((payout) => (
 					<TableRow key={payout.id}>
-						<TableCell>{payout?.salaryCycle?.cycleIndex !== undefined && payout?.salaryCycle?.cycleIndex !== null ? payout?.salaryCycle?.cycleIndex : -1}</TableCell>
-						<TableCell>{payout?.type === 'Payout' ? payout?.rank : payout?.otherActions?.rank}</TableCell>
-						<TableCell>{payout?.type === 'Payout' ? payout?.amount : '--'}</TableCell>
-						<TableCell>{payout?.type === 'Payout' ? dayjs(payout?.otherActions?.createdAtBlock).format('DD MMM YYYY') : '--'}</TableCell>
+						<TableCell>{payout?.type === 'Payout' ? payout?.cycleIndex?.cycleIndex : payout?.salaryCycle?.cycleIndex}</TableCell>
+						<TableCell>{payout?.type === 'Payout' ? <Rank rank={payout?.rank} /> : <Rank rank={payout?.otherActions?.rank} />}</TableCell>
+						<TableCell>{payout?.type === 'Payout' ? formatSalary(payout?.amount) : formatSalary(payout?.otherActions?.amount)}</TableCell>
 						<TableCell>
-							<Claim showClaimButton={payout?.otherActions?.showClaimButton} />
+							<div className='flex items-center gap-1'>
+								<Image
+									alt='icon'
+									src='/icons/clock.svg'
+									width={16}
+									height={16}
+									className='dark:grayscale dark:invert'
+								/>
+								{payout?.type === 'Payout' ? dayjs(payout?.createdAt).format('DD MMM YYYY') : dayjs(payout?.otherActions?.createdAt).format('DD MMM YYYY')}
+							</div>
+						</TableCell>
+						<TableCell>
+							{payout?.type === 'Payout' ? (
+								<Image
+									alt='icon'
+									src='/icons/arrow-circle-up-right.svg'
+									width={24}
+									height={24}
+									className='dark:grayscale dark:invert'
+								/>
+							) : (
+								<button
+									type='button'
+									className='flex cursor-pointer items-center justify-center border-none bg-none outline-none disabled:cursor-not-allowed'
+								>
+									<Image
+										alt='Claim Icon'
+										src='/icons/claim.svg'
+										width={24}
+										height={24}
+										className='dark:dark-icon-filter'
+									/>
+								</button>
+							)}
 						</TableCell>
 					</TableRow>
 				))}

@@ -10,8 +10,6 @@ import React, { useEffect, useState } from 'react';
 import midTruncateText from '@/utils/midTruncateText';
 import getEncodedAddress from '@/utils/getEncodedAddress';
 import { useApiContext } from '@/contexts';
-import LinkWithNetwork from '@/components/Misc/LinkWithNetwork';
-import getSubstrateAddress from '@/utils/getSubstrateAddress';
 import AddressInline from './AddressInline';
 import AddressDropdownItem from './AddressDropdownItem';
 
@@ -43,7 +41,6 @@ function Address(props: Props) {
 	const [onChainIdentity, setOnChainIdentity] = useState<any>();
 
 	const encodedAddress = getEncodedAddress(props.address, network) || props.address;
-	const substrateAddress = getSubstrateAddress(props.address) || props.address;
 	const onChainUsername = onChainIdentity?.identity?.displayParent || onChainIdentity?.identity?.display || '';
 
 	useEffect(() => {
@@ -75,20 +72,14 @@ function Address(props: Props) {
 	switch (props.variant) {
 		case 'inline':
 			return (
-				<LinkWithNetwork
-					href={`/address/${substrateAddress}`}
-					target='_blank'
-					className='hover:underline'
-				>
-					<AddressInline
-						onChainIdentity={onChainIdentity}
-						className={props.className}
-						address={encodedAddress}
-						addressDisplayText={truncatedUsername || addressDisplayText}
-						iconSize={iconSize}
-						showRank={props.showRank}
-					/>
-				</LinkWithNetwork>
+				<AddressInline
+					onChainIdentity={onChainIdentity}
+					className={props.className}
+					address={encodedAddress}
+					addressDisplayText={truncatedUsername || addressDisplayText}
+					iconSize={iconSize}
+					showRank={props.showRank}
+				/>
 			);
 		case 'dropdownItem':
 			return (

@@ -16,5 +16,5 @@ export default function formatSalary(salary: string) {
 		formattedSalary = salary;
 	}
 
-	return `${formattedSalary.toString()} USDT`;
+	return `${formattedSalary?.toString()} USDT`;
 }
