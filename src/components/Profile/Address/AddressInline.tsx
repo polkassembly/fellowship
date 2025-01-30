@@ -9,6 +9,8 @@ import Identicon from '@polkadot/react-identicon';
 import React from 'react';
 import { useApiContext } from '@/contexts';
 import Rank from '@/components/Members/Rank';
+import LinkWithNetwork from '@/components/Misc/LinkWithNetwork';
+import getSubstrateAddress from '@/utils/getSubstrateAddress';
 import getEncodedAddress from '@/utils/getEncodedAddress';
 import IdentityBadge from './IdentityBadge';
 
@@ -28,33 +30,41 @@ function AddressInline({ address, addressDisplayText, className, startChars, end
 	const { fellows, network } = useApiContext();
 	const fellow = fellows.find((fellow) => getEncodedAddress(fellow?.address || '', network) === address);
 
+	const substrateAddress = getSubstrateAddress(address) || address;
+
 	return (
 		<div
 			className={`${className} flex flex-row items-center gap-1.5`}
 			title={address}
 		>
-			<Identicon
-				className='image identicon'
-				value={address}
-				size={iconSize}
-				theme='polkadot'
-			/>
+			<LinkWithNetwork
+				href={`/address/${substrateAddress}`}
+				target='_blank'
+				className={`${className} flex flex-row items-center gap-1.5 hover:underline`}
+			>
+				<Identicon
+					className='image identicon'
+					value={address}
+					size={iconSize}
+					theme='polkadot'
+				/>
 
-			<IdentityBadge
-				onChainIdentity={onChainIdentity}
-				iconSize={iconSize}
-			/>
+				<IdentityBadge
+					onChainIdentity={onChainIdentity}
+					iconSize={iconSize}
+				/>
 
-			<p className='flex flex-nowrap whitespace-nowrap'>
-				{addressDisplayText ||
-					(startChars && endChars
-						? midTruncateText({
-								text: address,
-								startChars,
-								endChars
-							})
-						: address)}
-			</p>
+				<p className='flex flex-nowrap whitespace-nowrap'>
+					{addressDisplayText ||
+						(startChars && endChars
+							? midTruncateText({
+									text: address,
+									startChars,
+									endChars
+								})
+							: address)}
+				</p>
+			</LinkWithNetwork>
 
 			{showRank && fellow && fellow?.rank ? <Rank rank={fellow?.rank} /> : null}
 		</div>
