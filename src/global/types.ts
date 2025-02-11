@@ -22,6 +22,13 @@ export interface IFellow {
 	address: string;
 	rank: number;
 	salary?: string;
+	params: {
+		activeSalary: string[];
+		demotionPeriod: string;
+		minPromotionPeriod: string;
+		offboardTimeout: string;
+		passiveSalary: string;
+	};
 }
 
 export interface ApiContextType {
@@ -414,6 +421,8 @@ export interface UserActivityListingItem {
 	id: string | number;
 	who: string | null;
 	activityType: SubsquidActivityType;
+	createdAt?: string;
+	createdAtBlock?: number;
 	payout: {
 		amount: number;
 		beneficiary: string;

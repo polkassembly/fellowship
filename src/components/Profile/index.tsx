@@ -14,6 +14,7 @@ import ProfileAddressDetails from './AddressDetails';
 import Manifesto from './Manifesto';
 import ProfileProposals from './Proposals';
 import UserActivity from './Activity';
+import PromotionDetails from './PromotionDetails';
 
 interface Props {
 	profile: IProfile;
@@ -43,11 +44,12 @@ function Profile(props: Props) {
 				openProfileEdit={openProfileEdit}
 			/>
 			<div className='mt-4 flex flex-col gap-4 md:grid md:grid-cols-11'>
-				<section className='w-full md:col-span-5'>
+				<section className='flex w-full flex-col gap-4 md:col-span-5'>
 					<Manifesto
 						manifesto={manifesto}
 						address={address}
 					/>
+					<PromotionDetails address={address} />
 				</section>
 				<section className='w-full md:col-span-6'>
 					<ProfileProposals address={address} />

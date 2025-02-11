@@ -8,14 +8,14 @@ import { API_ERROR_CODE } from '@/global/constants/errorCodes';
 import { LISTING_LIMIT } from '@/global/constants/listingLimit';
 import { APIError } from '@/global/exceptions';
 import MESSAGES from '@/global/messages';
-import { ProposalType, UserActivityListingItem } from '@/global/types';
+import { ProposalType, SubsquidActivityType, UserActivityListingItem } from '@/global/types';
 import { urqlClient } from '@/services/urqlClient';
 import getEncodedAddress from '@/utils/getEncodedAddress';
 import { headers } from 'next/headers';
 import getDefaultPostContent from '@/utils/getDefaultPostContent';
 import DEFAULT_POST_TITLE from '@/global/constants/defaultTitle';
 import { postsCollRef } from '../../../firestoreRefs';
-import { GER_USER_ACTIVITY } from '../../../subsquidQueries';
+import { GER_USER_ACTIVITY, GET_RANK_ACTIVITY } from '../../../subsquidQueries';
 
 const getProposalIndex = (activity: UserActivityListingItem) => {
 	if (activity?.proposal?.index || activity?.proposal?.index === 0) {
@@ -178,5 +178,47 @@ export const getUserActivityFeedServer = async (address: string, page: number): 
 	} catch (error) {
 		//
 	}
+	return activities;
+};
+
+// eslint-disable-next-line sonarjs/cognitive-complexity
+export const getUserRankActivityServer = async (address: string, page: number): Promise<UserActivityListingItem[]> => {
+	const headersList = headers();
+	const network = getNetworkFromHeaders(headersList);
+
+	const gqlClient = urqlClient(network);
+
+	const encodedAddress = getEncodedAddress(address, network);
+
+	const variables = {
+		limit: LISTING_LIMIT * 2,
+		offset: (page - 1) * (LISTING_LIMIT * 2),
+		who_eq: encodedAddress,
+		orderBy: 'createdAtBlock',
+		orderDirection: 'desc',
+		activityType_eq: [
+			SubsquidActivityType.Promoted,
+			SubsquidActivityType.Demoted,
+			SubsquidActivityType.Inducted,
+			SubsquidActivityType.Retained,
+			SubsquidActivityType.EvidenceJudged,
+			SubsquidActivityType.EvidenceSubmitted,
+			SubsquidActivityType.PromotionRequest,
+			SubsquidActivityType.Imported
+		]
+	};
+
+	const result = await gqlClient.query(GET_RANK_ACTIVITY, variables).toPromise();
+	if (result.error) throw new APIError(`${result.error || MESSAGES.SUBSQUID_FETCH_ERROR}`, 500, API_ERROR_CODE.SUBSQUID_FETCH_ERROR);
+
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const activities: UserActivityListingItem[] = (result?.data?.activities || [])?.map((item: any) => {
+		return {
+			...item,
+			activityType: item.type,
+			who: item.who
+		};
+	});
+
 	return activities;
 };
