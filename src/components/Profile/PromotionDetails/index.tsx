@@ -15,6 +15,8 @@ import blockToTime from '@/utils/blockToTime';
 import { SubsquidActivityType, UserActivityListingItem } from '@/global/types';
 import nextApiClientFetch from '@/utils/nextApiClientFetch';
 import { Divider } from '@nextui-org/divider';
+import { Tooltip } from '@nextui-org/tooltip';
+import dayjs from 'dayjs';
 
 interface Props {
 	address: string;
@@ -37,17 +39,63 @@ interface ProgressSectionProps {
 }
 
 function ProgressSection({ title, progress, daysPassed, daysTotal, daysRemaining }: ProgressSectionProps) {
+	const [timeRemaining, setTimeRemaining] = useState<string>('');
+
+	const formatTimeRemaining = (seconds: number) => {
+		const duration = dayjs.duration(seconds, 'seconds');
+		const timeUnits = [
+			{ unit: 'years', label: 'y' },
+			{ unit: 'months', label: 'mo' },
+			{ unit: 'days', label: 'd' },
+			{ unit: 'hours', label: 'h' },
+			{ unit: 'minutes', label: 'm' }
+		] as const;
+
+		// Find first non-zero unit
+		const primaryUnit = timeUnits.find(({ unit }) => duration[unit]() > 0);
+		if (!primaryUnit) return '0m';
+
+		// Find next non-zero unit for additional precision
+		const remainingUnits = timeUnits.slice(timeUnits.indexOf(primaryUnit) + 1);
+		const secondaryUnit = remainingUnits.find(({ unit }) => duration[unit]() > 0);
+
+		const primaryValue = duration[primaryUnit.unit]();
+		const primaryFormatted = `${primaryValue}${primaryUnit.label}`;
+
+		if (!secondaryUnit) return primaryFormatted;
+
+		const secondaryValue = duration[secondaryUnit.unit]();
+		return `${primaryFormatted} ${secondaryValue}${secondaryUnit.label}`;
+	};
+
+	useEffect(() => {
+		const now = dayjs();
+		const end = now.add(daysRemaining, 'day');
+		const seconds = end.diff(now, 'second');
+		setTimeRemaining(formatTimeRemaining(seconds));
+	}, [daysRemaining]);
+
 	return (
 		<div className='flex flex-col gap-y-2'>
 			<div className='flex items-center gap-x-2'>
 				<h4 className='text-base font-semibold leading-6'>{title}</h4>
-				<Image
-					alt='Info Icon'
-					src='/icons/info.svg'
-					width={20}
-					height={20}
-					className='dark:grayscale dark:invert dark:filter'
-				/>
+				<Tooltip
+					content={
+						<div className='mb-2 flex items-center justify-between gap-x-2'>
+							<p className='text-sm text-gray-500'>{title === 'Promotion Details' ? 'Time until promotion eligibility:' : 'Time until demotion:'}</p>
+							<p className='text-sm font-medium text-primary'>{timeRemaining}</p>
+						</div>
+					}
+					showArrow
+				>
+					<Image
+						alt='Info Icon'
+						src='/icons/info.svg'
+						width={20}
+						height={20}
+						className='dark:grayscale dark:invert dark:filter'
+					/>
+				</Tooltip>
 			</div>
 
 			<div className='flex items-center gap-x-2'>
