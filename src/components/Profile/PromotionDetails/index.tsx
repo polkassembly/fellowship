@@ -17,6 +17,7 @@ import nextApiClientFetch from '@/utils/nextApiClientFetch';
 import { Divider } from '@nextui-org/divider';
 import { Tooltip } from '@nextui-org/tooltip';
 import dayjs from 'dayjs';
+import LoadingSpinner from '@/components/Misc/LoadingSpinner';
 
 interface Props {
 	address: string;
@@ -123,6 +124,7 @@ function PromotionDetails({ address }: Props) {
 
 	const [lastPromotion, setLastPromotion] = useState<UserActivityListingItem | null>(null);
 	const [lastDemotion, setLastDemotion] = useState<UserActivityListingItem | null>(null);
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		const fetchActivities = async () => {
@@ -144,12 +146,25 @@ function PromotionDetails({ address }: Props) {
 			const demotion = activities?.find((activity) => activity?.otherActions?.toRank === fellow?.rank);
 			setLastPromotion(promotion || null);
 			setLastDemotion(demotion || null);
+			setLoading(false);
 		};
 
 		if (address && network) {
 			fetchActivities();
 		}
 	}, [address, network, fellow?.rank]);
+
+	if (!params || !currentBlock || !api) return null;
+
+	if (loading) {
+		return (
+			<Card className='h-full min-h-[180px] rounded-[20px] border border-primary_border bg-cardBg px-4 py-6'>
+				<div className='flex h-full items-center justify-center'>
+					<LoadingSpinner message='Loading promotion details...' />
+				</div>
+			</Card>
+		);
+	}
 
 	const calculatePeriod = (lastActivity: UserActivityListingItem | null, periodBlocks: BN): ActivityPeriod => {
 		const blocksPassed = lastActivity ? new BN(currentBlock || 0).sub(new BN(lastActivity.createdAtBlock || 0)) : new BN(0);
@@ -172,7 +187,7 @@ function PromotionDetails({ address }: Props) {
 	const demotionPeriod = calculatePeriod(lastDemotion, new BN(params.demotionPeriod));
 
 	return (
-		<Card className='h-full min-h-[180px] rounded-[20px] border border-primary_border bg-cardBg px-4 py-6'>
+		<Card className='min-h-[180px] rounded-[20px] border border-primary_border bg-cardBg px-4 py-6'>
 			<div className='flex flex-col gap-y-4'>
 				{/* Promotion Section */}
 				<ProgressSection
@@ -183,7 +198,7 @@ function PromotionDetails({ address }: Props) {
 					daysRemaining={promotionPeriod.daysRemaining}
 				/>
 
-				<Divider />
+				<Divider className='h-0.5 w-full' />
 
 				{/* Demotion Section */}
 				<ProgressSection

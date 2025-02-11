@@ -5,7 +5,7 @@
 import getNetworkFromHeaders from '@/app/api/api-utils/getNetworkFromHeaders';
 import { getSubSquareContentAndTitle } from '@/app/api/api-utils/subsquare-content';
 import { API_ERROR_CODE } from '@/global/constants/errorCodes';
-import { LISTING_LIMIT } from '@/global/constants/listingLimit';
+import { LISTING_LIMIT, RANK_ACTIVITY_LISTING_LIMIT } from '@/global/constants/listingLimit';
 import { APIError } from '@/global/exceptions';
 import MESSAGES from '@/global/messages';
 import { ProposalType, SubsquidActivityType, UserActivityListingItem } from '@/global/types';
@@ -191,8 +191,8 @@ export const getUserRankActivityServer = async (address: string, page: number): 
 	const encodedAddress = getEncodedAddress(address, network);
 
 	const variables = {
-		limit: LISTING_LIMIT * 2,
-		offset: (page - 1) * (LISTING_LIMIT * 2),
+		limit: RANK_ACTIVITY_LISTING_LIMIT,
+		offset: (page - 1) * RANK_ACTIVITY_LISTING_LIMIT,
 		who_eq: encodedAddress,
 		orderBy: 'createdAtBlock',
 		orderDirection: 'desc',

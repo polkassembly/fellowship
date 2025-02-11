@@ -8,14 +8,14 @@ import MESSAGES from '@/global/messages';
 import { NextRequest, NextResponse } from 'next/server';
 import withErrorHandling from '@/app/api/api-utils/withErrorHandling';
 import getReqBody from '@/app/api/api-utils/getReqBody';
+import getSubstrateAddress from '@/utils/getSubstrateAddress';
 import { getUserRankActivityServer } from '../utils';
-
 // eslint-disable-next-line sonarjs/cognitive-complexity
 export const POST = withErrorHandling(async (req: NextRequest, { params }) => {
 	const { page = 1 } = await getReqBody(req);
 	const { address = '' } = params;
 
-	if (!address) {
+	if (!address || !getSubstrateAddress(address)) {
 		throw new APIError(`${MESSAGES.INVALID_PARAMS_ERROR}`, 500, API_ERROR_CODE.INVALID_PARAMS_ERROR);
 	}
 

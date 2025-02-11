@@ -29,13 +29,13 @@ export default async function getAllFellowAddresses(api: ApiPromise): Promise<IF
 						members.push({
 							address: getSubstrateAddress(accountId.toString()) || accountId.toString() || '',
 							rank: optInfo.toJSON()?.rank || 0,
-							salary: activeSalary?.[optInfo.toJSON()?.rank || 0],
+							salary: activeSalary?.[optInfo.toJSON()?.rank] || 0,
 							params: {
-								activeSalary: activeSalary?.[optInfo.toJSON()?.rank || 0],
-								demotionPeriod: demotionPeriod?.[optInfo.toJSON()?.rank || 0],
-								minPromotionPeriod: minPromotionPeriod?.[optInfo.toJSON()?.rank || 0],
+								activeSalary: activeSalary?.[optInfo.toJSON()?.rank] || 0,
+								demotionPeriod: demotionPeriod?.[optInfo.toJSON()?.rank] || 0,
+								minPromotionPeriod: minPromotionPeriod?.[optInfo.toJSON()?.rank] || 0,
 								offboardTimeout,
-								passiveSalary: passiveSalary?.[optInfo.toJSON()?.rank || 0]
+								passiveSalary: passiveSalary?.[optInfo.toJSON()?.rank] || 0
 							}
 						});
 					}
