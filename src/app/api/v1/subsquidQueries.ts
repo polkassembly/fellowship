@@ -456,3 +456,20 @@ export const GET_STATUS_HISTORY_BY_PREIMAGES_HASH = gql`
 		}
 	}
 `;
+
+export const GET_RANK_ACTIVITY = gql`
+	query GET_RANK_ACTIVITY($who_eq: String, $activityType_eq: [ActivityType!]) {
+		activities(where: { who_eq: $who_eq, type_in: $activityType_eq }, orderBy: createdAt_DESC) {
+			id
+			type
+			who
+			createdAtBlock
+			createdAt
+			otherActions {
+				createdAtBlock
+				createdAt
+				toRank
+			}
+		}
+	}
+`;
