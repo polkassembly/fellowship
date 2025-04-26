@@ -179,7 +179,7 @@ function AppSidebar() {
 						const isParentItem = Boolean(navItem.childUrls?.length);
 
 						const pathnameLower = pathname.toLowerCase();
-						let isCurrentRoute = pathnameLower === navItem.url;
+						let isCurrentRoute = pathnameLower === navItem.url || (pathnameLower.includes('/address') && navItem.url === '/address');
 						if (navItem.childUrls?.includes(pathnameLower)) {
 							isCurrentRoute = true;
 						}

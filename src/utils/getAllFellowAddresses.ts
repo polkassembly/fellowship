@@ -14,7 +14,7 @@ export default async function getAllFellowAddresses(api: ApiPromise): Promise<IF
 			.entries()
 			.then(async (entries: any) => {
 				const members: IFellow[] = [];
-				const { activeSalary }: any = (await api.query.fellowshipCore.params()).toJSON();
+				const { activeSalary, demotionPeriod, minPromotionPeriod, offboardTimeout, passiveSalary }: any = (await api.query.fellowshipCore.params()).toJSON();
 
 				for (let i = 0; i < entries.length; i += 1) {
 					// key split into args part to extract
@@ -29,7 +29,14 @@ export default async function getAllFellowAddresses(api: ApiPromise): Promise<IF
 						members.push({
 							address: getSubstrateAddress(accountId.toString()) || accountId.toString() || '',
 							rank: optInfo.toJSON()?.rank || 0,
-							salary: activeSalary?.[optInfo.toJSON()?.rank || 0]
+							salary: activeSalary?.[optInfo.toJSON()?.rank] || 0,
+							params: {
+								activeSalary: activeSalary?.[optInfo.toJSON()?.rank] || 0,
+								demotionPeriod: demotionPeriod?.[optInfo.toJSON()?.rank] || 0,
+								minPromotionPeriod: minPromotionPeriod?.[optInfo.toJSON()?.rank] || 0,
+								offboardTimeout,
+								passiveSalary: passiveSalary?.[optInfo.toJSON()?.rank] || 0
+							}
 						});
 					}
 				}

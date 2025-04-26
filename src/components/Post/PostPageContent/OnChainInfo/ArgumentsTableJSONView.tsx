@@ -5,6 +5,7 @@
 import * as React from 'react';
 import ReactJson from 'react-json-view';
 import classNames from 'classnames';
+import { useTheme } from 'next-themes';
 import { convertAnyHexToASCII } from '@/utils/decodingOnChainInfo';
 import { useApiContext } from '@/contexts';
 
@@ -16,6 +17,7 @@ interface Props {
 
 function ArgumentsTableJSONView({ className, postArguments }: Props) {
 	const { network } = useApiContext();
+	const { resolvedTheme = 'light' } = useTheme();
 	if (postArguments) {
 		const newArgs = convertAnyHexToASCII(postArguments, network);
 		return (
@@ -23,6 +25,7 @@ function ArgumentsTableJSONView({ className, postArguments }: Props) {
 				<h5 className='mb-5 text-base font-bold'>Proposed Calls</h5>
 				<div className='json-view'>
 					<ReactJson
+						theme={resolvedTheme === 'dark' ? 'solarized' : 'rjv-default'}
 						src={newArgs}
 						iconStyle='circle'
 						enableClipboard={false}
