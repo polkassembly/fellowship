@@ -110,7 +110,7 @@ function DecisionStatusCard() {
 						aria-label='Decision Progress'
 						value={decisionProgress}
 						classNames={{
-							track: 'bg-gray-200',
+							track: 'bg-gray-200 h-1.5',
 							indicator: 'bg-primary'
 						}}
 					/>
@@ -137,7 +137,7 @@ function DecisionStatusCard() {
 						aria-label='Confirmation Progress'
 						value={confirmationProgress}
 						classNames={{
-							track: 'bg-gray-200',
+							track: 'bg-gray-200 h-1.5',
 							indicator: 'bg-primary'
 						}}
 					/>
