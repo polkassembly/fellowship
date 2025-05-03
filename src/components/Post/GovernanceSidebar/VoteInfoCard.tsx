@@ -10,6 +10,7 @@ import Image from 'next/image';
 import { Button } from '@nextui-org/button';
 import VoteProgress from '../VoteProgress';
 import VotesHistoryModal from './VotesHistoryModal';
+import { Divider } from '@nextui-org/divider';
 
 function VoteInfoCard() {
 	const [isVotesHistoryModalOpen, setIsVotesHistoryModalOpen] = useState(false);
@@ -37,7 +38,7 @@ function VoteInfoCard() {
 				radius='lg'
 			>
 				<div className='mb-3 flex items-center justify-between'>
-					<h3 className='text-lg font-semibold'>Cast Vote Card</h3>
+					<h3 className='text-lg font-semibold'>Votes Summary</h3>
 					{/* <span className='text-xs'>Passing</span> */}
 				</div>
 
@@ -51,6 +52,19 @@ function VoteInfoCard() {
 					/>
 					<div className='flex flex-col text-base font-semibold text-voteNay'>
 						{totalVotes.isZero() ? 0 : 100 - ayesPercentage}% <span className='text-xs font-medium text-foreground'>Nay</span>
+					</div>
+				</section>
+
+				<Divider />
+
+				<section className='flex flex-col gap-2'>
+					<div className='flex items-center gap-1 text-sm font-semibold'>
+						Ayes <span className='text-secondaryText'>({onChainInfo?.total_votes?.yes})</span>
+						<span className='ml-auto'>{onChainInfo?.tally?.ayes}</span>
+					</div>
+					<div className='flex items-center gap-1 text-sm font-semibold'>
+						Nays <span className='text-secondaryText'>({onChainInfo?.total_votes?.no})</span>
+						<span className='ml-auto'>{onChainInfo?.tally?.nays}</span>
 					</div>
 				</section>
 

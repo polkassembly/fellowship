@@ -5,11 +5,12 @@
 import React from 'react';
 import CastVoteCard from './CastVoteCard';
 import VoteInfoCard from './VoteInfoCard';
-
+import DecisionStatusCard from './DecisionStatusCard';
 function GovernanceSidebar() {
 	return (
 		<section className='flex flex-col gap-6'>
 			<CastVoteCard />
+			<DecisionStatusCard />
 			<VoteInfoCard />
 		</section>
 	);
