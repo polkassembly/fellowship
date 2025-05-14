@@ -53,7 +53,7 @@ function ProfileAddressDetails(props: Props) {
 	const substrateAddress = getSubstrateAddress(address);
 	const substrateLoginAddress = getSubstrateAddress(loginAddress);
 	const encodedAddress = getEncodedAddress(address, network) || address;
-	const onChainUsername = onChainIdentity?.identity?.displayParent || onChainIdentity?.identity?.display || '';
+	const onChainUsername = onChainIdentity?.displayParent || onChainIdentity?.display || '';
 
 	const fellow = useMemo(() => {
 		return fellows.find((f) => f.address === address);

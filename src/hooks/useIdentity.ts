@@ -4,23 +4,23 @@
 
 import { useEffect, useState } from 'react';
 import { useApiContext } from '@/contexts';
-import { IdentityService } from '@/services/identity.service';
+import { IdentityService, IOnChainIdentity } from '@/services/identity.service';
 
 export const useIdentity = (address: string) => {
-	const { network, relayApi, relayApiReady } = useApiContext();
-	const [identity, setIdentity] = useState<any>(null);
+	const { network, peopleApi, peopleApiReady } = useApiContext();
+	const [identity, setIdentity] = useState<IOnChainIdentity | null>(null);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<Error | null>(null);
 
 	useEffect(() => {
-		if (!relayApi || !relayApiReady || !address) return;
+		if (!peopleApi || !peopleApiReady || !address) return;
 
 		const fetchIdentity = async () => {
 			setLoading(true);
 			setError(null);
 			try {
 				const identityService = IdentityService.getInstance();
-				const result = await identityService.getOnChainIdentity(address, network, relayApi);
+				const result = await identityService.getOnChainIdentity(address, network, peopleApi);
 				setIdentity(result);
 			} catch (err) {
 				setError(err instanceof Error ? err : new Error('Failed to fetch identity'));
@@ -30,7 +30,7 @@ export const useIdentity = (address: string) => {
 		};
 
 		fetchIdentity();
-	}, [address, network, relayApi, relayApiReady]);
+	}, [address, network, peopleApi, peopleApiReady]);
 
 	return {
 		identity,

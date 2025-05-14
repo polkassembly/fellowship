@@ -36,6 +36,8 @@ export interface ApiContextType {
 	apiReady: boolean;
 	relayApi?: ApiPromise;
 	relayApiReady: boolean;
+	peopleApi?: ApiPromise;
+	peopleApiReady: boolean;
 	network: Network;
 	setNetwork: Dispatch<SetStateAction<Network>>;
 	fellows: IFellow[];

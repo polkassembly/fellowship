@@ -40,7 +40,7 @@ function Address(props: Props) {
 	const { identity: onChainIdentity } = useIdentity(props.address);
 
 	const encodedAddress = getEncodedAddress(props.address, network) || props.address;
-	const onChainUsername = onChainIdentity?.identity?.displayParent || onChainIdentity?.identity?.display || '';
+	const onChainUsername = onChainIdentity?.displayParent || onChainIdentity?.display || '';
 
 	const addressDisplayText = props.truncateCharLen
 		? midTruncateText({
