@@ -31,7 +31,7 @@ function SetIdentityNudge() {
 						width={16}
 						height={16}
 					/>
-					Set on-chain identity
+					Set on-chain
 				</span>
 			</button>
 			<button

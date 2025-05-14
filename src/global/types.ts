@@ -55,6 +55,7 @@ export type NetworkProperties = {
 	subscanBaseUrl: string;
 	rpcEndpoints: TRPCEndpoint[];
 	relayRpcEndpoints: TRPCEndpoint[];
+	peopleRpcEndpoints: TRPCEndpoint[];
 	name: string; // to store alphabetical case
 	preImageBaseDeposit?: string;
 };
