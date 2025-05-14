@@ -36,6 +36,8 @@ export interface ApiContextType {
 	apiReady: boolean;
 	relayApi?: ApiPromise;
 	relayApiReady: boolean;
+	peopleApi?: ApiPromise;
+	peopleApiReady: boolean;
 	network: Network;
 	setNetwork: Dispatch<SetStateAction<Network>>;
 	fellows: IFellow[];
@@ -55,6 +57,7 @@ export type NetworkProperties = {
 	subscanBaseUrl: string;
 	rpcEndpoints: TRPCEndpoint[];
 	relayRpcEndpoints: TRPCEndpoint[];
+	peopleRpcEndpoints: TRPCEndpoint[];
 	name: string; // to store alphabetical case
 	preImageBaseDeposit?: string;
 };
