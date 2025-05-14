@@ -18,6 +18,7 @@ import getSubstrateAddress from '@/utils/getSubstrateAddress';
 import Rank from '@/components/Members/Rank';
 import ActivityStatusModal from './ActivityStatusModal';
 import IdentityBadge from '../Address/IdentityBadge';
+import { useIdentity } from '@/hooks/useIdentity';
 
 interface Props {
 	address: string;
@@ -41,29 +42,18 @@ const activeStates = [
 
 function ProfileAddressDetails(props: Props) {
 	const { address } = props;
-	const { fellows, network, api, apiReady, relayApiReady, relayApi } = useApiContext();
+	const { fellows, network, api, apiReady } = useApiContext();
 	const { loginAddress } = useUserDetailsContext();
 	const [activeStatus, setActiveStatus] = useState<ActiveStatus | null>(null);
 	const [isActiveFormModalOpen, setIsActiveFormModalOpen] = useState(false);
 	const [statusToSet, setStatusToSet] = useState<ActiveStatus>(ActiveStatus.ACTIVE);
 
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const [onChainIdentity, setOnChainIdentity] = useState<any>();
+	const { identity: onChainIdentity } = useIdentity(address);
 
 	const substrateAddress = getSubstrateAddress(address);
 	const substrateLoginAddress = getSubstrateAddress(loginAddress);
 	const encodedAddress = getEncodedAddress(address, network) || address;
 	const onChainUsername = onChainIdentity?.identity?.displayParent || onChainIdentity?.identity?.display || '';
-
-	useEffect(() => {
-		if (!relayApi || !relayApiReady) return;
-
-		(async () => {
-			const identity = await relayApi.derive.accounts.info(encodedAddress);
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			setOnChainIdentity(identity as any);
-		})();
-	}, [encodedAddress, relayApi, relayApiReady]);
 
 	const fellow = useMemo(() => {
 		return fellows.find((f) => f.address === address);
