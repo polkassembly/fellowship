@@ -96,7 +96,7 @@ function ProfileAddressDetails(props: Props) {
 							<h6 className='flex items-center gap-2 text-xl font-semibold leading-6'>
 								{onChainUsername ||
 									midTruncateText({
-										text: getEncodedAddress(address, network) || '',
+										text: encodedAddress,
 										startChars: 5,
 										endChars: 5
 									})}
@@ -121,7 +121,7 @@ function ProfileAddressDetails(props: Props) {
 							<div className='flex items-center gap-x-1'>
 								<p className='text-xs text-gray-500'>
 									{midTruncateText({
-										text: getEncodedAddress(address, network) || '',
+										text: encodedAddress,
 										startChars: 5,
 										endChars: 5
 									})}
