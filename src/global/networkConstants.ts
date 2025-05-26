@@ -96,6 +96,28 @@ const networkConstants: NetworkConstants = {
 				key: 'wss://dot-rpc.stakeworld.io',
 				label: 'Stakeworld'
 			}
+		],
+		peopleRpcEndpoints: [
+			{
+				key: 'wss://polkadot-people-rpc.polkadot.io',
+				label: 'Parity'
+			},
+			{
+				key: 'wss://rpc-people-polkadot.luckyfriday.io',
+				label: 'LuckyFriday'
+			},
+			{
+				key: 'wss://people-polkadot.public.curie.radiumblock.co/ws',
+				label: 'RadiumBlock'
+			},
+			{
+				key: 'wss://sys.ibp.network/people-polkadot',
+				label: 'IBP-GeoDNS1'
+			},
+			{
+				key: 'wss://people-polkadot.dotters.network',
+				label: 'IBP-GeoDNS2'
+			}
 		]
 	},
 	[Network.WESTEND_COLLECTIVES]: {
@@ -176,6 +198,24 @@ const networkConstants: NetworkConstants = {
 			{
 				key: 'wss://dot-rpc.stakeworld.io',
 				label: 'Stakeworld'
+			}
+		],
+		peopleRpcEndpoints: [
+			{
+				key: 'wss://people-westend-rpc.n.dwellir.com',
+				label: 'Dwellir'
+			},
+			{
+				key: 'wss://westend-people-rpc.polkadot.io',
+				label: 'Parity'
+			},
+			{
+				key: 'wss://people-westend.dotters.network',
+				label: 'IBP-GeoDNS2'
+			},
+			{
+				key: 'wss://sys.ibp.network/people-westend',
+				label: 'IBP-GeoDNS1'
 			}
 		]
 	}
