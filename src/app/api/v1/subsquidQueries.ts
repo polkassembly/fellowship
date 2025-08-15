@@ -473,3 +473,16 @@ export const GET_RANK_ACTIVITY = gql`
 		}
 	}
 `;
+
+export const GET_CURVE_DATA_BY_INDEX = gql`
+	query CurveDataByIndex($index_eq: Int, $block_gte: Int, $limit: Int = 1000) {
+		curveData(limit: $limit, where: { index_eq: $index_eq, block_gte: $block_gte }, orderBy: block_ASC) {
+			approvalPercent
+			block
+			id
+			index
+			supportPercent
+			timestamp
+		}
+	}
+`;
