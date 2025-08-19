@@ -265,7 +265,7 @@ function VoteCurves({ voteCurveData, trackName, timeline, createdAt, setThreshol
 			},
 			y: {
 				title: {
-					display: true,
+					display: false,
 					text: 'Passing Percentage'
 				},
 				max: 100,
