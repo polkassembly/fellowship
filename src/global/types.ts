@@ -794,3 +794,28 @@ export interface IRecordingListingResponse {
 	totalCount: number;
 	recordings: IRecording[];
 }
+
+export interface IVoteCurve {
+	approvalPercent: number;
+	supportPercent: number;
+	block: number;
+	timestamp: string;
+	id: string;
+	index: number;
+}
+
+export interface IStatusHistoryItem {
+	block: number;
+	id: string;
+	status: ProposalStatus;
+	timestamp?: string;
+}
+
+export enum EPostOrigin {
+	FELLOWSHIP_REFERENDUMS = 'fellowship_referendums'
+}
+
+export enum EProposalStatus {
+	Deciding = 'Deciding',
+	DecisionDepositPlaced = 'DecisionDepositPlaced'
+}

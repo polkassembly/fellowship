@@ -6,12 +6,15 @@ import React from 'react';
 import CastVoteCard from './CastVoteCard';
 import VoteInfoCard from './VoteInfoCard';
 import DecisionStatusCard from './DecisionStatusCard';
+import VoteCurvesDataWrapper from './VoteCurvesData/VoteCurvesDataWrapper';
+
 function GovernanceSidebar() {
 	return (
 		<section className='flex flex-col gap-6'>
 			<CastVoteCard />
 			<DecisionStatusCard />
 			<VoteInfoCard />
+			<VoteCurvesDataWrapper />
 		</section>
 	);
 }
