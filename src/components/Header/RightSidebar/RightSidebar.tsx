@@ -12,7 +12,7 @@ import LinkWithNetwork from '../../Misc/LinkWithNetwork';
 import getSubstrateAddress from '@/utils/getSubstrateAddress';
 import QuickActions from './QuickActions';
 // import Treasury from './Treasury';
-// import ActivityFeed from './ActivityFeed';
+import ActivityFeed from './ActivityFeed';
 
 export default function RightSidebar() {
 	const { fellows } = useApiContext();
@@ -44,12 +44,11 @@ export default function RightSidebar() {
 				<QuickActions />
 			)}
 
-			{/* Scrollable Content 
+			{/* Scrollable Content */}
 			<div className='flex-1 overflow-y-auto scrollbar-hide'>
-				{isFellow && <Treasury />}
-
+				{/* {isFellow && <Treasury />} */}
 				<ActivityFeed />
-			</div> */}
+			</div>
 		</aside>
 	);
 }
