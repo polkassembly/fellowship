@@ -13,28 +13,28 @@ import { useApiContext, useUserDetailsContext } from '@/contexts';
 // import dynamic from 'next/dynamic';
 import styles from './Header.module.scss';
 import LinkWithNetwork from '../Misc/LinkWithNetwork';
+import { Home, Calendar, Vote, Users, UserPlus, GitBranch, Image as ImageIcon, Shield, Settings } from 'lucide-react';
 
 // const JoinFellowshipButton = dynamic(() => import('./JoinFellowshipButton'), { ssr: false });
 
-function ListboxItemStartContent({ isParentItem = false, isCurrentRoute, icon }: { isParentItem: boolean; isCurrentRoute: boolean; icon?: string }) {
+function ListboxItemStartContent({
+	isParentItem = false,
+	isCurrentRoute,
+	icon
+}: {
+	isParentItem: boolean;
+	isCurrentRoute: boolean;
+	icon?: React.ComponentType<{ className?: string }>;
+}) {
+	const IconComponent = icon;
 	return (
-		<span className='flex items-center'>
-			{icon && (
-				<Image
-					className='mr-3'
-					alt='icon'
-					src={`/icons/sidebar/${icon}${isCurrentRoute ? '-filled' : '-outlined'}.svg`}
-					width={20}
-					height={20}
-				/>
-			)}
-		</span>
+		<span className='flex items-center'>{IconComponent && <IconComponent className={`mr-3 h-5 w-5 ${isCurrentRoute ? 'text-primary_accent' : 'text-text_secondary'}`} />}</span>
 	);
 }
 
 type NavItem = {
 	label: string;
-	icon?: string;
+	icon?: React.ComponentType<{ className?: string }>;
 	url: string;
 	subItem?: boolean;
 	childUrls?: string[];
@@ -48,17 +48,17 @@ due to the way the Listbox component works.
 const navItems: NavItem[] = [
 	{
 		label: 'Activity',
-		icon: 'home',
+		icon: Home,
 		url: '/'
 	},
 	{
 		label: 'Events',
-		icon: 'calendar',
+		icon: Calendar,
 		url: '/calendar'
 	},
 	{
 		label: 'Voting',
-		icon: 'vote',
+		icon: Vote,
 		url: '#voting',
 		childUrls: ['/general-proposals', '/rank-requests']
 	},
@@ -79,37 +79,37 @@ const navItems: NavItem[] = [
 	},
 	{
 		label: 'Members',
-		icon: 'users',
+		icon: Users,
 		url: '/members'
 	},
 	{
 		label: 'Inductions',
-		icon: 'add-user',
+		icon: UserPlus,
 		url: '/inductions'
 	},
 	{
 		label: 'RFC Pull Requests',
-		icon: 'git-branch',
+		icon: GitBranch,
 		url: '/rfc-pull-requests'
 	},
 	{
 		label: 'Preimages',
-		icon: 'image',
+		icon: ImageIcon,
 		url: '/preimages'
 	},
 	{
 		label: 'Profile',
-		icon: 'shield-user',
+		icon: Shield,
 		url: '/address'
 	},
 	{
 		label: 'Polkadot Github',
-		icon: 'git-branch',
+		icon: GitBranch,
 		url: '/polkadot-github'
 	},
 	{
 		label: 'Settings',
-		icon: 'settings',
+		icon: Settings,
 		url: '/settings'
 	}
 ];
@@ -194,7 +194,7 @@ function AppSidebar() {
 						return (
 							<ListboxItem
 								id='nav-listbox-item'
-								className={`mb-3 rounded p-2 transition-colors ${navItem.subItem && '-mt-3'} ${
+								className={`mb-3 rounded p-2 transition-colors ${
 									isCurrentRoute && !isParentItem
 										? 'border-l-4 border-primary_accent bg-primary_accent/10 font-semibold text-primary_accent'
 										: 'hover:text-text_primary text-text_secondary hover:bg-gray-50'
