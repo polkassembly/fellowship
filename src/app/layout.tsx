@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import type { Metadata } from 'next';
 import { ReactNode } from 'react';
 import AppSidebar from '@/components/Header/AppSidebar';
+import RightSidebar from '@/components/Header/RightSidebar/RightSidebar';
 import AppNavbar from '@/components/Header/AppNavbar';
 import NotificationsContainer from '@/components/Misc/NotificationsContainer';
 import Footer from '@/components/Footer/Footer';
@@ -30,6 +31,9 @@ export default function RootLayout({ children, modal }: { children: ReactNode; m
 						<section id='main-section'>
 							<AppNavbar />
 							<main>{children}</main>
+						</section>
+						<section className='fixed right-0 h-full lg:block'>
+							<RightSidebar />
 						</section>
 						<Footer />
 					</section>
