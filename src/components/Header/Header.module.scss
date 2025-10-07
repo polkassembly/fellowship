@@ -1,5 +1,5 @@
 .appSidebar {
-	@apply hidden max-h-full min-h-full w-[264px] flex-col justify-between rounded-[30px] bg-secondary p-8 text-secondary-foreground scrollbar-hide lg:flex;
+	@apply hidden max-h-full min-h-full w-[264px] flex-col justify-between border-r border-primary_border bg-componentBg p-5 text-secondary-foreground scrollbar-hide lg:flex;
 }
 
 .navListboxItemHover {

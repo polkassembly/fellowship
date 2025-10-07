@@ -10,27 +10,18 @@ import Image from 'next/image';
 import { Listbox, ListboxItem } from '@nextui-org/listbox';
 import { usePathname, useRouter } from 'next/navigation';
 import { useApiContext, useUserDetailsContext } from '@/contexts';
-import dynamic from 'next/dynamic';
+// import dynamic from 'next/dynamic';
 import styles from './Header.module.scss';
 import LinkWithNetwork from '../Misc/LinkWithNetwork';
 
-const JoinFellowshipButton = dynamic(() => import('./JoinFellowshipButton'), { ssr: false });
+// const JoinFellowshipButton = dynamic(() => import('./JoinFellowshipButton'), { ssr: false });
 
 function ListboxItemStartContent({ isParentItem = false, isCurrentRoute, icon }: { isParentItem: boolean; isCurrentRoute: boolean; icon?: string }) {
 	return (
-		<span className='flex'>
-			{isCurrentRoute && !isParentItem && (
-				<Image
-					alt='border-image'
-					src='/misc/border-right-pink.svg'
-					width={6}
-					height={20}
-					className='ml-[-8px] mr-2'
-				/>
-			)}
+		<span className='flex items-center'>
 			{icon && (
 				<Image
-					className={isCurrentRoute ? 'ml-7' : 'ml-8'}
+					className='mr-3'
 					alt='icon'
 					src={`/icons/sidebar/${icon}${isCurrentRoute ? '-filled' : '-outlined'}.svg`}
 					width={20}
@@ -61,7 +52,7 @@ const navItems: NavItem[] = [
 		url: '/'
 	},
 	{
-		label: 'Events and Recordings',
+		label: 'Events',
 		icon: 'calendar',
 		url: '/calendar'
 	},
@@ -131,15 +122,32 @@ function AppSidebar() {
 
 	return (
 		<nav className={`${styles.appSidebar} overflow-y-auto overflow-x-hidden`}>
-			<Image
-				alt='Login Icon'
-				src='/icons/beta.svg'
-				width={80}
-				height={80}
-				className='absolute left-0 top-0'
-			/>
 			<div>
-				<JoinFellowshipButton className='mb-5' />
+				<div className='mb-3 flex flex-col gap-2'>
+					<div className='flex items-center gap-2'>
+						<div className='flex h-9 w-9 items-center justify-center'>
+							<Image
+								src='/icons/user-group.svg'
+								alt='Collectives'
+								width={36}
+								height={36}
+							/>
+						</div>
+						<h2 className='font-poppins text-base font-semibold text-primary_accent'>Collectives</h2>
+					</div>
+					<div className='flex items-center gap-2'>
+						<span className='font-dm-sans text-nowrap text-xs text-text_secondary'>Governance by</span>
+						<div className='flex items-center gap-2'>
+							<Image
+								src='/brand/pa-logo-dark-text.svg'
+								alt='Polkassembly'
+								width={92}
+								height={30}
+							/>
+						</div>
+					</div>
+				</div>
+				{/* <JoinFellowshipButton className='mb-5' /> */}
 
 				{loginAddress && fellows.map((fellow) => fellow.address).includes(loginAddress) && (
 					<LinkWithNetwork
@@ -157,9 +165,8 @@ function AppSidebar() {
 				)}
 
 				<Listbox
-					className='-ml-9 w-[272px] text-sm'
+					className='text-sm'
 					variant='flat'
-					color='primary'
 					aria-label='Sidebar navigation'
 					selectedKeys={[pathname]}
 					onAction={(key) => {
@@ -187,9 +194,11 @@ function AppSidebar() {
 						return (
 							<ListboxItem
 								id='nav-listbox-item'
-								className={`mb-3 h-[40px] rounded-none hover:bg-transparent ${navItem.subItem && '-mt-3'} ${isParentItem && isCurrentRoute && 'text-primary_accent'} ${
-									isCurrentRoute && !isParentItem && styles.navListboxItemHover
-								}`}
+								className={`mb-3 rounded p-2 transition-colors ${navItem.subItem && '-mt-3'} ${
+									isCurrentRoute && !isParentItem
+										? 'border-l-4 border-primary_accent bg-primary_accent/10 font-semibold text-primary_accent'
+										: 'hover:text-text_primary text-text_secondary hover:bg-gray-50'
+								} ${isParentItem && isCurrentRoute && 'text-primary_accent'}`}
 								key={navItem.url}
 								textValue={navItem.label}
 								startContent={
@@ -204,7 +213,7 @@ function AppSidebar() {
 									<span>{navItem.label}</span>
 								) : (
 									<LinkWithNetwork
-										className={`${navItem.subItem && !isCurrentRoute && 'ml-16'} ${isCurrentRoute && navItem.subItem && 'ml-14'}`}
+										className={`${navItem.subItem && !isCurrentRoute && 'ml-4'} ${isCurrentRoute && navItem.subItem && 'ml-2'}`}
 										href={navItem.url === '/address' ? `${navItem.url}/${loginAddress || addresses?.[0]}` : navItem.url}
 									>
 										{navItem.label}
@@ -217,12 +226,6 @@ function AppSidebar() {
 			</div>
 
 			<footer className='flex flex-col gap-y-4'>
-				<Image
-					alt='Polkassembly Logo'
-					src='/brand/pa-logo-white-text.svg'
-					width='155'
-					height='55'
-				/>
 				<div className='ml-2 flex max-w-[150px] items-center justify-between gap-x-4'>
 					<LinkWithNetwork
 						href='https://twitter.com/polk_gov/'
