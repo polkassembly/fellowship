@@ -124,7 +124,10 @@ function AppSidebar() {
 		<nav className={`${styles.appSidebar} overflow-y-auto overflow-x-hidden`}>
 			<div>
 				<div className='mb-3 flex flex-col gap-2'>
-					<div className='flex items-center gap-2'>
+					<LinkWithNetwork
+						href='/'
+						className='flex items-center gap-2'
+					>
 						<div className='flex h-9 w-9 items-center justify-center'>
 							<Image
 								src='/icons/user-group.svg'
@@ -134,7 +137,7 @@ function AppSidebar() {
 							/>
 						</div>
 						<h2 className='font-poppins text-base font-semibold text-primary_accent'>Collectives</h2>
-					</div>
+					</LinkWithNetwork>
 					<div className='flex items-center gap-2'>
 						<span className='font-dm-sans text-nowrap text-xs text-text_secondary'>Governance by</span>
 						<div className='flex items-center gap-2'>
