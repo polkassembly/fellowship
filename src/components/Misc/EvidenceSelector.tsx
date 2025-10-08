@@ -6,9 +6,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { Select, SelectItem } from '@nextui-org/select';
-import { Button } from '@nextui-org/button';
 import { useRouter } from 'next/navigation';
 import { Plus } from 'lucide-react';
+import { useApiContext, useUserDetailsContext } from '@/contexts';
+import { SubsquidActivityType } from '@/global/types';
+import getSubstrateAddress from '@/utils/getSubstrateAddress';
+import nextApiClientFetch from '@/utils/nextApiClientFetch';
 
 interface Evidence {
 	id: string;
@@ -26,44 +29,64 @@ interface Props {
 
 function EvidenceSelector({ selectedEvidenceId, onEvidenceSelect, disabled = false, className = '' }: Props) {
 	const router = useRouter();
+	const { network } = useApiContext();
+	const { addresses } = useUserDetailsContext();
 	const [evidences, setEvidences] = useState<Evidence[]>([]);
 	const [loading, setLoading] = useState(true);
 
-	// Mock data for now - in real implementation, this would fetch from API
+	// Fetch user's evidences from API
 	useEffect(() => {
 		const fetchEvidences = async () => {
+			if (!addresses || addresses.length === 0) {
+				setLoading(false);
+				return;
+			}
+
 			setLoading(true);
-			// Simulate API call
-			await new Promise((resolve) => setTimeout(resolve, 500));
 
-			// Mock evidences - in real implementation, fetch from API
-			const mockEvidences: Evidence[] = [
-				{
-					id: '1',
-					title: 'Polkadot Core Development Contributions',
-					content: 'Led development of key Polkadot runtime modules...',
-					createdAt: '2024-01-15'
-				},
-				{
-					id: '2',
-					title: 'Substrate Framework Improvements',
-					content: 'Implemented significant improvements to Substrate framework...',
-					createdAt: '2024-01-10'
-				},
-				{
-					id: '3',
-					title: 'Community Education and Documentation',
-					content: 'Created comprehensive documentation and educational materials...',
-					createdAt: '2024-01-05'
+			try {
+				const userAddress = getSubstrateAddress(addresses[0]);
+
+				// Fetch user activity to get evidences
+				const { data, error } = await nextApiClientFetch<{ data: any[] }>({
+					url: `api/v1/address/${userAddress}/activity?page=1`,
+					network,
+					isPolkassemblyAPI: false
+				});
+
+				if (error || !data) {
+					console.error('Error fetching evidences:', error);
+					setEvidences([]);
+					setLoading(false);
+					return;
 				}
-			];
 
-			setEvidences(mockEvidences);
-			setLoading(false);
+				// Filter for evidence submissions
+				const evidenceActivities = (data.data || []).filter(
+					// eslint-disable-next-line @typescript-eslint/no-explicit-any
+					(activity: any) => activity.activityType === SubsquidActivityType.EvidenceSubmitted
+				);
+
+				// Transform to Evidence format
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
+				const transformedEvidences: Evidence[] = evidenceActivities.map((activity: any) => ({
+					id: activity.id || String(activity.otherActions?.createdAtBlock || Date.now()),
+					title: `Evidence Submission - Rank ${activity.otherActions?.rank || 'Unknown'}`,
+					content: activity.otherActions?.evidence || '',
+					createdAt: activity.otherActions?.createdAt || new Date().toISOString()
+				}));
+
+				setEvidences(transformedEvidences);
+			} catch (error) {
+				console.error('Error fetching evidences:', error);
+				setEvidences([]);
+			} finally {
+				setLoading(false);
+			}
 		};
 
 		fetchEvidences();
-	}, []);
+	}, [addresses, network]);
 
 	const handleAddNewEvidence = () => {
 		// Navigate to submit evidence with return URL
@@ -135,21 +158,6 @@ function EvidenceSelector({ selectedEvidenceId, onEvidenceSelect, disabled = fal
 					<div className='mb-2 text-sm font-medium'>{selectedEvidence.title}</div>
 					<div className='mb-2 text-xs text-text_secondary'>Created: {new Date(selectedEvidence.createdAt).toLocaleDateString()}</div>
 					<div className='line-clamp-3 text-sm text-text_secondary'>{selectedEvidence.content}</div>
-				</div>
-			)}
-
-			{evidences.length === 0 && !loading && (
-				<div className='py-4 text-center'>
-					<p className='mb-3 text-sm text-text_secondary'>No evidences found</p>
-					<Button
-						size='sm'
-						color='primary'
-						onPress={handleAddNewEvidence}
-						startContent={<Plus className='h-4 w-4' />}
-						className='bg-primary_accent'
-					>
-						Create your first evidence
-					</Button>
 				</div>
 			)}
 		</div>
