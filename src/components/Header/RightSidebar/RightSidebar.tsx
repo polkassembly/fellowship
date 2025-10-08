@@ -11,7 +11,7 @@ import { Button } from '@nextui-org/button';
 import LinkWithNetwork from '../../Misc/LinkWithNetwork';
 import getSubstrateAddress from '@/utils/getSubstrateAddress';
 import QuickActions from './QuickActions';
-// import Treasury from './Treasury';
+import Treasury from './Treasury';
 import ActivityFeed from './ActivityFeed';
 
 export default function RightSidebar() {
@@ -46,7 +46,7 @@ export default function RightSidebar() {
 
 			{/* Scrollable Content */}
 			<div className='flex-1 overflow-y-auto scrollbar-hide'>
-				{/* {isFellow && <Treasury />} */}
+				<Treasury isFellow={isFellow} />
 				<ActivityFeed />
 			</div>
 		</aside>
