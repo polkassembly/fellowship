@@ -43,6 +43,8 @@ export default function QuickActions() {
 				<Button
 					variant='bordered'
 					className='font-poppins flex h-16 flex-col gap-1 border-primary_border text-text_secondary hover:bg-gray-50'
+					as={LinkWithNetwork}
+					href='/create-proposal'
 					startContent={<Plus className='h-4 w-4' />}
 				>
 					<span className='text-xs'>Create Proposal</span>

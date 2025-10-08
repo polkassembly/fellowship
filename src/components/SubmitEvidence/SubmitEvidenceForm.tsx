@@ -17,6 +17,8 @@ import AddressSwitch from '@/components/Misc/AddressSwitch';
 import getSubstrateAddress from '@/utils/getSubstrateAddress';
 import executeTx from '@/utils/executeTx';
 import MarkdownEditor from '@/components/TextEditor/MarkdownEditor';
+import { useRouter } from 'next/navigation';
+import { Button } from '@nextui-org/button';
 
 interface Props {
 	readonly formRef: React.RefObject<HTMLFormElement>;
@@ -37,6 +39,7 @@ interface FormData {
 function SubmitEvidenceForm({ formRef, onSuccess, onFormStateChange }: Props) {
 	const { api, apiReady, network, fellows } = useApiContext();
 	const { id, addresses } = useUserDetailsContext();
+	const router = useRouter();
 
 	const {
 		formState: { errors },
@@ -54,6 +57,8 @@ function SubmitEvidenceForm({ formRef, onSuccess, onFormStateChange }: Props) {
 	const [selectedWallet, setSelectedWallet] = useState<Wallet | null>(null);
 	const [selectedAddress, setSelectedAddress] = useState<InjectedAccount | null>(null);
 	const [txStatus, setTxStatus] = useState('');
+	const [isSuccess, setIsSuccess] = useState(false);
+	const [submittedEvidenceId, setSubmittedEvidenceId] = useState<string | null>(null);
 
 	// Form validation state
 	const isFormValid = Boolean(selectedWallet && selectedAddress && api && apiReady && !loading);
@@ -178,13 +183,17 @@ function SubmitEvidenceForm({ formRef, onSuccess, onFormStateChange }: Props) {
 
 			const onSuccessCallback = async () => {
 				setLoading(false);
+				// Generate a mock evidence ID - in real implementation, this would come from the transaction
+				const evidenceId = `evidence_${Date.now()}`;
+				setSubmittedEvidenceId(evidenceId);
+				setIsSuccess(true);
+
 				queueNotification({
 					header: 'Evidence Submitted Successfully!',
 					message: `Your ${wish.toLowerCase()} evidence has been submitted for ${fellow.rank} rank.`,
 					status: 'success'
 				});
 				setTxStatus('');
-				onSuccess?.();
 			};
 
 			await executeTx({
@@ -206,6 +215,61 @@ function SubmitEvidenceForm({ formRef, onSuccess, onFormStateChange }: Props) {
 			setTxStatus('');
 		}
 	};
+
+	// Show success state
+	if (isSuccess) {
+		return (
+			<div className='flex flex-col gap-4 text-center'>
+				<div className='rounded-lg bg-green-50 p-6 dark:bg-green-900/20'>
+					<div className='mb-4 text-green-800 dark:text-green-200'>
+						<svg
+							className='mx-auto mb-4 h-12 w-12'
+							fill='none'
+							viewBox='0 0 24 24'
+							stroke='currentColor'
+						>
+							<path
+								strokeLinecap='round'
+								strokeLinejoin='round'
+								strokeWidth={2}
+								d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'
+							/>
+						</svg>
+						<h3 className='mb-2 text-lg font-semibold'>Evidence Submitted Successfully!</h3>
+						<p className='text-sm'>Your evidence has been submitted and is now available for use in proposals.</p>
+					</div>
+
+					<div className='flex flex-col gap-3'>
+						<Button
+							color='primary'
+							onPress={() => {
+								// Navigate to create proposal with the evidence pre-selected
+								const params = new URLSearchParams();
+								if (submittedEvidenceId) {
+									params.set('evidenceId', submittedEvidenceId);
+								}
+								router.push(`/create-proposal?${params.toString()}`);
+							}}
+							className='bg-primary_accent'
+						>
+							Create Rank Proposal with This Evidence
+						</Button>
+
+						<Button
+							variant='light'
+							onPress={() => {
+								setIsSuccess(false);
+								setSubmittedEvidenceId(null);
+							}}
+							className='text-text_secondary'
+						>
+							Submit Another Evidence
+						</Button>
+					</div>
+				</div>
+			</div>
+		);
+	}
 
 	return (
 		<form
