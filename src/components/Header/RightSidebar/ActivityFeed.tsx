@@ -30,11 +30,32 @@ const getActivityDetails = (feedItem: ActivityFeedItem) => {
 			return { icon: CircleCheckBig, color: 'text-green-600', title: 'Member Retained', description: `was retained at Rank ${feedItem.rank || 0}` };
 		case SubsquidActivityType.EvidenceSubmitted:
 			return { icon: FileText, color: 'text-purple-600', title: 'Evidence Submitted', description: 'submitted new evidence' };
+		case SubsquidActivityType.EvidenceJudged:
+			return { icon: FileText, color: 'text-indigo-600', title: 'Evidence Judged', description: 'had their evidence judged' };
 		case SubsquidActivityType.GeneralProposal:
 		case SubsquidActivityType.RFC:
 			return { icon: Vote, color: 'text-blue-600', title: 'Proposal Created', description: 'created a new proposal' };
+		case SubsquidActivityType.PromotionRequest:
+			return { icon: TrendingUp, color: 'text-blue-600', title: 'Promotion Request', description: 'requested promotion' };
+		case SubsquidActivityType.RetentionRequest:
+			return { icon: CircleCheckBig, color: 'text-blue-600', title: 'Retention Request', description: 'requested retention' };
+		case SubsquidActivityType.DemotionRequest:
+			return { icon: TrendingDown, color: 'text-orange-600', title: 'Demotion Request', description: 'requested demotion' };
+		case SubsquidActivityType.InductionRequest:
+			return { icon: UserPlus, color: 'text-blue-600', title: 'Induction Request', description: 'requested induction' };
+		case SubsquidActivityType.Registration:
+			return {
+				icon: DollarSign,
+				color: 'text-green-600',
+				title: 'Salary Registration',
+				description: `registered for salary on ${feedItem.cycleStartDatetime ? dayjs(feedItem.cycleStartDatetime).format('DD MMM YYYY') : ''}`.trim()
+			};
+		case SubsquidActivityType.SalaryInduction:
+			return { icon: DollarSign, color: 'text-green-600', title: 'Salary Induction', description: 'was inducted into salary system' };
 		case SubsquidActivityType.Payout:
 			return { icon: DollarSign, color: 'text-yellow-600', title: 'Salary Payout', description: 'received salary payout' };
+		case SubsquidActivityType.CycleStarted:
+			return { icon: Settings, color: 'text-blue-600', title: 'Cycle Started', description: 'salary cycle started' };
 		case SubsquidActivityType.Voted:
 			return {
 				icon: Vote,
@@ -46,6 +67,8 @@ const getActivityDetails = (feedItem: ActivityFeedItem) => {
 			return { icon: TrendingDown, color: 'text-red-600', title: 'Member Off-boarded', description: 'was off-boarded from the fellowship' };
 		case SubsquidActivityType.ActivityChanged:
 			return { icon: Settings, color: 'text-gray-600', title: 'Status Changed', description: `status changed to ${feedItem.isActive ? 'active' : 'inactive'}` };
+		case SubsquidActivityType.Imported:
+			return { icon: Settings, color: 'text-gray-600', title: 'Member Imported', description: 'was imported into the system' };
 		default:
 			return { icon: CircleCheckBig, color: 'text-blue-600', title: 'Activity', description: 'performed an activity' };
 	}
