@@ -52,7 +52,7 @@ function SubmitEvidenceModal() {
 							</ModalHeader>
 							<Divider />
 
-							<ModalBody>
+							<ModalBody className='p-6'>
 								<SubmitEvidenceForm
 									formRef={formRef}
 									onSuccess={() => setIsModalOpen(false)}

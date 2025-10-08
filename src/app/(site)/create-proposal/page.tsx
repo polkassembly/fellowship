@@ -25,7 +25,7 @@ export default function CreateProposal() {
 
 	return (
 		<div className='rounded-2xl border border-primary_border p-6'>
-			<h3 className='font-semibold'>Create Proposal</h3>
+			<h3 className='mb-3 font-semibold'>Create Proposal</h3>
 
 			<div>
 				{!id ? (

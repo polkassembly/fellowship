@@ -52,7 +52,7 @@ function CreateProposalModal() {
 							</ModalHeader>
 							<Divider />
 
-							<ModalBody>
+							<ModalBody className='p-6'>
 								<CreateProposalForm
 									formRef={formRef}
 									onSuccess={() => setIsModalOpen(false)}
