@@ -11,6 +11,7 @@ import ContributionGraph from './Activity/ContributionGraph';
 import DashboardHeader from './DashboardHeader';
 import RequiredActions from './RequiredActions';
 import ProfileCards from './ProfileCards';
+import RecentContributions from './RecentContributions';
 import Manifesto from './Manifesto';
 import ProfileProposals from './Proposals';
 import UserActivity from './Activity';
@@ -32,6 +33,10 @@ function Profile(props: Props) {
 			/>
 			<RequiredActions className='mt-6' />
 			<ProfileCards
+				address={address}
+				className='mt-6'
+			/>
+			<RecentContributions
 				address={address}
 				className='mt-6'
 			/>
