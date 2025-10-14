@@ -9,13 +9,14 @@ import { IProfile } from '@/global/types';
 import { useDisclosure } from '@nextui-org/modal';
 import ContributionGraph from './Activity/ContributionGraph';
 import DashboardHeader from './DashboardHeader';
+import RequiredActions from './RequiredActions';
 import Manifesto from './Manifesto';
 import ProfileProposals from './Proposals';
 import UserActivity from './Activity';
 import PromotionDetails from './PromotionDetails';
 
 interface Props {
-	profile: IProfile;
+	readonly profile: IProfile;
 }
 
 function Profile(props: Props) {
@@ -28,6 +29,7 @@ function Profile(props: Props) {
 				address={address}
 				socialLinks={socialLinks || []}
 			/>
+			<RequiredActions className='mt-6' />
 			<ContributionGraph
 				classNames='mt-[56px]'
 				githubUsername={socialLinks?.find((social) => social.type === 'Github')?.link || ''}
