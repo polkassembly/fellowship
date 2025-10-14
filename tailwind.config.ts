@@ -32,7 +32,7 @@ const config: Config = {
 			themes: {
 				light: {
 					colors: {
-						background: '#F8FAFC', // the page background color
+						background: '#F9FAFB', // the page background color
 						foreground: '#243A57', // the page text color
 						primary: {
 							foreground: '#FFFFFF',

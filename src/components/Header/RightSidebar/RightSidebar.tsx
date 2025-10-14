@@ -26,7 +26,7 @@ export default function RightSidebar() {
 	}, [loginAddress, fellows]);
 
 	return (
-		<aside className='flex h-full w-[300px] flex-col border-l border-primary_border bg-white'>
+		<aside className='flex h-full w-[300px] flex-col border-l border-primary_border bg-componentBg'>
 			{/* Conditional rendering based on fellowship status */}
 			{!isFellow ? (
 				<div className='border-b border-primary_border p-4'>
