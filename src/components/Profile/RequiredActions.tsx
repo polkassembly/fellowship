@@ -18,7 +18,7 @@ function RequiredActions({ className }: Props) {
 	const [isAttentionExpanded, setIsAttentionExpanded] = useState(true);
 
 	return (
-		<Card className={`border-primary_border bg-cardBg p-3 ${className}`}>
+		<Card className={`border border-primary_border bg-cardBg p-3 ${className}`}>
 			<CardHeader className='w-full'>
 				<div className='flex w-full items-center justify-between'>
 					<h3 className='flex items-center gap-2 font-semibold text-black dark:text-white'>

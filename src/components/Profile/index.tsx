@@ -10,6 +10,7 @@ import { useDisclosure } from '@nextui-org/modal';
 import ContributionGraph from './Activity/ContributionGraph';
 import DashboardHeader from './DashboardHeader';
 import RequiredActions from './RequiredActions';
+import ProfileCards from './ProfileCards';
 import Manifesto from './Manifesto';
 import ProfileProposals from './Proposals';
 import UserActivity from './Activity';
@@ -30,6 +31,10 @@ function Profile(props: Props) {
 				socialLinks={socialLinks || []}
 			/>
 			<RequiredActions className='mt-6' />
+			<ProfileCards
+				address={address}
+				className='mt-6'
+			/>
 			<ContributionGraph
 				classNames='mt-[56px]'
 				githubUsername={socialLinks?.find((social) => social.type === 'Github')?.link || ''}
