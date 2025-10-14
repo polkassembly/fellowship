@@ -16,9 +16,10 @@ import getOriginUrl from '@/utils/getOriginUrl';
 import dayjs from '@/services/dayjs-init';
 import LoadingSpinner from '../../Misc/LoadingSpinner';
 import Address from '../../Profile/Address';
+import getSubstrateAddress from '@/utils/getSubstrateAddress';
 
 // Simple function to get activity details
-const getActivityDetails = (feedItem: ActivityFeedItem) => {
+const getActivityDetails = (feedItem: ActivityFeedItem, fellows: any[] = []) => {
 	switch (feedItem.type) {
 		case SubsquidActivityType.Inducted:
 			return { icon: UserPlus, color: 'text-green-600', title: 'Member Inducted', description: 'was inducted into the fellowship' };
@@ -26,8 +27,18 @@ const getActivityDetails = (feedItem: ActivityFeedItem) => {
 			return { icon: TrendingUp, color: 'text-green-600', title: 'Member Promoted', description: `was promoted to Rank ${feedItem.rank || 0}` };
 		case SubsquidActivityType.Demoted:
 			return { icon: TrendingDown, color: 'text-red-600', title: 'Member Demoted', description: `was demoted to Rank ${feedItem.rank || 0}` };
-		case SubsquidActivityType.Retained:
-			return { icon: CircleCheckBig, color: 'text-green-600', title: 'Member Retained', description: `was retained at Rank ${feedItem.rank || 0}` };
+		case SubsquidActivityType.Retained: {
+			// For retained activities, if rank is 0, try to get the current rank from fellows data
+			let retainedRank = feedItem.rank || 0;
+			if (retainedRank === 0) {
+				const substrateAddress = getSubstrateAddress(feedItem.who);
+				const fellow = fellows.find((f) => f.address === substrateAddress);
+				if (fellow) {
+					retainedRank = fellow.rank;
+				}
+			}
+			return { icon: CircleCheckBig, color: 'text-green-600', title: 'Member Retained', description: `was retained at Rank ${retainedRank}` };
+		}
 		case SubsquidActivityType.EvidenceSubmitted:
 			return { icon: FileText, color: 'text-purple-600', title: 'Evidence Submitted', description: 'submitted new evidence' };
 		case SubsquidActivityType.EvidenceJudged:
@@ -75,7 +86,7 @@ const getActivityDetails = (feedItem: ActivityFeedItem) => {
 };
 
 export default function ActivityFeed() {
-	const { network } = useApiContext();
+	const { network, fellows } = useApiContext();
 	const [feedItems, setFeedItems] = useState<ActivityFeedItem[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
@@ -134,7 +145,7 @@ export default function ActivityFeed() {
 						<div className='space-y-3'>
 							{feedItems.length > 0 ? (
 								feedItems.map((feedItem) => {
-									const details = getActivityDetails(feedItem);
+									const details = getActivityDetails(feedItem, fellows);
 									const IconComponent = details.icon;
 									const timestamp = dayjs(feedItem.created_at).fromNow();
 
