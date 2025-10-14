@@ -8,9 +8,7 @@ import React from 'react';
 import { IProfile } from '@/global/types';
 import { useDisclosure } from '@nextui-org/modal';
 import ContributionGraph from './Activity/ContributionGraph';
-import ProfileBanner from './Banner';
-import ProfileSocials from './Socials';
-import ProfileAddressDetails from './AddressDetails';
+import DashboardHeader from './DashboardHeader';
 import Manifesto from './Manifesto';
 import ProfileProposals from './Proposals';
 import UserActivity from './Activity';
@@ -23,21 +21,13 @@ interface Props {
 function Profile(props: Props) {
 	const { profile } = props;
 	const { address, manifesto, social_links: socialLinks } = profile;
-	const { isOpen: isModalOpen, onOpen: openProfileEdit, onOpenChange } = useDisclosure();
+	const { onOpen: openProfileEdit } = useDisclosure();
 	return (
 		<section className='relative flex flex-col pb-16 md:pb-0'>
-			<ProfileBanner
-				openProfileEdit={openProfileEdit}
+			<DashboardHeader
 				address={address}
+				socialLinks={socialLinks || []}
 			/>
-			<div className='top-[151px] flex w-full flex-col items-center justify-between gap-5 xl:absolute xl:flex-row'>
-				<ProfileAddressDetails address={address} />
-				<ProfileSocials
-					links={socialLinks || []}
-					isModalOpen={isModalOpen}
-					onOpenChange={onOpenChange}
-				/>
-			</div>
 			<ContributionGraph
 				classNames='mt-[56px]'
 				githubUsername={socialLinks?.find((social) => social.type === 'Github')?.link || ''}

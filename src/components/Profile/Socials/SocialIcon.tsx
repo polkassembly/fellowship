@@ -11,7 +11,7 @@ interface Props {
 
 function SocialIcon({ src, alt }: Props) {
 	return (
-		<div className='flex h-10 w-10 items-center justify-center rounded-full bg-[rgba(210,216,224,0.20)]'>
+		<div className='flex h-8 w-8 items-center justify-center rounded-full bg-[rgba(210,216,224,0.20)]'>
 			<img
 				className=''
 				src={src}

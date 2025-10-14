@@ -61,7 +61,7 @@ function ProfileSocials({ links, isModalOpen, onOpenChange }: { links: ISocial[]
 
 	return (
 		<>
-			<div className='flex h-[60px] w-full items-center justify-around gap-x-3 rounded-[20px] border bg-secondary px-3 py-[10px] md:w-fit md:min-w-[348px] md:px-6'>
+			<div className='flex w-full items-center justify-end gap-x-3'>
 				{socials.map((social) => {
 					const strLink = social.toString().toLocaleLowerCase();
 					return (
