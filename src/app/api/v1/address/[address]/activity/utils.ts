@@ -117,7 +117,15 @@ export const getUserActivityFeedServer = async (address: string, page: number): 
 	const proposalIndexes = getProposalIndexes(activities);
 
 	const indexes = Array.from(proposalIndexes);
-	const querySnapshot = await postsCollRef(network, ProposalType.FELLOWSHIP_REFERENDUMS).where('index', 'in', indexes).get();
+
+	// Skip Firestore query if no indexes to avoid 'IN requires non-empty ArrayValue' error
+	let querySnapshot;
+	if (indexes.length > 0) {
+		querySnapshot = await postsCollRef(network, ProposalType.FELLOWSHIP_REFERENDUMS).where('index', 'in', indexes).get();
+	} else {
+		// Create empty query snapshot when no indexes
+		querySnapshot = { docs: [] };
+	}
 
 	const titleContentMap = new Map<string, Metadata>();
 	let metadatas = querySnapshot.docs

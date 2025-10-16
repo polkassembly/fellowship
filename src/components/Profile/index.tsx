@@ -6,7 +6,7 @@
 
 import React from 'react';
 import { IProfile } from '@/global/types';
-import { useDisclosure } from '@nextui-org/modal';
+// import { useDisclosure } from '@nextui-org/modal';
 // import ContributionGraph from './Activity/ContributionGraph';
 import DashboardHeader from './DashboardHeader';
 import RequiredActions from './RequiredActions';
@@ -23,8 +23,7 @@ interface Props {
 
 function Profile(props: Props) {
 	const { profile } = props;
-	const { address, manifesto, social_links: socialLinks } = profile;
-	const { onOpen: openProfileEdit } = useDisclosure();
+	const { address, social_links: socialLinks } = profile;
 	return (
 		<section className='relative flex flex-col pb-16 md:pb-0'>
 			<DashboardHeader

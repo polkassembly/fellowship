@@ -2,19 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import ActivityFeed from '@/components/Home/ActivityFeed';
-import ActivitySelectorCard from '@/components/Home/ActivitySelectorCard';
-import Carousel from '@/components/Home/Carousel';
-import Stats from '@/components/Home/Stats';
 import { API_ERROR_CODE } from '@/global/constants/errorCodes';
 import { ClientError } from '@/global/exceptions';
 import MESSAGES from '@/global/messages';
-import { ActivityFeedItem, EActivityFeed, Network, PostFeedListingItem, ServerComponentProps } from '@/global/types';
+import { EActivityFeed, Network, ServerComponentProps } from '@/global/types';
 import { headers } from 'next/headers';
 import { Metadata } from 'next';
 import getOriginUrl from '@/utils/getOriginUrl';
-import PostFeed from '@/components/Home/PostFeed';
 import getActivityFeed from './api/v1/feed/getActivityFeed';
+import HomeClientWrapper from '@/app/HomeClientWrapper';
 
 type SearchParamProps = {
 	feed: string;
@@ -40,16 +36,11 @@ export default async function Home({ searchParams }: Readonly<ServerComponentPro
 	const feedItems = await getActivityFeed({ feedType: feed as EActivityFeed, originUrl, network: network as Network });
 
 	return (
-		<div className='flex w-full flex-col gap-y-8'>
-			<Carousel />
-
-			<div className='mb-16 flex flex-col items-center gap-8 md:mb-auto lg:flex-row lg:items-start'>
-				<div className='flex w-full flex-col gap-y-4'>
-					<Stats className='lg:hidden' />
-					<ActivitySelectorCard value={feed as EActivityFeed} />
-					{feed === EActivityFeed.ALL ? <ActivityFeed items={(feedItems || []) as ActivityFeedItem[]} /> : <PostFeed items={(feedItems || []) as PostFeedListingItem[]} />}
-				</div>
-			</div>
-		</div>
+		<HomeClientWrapper
+			feedItems={feedItems}
+			feed={feed as EActivityFeed}
+			network={network as Network}
+			originUrl={originUrl}
+		/>
 	);
 }
