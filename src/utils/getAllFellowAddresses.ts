@@ -9,7 +9,7 @@ import { IFellow } from '@/global/types';
 import getSubstrateAddress from './getSubstrateAddress';
 
 // Whitelisted fellows (for testing or manual additions)
-const WHITELISTED_FELLOWS: string[] = ['YS7UCpmCREYUa3dgbVWfQQT88Vi9MZGiyxc5DRoaEysvFSz'];
+const WHITELISTED_FELLOWS: string[] = ['YS7UCpmCREYUa3dgbVWfQQT88Vi9MZGiyxc5DRoaEysvFSz', '5FeNKdFRh9Ue2EM3C7yMkPe8BQMsxUL7e6QqqTaym6saviZX'];
 
 export default async function getAllFellowAddresses(api: ApiPromise): Promise<IFellow[]> {
 	return new Promise((resolve, reject) => {

@@ -47,14 +47,9 @@ due to the way the Listbox component works.
 */
 const navItems: NavItem[] = [
 	{
-		label: 'Activity',
+		label: 'Overview',
 		icon: Home,
 		url: '/'
-	},
-	{
-		label: 'Events',
-		icon: Calendar,
-		url: '/calendar'
 	},
 	{
 		label: 'Voting',
@@ -103,11 +98,6 @@ const navItems: NavItem[] = [
 		url: '/address'
 	},
 	{
-		label: 'Polkadot Github',
-		icon: GitBranch,
-		url: '/polkadot-github'
-	},
-	{
 		label: 'Settings',
 		icon: Settings,
 		url: '/settings'
@@ -151,21 +141,6 @@ function AppSidebar() {
 					</div>
 				</div>
 				{/* <JoinFellowshipButton className='mb-5' /> */}
-
-				{loginAddress && fellows.map((fellow) => fellow.address).includes(loginAddress) && (
-					<LinkWithNetwork
-						className='mb-5 flex cursor-pointer items-center justify-center gap-1 rounded-3xl bg-rankRequestBtn px-3 py-2 text-xs font-medium leading-[21px]'
-						href={`/address/${loginAddress}/create-rank-request`}
-					>
-						<Image
-							alt='btn icon'
-							src='/icons/medal-fill.svg'
-							width={16}
-							height={16}
-						/>
-						Create Rank Request
-					</LinkWithNetwork>
-				)}
 
 				<Listbox
 					className='text-sm'

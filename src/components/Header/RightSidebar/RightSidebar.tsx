@@ -8,6 +8,7 @@ import React, { useMemo } from 'react';
 import { useApiContext, useUserDetailsContext } from '@/contexts';
 import { UserPlus } from 'lucide-react';
 import { Button } from '@nextui-org/button';
+import Image from 'next/image';
 import LinkWithNetwork from '../../Misc/LinkWithNetwork';
 import getSubstrateAddress from '@/utils/getSubstrateAddress';
 import QuickActions from './QuickActions';
@@ -28,8 +29,9 @@ export default function RightSidebar() {
 	return (
 		<aside className='flex h-full w-[300px] flex-col border-l border-primary_border bg-componentBg'>
 			{/* Conditional rendering based on fellowship status */}
-			{!isFellow ? (
-				<div className='border-b border-primary_border p-4'>
+
+			<div className='border-b border-primary_border p-4'>
+				{!isFellow ? (
 					<Button
 						href='/join-fellowship'
 						as={LinkWithNetwork}
@@ -39,10 +41,22 @@ export default function RightSidebar() {
 					>
 						Join Fellowship
 					</Button>
-				</div>
-			) : (
-				<QuickActions />
-			)}
+				) : (
+					<LinkWithNetwork
+						className='flex cursor-pointer items-center justify-center gap-1 rounded-3xl bg-rankRequestBtn px-3 py-2 text-xs font-medium leading-[21px] text-white'
+						href={`/address/${loginAddress}/create-rank-request`}
+					>
+						<Image
+							alt='btn icon'
+							src='/icons/medal-fill.svg'
+							width={16}
+							height={16}
+						/>
+						Create Rank Request
+					</LinkWithNetwork>
+				)}
+			</div>
+			{isFellow && <QuickActions />}
 
 			{/* Scrollable Content */}
 			<div className='flex-1 overflow-y-auto scrollbar-hide'>
