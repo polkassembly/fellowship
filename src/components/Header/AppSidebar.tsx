@@ -42,7 +42,7 @@ Note: The order of the items in this array is the order they will appear in the 
 subItems are will have to be a separate object in the array with a subItem property
 due to the way the Listbox component works.
 */
-const getNavItems = (isFellow: boolean): NavItem[] => [
+const getNavItems = (isFellow: boolean, loginAddress?: string | null): NavItem[] => [
 	{
 		label: 'Overview',
 		icon: Home,
@@ -77,11 +77,15 @@ const getNavItems = (isFellow: boolean): NavItem[] => [
 		icon: ImageIcon,
 		url: '/preimages'
 	},
-	// {
-	// 	label: 'Profile',
-	// 	icon: Shield,
-	// 	url: '/address'
-	// },
+	...(!isFellow && loginAddress
+		? [
+				{
+					label: 'Profile',
+					icon: Shield,
+					url: '/address'
+				}
+			]
+		: []),
 	{
 		label: 'Settings',
 		icon: Settings,
@@ -103,7 +107,7 @@ function AppSidebar() {
 	}, [loginAddress, fellows]);
 
 	// Get navigation items based on fellow status
-	const navItems = useMemo(() => getNavItems(isFellow), [isFellow]);
+	const navItems = useMemo(() => getNavItems(isFellow, loginAddress ?? null), [isFellow, loginAddress]);
 
 	return (
 		<nav className={`${styles.appSidebar} overflow-y-auto overflow-x-hidden`}>
