@@ -183,7 +183,7 @@ export default function ActivityFeed() {
 
 					<div className='mt-4 border-t border-primary_border pt-3'>
 						<Button
-							href='/'
+							href='/activity'
 							as={LinkWithNetwork}
 							variant='bordered'
 							className='w-full'

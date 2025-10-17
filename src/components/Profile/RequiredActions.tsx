@@ -69,7 +69,7 @@ function RequiredActions({ className }: Props) {
 								variant='bordered'
 								className='border-blue-500 font-medium text-blue-600 hover:bg-blue-50'
 								as={LinkWithNetwork}
-								href='/?feed=pending'
+								href='/activity?feed=pending'
 							>
 								Review & Vote
 							</Button>

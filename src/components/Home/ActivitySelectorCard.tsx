@@ -4,7 +4,7 @@
 
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import { Card } from '@nextui-org/card';
 import { RadioGroup, Radio } from '@nextui-org/radio';
 import { EActivityFeed } from '@/global/types';
@@ -12,11 +12,12 @@ import { useRouter } from 'next/navigation';
 import { useApiContext, useUserDetailsContext } from '@/contexts';
 import Image from 'next/image';
 import { Button } from '@nextui-org/button';
+import getSubstrateAddress from '@/utils/getSubstrateAddress';
 
 function ActivitySelectorCard({ value = EActivityFeed.ALL }: { value?: EActivityFeed }) {
 	const router = useRouter();
-	const { network } = useApiContext();
-	const { id } = useUserDetailsContext();
+	const { network, fellows } = useApiContext();
+	const { id, loginAddress } = useUserDetailsContext();
 	const elementRef = useRef<HTMLDivElement>(null);
 
 	const [isScrollingRight, setIsScrollingRight] = useState(true);
@@ -43,8 +44,15 @@ function ActivitySelectorCard({ value = EActivityFeed.ALL }: { value?: EActivity
 	};
 
 	const handleOnValueChange = (activityValue: string) => {
-		router.push(`/?feed=${activityValue}&network=${network}`);
+		router.push(isFellow ? `/activity?feed=${activityValue}&network=${network}` : `/?feed=${activityValue}&network=${network}`);
 	};
+
+	// Check if current user is a fellow
+	const isFellow = useMemo(() => {
+		if (!id || !loginAddress || !fellows?.length) return false;
+		const substrateAddress = getSubstrateAddress(loginAddress);
+		return fellows.some((f: any) => f.address === substrateAddress);
+	}, [loginAddress, fellows]);
 
 	return (
 		<Card

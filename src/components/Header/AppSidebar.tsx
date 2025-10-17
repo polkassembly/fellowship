@@ -4,28 +4,25 @@
 
 'use client';
 
-import React from 'react';
-
+import React, { useMemo } from 'react';
 import Image from 'next/image';
 import { Listbox, ListboxItem } from '@nextui-org/listbox';
 import { usePathname, useRouter } from 'next/navigation';
 import { useApiContext, useUserDetailsContext } from '@/contexts';
-// import dynamic from 'next/dynamic';
+import getSubstrateAddress from '@/utils/getSubstrateAddress';
 import styles from './Header.module.scss';
 import LinkWithNetwork from '../Misc/LinkWithNetwork';
-import { Home, Calendar, Vote, Users, UserPlus, GitBranch, Image as ImageIcon, Shield, Settings } from 'lucide-react';
-
-// const JoinFellowshipButton = dynamic(() => import('./JoinFellowshipButton'), { ssr: false });
+import { Home, Vote, Users, UserPlus, GitBranch, Image as ImageIcon, Shield, Settings } from 'lucide-react';
 
 function ListboxItemStartContent({
 	isParentItem = false,
 	isCurrentRoute,
 	icon
-}: {
+}: Readonly<{
 	isParentItem: boolean;
 	isCurrentRoute: boolean;
 	icon?: React.ComponentType<{ className?: string }>;
-}) {
+}>) {
 	const IconComponent = icon;
 	return (
 		<span className='flex items-center'>{IconComponent && <IconComponent className={`mr-3 h-5 w-5 ${isCurrentRoute ? 'text-primary_accent' : 'text-text_secondary'}`} />}</span>
@@ -45,33 +42,21 @@ Note: The order of the items in this array is the order they will appear in the 
 subItems are will have to be a separate object in the array with a subItem property
 due to the way the Listbox component works.
 */
-const navItems: NavItem[] = [
+const getNavItems = (isFellow: boolean): NavItem[] => [
 	{
 		label: 'Overview',
 		icon: Home,
 		url: '/'
 	},
-	{
-		label: 'Voting',
-		icon: Vote,
-		url: '#voting',
-		childUrls: ['/general-proposals', '/rank-requests']
-	},
-	{
-		label: 'General Proposals',
-		url: '/general-proposals',
-		subItem: true
-	},
-	{
-		label: 'Rank Requests',
-		url: '/rank-requests',
-		subItem: true
-	},
-	{
-		label: 'RFC Proposals',
-		url: '/rfc-proposals',
-		subItem: true
-	},
+	...(isFellow
+		? [
+				{
+					label: 'Voting',
+					icon: Vote,
+					url: '/activity'
+				}
+			]
+		: []),
 	{
 		label: 'Members',
 		icon: Users,
@@ -92,11 +77,11 @@ const navItems: NavItem[] = [
 		icon: ImageIcon,
 		url: '/preimages'
 	},
-	{
-		label: 'Profile',
-		icon: Shield,
-		url: '/address'
-	},
+	// {
+	// 	label: 'Profile',
+	// 	icon: Shield,
+	// 	url: '/address'
+	// },
 	{
 		label: 'Settings',
 		icon: Settings,
@@ -109,6 +94,16 @@ function AppSidebar() {
 	const router = useRouter();
 	const { network, fellows } = useApiContext();
 	const { id, loginAddress, addresses } = useUserDetailsContext();
+
+	// Check if current user is a fellow
+	const isFellow = useMemo(() => {
+		if (!id || !loginAddress || !fellows?.length) return false;
+		const substrateAddress = getSubstrateAddress(loginAddress);
+		return fellows.some((f: any) => f.address === substrateAddress);
+	}, [loginAddress, fellows]);
+
+	// Get navigation items based on fellow status
+	const navItems = useMemo(() => getNavItems(isFellow), [isFellow]);
 
 	return (
 		<nav className={`${styles.appSidebar} overflow-y-auto overflow-x-hidden`}>
