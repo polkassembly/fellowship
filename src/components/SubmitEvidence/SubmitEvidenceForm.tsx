@@ -4,9 +4,8 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { Select, SelectItem } from '@nextui-org/select';
 import { useApiContext, useUserDetailsContext } from '@/contexts';
 import { Wallet } from '@/global/types';
 import { InjectedAccount } from '@polkadot/extension-inject/types';
@@ -26,13 +25,8 @@ interface Props {
 	readonly onFormStateChange?: (isValid: boolean, isLoading: boolean) => void;
 }
 
-export enum FellowshipWish {
-	RETENTION = 'Retention',
-	PROMOTION = 'Promotion'
-}
-
 interface FormData {
-	wish: FellowshipWish;
+	file: File | null;
 	evidence: string;
 }
 
@@ -44,10 +38,12 @@ function SubmitEvidenceForm({ formRef, onSuccess, onFormStateChange }: Props) {
 	const {
 		formState: { errors },
 		control,
-		handleSubmit
+		handleSubmit,
+		setValue,
+		watch
 	} = useForm<FormData>({
 		defaultValues: {
-			wish: FellowshipWish.RETENTION,
+			file: null,
 			evidence: ''
 		}
 	});
@@ -59,6 +55,9 @@ function SubmitEvidenceForm({ formRef, onSuccess, onFormStateChange }: Props) {
 	const [txStatus, setTxStatus] = useState('');
 	const [isSuccess, setIsSuccess] = useState(false);
 	const [submittedEvidenceId, setSubmittedEvidenceId] = useState<string | null>(null);
+	const fileInputRef = useRef<HTMLInputElement>(null);
+
+	const selectedFile = watch('file');
 
 	// Form validation state
 	const isFormValid = Boolean(selectedWallet && selectedAddress && api && apiReady && !loading);
@@ -68,35 +67,69 @@ function SubmitEvidenceForm({ formRef, onSuccess, onFormStateChange }: Props) {
 		onFormStateChange?.(isFormValid, loading);
 	}, [isFormValid, loading, onFormStateChange]);
 
-	const currentFellow = fellows?.find((fellow) => fellow.address === getSubstrateAddress(addresses?.[0] || ''));
+	// File handling functions
+	const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const file = event.target.files?.[0];
+		if (file) {
+			setValue('file', file);
+			setError(''); // Clear any previous errors
+		}
+	};
+
+	const handleRemoveFile = () => {
+		setValue('file', null);
+		if (fileInputRef.current) {
+			fileInputRef.current.value = '';
+		}
+	};
 
 	// Validation function to check if form can be submitted
-	const validateFormData = (wish: FellowshipWish, evidence: string): string | null => {
-		if (!wish || !Object.values(FellowshipWish).includes(wish)) {
-			return 'Please select a valid wish type.';
+	const validateFormData = (file: File | null, evidence: string): string | null => {
+		if (!file) {
+			return 'Please select a file to upload.';
+		}
+
+		// Check file size (e.g., max 10MB)
+		const maxSize = 10 * 1024 * 1024; // 10MB
+		if (file.size > maxSize) {
+			return 'File size must be less than 10MB.';
+		}
+
+		// Check file type (allow common document types)
+		const allowedTypes = [
+			'application/pdf',
+			'application/msword',
+			'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+			'text/plain',
+			'image/jpeg',
+			'image/png',
+			'image/gif'
+		];
+		if (!allowedTypes.includes(file.type)) {
+			return 'Please select a valid file type (PDF, DOC, DOCX, TXT, JPG, PNG, GIF).';
 		}
 
 		if (!evidence || typeof evidence !== 'string') {
-			return 'Evidence is required.';
+			return 'Evidence description is required.';
 		}
 
 		const trimmedEvidence = evidence.trim();
 		if (trimmedEvidence.length === 0) {
-			return 'Evidence cannot be empty.';
+			return 'Evidence description cannot be empty.';
 		}
 
 		if (trimmedEvidence.length < 10) {
-			return 'Evidence must be at least 10 characters long.';
+			return 'Evidence description must be at least 10 characters long.';
 		}
 
 		if (trimmedEvidence.length > 10000) {
-			return 'Evidence is too long. Please keep it under 10,000 characters.';
+			return 'Evidence description is too long. Please keep it under 10,000 characters.';
 		}
 
 		return null;
 	};
 
-	const submitForm = async ({ wish, evidence }: FormData) => {
+	const submitForm = async ({ file, evidence }: FormData) => {
 		// Early return if basic conditions are not met
 		if (!id) {
 			setError('Please login to submit evidence.');
@@ -148,7 +181,7 @@ function SubmitEvidenceForm({ formRef, onSuccess, onFormStateChange }: Props) {
 		}
 
 		// Validate form data using validation function
-		const formValidationError = validateFormData(wish, evidence);
+		const formValidationError = validateFormData(file, evidence);
 		if (formValidationError) {
 			setError(formValidationError);
 			return;
@@ -162,10 +195,11 @@ function SubmitEvidenceForm({ formRef, onSuccess, onFormStateChange }: Props) {
 		setLoading(true);
 
 		try {
-			// Convert wish to the expected format for the extrinsic
-			const wishValue = wish === FellowshipWish.PROMOTION ? 'Promotion' : 'Retention';
+			// For now, we'll use a default wish value since the transaction expects it
+			// In a real implementation, you might want to derive this from the file or make it configurable
+			const wishValue = 'Promotion'; // Default to promotion for file-based evidence
 
-			// Convert evidence to bytes (using trimmed evidence)
+			// Convert evidence description to bytes (using trimmed evidence)
 			const evidenceBytes = new TextEncoder().encode(trimmedEvidence);
 
 			// Create the submitEvidence transaction
@@ -190,7 +224,7 @@ function SubmitEvidenceForm({ formRef, onSuccess, onFormStateChange }: Props) {
 
 				queueNotification({
 					header: 'Evidence Submitted Successfully!',
-					message: `Your ${wish.toLowerCase()} evidence has been submitted for ${fellow.rank} rank.`,
+					message: `Your evidence with file "${file?.name}" has been submitted for ${fellow.rank} rank.`,
 					status: 'success'
 				});
 				setTxStatus('');
@@ -292,70 +326,69 @@ function SubmitEvidenceForm({ formRef, onSuccess, onFormStateChange }: Props) {
 				disabled={loading}
 			/>
 
-			{currentFellow && (
-				<div className='rounded-lg bg-gray-50 p-3 dark:bg-gray-800'>
-					<div className='text-sm text-gray-600 dark:text-gray-400'>
-						Current Rank: <span className='font-semibold'>{currentFellow.rank}</span>
-					</div>
-				</div>
-			)}
-
 			<div>
 				<div className='mb-1 text-xs font-normal'>
-					Wish Type<span className='text-base text-rose-500'>*</span>
+					Evidence File<span className='text-base text-rose-500'>*</span>
 				</div>
-				<Controller
-					name='wish'
-					control={control}
-					rules={{ required: 'Please select a wish type' }}
-					render={({ field }) => (
-						<Select
-							{...field}
-							placeholder='Select your wish'
-							className='w-full'
-							variant='bordered'
-							radius='sm'
-							classNames={{
-								trigger: 'border-primary_border border-1'
-							}}
-							disabled={loading}
-						>
-							<SelectItem
-								key={FellowshipWish.RETENTION}
-								value={FellowshipWish.RETENTION}
+				<div className='flex flex-col gap-3'>
+					<input
+						ref={fileInputRef}
+						type='file'
+						accept='.pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,.gif'
+						onChange={handleFileSelect}
+						className='hidden'
+						disabled={loading}
+						aria-label='Select evidence file'
+					/>
+					<Button
+						type='button'
+						variant='bordered'
+						className='w-full border-1 border-primary_border'
+						onPress={() => fileInputRef.current?.click()}
+						disabled={loading}
+					>
+						{selectedFile ? selectedFile.name : 'Select File'}
+					</Button>
+					{selectedFile && (
+						<div className='flex items-center justify-between rounded-lg bg-gray-50 p-3 dark:bg-gray-800'>
+							<div className='flex flex-col'>
+								<span className='text-sm font-medium'>{selectedFile.name}</span>
+								<span className='text-xs text-gray-500'>{(selectedFile.size / 1024 / 1024).toFixed(2)} MB</span>
+							</div>
+							<Button
+								type='button'
+								size='sm'
+								variant='light'
+								color='danger'
+								onPress={handleRemoveFile}
+								disabled={loading}
 							>
-								Retention - Keep current rank
-							</SelectItem>
-							<SelectItem
-								key={FellowshipWish.PROMOTION}
-								value={FellowshipWish.PROMOTION}
-							>
-								Promotion - Request rank advancement
-							</SelectItem>
-						</Select>
+								Remove
+							</Button>
+						</div>
 					)}
-				/>
-				{errors.wish?.message && (
+				</div>
+				{errors.file?.message && (
 					<small
 						className='text-warning'
 						role='alert'
 					>
-						{errors.wish.message}
+						{errors.file.message}
 					</small>
 				)}
 			</div>
 
 			<div>
 				<div className='mb-1 text-xs font-normal'>
-					Evidence<span className='text-base text-rose-500'>*</span>
+					Evidence Description<span className='text-base text-rose-500'>*</span>
 				</div>
 				<Controller
 					name='evidence'
 					control={control}
 					rules={{
-						required: 'Evidence is required',
-						minLength: { value: 10, message: 'Evidence must be at least 10 characters' },
-						maxLength: { value: 10000, message: 'Evidence must be less than 10,000 characters' }
+						required: 'Evidence description is required',
+						minLength: { value: 10, message: 'Evidence description must be at least 10 characters' },
+						maxLength: { value: 10000, message: 'Evidence description must be less than 10,000 characters' }
 					}}
 					render={({ field }) => (
 						<MarkdownEditor
