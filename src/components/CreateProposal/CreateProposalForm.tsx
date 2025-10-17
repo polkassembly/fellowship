@@ -18,7 +18,6 @@ import AlertCard from '@/components/Misc/AlertCard';
 import AddressSwitch from '@/components/Misc/AddressSwitch';
 import EvidenceSelector from '@/components/Misc/EvidenceSelector';
 import getSubstrateAddress from '@/utils/getSubstrateAddress';
-import MarkdownEditor from '@/components/TextEditor/MarkdownEditor';
 
 interface Props {
 	readonly formRef: React.RefObject<HTMLFormElement>;
@@ -280,16 +279,16 @@ function CreateProposalForm({ formRef, onSuccess, onFormStateChange }: Props) {
 
 			<div>
 				<div className='mb-1 text-xs font-normal'>
-					Proposal Type<span className='text-base text-rose-500'>*</span>
+					Wish Type<span className='text-base text-rose-500'>*</span>
 				</div>
 				<Controller
 					name='proposalType'
 					control={control}
-					rules={{ required: 'Please select a proposal type' }}
+					rules={{ required: 'Please select a wish type' }}
 					render={({ field }) => (
 						<Select
 							{...field}
-							placeholder='Select proposal type'
+							placeholder='Select wish type'
 							className='w-full'
 							variant='bordered'
 							radius='sm'
