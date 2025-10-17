@@ -18,7 +18,8 @@ interface Params {
  * @return {string}
  */
 export default function midTruncateText({ text, startChars, endChars, separator = '...' }: Params): string {
+	if (!text) return '';
 	const maxLength = startChars + endChars;
 
-	return text.length > maxLength ? `${text.slice(0, startChars)}${separator}${text.slice(-endChars)}` : text;
+	return text?.length > maxLength ? `${text?.slice(0, startChars)}${separator}${text?.slice(-endChars)}` : text;
 }

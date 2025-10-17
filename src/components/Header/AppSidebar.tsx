@@ -4,46 +4,34 @@
 
 'use client';
 
-import React from 'react';
-
+import React, { useMemo } from 'react';
 import Image from 'next/image';
 import { Listbox, ListboxItem } from '@nextui-org/listbox';
 import { usePathname, useRouter } from 'next/navigation';
 import { useApiContext, useUserDetailsContext } from '@/contexts';
-import dynamic from 'next/dynamic';
+import getSubstrateAddress from '@/utils/getSubstrateAddress';
 import styles from './Header.module.scss';
 import LinkWithNetwork from '../Misc/LinkWithNetwork';
+import { Home, Vote, Users, UserPlus, GitBranch, Image as ImageIcon, Shield, Settings } from 'lucide-react';
 
-const JoinFellowshipButton = dynamic(() => import('./JoinFellowshipButton'), { ssr: false });
-
-function ListboxItemStartContent({ isParentItem = false, isCurrentRoute, icon }: { isParentItem: boolean; isCurrentRoute: boolean; icon?: string }) {
+function ListboxItemStartContent({
+	isParentItem = false,
+	isCurrentRoute,
+	icon
+}: Readonly<{
+	isParentItem: boolean;
+	isCurrentRoute: boolean;
+	icon?: React.ComponentType<{ className?: string }>;
+}>) {
+	const IconComponent = icon;
 	return (
-		<span className='flex'>
-			{isCurrentRoute && !isParentItem && (
-				<Image
-					alt='border-image'
-					src='/misc/border-right-pink.svg'
-					width={6}
-					height={20}
-					className='ml-[-8px] mr-2'
-				/>
-			)}
-			{icon && (
-				<Image
-					className={isCurrentRoute ? 'ml-7' : 'ml-8'}
-					alt='icon'
-					src={`/icons/sidebar/${icon}${isCurrentRoute ? '-filled' : '-outlined'}.svg`}
-					width={20}
-					height={20}
-				/>
-			)}
-		</span>
+		<span className='flex items-center'>{IconComponent && <IconComponent className={`mr-3 h-5 w-5 ${isCurrentRoute ? 'text-primary_accent' : 'text-text_secondary'}`} />}</span>
 	);
 }
 
 type NavItem = {
 	label: string;
-	icon?: string;
+	icon?: React.ComponentType<{ className?: string }>;
 	url: string;
 	subItem?: boolean;
 	childUrls?: string[];
@@ -54,71 +42,53 @@ Note: The order of the items in this array is the order they will appear in the 
 subItems are will have to be a separate object in the array with a subItem property
 due to the way the Listbox component works.
 */
-const navItems: NavItem[] = [
+const getNavItems = (isFellow: boolean, loginAddress?: string | null): NavItem[] => [
 	{
-		label: 'Activity',
-		icon: 'home',
+		label: 'Overview',
+		icon: Home,
 		url: '/'
 	},
-	{
-		label: 'Events and Recordings',
-		icon: 'calendar',
-		url: '/calendar'
-	},
-	{
-		label: 'Voting',
-		icon: 'vote',
-		url: '#voting',
-		childUrls: ['/general-proposals', '/rank-requests']
-	},
-	{
-		label: 'General Proposals',
-		url: '/general-proposals',
-		subItem: true
-	},
-	{
-		label: 'Rank Requests',
-		url: '/rank-requests',
-		subItem: true
-	},
-	{
-		label: 'RFC Proposals',
-		url: '/rfc-proposals',
-		subItem: true
-	},
+	...(isFellow
+		? [
+				{
+					label: 'Voting',
+					icon: Vote,
+					url: '/activity'
+				}
+			]
+		: []),
 	{
 		label: 'Members',
-		icon: 'users',
+		icon: Users,
 		url: '/members'
 	},
 	{
 		label: 'Inductions',
-		icon: 'add-user',
+		icon: UserPlus,
 		url: '/inductions'
 	},
 	{
 		label: 'RFC Pull Requests',
-		icon: 'git-branch',
+		icon: GitBranch,
 		url: '/rfc-pull-requests'
 	},
 	{
 		label: 'Preimages',
-		icon: 'image',
+		icon: ImageIcon,
 		url: '/preimages'
 	},
-	{
-		label: 'Profile',
-		icon: 'shield-user',
-		url: '/address'
-	},
-	{
-		label: 'Polkadot Github',
-		icon: 'git-branch',
-		url: '/polkadot-github'
-	},
+	...(!isFellow && loginAddress
+		? [
+				{
+					label: 'Profile',
+					icon: Shield,
+					url: '/address'
+				}
+			]
+		: []),
 	{
 		label: 'Settings',
-		icon: 'settings',
+		icon: Settings,
 		url: '/settings'
 	}
 ];
@@ -129,37 +99,51 @@ function AppSidebar() {
 	const { network, fellows } = useApiContext();
 	const { id, loginAddress, addresses } = useUserDetailsContext();
 
+	// Check if current user is a fellow
+	const isFellow = useMemo(() => {
+		if (!id || !loginAddress || !fellows?.length) return false;
+		const substrateAddress = getSubstrateAddress(loginAddress);
+		return fellows.some((f: any) => f.address === substrateAddress);
+	}, [loginAddress, fellows]);
+
+	// Get navigation items based on fellow status
+	const navItems = useMemo(() => getNavItems(isFellow, loginAddress ?? null), [isFellow, loginAddress]);
+
 	return (
 		<nav className={`${styles.appSidebar} overflow-y-auto overflow-x-hidden`}>
-			<Image
-				alt='Login Icon'
-				src='/icons/beta.svg'
-				width={80}
-				height={80}
-				className='absolute left-0 top-0'
-			/>
 			<div>
-				<JoinFellowshipButton className='mb-5' />
-
-				{loginAddress && fellows.map((fellow) => fellow.address).includes(loginAddress) && (
+				<div className='mb-3 flex flex-col gap-2'>
 					<LinkWithNetwork
-						className='mb-5 flex cursor-pointer items-center justify-center gap-1 rounded-3xl bg-rankRequestBtn px-3 py-2 text-xs font-medium leading-[21px]'
-						href={`/address/${loginAddress}/create-rank-request`}
+						href='/'
+						className='flex items-center gap-2'
 					>
-						<Image
-							alt='btn icon'
-							src='/icons/medal-fill.svg'
-							width={16}
-							height={16}
-						/>
-						Create Rank Request
+						<div className='flex h-9 w-9 items-center justify-center'>
+							<Image
+								src='/icons/user-group.svg'
+								alt='Collectives'
+								width={36}
+								height={36}
+							/>
+						</div>
+						<h2 className='font-poppins text-base font-semibold text-primary_accent'>Collectives</h2>
 					</LinkWithNetwork>
-				)}
+					<div className='flex items-center gap-2'>
+						<span className='font-dm-sans text-nowrap text-xs text-text_secondary'>Governance by</span>
+						<div className='flex items-center gap-2'>
+							<Image
+								src='/brand/pa-logo-dark-text.svg'
+								alt='Polkassembly'
+								width={92}
+								height={30}
+							/>
+						</div>
+					</div>
+				</div>
+				{/* <JoinFellowshipButton className='mb-5' /> */}
 
 				<Listbox
-					className='-ml-9 w-[272px] text-sm'
+					className='text-sm'
 					variant='flat'
-					color='primary'
 					aria-label='Sidebar navigation'
 					selectedKeys={[pathname]}
 					onAction={(key) => {
@@ -187,9 +171,11 @@ function AppSidebar() {
 						return (
 							<ListboxItem
 								id='nav-listbox-item'
-								className={`mb-3 h-[40px] rounded-none hover:bg-transparent ${navItem.subItem && '-mt-3'} ${isParentItem && isCurrentRoute && 'text-primary_accent'} ${
-									isCurrentRoute && !isParentItem && styles.navListboxItemHover
-								}`}
+								className={`mb-3 rounded p-2 transition-colors ${
+									isCurrentRoute && !isParentItem
+										? 'border-l-4 border-primary_accent bg-primary_accent/10 font-semibold text-primary_accent'
+										: 'hover:text-text_primary text-text_secondary hover:bg-gray-50'
+								} ${isParentItem && isCurrentRoute && 'text-primary_accent'}`}
 								key={navItem.url}
 								textValue={navItem.label}
 								startContent={
@@ -204,7 +190,7 @@ function AppSidebar() {
 									<span>{navItem.label}</span>
 								) : (
 									<LinkWithNetwork
-										className={`${navItem.subItem && !isCurrentRoute && 'ml-16'} ${isCurrentRoute && navItem.subItem && 'ml-14'}`}
+										className={`${navItem.subItem && !isCurrentRoute && 'ml-4'} ${isCurrentRoute && navItem.subItem && 'ml-2'}`}
 										href={navItem.url === '/address' ? `${navItem.url}/${loginAddress || addresses?.[0]}` : navItem.url}
 									>
 										{navItem.label}
@@ -217,12 +203,6 @@ function AppSidebar() {
 			</div>
 
 			<footer className='flex flex-col gap-y-4'>
-				<Image
-					alt='Polkassembly Logo'
-					src='/brand/pa-logo-white-text.svg'
-					width='155'
-					height='55'
-				/>
 				<div className='ml-2 flex max-w-[150px] items-center justify-between gap-x-4'>
 					<LinkWithNetwork
 						href='https://twitter.com/polk_gov/'

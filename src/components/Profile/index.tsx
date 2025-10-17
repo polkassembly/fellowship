@@ -6,56 +6,57 @@
 
 import React from 'react';
 import { IProfile } from '@/global/types';
-import { useDisclosure } from '@nextui-org/modal';
-import ContributionGraph from './Activity/ContributionGraph';
-import ProfileBanner from './Banner';
-import ProfileSocials from './Socials';
-import ProfileAddressDetails from './AddressDetails';
-import Manifesto from './Manifesto';
-import ProfileProposals from './Proposals';
+// import { useDisclosure } from '@nextui-org/modal';
+// import ContributionGraph from './Activity/ContributionGraph';
+import DashboardHeader from './DashboardHeader';
+import RequiredActions from './RequiredActions';
+import ProfileCards from './ProfileCards';
+import RecentContributions from './RecentContributions';
+// import Manifesto from './Manifesto';
+// import ProfileProposals from './Proposals';
 import UserActivity from './Activity';
 import PromotionDetails from './PromotionDetails';
 
 interface Props {
-	profile: IProfile;
+	readonly profile: IProfile;
 }
 
 function Profile(props: Props) {
 	const { profile } = props;
-	const { address, manifesto, social_links: socialLinks } = profile;
-	const { isOpen: isModalOpen, onOpen: openProfileEdit, onOpenChange } = useDisclosure();
+	const { address, social_links: socialLinks } = profile;
 	return (
 		<section className='relative flex flex-col pb-16 md:pb-0'>
-			<ProfileBanner
-				openProfileEdit={openProfileEdit}
+			<DashboardHeader
 				address={address}
+				socialLinks={socialLinks || []}
 			/>
-			<div className='top-[151px] flex w-full flex-col items-center justify-between gap-5 xl:absolute xl:flex-row'>
-				<ProfileAddressDetails address={address} />
-				<ProfileSocials
-					links={socialLinks || []}
-					isModalOpen={isModalOpen}
-					onOpenChange={onOpenChange}
-				/>
-			</div>
-			<ContributionGraph
+			<RequiredActions className='mt-6' />
+			<ProfileCards
+				address={address}
+				className='mt-6'
+			/>
+			<RecentContributions
+				address={address}
+				className='mt-6'
+			/>
+			{/* <ContributionGraph
 				classNames='mt-[56px]'
 				githubUsername={socialLinks?.find((social) => social.type === 'Github')?.link || ''}
 				openProfileEdit={openProfileEdit}
-			/>
-			<div className='mt-4 flex flex-col gap-4 md:grid md:grid-cols-11'>
+			/> */}
+			{/* <div className='mt-4 flex flex-col gap-4 md:grid md:grid-cols-11'>
 				<section className='flex w-full flex-col gap-4 md:col-span-5'>
 					<Manifesto
 						manifesto={manifesto}
 						address={address}
 					/>
-					<PromotionDetails address={address} />
 				</section>
 				<section className='w-full md:col-span-6'>
 					<ProfileProposals address={address} />
 				</section>
-			</div>
-			<div className='mt-4 pb-4'>
+			</div> */}
+			<div className='mt-4 flex flex-col gap-4 pb-4'>
+				<PromotionDetails address={address} />
 				<UserActivity
 					activities={profile.activities}
 					address={address}

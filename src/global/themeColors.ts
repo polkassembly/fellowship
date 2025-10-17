@@ -4,8 +4,8 @@
 
 const THEME_COLORS = {
 	light: {
-		primary_border: '#D2D8E0',
-		primary_accent: '#E5007A',
+		primary_border: '#C3C8D0',
+		primary_accent: '#407BFF',
 		tooltip_background: '#363636',
 		tooltip_foreground: '#FFFFFF',
 		link: '#1B61FF',
@@ -36,11 +36,13 @@ const THEME_COLORS = {
 		contributionLg: '#30a14e',
 		contributionXl: '#216e39',
 		searchBg: '#E3E4E433',
-		selectedRadioBg: '#FEF2F8'
+		selectedRadioBg: '#FEF2F8',
+		componentBg: '#FFFFFF',
+		text_secondary: '#6F737B'
 	},
 	dark: {
 		primary_border: '#4B4B4B',
-		primary_accent: '#C30068',
+		primary_accent: '#407BFF',
 		tooltip_background: '#363636',
 		tooltip_foreground: '#FFFFFF',
 		link: '#1B61FF',
@@ -71,7 +73,9 @@ const THEME_COLORS = {
 		contributionLg: '#26a641',
 		contributionXl: '#39d353',
 		searchBg: '#333945',
-		selectedRadioBg: '#3E1C2D'
+		selectedRadioBg: '#3E1C2D',
+		componentBg: '#1E1E1E',
+		text_secondary: '#A1A1A1'
 	}
 };
 
