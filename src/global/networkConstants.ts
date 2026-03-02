@@ -13,7 +13,7 @@ const networkConstants: NetworkConstants = {
 		category: 'polkadot',
 		logoUrl: '/parachain-logos/polkadot-logo.svg',
 		ss58Format: 0,
-		subsquidUrl: 'https://squid.subsquid.io/collectives-polkassembly/graphql',
+		subsquidUrl: 'http://34.32.0.95:4352/graphql',
 		tokenDecimals: 10,
 		tokenSymbol: 'DOT',
 		subscanBaseUrl: 'https://kusama.api.subscan.io',
